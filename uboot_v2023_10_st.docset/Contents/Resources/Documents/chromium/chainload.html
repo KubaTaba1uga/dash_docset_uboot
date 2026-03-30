@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Running U-Boot from coreboot on Chromebooks — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="run_vboot.html" rel="prev" title="Running U-Boot with Chromium OS verified boot"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Chromium OS-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Chromium OS Support in U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html">Running U-Boot with Chromium OS verified boot</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Running U-Boot from coreboot on Chromebooks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snow-samsung-arm-chromebook">Snow (Samsung ARM Chromebook)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nyan-big">Nyan-big</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chromebook-jerry">chromebook_jerry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-notes">Other notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashrom">flashrom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coreboot">coreboot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Chromium OS-specific doc</a> »</li>
+<li>Running U-Boot from coreboot on Chromebooks</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/chromium/chainload.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running U-Boot from coreboot on Chromebooks"></a><div class="section" id="running-u-boot-from-coreboot-on-chromebooks">
+<h1>Running U-Boot from coreboot on Chromebooks<a class="headerlink" href="#running-u-boot-from-coreboot-on-chromebooks" title="Permalink to this headline">¶</a></h1>
+<p>U-Boot can be used as a secondary boot loader in a few situations such as from
+UEFI and coreboot (see README.x86). Recent Chromebooks use coreboot even on
+ARM platforms to start up the machine.</p>
+<p>This document aims to provide a guide to booting U-Boot on a Chromebook. It
+is only a starting point, and there are many guides on the interwebs. But
+placing this information in the U-Boot tree should make it easier to find for
+those who use U-Boot habitually.</p>
+<p>Most of these platforms are supported by U-Boot natively, but it is risky to
+replace the ROM unless you have a servo board and cable to restore it with.</p>
+<p>For all of these the standard U-Boot build instructions apply. For example on
+ARM:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo apt install gcc-arm-linux-gnueabi
+mkdir b
+make O=b/nyan_big CROSS_COMPILE=arm-linux-gnueabi- nyan-big_defconfig all
+</pre></div>
+</div>
+<p>You can obtain the vbutil_kernel utility here:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://drive.google.com/open?id=0B7WYZbZ9zd-3dHlVVXo4VXE2T0U">https://drive.google.com/open?id=0B7WYZbZ9zd-3dHlVVXo4VXE2T0U</a></p>
+</div></blockquote>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Snow (Samsung ARM Chromebook)"></a><div class="section" id="snow-samsung-arm-chromebook">
+<h2>Snow (Samsung ARM Chromebook)<a class="headerlink" href="#snow-samsung-arm-chromebook" title="Permalink to this headline">¶</a></h2>
+<p>See here:</p>
+<p><a class="reference external" href="https://www.chromium.org/chromium-os/firmware-porting-guide/using-nv-u-boot-on-the-samsung-arm-chromebook">https://www.chromium.org/chromium-os/firmware-porting-guide/using-nv-u-boot-on-the-samsung-arm-chromebook</a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Nyan-big"></a><div class="section" id="nyan-big">
+<h2>Nyan-big<a class="headerlink" href="#nyan-big" title="Permalink to this headline">¶</a></h2>
+<p>Compiled based on information here:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>https://lists.denx.de/pipermail/u-boot/2015-March/209530.html
+https://git.collabora.com/cgit/user/tomeu/u-boot.git/commit/?h=nyan-big
+https://lists.denx.de/pipermail/u-boot/2017-May/289491.html
+https://github.com/chromeos-nvidia-androidtv/gnu-linux-on-acer-chromebook-13#copy-data-to-the-sd-card
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Build U-Boot</p></li>
+</ol>
+<p>Steps:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkdir b
+make -j8 O=b/nyan-big CROSS_COMPILE=arm-linux-gnueabi- nyan-big_defconfig all
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Select a .its file</p></li>
+</ol>
+<p>Select something from doc/chromium which matches your board, or create your
+own.</p>
+<p>Note that the device tree node is required, even though it is not actually
+used by U-Boot. This is because the Chromebook expects to pass it to the
+kernel, and crashes if it is not present.</p>
+<ol class="arabic simple" start="3">
+<li><p>Build and sign an image</p></li>
+</ol>
+<p>Steps:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./b/nyan-big/tools/mkimage -f doc/chromium/files/nyan-big.its u-boot-chromium.fit
+echo test &gt;dummy.txt
+vbutil_kernel --arch arm \
+  --keyblock doc/chromium/files/devkeys/kernel.keyblock \
+  --signprivate doc/chromium/files/devkeys/kernel_data_key.vbprivk \
+  --version 1 --config dummy.txt --vmlinuz u-boot-chromium.fit \
+  --bootloader dummy.txt --pack u-boot.kpart
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Prepare an SD card</p></li>
+</ol>
+<p>Steps:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>DISK=/dev/sdc   # Replace with your actual SD card device
+sudo cgpt create $DISK
+sudo cgpt add -b 34 -s 32768 -P 1 -S 1 -t kernel $DISK
+sudo cgpt add -b 32802 -s 2000000 -t rootfs $DISK
+sudo gdisk $DISK   # Enter command 'w' to write a protective MBR to the disk
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Write U-Boot to the SD card</p></li>
+</ol>
+<p>Steps:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo dd if=u-boot.kpart of=/dev/sdc1; sync
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Start it up</p></li>
+</ol>
+<p>Reboot the device in dev mode. Make sure that you have USB booting enabled. To
+do this, login as root (via Ctrl-Alt-forward_arrow) and type
+‘enable_dev_usb_boot’. You only need to do this once.</p>
+<p>Reboot the device with the SD card inserted. Press Clrl-U at the developer
+mode screen. It should show something like the following on the display:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot 2017.07-00637-g242eb42-dirty (May 22 2017 - 06:14:21 -0600)
+
+Model: Acer Chromebook 13 CB5-311
+Board: Google/NVIDIA Nyan-big, ID: 1
+
+Net:   No ethernet found.
+Hit any key to stop autoboot:  0
+Tegra124 (Nyan-big) #
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li><p>Known problems</p></li>
+</ol>
+<p>On the serial console the word MMC is chopped at the start of the line:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:   sdhci@700b0000: 2, sdhci@700b0400: 1, sdhci@700b0600: 0
+</pre></div>
+</div>
+<p>This is likely due to some problem with change-over of the serial driver
+during relocation (or perhaps updating the clock setup in board_init()).</p>
+<ol class="arabic simple" start="9">
+<li><p>Notes</p></li>
+</ol>
+<p>To check that you copied the u-boot.its file correctly, use these commands.
+You should see that the data at 0x100 in u-boot-chromium.fit is the first few
+bytes of U-Boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>hd u-boot-chromium.fit |head -20
+...
+00000100  b8 00 00 ea 14 f0 9f e5  14 f0 9f e5 14 f0 9f e5  |................|
+
+hd b/nyan-big/u-boot.bin |head
+00000000  b8 00 00 ea 14 f0 9f e5  14 f0 9f e5 14 f0 9f e5  |................|
+</pre></div>
+</div>
+<p>The ‘data’ property of the FIT is set up to start at offset 0x100 bytes into
+the file. The change to CONFIG_TEXT_BASE is also an offset of 0x100 bytes
+from the load address. If this changes, you either need to modify U-Boot to be
+fully relocatable, or expect it to hang.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/chromebook_jerry"></a><div class="section" id="chromebook-jerry">
+<h2>chromebook_jerry<a class="headerlink" href="#chromebook-jerry" title="Permalink to this headline">¶</a></h2>
+<p>The instruction are similar to those for Nyan with changes as noted below:</p>
+<ol class="arabic simple">
+<li><p>Patch U-Boot</p></li>
+</ol>
+<p>Open include/configs/rk3288_common.h</p>
+<p>Change:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#define CONFIG_TEXT_BASE             0x00100000
+</pre></div>
+</div>
+<p>to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#define CONFIG_TEXT_BASE             0x02000100
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Build U-Boot</p></li>
+</ol>
+<p>Steps:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkdir b
+make -j8 O=b/chromebook_jerry CROSS_COMPILE=arm-linux-gnueabi- \
+   chromebook_jerry_defconfig all
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>See above</p></li>
+<li><p>Build and sign an image</p></li>
+</ol>
+<p>Steps:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./b/chromebook_jerry/tools/mkimage -f doc/chromium/chromebook_jerry.its \
+   u-boot-chromium.fit
+echo test &gt;dummy.txt
+vbutil_kernel --arch arm \
+   --keyblock doc/chromium/files/devkeys/kernel.keyblock \
+   --signprivate doc/chromium/files/devkeys/kernel_data_key.vbprivk \
+   --version 1 --config dummy.txt --vmlinuz u-boot-chromium.fit \
+   --bootloader dummy.txt --pack u-boot.kpart
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>See above</p></li>
+<li><p>See above</p></li>
+<li><p>Start it up</p></li>
+</ol>
+<p>Reboot the device in dev mode. Make sure that you have USB booting enabled. To
+do this, login as root (via Ctrl-Alt-forward_arrow) and type
+‘enable_dev_usb_boot’. You only need to do this once.</p>
+<p>Reboot the device with the SD card inserted. Press Clrl-U at the developer
+mode screen. It should show something like the following on the display:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot 2017.05-00649-g72acdbf-dirty (May 29 2017 - 14:57:05 -0600)
+
+Model: Google Jerry
+Net:   Net Initialization Skipped
+No ethernet found.
+Hit any key to stop autoboot:  0
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li><p>Known problems</p></li>
+</ol>
+<p>None as yet.</p>
+<ol class="arabic simple" start="9">
+<li><p>Notes</p></li>
+</ol>
+<p>None as yet.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Other notes"></a><div class="section" id="other-notes">
+<h2>Other notes<a class="headerlink" href="#other-notes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="flashrom">
+<h3>flashrom<a class="headerlink" href="#flashrom" title="Permalink to this headline">¶</a></h3>
+<p>Used to make a backup of your firmware, or to replace it.</p>
+<p>See: <a class="reference external" href="https://www.chromium.org/chromium-os/packages/cros-flashrom">https://www.chromium.org/chromium-os/packages/cros-flashrom</a></p>
+</div>
+<div class="section" id="coreboot">
+<h3>coreboot<a class="headerlink" href="#coreboot" title="Permalink to this headline">¶</a></h3>
+<p>Coreboot itself is not designed to actually boot an OS. Instead, a program
+called Depthcharge is used. This originally came out of U-Boot and was then
+heavily hacked and modified such that is is almost unrecognisable. It does
+include a very small part of the U-Boot command-line interface but is not
+usable as a general-purpose boot loader.</p>
+<p>In addition, it has a very unusual design in that it does not do device init
+itself, but instead relies on coreboot. This is similar to (in U-Boot) having
+a SPI driver with an empty probe() method, relying on whatever was set up
+beforehand. It can be quite hard to figure out between these two code bases
+what settings are actually used. When chain-loading into U-Boot we must be
+careful to reinit anything that U-Boot expects. If not, some peripherals (or
+the whole machine) may not work. This makes the process of chainloading more
+complicated than it could be on some platforms.</p>
+<p>Finally, it supports only a subset of the U-Boot’s FIT format. In particular
+it uses a fixed address to load the FIT and does not support load/exec
+addresses. This means that U-Boot must be able to boot from whatever
+address Depthcharge happens to use (it is the CONFIG_KERNEL_START setting
+in Depthcharge). In practice this means that the data in the kernel@1 FIT node
+(see above) must start at the same address as U-Boot’s CONFIG_TEXT_BASE.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="run_vboot.html" rel="prev" title="Running U-Boot with Chromium OS verified boot"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

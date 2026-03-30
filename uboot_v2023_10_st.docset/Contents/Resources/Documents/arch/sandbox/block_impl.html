@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sandbox block devices (implementation) — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../sh.html" rel="next" title="SuperH"/>
+<link href="sandbox.html" rel="prev" title="Sandbox"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arm64.html">ARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../riscv.html">RISC-V</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Sandbox</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Sandbox block devices (implementation)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#uclass-api">Uclass API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Architecture-specific doc</a> »</li>
+<li><a href="index.html">Sandbox</a> »</li>
+<li>Sandbox block devices (implementation)</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/arch/sandbox/block_impl.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox block devices (implementation)"></a><div class="section" id="sandbox-block-devices-implementation">
+<h1>Sandbox block devices (implementation)<a class="headerlink" href="#sandbox-block-devices-implementation" title="Permalink to this headline">¶</a></h1>
+<p>(See <a class="reference internal" href="sandbox.html#sandbox-blk"><span class="std std-ref">Block Device Emulation</span></a> for operation)</p>
+<p>Sandbox block devices are implemented using the <cite>UCLASS_HOST</cite> uclass. Only one
+driver is provided (<cite>host_sb_drv</cite>) so all devices in the uclass use the same
+driver.</p>
+<p>The uclass has a simple API allowing files to be attached and detached.
+Attaching a file results in it appearing as a block device in sandbox. This
+allows filesystems and whole disk images to be accessed from U-Boot. This is
+particularly useful for tests.</p>
+<p>Devices are created using <cite>host_create_device()</cite>. This sets up a new
+<cite>UCLASS_HOST</cite>.</p>
+<p>The device can then be attached to a file with <cite>host_attach_file()</cite>. This
+creates the child block device (and bootdev device).</p>
+<p>The host device’s block device must be probed before use, as normal.</p>
+<p>To destroy a device, call host_destroy_device(). This removes the device (and
+its children of course), then closes any attached file, then unbinds the device.</p>
+<p>There is no arbitrary limit to the number of host devices that can be created.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Uclass API"></a><div class="section" id="uclass-api">
+<h2>Uclass API<a class="headerlink" href="#uclass-api" title="Permalink to this headline">¶</a></h2>
+<p>This is incomplete as it isn’t clear how to make Sphinx do the right thing for
+struct host_ops. See <cite>include/sandbox_host.h</cite> for full details.</p>
+<dl class="c struct">
+<dt id="c.host_sb_plat">
+<em class="property">struct </em><code class="sig-name descname">host_sb_plat</code><a class="headerlink" href="#c.host_sb_plat" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>platform data for a host device</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct host_sb_plat {
+  char *label;
+  char *filename;
+  int fd;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">label</span></code></dt><dd><p>Label for this device (allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">filename</span></code></dt><dd><p>Name of file this is attached to, or NULL (allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">fd</span></code></dt><dd><p>File descriptor of file, or 0 for none (file is not open)</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.host_ops">
+<em class="property">struct </em><code class="sig-name descname">host_ops</code><a class="headerlink" href="#c.host_ops" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>operations supported by UCLASS_HOST</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct host_ops {
+  int (*attach_file)(struct udevice *dev, const char *filename);
+  int (*detach_file)(struct udevice *dev);
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">attach_file</span></code></dt><dd><ul class="simple">
+<li><p>Attach a new file to the device</p></li>
+</ul>
+<p><strong>attach_file.dev</strong>: Device to update
+<strong>attach_file.filename</strong>: Name of the file, e.g. “/path/to/disk.img”
+<strong>attach_file.Returns</strong>: 0 if OK, -EEXIST if a file is already attached, other -ve on
+other error</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">detach_file</span></code></dt><dd><ul class="simple">
+<li><p>Detach a file from the device</p></li>
+</ul>
+<p><strong>detach_file.dev</strong>: Device to detach from
+<strong>detach_file.Returns</strong>: 0 if OK, -ENOENT if no file is attached, other -ve on other
+error</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.host_attach_file">
+int <code class="sig-name descname">host_attach_file</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="../../api/dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">const</em> char *<em>filename</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/host_attach_file"></a><a class="headerlink" href="#c.host_attach_file" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Attach a new file to the device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*filename</span></code></dt><dd><p>Name of the file, e.g. “/path/to/disk.img”</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -EEXIST if a file is already attached, other -ve on
+other error</p>
+<dl class="c function">
+<dt id="c.host_detach_file">
+int <code class="sig-name descname">host_detach_file</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="../../api/dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/host_detach_file"></a><a class="headerlink" href="#c.host_detach_file" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Detach a file from the device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to detach from</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if no file is attached, other -ve on other
+error</p>
+<dl class="c function">
+<dt id="c.host_create_device">
+int <code class="sig-name descname">host_create_device</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>label</em>, bool <em>removable</em>, <em class="property">struct</em> <a class="reference internal" href="../../api/dm.html#c.udevice" title="udevice">udevice</a> **<em>devp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/host_create_device"></a><a class="headerlink" href="#c.host_create_device" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Create a new host device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*label</span></code></dt><dd><p>Label of the attachment, e.g. “test1”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">removable</span></code></dt><dd><p>true if the device should be marked as removable, false
+if it is fixed. See enum blk_flag_t</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">**devp</span></code></dt><dd><p>Returns the device created, on success</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Any existing device with the same label is removed and unbound first</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.host_create_attach_file">
+int <code class="sig-name descname">host_create_attach_file</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>label</em>, <em class="property">const</em> char *<em>filename</em>, bool <em>removable</em>, <em class="property">struct</em> <a class="reference internal" href="../../api/dm.html#c.udevice" title="udevice">udevice</a> **<em>devp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/host_create_attach_file"></a><a class="headerlink" href="#c.host_create_attach_file" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Create a new host device attached to a file</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*label</span></code></dt><dd><p>Label of the attachment, e.g. “test1”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*filename</span></code></dt><dd><p>Name of the file, e.g. “/path/to/disk.img”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">removable</span></code></dt><dd><p>true if the device should be marked as removable, false
+if it is fixed. See enum blk_flag_t</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">**devp</span></code></dt><dd><p>Returns the device created, on success</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.host_find_by_label">
+<em class="property">struct</em> <a class="reference internal" href="../../api/dm.html#c.udevice" title="udevice">udevice</a> *<code class="sig-name descname">host_find_by_label</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>label</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/host_find_by_label"></a><a class="headerlink" href="#c.host_find_by_label" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Find a host by label</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*label</span></code></dt><dd><p>Label to find</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Searches all host devices to find one with the given label</p>
+<p><strong>Return</strong></p>
+<p>associated device, or NULL if not found</p>
+<dl class="c function">
+<dt id="c.host_get_cur_dev">
+<em class="property">struct</em> <a class="reference internal" href="../../api/dm.html#c.udevice" title="udevice">udevice</a> *<code class="sig-name descname">host_get_cur_dev</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/host_get_cur_dev"></a><a class="headerlink" href="#c.host_get_cur_dev" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the current device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Returns current device, or NULL if none</p>
+<dl class="c function">
+<dt id="c.host_set_cur_dev">
+void <code class="sig-name descname">host_set_cur_dev</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="../../api/dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/host_set_cur_dev"></a><a class="headerlink" href="#c.host_set_cur_dev" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the current device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to set as the current one</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Sets the current device, or clears it if <strong>dev</strong> is NULL</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="sandbox.html" rel="prev" title="Sandbox"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../sh.html" rel="next" title="SuperH">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logical memory blocks — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="logging.html" rel="next" title="Logging API"/>
+<link href="linker_lists.html" rel="prev" title="Linker-Generated Arrays"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Logical memory blocks</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/lmb.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logical memory blocks"></a><div class="section" id="logical-memory-blocks">
+<h1>Logical memory blocks<a class="headerlink" href="#logical-memory-blocks" title="Permalink to this headline">¶</a></h1>
+<dl class="c enum">
+<dt id="c.lmb_flags">
+<em class="property">enum </em><code class="sig-name descname">lmb_flags</code><a class="headerlink" href="#c.lmb_flags" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>definition of memory region attributes</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">LMB_NONE</span></code></dt><dd><p>no special request</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LMB_NOMAP</span></code></dt><dd><p>don’t add to mmu configuration</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.lmb_property">
+<em class="property">struct </em><code class="sig-name descname">lmb_property</code><a class="headerlink" href="#c.lmb_property" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Description of one region.</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct lmb_property {
+  phys_addr_t base;
+  phys_size_t size;
+  enum lmb_flags flags;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">base</span></code></dt><dd><p>Base address of the region.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size</span></code></dt><dd><p>Size of the region</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>memory region attributes</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.lmb_region">
+<em class="property">struct </em><code class="sig-name descname">lmb_region</code><a class="headerlink" href="#c.lmb_region" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Description of a set of region.</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct lmb_region {
+  unsigned long cnt;
+  unsigned long max;
+#if IS_ENABLED(CONFIG_LMB_USE_MAX_REGIONS);
+  struct lmb_property region[CONFIG_LMB_MAX_REGIONS];
+#else;
+  struct lmb_property *region;
+#endif;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">cnt</span></code></dt><dd><p>Number of regions.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">max</span></code></dt><dd><p>Size of the region array, max value of cnt.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">region</span></code></dt><dd><p>Array of the region properties</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">region</span></code></dt><dd><p>Array of the region properties</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.lmb">
+<em class="property">struct </em><code class="sig-name descname">lmb</code><a class="headerlink" href="#c.lmb" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Logical memory block handle.</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct lmb {
+  struct lmb_region memory;
+  struct lmb_region reserved;
+#if !IS_ENABLED(CONFIG_LMB_USE_MAX_REGIONS);
+  struct lmb_property memory_regions[CONFIG_LMB_MEMORY_REGIONS];
+  struct lmb_property reserved_regions[CONFIG_LMB_RESERVED_REGIONS];
+#endif;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">memory</span></code></dt><dd><p>Description of memory regions.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">reserved</span></code></dt><dd><p>Description of reserved regions.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">memory_regions</span></code></dt><dd><p>Array of the memory regions (statically allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">reserved_regions</span></code></dt><dd><p>Array of the reserved regions (statically allocated)</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Clients provide storage for Logical memory block (lmb) handles.
+The content of the structure is managed by the lmb library.
+A lmb struct is  initialized by lmb_init() functions.
+The lmb struct is passed to all other lmb APIs.</p>
+<dl class="c function">
+<dt id="c.lmb_reserve_flags">
+long <code class="sig-name descname">lmb_reserve_flags</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.lmb_reserve_flags" title="lmb">lmb</a> *<em>lmb</em>, phys_addr_t <em>base</em>, phys_size_t <em>size</em>, <em class="property">enum</em> <a class="reference internal" href="#c.lmb_flags" title="lmb_flags">lmb_flags</a> <em>flags</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/lmb_reserve_flags"></a><a class="headerlink" href="#c.lmb_reserve_flags" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Reserve one region with a specific flags bitfield.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">lmb</span> <span class="pre">*lmb</span></code></dt><dd><p>the logical memory block struct</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">phys_addr_t</span> <span class="pre">base</span></code></dt><dd><p>base address of the memory region</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">phys_size_t</span> <span class="pre">size</span></code></dt><dd><p>size of the memory region</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">lmb_flags</span> <span class="pre">flags</span></code></dt><dd><p>flags for the memory region</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, &gt; 0 for coalesced region or a negative error code.</p>
+<dl class="c function">
+<dt id="c.lmb_is_reserved">
+int <code class="sig-name descname">lmb_is_reserved</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.lmb_is_reserved" title="lmb">lmb</a> *<em>lmb</em>, phys_addr_t <em>addr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/lmb_is_reserved"></a><a class="headerlink" href="#c.lmb_is_reserved" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>test if address is in reserved region</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">lmb</span> <span class="pre">*lmb</span></code></dt><dd><p>the logical memory block struct</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">phys_addr_t</span> <span class="pre">addr</span></code></dt><dd><p>address to be tested</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The function checks if a reserved region comprising <strong>addr</strong> exists.</p>
+<p><strong>Return</strong></p>
+<p>1 if reservation exists, 0 otherwise</p>
+<dl class="c function">
+<dt id="c.lmb_is_reserved_flags">
+int <code class="sig-name descname">lmb_is_reserved_flags</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.lmb_is_reserved_flags" title="lmb">lmb</a> *<em>lmb</em>, phys_addr_t <em>addr</em>, int <em>flags</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/lmb_is_reserved_flags"></a><a class="headerlink" href="#c.lmb_is_reserved_flags" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>test if address is in reserved region with flag bits set</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">lmb</span> <span class="pre">*lmb</span></code></dt><dd><p>the logical memory block struct</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">phys_addr_t</span> <span class="pre">addr</span></code></dt><dd><p>address to be tested</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">flags</span></code></dt><dd><p>bitmap with bits to be tested</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The function checks if a reserved region comprising <strong>addr</strong> exists which has
+all flag bits set which are set in <strong>flags</strong>.</p>
+<p><strong>Return</strong></p>
+<p>1 if matching reservation exists, 0 otherwise</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="linker_lists.html" rel="prev" title="Linker-Generated Arrays"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="logging.html" rel="next" title="Logging API">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

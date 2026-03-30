@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booting from TPL/SPL — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="blkmap.html" rel="next" title="Block Maps (blkmap)"/>
+<link href="index.html" rel="prev" title="Use U-Boot"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Booting from TPL/SPL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#target-binaries">Target binaries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#image-load-methods">Image load methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#loading-from-block-devices">Loading from block devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#loading-from-raw-flash-devices">Loading from raw flash devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#loading-from-other-devices">Loading from other devices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Use U-Boot</a> »</li>
+<li>Booting from TPL/SPL</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/usage/spl_boot.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Booting from TPL/SPL"></a><div class="section" id="booting-from-tpl-spl">
+<h1>Booting from TPL/SPL<a class="headerlink" href="#booting-from-tpl-spl" title="Permalink to this headline">¶</a></h1>
+<p>The main U-Boot binary may be too large to be loaded directly by the Boot ROM.
+This was the original driver for splitting up U-Boot into multiple boot stages.</p>
+<p>U-Boot typically goes through the following boot phases where TPL, VPL, and SPL
+are optional. While many boards use SPL only few use TPL.</p>
+<dl class="simple">
+<dt>TPL</dt><dd><p>Tertiary Program Loader. Very early init, as tiny as possible. This loads SPL
+(or VPL if enabled).</p>
+</dd>
+<dt>VPL</dt><dd><p>Verifying Program Loader. Optional verification step, which can select one of
+several SPL binaries, if A/B verified boot is enabled. Implementation of the
+VPL logic is work-in-progress. For now it just boots into SPL.</p>
+</dd>
+<dt>SPL</dt><dd><p>Secondary Program Loader. Sets up SDRAM and loads U-Boot proper. It may also
+load other firmware components.</p>
+</dd>
+<dt>U-Boot</dt><dd><p>U-Boot proper. This is the only stage containing command. It also implements
+logic to load an operating system, e.g. via UEFI.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The naming convention on the PowerPC architecture deviates from the other
+archtitectures. Here the boot sequence is SPL-&gt;TPL-&gt;U-Boot.</p>
+</div>
+<p>Further usages for U-Boot SPL comprise:</p>
+<ul class="simple">
+<li><p>launching BL31 of ARM Trusted Firmware which invokes U-Boot as BL33</p></li>
+<li><p>launching EDK II</p></li>
+<li><p>launching Linux, e.g. <a class="reference internal" href="../develop/falcon.html"><span class="doc">Falcon Mode</span></a></p></li>
+<li><p>launching RISC-V OpenSBI which invokes main U-Boot</p></li>
+</ul>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Target binaries"></a><div class="section" id="target-binaries">
+<h2>Target binaries<a class="headerlink" href="#target-binaries" title="Permalink to this headline">¶</a></h2>
+<p>Binaries loaded by SPL/TPL can be:</p>
+<ul class="simple">
+<li><p>raw binaries where the entry address equals the start address. This is the
+only binary format supported by TPL.</p></li>
+<li><p><a class="reference internal" href="fit/index.html"><span class="doc">FIT</span></a> images</p></li>
+<li><p>legacy U-Boot images</p></li>
+</ul>
+<div class="section" id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>Raw images are only supported in SPL if CONFIG_SPL_RAW_IMAGE_SUPPORT=y.</p>
+<p>CONFIG_SPL_FIT=y and CONFIG_SPL_LOAD_FIT=y are needed to load FIT images.</p>
+<p>CONFIG_SPL_LEGACY_IMAGE_FORMAT=y is needed to load legacy U-Boot images.
+CONFIG_SPL_LEGACY_IMAGE_CRC_CHECK=y enables checking the CRC32 of legacy U-Boot
+images.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Image load methods"></a><div class="section" id="image-load-methods">
+<h2>Image load methods<a class="headerlink" href="#image-load-methods" title="Permalink to this headline">¶</a></h2>
+<p>The image boot methods available for a board must be defined in two places:</p>
+<p>The board code implements a function board_boot_order() enumerating up to
+five boot methods and the sequence in which they are tried. (The maximum
+number of boot methods is currently hard coded as variable spl_boot_list[]).
+If there is only one boot method function, spl_boot_device() may be implemented
+instead.</p>
+<p>The configuration controls which of these boot methods are actually available.</p>
+<div class="section" id="loading-from-block-devices">
+<h3>Loading from block devices<a class="headerlink" href="#loading-from-block-devices" title="Permalink to this headline">¶</a></h3>
+<dl>
+<dt>MMC1, MMC2, MMC2_2</dt><dd><p>These methods read an image from SD card or eMMC. The first digit after
+‘MMC’ indicates the device number. Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_MMC=y or CONFIG_TPL_MMC=y</p></li>
+</ul>
+<p>To use a PCI connected MMC controller you need to additionally specify:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_PCI=y</p></li>
+<li><p>CONFIG_SPL_PCI_PNP=y</p></li>
+<li><p>CONFIG_MMC=y</p></li>
+<li><p>CONFIG_MMC_PCI=y</p></li>
+<li><p>CONFIG_MMC_SDHCI=y</p></li>
+</ul>
+<p>To load from a file system use:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_FS_FAT=y or CONFIG_SPL_FS_EXT=y</p></li>
+<li><p>CONFIG_SPL_FS_LOAD_PAYLOAD_NAME=”&lt;filepath&gt;”</p></li>
+</ul>
+</dd>
+<dt>NVMe</dt><dd><p>This methods load the image from an NVMe drive.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_PCI=y</p></li>
+<li><p>CONFIG_SPL_PCI_PNP=y</p></li>
+<li><p>CONFIG_SPL_NVME=y</p></li>
+<li><p>CONFIG_SPL_NVME_PCI=y</p></li>
+<li><p>CONFIG_SPL_NVME_BOOT_DEVICE (number of the NVMe device)</p></li>
+<li><p>CONFIG_SYS_NVME_BOOT_PARTITION (partition to read from)</p></li>
+</ul>
+<p>To load from a file system use:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_FS_FAT=y or CONFIG_SPL_FS_EXT=y</p></li>
+<li><p>CONFIG_SPL_FS_LOAD_PAYLOAD_NAME=”&lt;filepath&gt;”</p></li>
+</ul>
+</dd>
+<dt>SATA</dt><dd><p>This method reads an image from a SATA drive.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_SATA=y or CONFIG_TPL_SATA=y</p></li>
+</ul>
+<p>To use a PCIe connecte SATA controller you additionally need:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_PCI=y</p></li>
+<li><p>CONFIG_SPL_SATA=y</p></li>
+<li><p>CONFIG_SPL_AHCI_PCI=y</p></li>
+<li><p>CONFIG_SPL_PCI_PNP=y</p></li>
+</ul>
+<p>To load from a file system use:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_FS_FAT=y</p></li>
+<li><p>CONFIG_SYS_SATA_FAT_BOOT_PARTITION=&lt;partition number&gt;</p></li>
+<li><p>CONFIG_SPL_FS_LOAD_PAYLOAD_NAME=”&lt;filepath&gt;”</p></li>
+</ul>
+</dd>
+<dt>USB</dt><dd><p>The USB method loads an image from a USB block device.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_USB_HOST=y</p></li>
+<li><p>CONFIG_SPL_USB_STORAGE=y</p></li>
+</ul>
+<p>To use a PCI connected USB 3.0 controller you additionally need:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_FS_FAT=y</p></li>
+<li><p>CONFIG_SPL_PCI=y</p></li>
+<li><p>CONFIG_SPL_PCI_PNP=y</p></li>
+<li><p>CONFIG_USB=y</p></li>
+<li><p>CONFIG_USB_XHCI_HCD=y</p></li>
+<li><p>CONFIG_USB_XHCI_PCI=y</p></li>
+</ul>
+<p>To load from a file system use:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_FS_FAT=y or CONFIG_SPL_FS_EXT=y</p></li>
+<li><p>CONFIG_SYS_USB_FAT_BOOT_PARTITION=&lt;partition number&gt;</p></li>
+<li><p>CONFIG_SPL_FS_LOAD_PAYLOAD_NAME=”&lt;filepath&gt;”</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="loading-from-raw-flash-devices">
+<h3>Loading from raw flash devices<a class="headerlink" href="#loading-from-raw-flash-devices" title="Permalink to this headline">¶</a></h3>
+<dl>
+<dt>NAND</dt><dd><p>This method loads the image from NAND flash. To read from raw NAND the
+following configuration settings are required:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_NAND_SUPPORT=y or CONFIG_TPL_NAND_SUPPORT=y</p></li>
+</ul>
+<p>If CONFIG_SPL_NAND_RAW_ONLY=y only raw images can be loaded.</p>
+<p>For using UBI (Unsorted Block Images) volumes to read from NAND the
+following configuration settings are required:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_UBI=y or CONFIG_TPL_UBI=y</p></li>
+</ul>
+<p>The UBI volume to read can either be specified</p>
+<ul class="simple">
+<li><p>by name using CONFIG_SPL_UBI_LOAD_BY_VOLNAME or</p></li>
+<li><p>by number using CONFIG_SPL_UBI_LOAD_MONITOR_ID.</p></li>
+</ul>
+</dd>
+<dt>NOR</dt><dd><p>This method loads the image from NOR flash.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_NOR_SUPPORT=y or CONFIG_TPL_NOR_SUPPORT=y</p></li>
+</ul>
+</dd>
+<dt>OneNAND</dt><dd><p>This methods loads the image from a OneNAND device. To read from raw OneNAND
+the following configuration settings are required:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_ONENAND_SUPPORT=y or CONFIG_TPL_ONENAND_SUPPORT=y</p></li>
+</ul>
+<p>For using the Ubi file system to read from NAND the following configuration
+settings are required:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_UBI=y or CONFIG_TPL_UBI=y</p></li>
+</ul>
+</dd>
+<dt>SPI</dt><dd><p>This method loads an image form SPI NOR flash.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_DM_SPI=y</p></li>
+<li><p>CONFIG_SPL_SPI_FLASH=y</p></li>
+<li><p>CONFIG_SPI_LOAD=y or CONFIG_TPL_SPI_LOAD=y</p></li>
+</ul>
+</dd>
+<dt>Sunxi SPI</dt><dd><p>This method which is specific to Allwinner SoCs loads an image form SPI NOR
+flash. Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_SPI_SUNXI=y</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="loading-from-other-devices">
+<h3>Loading from other devices<a class="headerlink" href="#loading-from-other-devices" title="Permalink to this headline">¶</a></h3>
+<dl>
+<dt>BOOTROM</dt><dd><p>The binary is loaded by the boot ROM.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_BOOTROM_SUPPORT=y or CONFIG_TPL_BOOTROM_SUPPORT=y</p></li>
+</ul>
+</dd>
+<dt>DFU</dt><dd><p><a class="reference internal" href="dfu.html"><span class="doc">Device Firmware Upgrade</span></a> is used to load the binary into RAM.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_DFU=y</p></li>
+<li><p>CONFIG_SPL_RAM_SUPPORT=y or CONFIG TPL_RAM_SUPPORT=y</p></li>
+</ul>
+</dd>
+<dt>Ethernet</dt><dd><p>This method loads an image over Ethernet. The BOOTP protocol is used to find
+a TFTP server and binary name. The binary is downloaded via the TFTP
+protocol. Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_NET=y or CONFIG_TPL_NET=y</p></li>
+<li><p>CONFIG_SPL_ETH_DEVICE=y or CONFIG_DM_USB_GADGET=y</p></li>
+</ul>
+</dd>
+<dt>FEL</dt><dd><p>This method does not actually load an image for U-Boot.
+FEL is a routine contained in the boot ROM of Allwinner SoCs which serves
+for the initial programming or recovery via USB</p>
+</dd>
+<dt>RAM</dt><dd><p>This method uses an image preloaded into RAM.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_RAM_SUPPORT=y or CONFIG_TPL_RAM_SUPPORT=y</p></li>
+<li><p>CONFIG_RAM_DEVICE=y</p></li>
+</ul>
+</dd>
+<dt>Sandbox file</dt><dd><p>On the sandbox this method loads an image from the host file system.</p>
+</dd>
+<dt>Sandbox image</dt><dd><p>On the sandbox this method loads an image from the host file system.</p>
+</dd>
+<dt>Semihosting</dt><dd><p>When running in an ARM or RISC-V virtual machine the semihosting method can
+be used to load an image from the host file system.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_SEMIHOSTING=y</p></li>
+<li><p>CONFIG_SPL_SEMIHOSTING_FALLBACK=y</p></li>
+<li><p>CONFIG_SPL_FS_LOAD_PAYLOAD_NAME=&lt;path to file&gt;</p></li>
+</ul>
+</dd>
+<dt>UART</dt><dd><p>This method loads an image via the Y-Modem protocol from the UART.
+Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_YMODEM_SUPPORT=y or CONFIG_TPL_YMODEM_SUPPORT=y</p></li>
+</ul>
+</dd>
+<dt>USB SDP</dt><dd><p>This method loads the image using the Serial Download Protocol as
+implemented by the boot ROM of the i.MX family of SoCs.</p>
+<p>Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_SERIAL=y</p></li>
+<li><p>CONFIG_SPL_USB_SDP_SUPPORT=y or CONFIG_TPL_USB_SDP_SUPPORT</p></li>
+</ul>
+</dd>
+<dt>VBE Simple</dt><dd><p>This method is used by the VPL stage to extract the next stage image from
+the loaded image.</p>
+<p>Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_VPL=y</p></li>
+<li><p>CONFIG_SPL_BOOTMETH_VBE_SIMPLE_FW=y or CONFIG_TPL_BOOTMETH_VBE_SIMPLE_FW=y</p></li>
+</ul>
+</dd>
+<dt>XIP</dt><dd><p>This method executes an image in place.</p>
+<p>Required configuration settings include:</p>
+<ul class="simple">
+<li><p>CONFIG_SPL_XIP_SUPPORT</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Use U-Boot"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="blkmap.html" rel="next" title="Block Maps (blkmap)">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

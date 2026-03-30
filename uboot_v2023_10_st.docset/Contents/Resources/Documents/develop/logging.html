@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logging in U-Boot — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="makefiles.html" rel="next" title="Makefiles"/>
+<link href="global_data.html" rel="prev" title="Global data"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Logging in U-Boot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logging-levels">Logging levels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logging-category">Logging category</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-logging">Enabling logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#temporary-logging-within-a-single-file">Temporary logging within a single file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-debug">Using DEBUG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logging-statements">Logging statements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logging-destinations">Logging destinations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filters">Filters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#log-command">Log command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#code-size">Code size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#to-do">To Do</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Logging in U-Boot</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/logging.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logging in U-Boot"></a><div class="section" id="logging-in-u-boot">
+<h1>Logging in U-Boot<a class="headerlink" href="#logging-in-u-boot" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot’s internal operation involves many different steps and actions. From
+setting up the board to displaying a start-up screen to loading an Operating
+System, there are many component parts each with many actions.</p>
+<p>Most of the time this internal detail is not useful. Displaying it on the
+console would delay booting (U-Boot’s primary purpose) and confuse users.</p>
+<p>But for digging into what is happening in a particular area, or for debugging
+a problem it is often useful to see what U-Boot is doing in more detail than
+is visible from the basic console output.</p>
+<p>U-Boot’s logging feature aims to satisfy this goal for both users and
+developers.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logging levels"></a><div class="section" id="logging-levels">
+<h2>Logging levels<a class="headerlink" href="#logging-levels" title="Permalink to this headline">¶</a></h2>
+<p>There are a number logging levels available.</p>
+<p>See enum <a class="reference internal" href="../api/logging.html#c.log_level_t" title="log_level_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">log_level_t</span></code></a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logging category"></a><div class="section" id="logging-category">
+<h2>Logging category<a class="headerlink" href="#logging-category" title="Permalink to this headline">¶</a></h2>
+<p>Logging can come from a wide variety of places within U-Boot. Each log message
+has a category which is intended to allow messages to be filtered according to
+their source.</p>
+<p>See enum <a class="reference internal" href="../api/logging.html#c.log_category_t" title="log_category_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">log_category_t</span></code></a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enabling logging"></a><div class="section" id="enabling-logging">
+<h2>Enabling logging<a class="headerlink" href="#enabling-logging" title="Permalink to this headline">¶</a></h2>
+<p>The following options are used to enable logging at compile time:</p>
+<ul class="simple">
+<li><p>CONFIG_LOG - Enables the logging system</p></li>
+<li><p>CONFIG_LOG_MAX_LEVEL - Max log level to build (anything higher is compiled
+out)</p></li>
+<li><p>CONFIG_LOG_CONSOLE - Enable writing log records to the console</p></li>
+</ul>
+<p>If CONFIG_LOG is not set, then no logging will be available.</p>
+<p>The above have SPL and TPL versions also, e.g. CONFIG_SPL_LOG_MAX_LEVEL and
+CONFIG_TPL_LOG_MAX_LEVEL.</p>
+<p>If logging is disabled, the default behaviour is to output any message at
+level LOGL_INFO and below. If logging is disabled and DEBUG is defined (at
+the very top of a C file) then any message at LOGL_DEBUG will be written.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Temporary logging within a single file"></a><div class="section" id="temporary-logging-within-a-single-file">
+<h2>Temporary logging within a single file<a class="headerlink" href="#temporary-logging-within-a-single-file" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it is useful to turn on logging just in one file. You can use this</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define LOG_DEBUG</span>
+</pre></div>
+</div>
+<p>to enable building in of all logging statements in a single file. Put it at
+the top of the file, before any #includes and any message in the file will be
+written, regardless of the value of CONFIG_LOG_DEFAULT_LEVEL.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Using DEBUG"></a><div class="section" id="using-debug">
+<h2>Using DEBUG<a class="headerlink" href="#using-debug" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot has traditionally used a #define called DEBUG to enable debugging on a
+file-by-file basis but LOG_DEBUG are intended to replace it with the logging
+facilities; DEBUG is activated when LOG_DEBUG is activated.</p>
+<p>With logging enabled, debug() statements are interpreted as logging output
+with a level of LOGL_DEBUG and a category of LOG_CATEGORY.</p>
+<p>With logging disabled, the debug() macro compiles to a printf() statement
+if DEBUG is enabled and to an empty statement if not.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logging statements"></a><div class="section" id="logging-statements">
+<h2>Logging statements<a class="headerlink" href="#logging-statements" title="Permalink to this headline">¶</a></h2>
+<p>The main logging function is:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="p">,</span><span class="w"> </span><span class="n">format_string</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
+</pre></div>
+</div>
+<p>Also debug() and error() will generate log records  - these use LOG_CATEGORY
+as the category, so you should #define this right at the top of the source
+file to ensure the category is correct.</p>
+<p>Generally each log format_string ends with a newline. If it does not, then the
+next log statement will have the LOGRECF_CONT flag set. This can be used to
+continue the statement on the same line as the previous one without emitting
+new header information (such as category/level). This behaviour is implemented
+with log_console. Here is an example that prints a list all on one line with
+the tags at the start:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">log_debug</span><span class="p">(</span><span class="s">"Here is a list:"</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">   </span><span class="n">log_debug</span><span class="p">(</span><span class="s">" item %d"</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="n">log_debug</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Also see the special category LOGL_CONT and level LOGC_CONT.</p>
+<p>You can also define CONFIG_LOG_ERROR_RETURN to enable the log_ret() macro. This
+can be used whenever your function returns an error value:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">return</span><span class="w"> </span><span class="n">log_ret</span><span class="p">(</span><span class="n">uclass_first_device_err</span><span class="p">(</span><span class="n">UCLASS_MMC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dev</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>This will write a log record when an error code is detected (a value &lt; 0). This
+can make it easier to trace errors that are generated deep in the call stack.</p>
+<p>The log_msg_ret() variant will print a short string if CONFIG_LOG_ERROR_RETURN
+is enabled. So long as the string is unique within the function you can normally
+determine exactly which call failed:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpio_request_by_name</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">"cd-gpios"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">desc</span><span class="p">,</span><span class="w"> </span><span class="n">GPIOD_IS_IN</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">log_msg_ret</span><span class="p">(</span><span class="s">"gpio"</span><span class="p">,</span><span class="w"> </span><span class="n">ret</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Some functions return 0 for success and any other value is an error. For these,
+log_retz() and log_msg_retz() are available.</p>
+<div class="section" id="convenience-functions">
+<h3>Convenience functions<a class="headerlink" href="#convenience-functions" title="Permalink to this headline">¶</a></h3>
+<p>A number of convenience functions are available to shorten the code needed
+for logging:</p>
+<ul class="simple">
+<li><p>log_err(_fmt…)</p></li>
+<li><p>log_warning(_fmt…)</p></li>
+<li><p>log_notice(_fmt…)</p></li>
+<li><p>log_info(_fmt…)</p></li>
+<li><p>log_debug(_fmt…)</p></li>
+<li><p>log_content(_fmt…)</p></li>
+<li><p>log_io(_fmt…)</p></li>
+</ul>
+<p>With these the log level is implicit in the name. The category is set by
+LOG_CATEGORY, which you can only define once per file, above all #includes, e.g.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define LOG_CATEGORY LOGC_ALLOC</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define LOG_CATEGORY UCLASS_SPI</span>
+</pre></div>
+</div>
+<p>Remember that all uclasses IDs are log categories too.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logging destinations"></a><div class="section" id="logging-destinations">
+<h2>Logging destinations<a class="headerlink" href="#logging-destinations" title="Permalink to this headline">¶</a></h2>
+<p>If logging information goes nowhere then it serves no purpose. U-Boot provides
+several possible determinations for logging information, all of which can be
+enabled or disabled independently:</p>
+<ul class="simple">
+<li><p>console - goes to stdout</p></li>
+<li><p>syslog - broadcast RFC 3164 messages to syslog servers on UDP port 514</p></li>
+</ul>
+<p>The syslog driver sends the value of environmental variable ‘log_hostname’ as
+HOSTNAME if available.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Filters"></a><div class="section" id="filters">
+<h2>Filters<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h2>
+<p>Filters are attached to log drivers to control what those drivers emit. FIlters
+can either allow or deny a log message when they match it. Only records which
+are allowed by a filter make it to the driver.</p>
+<p>Filters can be based on several criteria:</p>
+<ul class="simple">
+<li><p>minimum or maximum log level</p></li>
+<li><p>in a set of categories</p></li>
+<li><p>in a set of files</p></li>
+</ul>
+<p>If no filters are attached to a driver then a default filter is used, which
+limits output to records with a level less than CONFIG_MAX_LOG_LEVEL.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Log command"></a><div class="section" id="log-command">
+<h2>Log command<a class="headerlink" href="#log-command" title="Permalink to this headline">¶</a></h2>
+<p>The ‘log’ command provides access to several features:</p>
+<ul class="simple">
+<li><p>level - list log levels or set the default log level</p></li>
+<li><p>categories - list log categories</p></li>
+<li><p>drivers - list log drivers</p></li>
+<li><p>filter-list - list filters</p></li>
+<li><p>filter-add - add a new filter</p></li>
+<li><p>filter-remove - remove filters</p></li>
+<li><p>format - access the console log format</p></li>
+<li><p>rec - output a log record</p></li>
+</ul>
+<p>Type ‘help log’ for details.</p>
+<div class="section" id="log-format">
+<h3>Log format<a class="headerlink" href="#log-format" title="Permalink to this headline">¶</a></h3>
+<p>You can control the log format using the ‘log format’ command. The basic
+format is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LEVEL.category,file.c:123-func() message
+</pre></div>
+</div>
+<p>In the above, file.c:123 is the filename where the log record was generated and
+func() is the function name. By default (‘log format default’) only the message
+is displayed on the console. You can control which fields are present, but not
+the field order.</p>
+</div>
+<div class="section" id="adding-filters">
+<h3>Adding Filters<a class="headerlink" href="#adding-filters" title="Permalink to this headline">¶</a></h3>
+<p>To add new filters at runtime, use the ‘log filter-add’ command. For example, to
+suppress messages from the SPI and MMC subsystems, run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>log filter-add -D -c spi -c mmc
+</pre></div>
+</div>
+<p>You will also need to add another filter to allow other messages (because the
+default filter no longer applies):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>log filter-add -A -l info
+</pre></div>
+</div>
+<p>Log levels may be either symbolic names (like above) or numbers. For example, to
+disable all debug and above (log level 7) messages from <code class="docutils literal notranslate"><span class="pre">drivers/core/lists.c</span></code>
+and <code class="docutils literal notranslate"><span class="pre">drivers/core/ofnode.c</span></code>, run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>log filter-add -D -f drivers/core/lists.c,drivers/core/ofnode.c -L 7
+</pre></div>
+</div>
+<p>To view active filters, use the ‘log filter-list’ command. Some example output
+is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; log filter-list
+num policy level            categories files
+  2   deny &gt;= DEBUG                    drivers/core/lists.c,drivers/core/ofnode.c
+  0   deny &lt;= IO                   spi
+                                   mmc
+  1  allow &lt;= INFO
+</pre></div>
+</div>
+<p>Note that filters are processed in-order from top to bottom, not in the order of
+their filter number. Filters are added to the top of the list if they deny when
+they match, and to the bottom if they allow when they match. For more
+information, consult the usage of the ‘log’ command, by running ‘help log’.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Code size"></a><div class="section" id="code-size">
+<h2>Code size<a class="headerlink" href="#code-size" title="Permalink to this headline">¶</a></h2>
+<p>Code size impact depends largely on what is enabled. The following numbers are
+generated by ‘buildman -S’ for snow, which is a Thumb-2 board (all units in
+bytes):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>This series: adds bss +20.0 data +4.0 rodata +4.0 text +44.0
+CONFIG_LOG: bss -52.0 data +92.0 rodata -635.0 text +1048.0
+CONFIG_LOG_MAX_LEVEL=7: bss +188.0 data +4.0 rodata +49183.0 text +98124.0
+</pre></div>
+</div>
+<p>The last option turns every debug() statement into a logging call, which
+bloats the code hugely. The advantage is that it is then possible to enable
+all logging within U-Boot.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/To Do"></a><div class="section" id="to-do">
+<h2>To Do<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h2>
+<p>There are lots of useful additions that could be made. None of the below is
+implemented! If you do one, please add a test in test/log/log_test.c
+log filter-add -D -f drivers/core/lists.c,drivers/core/ofnode.c -l 6
+Convenience functions to support setting the category:</p>
+<ul class="simple">
+<li><p>log_arch(level, format_string, …) - category LOGC_ARCH</p></li>
+<li><p>log_board(level, format_string, …) - category LOGC_BOARD</p></li>
+<li><p>log_core(level, format_string, …) - category LOGC_CORE</p></li>
+<li><p>log_dt(level, format_string, …) - category LOGC_DT</p></li>
+</ul>
+<p>More logging destinations:</p>
+<ul class="simple">
+<li><p>device - goes to a device (e.g. serial)</p></li>
+<li><p>buffer - recorded in a memory buffer</p></li>
+</ul>
+<p>Convert debug() statements in the code to log() statements</p>
+<p>Convert error() statements in the code to log() statements</p>
+<p>Figure out what to do with BUG(), BUG_ON() and warn_non_spl()</p>
+<p>Add a way to browse log records</p>
+<p>Add a way to record log records for browsing using an external tool</p>
+<p>Add commands to add and remove log devices</p>
+<p>Allow sharing of printf format strings in log records to reduce storage size
+for large numbers of log records</p>
+<p>Consider making log() calls emit an automatic newline, perhaps with a logn()
+function to avoid that</p>
+<p>Passing log records through to linux (e.g. via device tree /chosen)</p>
+<p>Provide a command to access the number of log records generated, and the
+number dropped due to them being generated before the log system was ready.</p>
+<p>Add a printf() format string pragma so that log statements are checked properly</p>
+<p>Add a command to delete existing log records.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="global_data.html" rel="prev" title="Global data"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="makefiles.html" rel="next" title="Makefiles">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sandbox — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="serial.html" rel="next" title="Serial system"/>
+<link href="rng.html" rel="prev" title="Random number generation"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Sandbox</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/sandbox.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox"></a><div class="section" id="sandbox">
+<h1>Sandbox<a class="headerlink" href="#sandbox" title="Permalink to this headline">¶</a></h1>
+<p>The following API routines are used to implement the U-Boot sandbox.</p>
+<dl class="c function">
+<dt id="c.os_printf">
+int <code class="sig-name descname">os_printf</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>format</em>, ...<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_printf"></a><a class="headerlink" href="#c.os_printf" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>print directly to OS console</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*format</span></code></dt><dd><p>format string</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">...</span></code></dt><dd><p>variable arguments</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.os_read">
+ssize_t <code class="sig-name descname">os_read</code><span class="sig-paren">(</span>int <em>fd</em>, void *<em>buf</em>, size_t <em>count</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_read"></a><a class="headerlink" href="#c.os_read" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fd</span></code></dt><dd><p>File descriptor as returned by os_open()</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>Buffer to place data</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">count</span></code></dt><dd><p>Number of bytes to read</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of bytes read, or -1 on error</p>
+<dl class="c function">
+<dt id="c.os_write">
+ssize_t <code class="sig-name descname">os_write</code><span class="sig-paren">(</span>int <em>fd</em>, <em class="property">const</em> void *<em>buf</em>, size_t <em>count</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_write"></a><a class="headerlink" href="#c.os_write" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fd</span></code></dt><dd><p>File descriptor as returned by os_open()</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>Buffer containing data to write</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">count</span></code></dt><dd><p>Number of bytes to write</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of bytes written, or -1 on error</p>
+<dl class="c function">
+<dt id="c.os_lseek">
+off_t <code class="sig-name descname">os_lseek</code><span class="sig-paren">(</span>int <em>fd</em>, off_t <em>offset</em>, int <em>whence</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_lseek"></a><a class="headerlink" href="#c.os_lseek" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fd</span></code></dt><dd><p>File descriptor as returned by os_open()</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">off_t</span> <span class="pre">offset</span></code></dt><dd><p>File offset (based on whence)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">whence</span></code></dt><dd><p>Position offset is relative to (see below)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>new file offset</p>
+<dl class="c function">
+<dt id="c.os_filesize">
+off_t <code class="sig-name descname">os_filesize</code><span class="sig-paren">(</span>int <em>fd</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_filesize"></a><a class="headerlink" href="#c.os_filesize" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Calculate the size of a file</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fd</span></code></dt><dd><p>File descriptor as returned by os_open()</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>file size or negative error code</p>
+<dl class="c function">
+<dt id="c.os_open">
+int <code class="sig-name descname">os_open</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>pathname</em>, int <em>flags</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_open"></a><a class="headerlink" href="#c.os_open" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*pathname</span></code></dt><dd><p>Pathname of file to open</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">flags</span></code></dt><dd><p>Flags, like OS_O_RDONLY, OS_O_RDWR</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>file descriptor, or -1 on error</p>
+<dl class="c function">
+<dt id="c.os_close">
+int <code class="sig-name descname">os_close</code><span class="sig-paren">(</span>int <em>fd</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_close"></a><a class="headerlink" href="#c.os_close" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>access to the OS close() system call</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fd</span></code></dt><dd><p>File descriptor to close</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, -1 on error</p>
+<dl class="c function">
+<dt id="c.os_unlink">
+int <code class="sig-name descname">os_unlink</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>pathname</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_unlink"></a><a class="headerlink" href="#c.os_unlink" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>access to the OS unlink() system call</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*pathname</span></code></dt><dd><p>Path of file to delete</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 for success, other for error</p>
+<dl class="c function">
+<dt id="c.os_exit">
+void <code class="sig-name descname">os_exit</code><span class="sig-paren">(</span>int <em>exit_code</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_exit"></a><a class="headerlink" href="#c.os_exit" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>access to the OS exit() system call</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">exit_code</span></code></dt><dd><p>exit code for U-Boot</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This exits with the supplied return code, which should be 0 to indicate
+success.</p>
+<dl class="c function">
+<dt id="c.os_alarm">
+unsigned int <code class="sig-name descname">os_alarm</code><span class="sig-paren">(</span>unsigned int <em>seconds</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_alarm"></a><a class="headerlink" href="#c.os_alarm" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>access to the OS alarm() system call</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">seconds</span></code></dt><dd><p>number of seconds before the signal is sent</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of seconds remaining until any previously scheduled alarm was
+due to be delivered; 0 if there was no previously scheduled alarm</p>
+<dl class="c function">
+<dt id="c.os_set_alarm_handler">
+void <code class="sig-name descname">os_set_alarm_handler</code><span class="sig-paren">(</span>void (*<em>handler</em>)<span class="sig-paren">(</span>int<span class="sig-paren">)</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_set_alarm_handler"></a><a class="headerlink" href="#c.os_set_alarm_handler" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>set handler for SIGALRM</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">(*handler)(int)</span></code></dt><dd><p>The handler function. Pass NULL for SIG_DFL.</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.os_raise_sigalrm">
+void <code class="sig-name descname">os_raise_sigalrm</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_raise_sigalrm"></a><a class="headerlink" href="#c.os_raise_sigalrm" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>do raise(SIGALRM)</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.os_tty_raw">
+void <code class="sig-name descname">os_tty_raw</code><span class="sig-paren">(</span>int <em>fd</em>, bool <em>allow_sigs</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_tty_raw"></a><a class="headerlink" href="#c.os_tty_raw" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>put tty into raw mode to mimic serial console better</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fd</span></code></dt><dd><p>File descriptor of stdin (normally 0)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">allow_sigs</span></code></dt><dd><p>Allow Ctrl-C, Ctrl-Z to generate signals rather than
+be handled by U-Boot</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.os_fd_restore">
+void <code class="sig-name descname">os_fd_restore</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_fd_restore"></a><a class="headerlink" href="#c.os_fd_restore" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>restore the tty to its original mode</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Call this to restore the original terminal mode, after it has been changed
+by os_tty_raw(). This is an internal function.</p>
+<dl class="c function">
+<dt id="c.os_malloc">
+void *<code class="sig-name descname">os_malloc</code><span class="sig-paren">(</span>size_t <em>length</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_malloc"></a><a class="headerlink" href="#c.os_malloc" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>aquires some memory from the underlying os.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">length</span></code></dt><dd><p>Number of bytes to be allocated</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>Pointer to length bytes or NULL if <strong>length</strong> is 0 or on error</p>
+<dl class="c function">
+<dt id="c.os_free">
+void <code class="sig-name descname">os_free</code><span class="sig-paren">(</span>void *<em>ptr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_free"></a><a class="headerlink" href="#c.os_free" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>free memory previous allocated with os_malloc()</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*ptr</span></code></dt><dd><p>Pointer to memory block to free. If this is NULL then this
+function does nothing</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This returns the memory to the OS.</p>
+<dl class="c function">
+<dt id="c.os_realloc">
+void *<code class="sig-name descname">os_realloc</code><span class="sig-paren">(</span>void *<em>ptr</em>, size_t <em>length</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_realloc"></a><a class="headerlink" href="#c.os_realloc" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>reallocate memory</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*ptr</span></code></dt><dd><p>pointer to previously allocated memory of NULL</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">length</span></code></dt><dd><p>number of bytes to allocate</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This follows the semantics of realloc(), so can perform an os_malloc() or
+os_free() depending on <strong>ptr</strong> and <strong>length</strong>.</p>
+<p><strong>Return</strong></p>
+<p>pointer to reallocated memory or NULL if <strong>length</strong> is 0</p>
+<dl class="c function">
+<dt id="c.os_usleep">
+void <code class="sig-name descname">os_usleep</code><span class="sig-paren">(</span>unsigned long <em>usec</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_usleep"></a><a class="headerlink" href="#c.os_usleep" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>access to the usleep function of the os</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">usec</span></code></dt><dd><p>time to sleep in micro seconds</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.os_get_nsec">
+uint64_t <code class="sig-name descname">os_get_nsec</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_get_nsec"></a><a class="headerlink" href="#c.os_get_nsec" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>a monotonic increasing time scaled in nano seconds</p>
+<dl class="c function">
+<dt id="c.os_parse_args">
+int <code class="sig-name descname">os_parse_args</code><span class="sig-paren">(</span><em class="property">struct</em> sandbox_state *<em>state</em>, int <em>argc</em>, char *<em>argv</em>[]<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_parse_args"></a><a class="headerlink" href="#c.os_parse_args" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">sandbox_state</span> <span class="pre">*state</span></code></dt><dd><p>sandbox state to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">argc</span></code></dt><dd><p>argument count</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*argv[]</span></code></dt><dd><p>argument vector</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<ul class="simple">
+<li><p>0 if ok, and program should continue</p></li>
+<li><p>1 if ok, but program should stop</p></li>
+<li><p>-1 on error: program should terminate</p></li>
+</ul>
+<dl class="c struct">
+<dt id="c.os_dirent_node">
+<em class="property">struct </em><code class="sig-name descname">os_dirent_node</code><a class="headerlink" href="#c.os_dirent_node" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>directory node</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct os_dirent_node {
+  struct os_dirent_node *next;
+  ulong size;
+  enum os_dirent_t type;
+  char name[0];
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">next</span></code></dt><dd><p>pointer to next node, or NULL</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size</span></code></dt><dd><p>size of file in bytes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>type of entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>name of entry</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>A directory entry node, containing information about a single dirent</p>
+<dl class="c function">
+<dt id="c.os_dirent_ls">
+int <code class="sig-name descname">os_dirent_ls</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>dirname</em>, <em class="property">struct</em> <a class="reference internal" href="#c.os_dirent_node" title="os_dirent_node">os_dirent_node</a> **<em>headp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_dirent_ls"></a><a class="headerlink" href="#c.os_dirent_ls" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get a directory listing</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*dirname</span></code></dt><dd><p>directory to examine</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">os_dirent_node</span> <span class="pre">**headp</span></code></dt><dd><p>on return pointer to head of linked list, or NULL if none</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This allocates and returns a linked list containing the directory listing.</p>
+<p><strong>Return</strong></p>
+<p>0 if ok, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_dirent_free">
+void <code class="sig-name descname">os_dirent_free</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.os_dirent_node" title="os_dirent_node">os_dirent_node</a> *<em>node</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_dirent_free"></a><a class="headerlink" href="#c.os_dirent_free" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>free directory list</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">os_dirent_node</span> <span class="pre">*node</span></code></dt><dd><p>pointer to head of linked list</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This frees a linked list containing a directory listing.</p>
+<dl class="c function">
+<dt id="c.os_dirent_get_typename">
+<em class="property">const</em> char *<code class="sig-name descname">os_dirent_get_typename</code><span class="sig-paren">(</span><em class="property">enum</em> os_dirent_t <em>type</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_dirent_get_typename"></a><a class="headerlink" href="#c.os_dirent_get_typename" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get the name of a directory entry type</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">os_dirent_t</span> <span class="pre">type</span></code></dt><dd><p>type to check</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>string containing the name of that type,
+or “???” if none/invalid</p>
+<dl class="c function">
+<dt id="c.os_get_filesize">
+int <code class="sig-name descname">os_get_filesize</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fname</em>, long long *<em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_get_filesize"></a><a class="headerlink" href="#c.os_get_filesize" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get the size of a file</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*fname</span></code></dt><dd><p>filename to check</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span> <span class="pre">*size</span></code></dt><dd><p>size of file is returned if no error</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success or -1 if an error ocurred</p>
+<dl class="c function">
+<dt id="c.os_putc">
+void <code class="sig-name descname">os_putc</code><span class="sig-paren">(</span>int <em>ch</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_putc"></a><a class="headerlink" href="#c.os_putc" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write a character to the controlling OS terminal</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">ch</span></code></dt><dd><p>haracter to write</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This bypasses the U-Boot console support and writes directly to the OS
+stdout file descriptor.</p>
+<dl class="c function">
+<dt id="c.os_puts">
+void <code class="sig-name descname">os_puts</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>str</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_puts"></a><a class="headerlink" href="#c.os_puts" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write a string to the controlling OS terminal</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*str</span></code></dt><dd><p>string to write (note that n is not appended)</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This bypasses the U-Boot console support and writes directly to the OS
+stdout file descriptor.</p>
+<dl class="c function">
+<dt id="c.os_flush">
+void <code class="sig-name descname">os_flush</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_flush"></a><a class="headerlink" href="#c.os_flush" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>flush controlling OS terminal</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This bypasses the U-Boot console support and flushes directly the OS
+stdout file descriptor.</p>
+<dl class="c function">
+<dt id="c.os_write_ram_buf">
+int <code class="sig-name descname">os_write_ram_buf</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fname</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_write_ram_buf"></a><a class="headerlink" href="#c.os_write_ram_buf" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write the sandbox RAM buffer to a existing file</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*fname</span></code></dt><dd><p>filename to write memory to (simple binary format)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_read_ram_buf">
+int <code class="sig-name descname">os_read_ram_buf</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fname</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_read_ram_buf"></a><a class="headerlink" href="#c.os_read_ram_buf" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>read the sandbox RAM buffer from an existing file</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*fname</span></code></dt><dd><p>filename containing memory (simple binary format)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_jump_to_image">
+int <code class="sig-name descname">os_jump_to_image</code><span class="sig-paren">(</span><em class="property">const</em> void *<em>dest</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_jump_to_image"></a><a class="headerlink" href="#c.os_jump_to_image" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>jump to a new executable image</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*dest</span></code></dt><dd><p>buffer containing executable image</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>size of buffer</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This uses exec() to run a new executable image, after putting it in a
+temporary file. The same arguments and environment are passed to this
+new image, with the addition of:</p>
+<blockquote>
+<div><dl class="option-list">
+<dt><kbd><span class="option">-j <var>&lt;filename&gt;</var></span></kbd></dt>
+<dd><p>Specifies the filename the image was written to. The
+calling image may want to delete this at some point.</p>
+</dd>
+<dt><kbd><span class="option">-m <var>&lt;filename&gt;</var></span></kbd></dt>
+<dd><p>Specifies the file containing the sandbox memory
+(ram_buf) from this image, so that the new image can
+have access to this. It also means that the original
+memory filename passed to U-Boot will be left intact.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_find_u_boot">
+int <code class="sig-name descname">os_find_u_boot</code><span class="sig-paren">(</span>char *<em>fname</em>, int <em>maxlen</em>, bool <em>use_img</em>, <em class="property">const</em> char *<em>cur_prefix</em>, <em class="property">const</em> char *<em>next_prefix</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_find_u_boot"></a><a class="headerlink" href="#c.os_find_u_boot" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>determine the path to U-Boot proper</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*fname</span></code></dt><dd><p>place to put full path to U-Boot</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">maxlen</span></code></dt><dd><p>maximum size of <strong>fname</strong></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">use_img</span></code></dt><dd><p>select the ‘u-boot.img’ file instead of the ‘u-boot’ ELF file</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*cur_prefix</span></code></dt><dd><p>prefix of current executable, e.g. “spl” or “tpl”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*next_prefix</span></code></dt><dd><p>prefix of executable to find, e.g. “spl” or “”</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function is intended to be called from within sandbox SPL. It uses
+a few heuristics to find U-Boot proper. Normally it is either in the same
+directory, or the directory above (since u-boot-spl is normally in an
+spl/ subdirectory when built).</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -NOSPC if the filename is too large, -ENOENT if not found</p>
+<dl class="c function">
+<dt id="c.os_spl_to_uboot">
+int <code class="sig-name descname">os_spl_to_uboot</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fname</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_spl_to_uboot"></a><a class="headerlink" href="#c.os_spl_to_uboot" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Run U-Boot proper</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*fname</span></code></dt><dd><p>full pathname to U-Boot executable</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>When called from SPL, this runs U-Boot proper. The filename is obtained by
+calling os_find_u_boot().</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_localtime">
+void <code class="sig-name descname">os_localtime</code><span class="sig-paren">(</span><em class="property">struct</em> rtc_time *<em>rt</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_localtime"></a><a class="headerlink" href="#c.os_localtime" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>read the current system time</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">rtc_time</span> <span class="pre">*rt</span></code></dt><dd><p>place to put system time</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This reads the current Local Time and places it into the provided
+structure.</p>
+<dl class="c function">
+<dt id="c.os_abort">
+void <code class="sig-name descname">os_abort</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_abort"></a><a class="headerlink" href="#c.os_abort" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>raise SIGABRT to exit sandbox (e.g. to debugger)</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.os_mprotect_allow">
+int <code class="sig-name descname">os_mprotect_allow</code><span class="sig-paren">(</span>void *<em>start</em>, size_t <em>len</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_mprotect_allow"></a><a class="headerlink" href="#c.os_mprotect_allow" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Remove write-protection on a region of memory</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*start</span></code></dt><dd><p>Region start</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">len</span></code></dt><dd><p>Region length in bytes</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The start and length will be page-aligned before use.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -1 on error from mprotect()</p>
+<dl class="c function">
+<dt id="c.os_write_file">
+int <code class="sig-name descname">os_write_file</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> void *<em>buf</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_write_file"></a><a class="headerlink" href="#c.os_write_file" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write a file to the host filesystem</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>File path to write to</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>Data to write</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Size of data to write</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This can be useful when debugging for writing data out of sandbox for
+inspection by external tools.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_read_file">
+int <code class="sig-name descname">os_read_file</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, void **<em>bufp</em>, int *<em>sizep</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_read_file"></a><a class="headerlink" href="#c.os_read_file" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Read a file from the host filesystem</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>File path to read from</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">**bufp</span></code></dt><dd><p>Returns buffer containing data read</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">*sizep</span></code></dt><dd><p>Returns size of data</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This can be useful when reading test data into sandbox for use by test
+routines. The data is allocated using os_malloc() and should be freed by
+the caller.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_map_file">
+int <code class="sig-name descname">os_map_file</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>pathname</em>, int <em>os_flags</em>, void **<em>bufp</em>, int *<em>sizep</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_map_file"></a><a class="headerlink" href="#c.os_map_file" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Map a file from the host filesystem into memory</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*pathname</span></code></dt><dd><p>File pathname to map</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">os_flags</span></code></dt><dd><p>Flags, like OS_O_RDONLY, OS_O_RDWR</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">**bufp</span></code></dt><dd><p>Returns buffer containing the file</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">*sizep</span></code></dt><dd><p>Returns size of data</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This can be useful when to provide a backing store for an emulated device</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_unmap">
+int <code class="sig-name descname">os_unmap</code><span class="sig-paren">(</span>void *<em>buf</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_unmap"></a><a class="headerlink" href="#c.os_unmap" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Unmap a file previously mapped</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>Mapped address</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Size in bytes</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.os_relaunch">
+void <code class="sig-name descname">os_relaunch</code><span class="sig-paren">(</span>char *<em>argv</em>[]<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_relaunch"></a><a class="headerlink" href="#c.os_relaunch" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>restart the sandbox</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*argv[]</span></code></dt><dd><p>NULL terminated list of command line parameters</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This functions is used to implement the cold reboot of the sand box.
+<strong>argv</strong>[0] specifies the binary that is started while the calling process
+stops immediately. If the new binary cannot be started, the process is
+terminated and 1 is set as shell return code.</p>
+<p>The PID of the process stays the same. All file descriptors that have not
+been opened with O_CLOEXEC stay open including stdin, stdout, stderr.</p>
+<dl class="c function">
+<dt id="c.os_setup_signal_handlers">
+int <code class="sig-name descname">os_setup_signal_handlers</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_setup_signal_handlers"></a><a class="headerlink" href="#c.os_setup_signal_handlers" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>setup signal handlers</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Install signal handlers for SIGBUS and SIGSEGV.</p>
+<p><strong>Return</strong></p>
+<p>0 for success</p>
+<dl class="c function">
+<dt id="c.os_signal_action">
+void <code class="sig-name descname">os_signal_action</code><span class="sig-paren">(</span>int <em>sig</em>, unsigned long <em>pc</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_signal_action"></a><a class="headerlink" href="#c.os_signal_action" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>handle a signal</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">sig</span></code></dt><dd><p>signal</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">pc</span></code></dt><dd><p>program counter</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.os_get_time_offset">
+long <code class="sig-name descname">os_get_time_offset</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_get_time_offset"></a><a class="headerlink" href="#c.os_get_time_offset" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get time offset</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Get the time offset from environment variable UBOOT_SB_TIME_OFFSET.</p>
+<p><strong>Return</strong></p>
+<p>offset in seconds</p>
+<dl class="c function">
+<dt id="c.os_set_time_offset">
+void <code class="sig-name descname">os_set_time_offset</code><span class="sig-paren">(</span>long <em>offset</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/os_set_time_offset"></a><a class="headerlink" href="#c.os_set_time_offset" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>set time offset</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">offset</span></code></dt><dd><p>offset in seconds</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Save the time offset in environment variable UBOOT_SB_TIME_OFFSET.</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="rng.html" rel="prev" title="Random number generation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="serial.html" rel="next" title="Serial system">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

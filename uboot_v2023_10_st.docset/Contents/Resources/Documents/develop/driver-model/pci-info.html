@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PCI with Driver Model — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="pmic-framework.html" rel="next" title="PMIC framework based on Driver Model"/>
+<link href="of-plat.html" rel="prev" title="Compiled-in Device Tree / Platform Data"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>PCI with Driver Model</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/pci-info.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/PCI with Driver Model"></a><div class="section" id="pci-with-driver-model">
+<h1>PCI with Driver Model<a class="headerlink" href="#pci-with-driver-model" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How busses are scanned"></a><div class="section" id="how-busses-are-scanned">
+<h2>How busses are scanned<a class="headerlink" href="#how-busses-are-scanned" title="Permalink to this headline">¶</a></h2>
+<p>Any config read will end up at pci_read_config(). This uses
+uclass_get_device_by_seq() to get the PCI bus for a particular bus number.
+Bus number 0 will need to be requested first, and the alias in the device
+tree file will point to the correct device:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>aliases {
+        pci0 = &amp;pcic;
+};
+
+pcic: pci@0 {
+        compatible = "sandbox,pci";
+        ...
+};
+</pre></div>
+</div>
+<p>If there is no alias the devices will be numbered sequentially in the device
+tree.</p>
+<p>The call to uclass_get_device() will cause the PCI bus to be probed.
+This does a scan of the bus to locate available devices. These devices are
+bound to their appropriate driver if available. If there is no driver, then
+they are bound to a generic PCI driver which does nothing.</p>
+<p>After probing a bus, the available devices will appear in the device tree
+under that bus.</p>
+<p>Note that this is all done on a lazy basis, as needed, so until something is
+touched on PCI (eg: a call to pci_find_devices()) it will not be probed.</p>
+<p>PCI devices can appear in the flattened device tree. If they do, their node
+often contains extra information which cannot be derived from the PCI IDs or
+PCI class of the device. Each PCI device node must have a &lt;reg&gt; property, as
+defined by the IEEE Std 1275-1994 PCI bus binding document v2.1. Compatible
+string list is optional and generally not needed, since PCI is discoverable
+bus, albeit there are justified exceptions. If the compatible string is
+present, matching on it takes precedence over PCI IDs and PCI classes.</p>
+<p>Note we must describe PCI devices with the same bus hierarchy as the
+hardware, otherwise driver model cannot detect the correct parent/children
+relationship during PCI bus enumeration thus PCI devices won’t be bound to
+their drivers accordingly. A working example like below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pci {
+        #address-cells = &lt;3&gt;;
+        #size-cells = &lt;2&gt;;
+        compatible = "pci-x86";
+        bootph-all;
+        ranges = &lt;0x02000000 0x0 0x40000000 0x40000000 0 0x80000000
+                  0x42000000 0x0 0xc0000000 0xc0000000 0 0x20000000
+                  0x01000000 0x0 0x2000 0x2000 0 0xe000&gt;;
+
+        pcie@17,0 {
+                #address-cells = &lt;3&gt;;
+                #size-cells = &lt;2&gt;;
+                compatible = "pci-bridge";
+                bootph-all;
+                reg = &lt;0x0000b800 0x0 0x0 0x0 0x0&gt;;
+
+                topcliff@0,0 {
+                        #address-cells = &lt;3&gt;;
+                        #size-cells = &lt;2&gt;;
+                        compatible = "pci-bridge";
+                        bootph-all;
+                        reg = &lt;0x00010000 0x0 0x0 0x0 0x0&gt;;
+
+                        pciuart0: uart@a,1 {
+                                compatible = "pci8086,8811.00",
+                                                "pci8086,8811",
+                                                "pciclass,070002",
+                                                "pciclass,0700",
+                                                "x86-uart";
+                                bootph-all;
+                                reg = &lt;0x00025100 0x0 0x0 0x0 0x0
+                                       0x01025110 0x0 0x0 0x0 0x0&gt;;
+                                ......
+                        };
+
+                        ......
+                };
+        };
+
+        ......
+};
+</pre></div>
+</div>
+<p>In this example, the root PCI bus node is the “/pci” which matches “pci-x86”
+driver. It has a subnode “<a class="reference external" href="mailto:pcie%4017">pcie<span>@</span>17</a>,0” with driver “pci-bridge”. “<a class="reference external" href="mailto:pcie%4017">pcie<span>@</span>17</a>,0”
+also has subnode “topcliff@0,0” which is a “pci-bridge” too. Under that bridge,
+a PCI UART device “uart@a,1” is described. This exactly reflects the hardware
+bus hierarchy: on the root PCI bus, there is a PCIe root port which connects
+to a downstream device Topcliff chipset. Inside Topcliff chipset, it has a
+PCIe-to-PCI bridge and all the chipset integrated devices like the PCI UART
+device are on the PCI bus. Like other devices in the device tree, if we want
+to bind PCI devices before relocation, “bootph-all” must be declared
+in each of these nodes.</p>
+<p>If PCI devices are not listed in the device tree, U_BOOT_PCI_DEVICE can be used
+to specify the driver to use for the device. The device tree takes precedence
+over U_BOOT_PCI_DEVICE. Please note with U_BOOT_PCI_DEVICE, only drivers with
+DM_FLAG_PRE_RELOC will be bound before relocation. If neither device tree nor
+U_BOOT_PCI_DEVICE is provided, the built-in driver (either pci_bridge_drv or
+pci_generic_drv) will be used.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox"></a><div class="section" id="sandbox">
+<h2>Sandbox<a class="headerlink" href="#sandbox" title="Permalink to this headline">¶</a></h2>
+<p>With sandbox we need a device emulator for each device on the bus since there
+is no real PCI bus. This works by looking in the device tree node for an
+emulator driver. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pci@1f,0 {
+        compatible = "pci-generic";
+        reg = &lt;0xf800 0 0 0 0&gt;;
+        sandbox,emul = &lt;&amp;emul_1f&gt;;
+};
+pci-emul {
+        compatible = "sandbox,pci-emul-parent";
+        emul_1f: emul@1f,0 {
+                compatible = "sandbox,swap-case";
+                #emul-cells = &lt;0&gt;;
+        };
+};
+</pre></div>
+</div>
+<p>This means that there is a ‘sandbox,swap-case’ driver at that bus position.
+Note that the first cell in the ‘reg’ value is the bus/device/function. See
+PCI_BDF() for the encoding (it is also specified in the IEEE Std 1275-1994
+PCI bus binding document, v2.1)</p>
+<p>The pci-emul node should go outside the pci bus node, since otherwise it will
+be scanned as a PCI device, causing confusion.</p>
+<p>When this bus is scanned we will end up with something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>`- * pci@0 @ 05c660c8, 0
+ `-   pci@1f,0 @ 05c661c8, 63488
+`-   emul@1f,0 @ 05c662c8
+</pre></div>
+</div>
+<p>When accesses go to the <a class="reference external" href="mailto:pci%401f">pci<span>@</span>1f</a>,0 device they are forwarded to its emulator.</p>
+<p>The sandbox PCI drivers also support dynamic driver binding, allowing device
+driver to declare the driver binding information via U_BOOT_PCI_DEVICE(),
+eliminating the need to provide any device tree node under the host controller
+node. It is required a “sandbox,dev-info” property must be provided in the
+host controller node for this functionality to work.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pci1: pci@1 {
+        compatible = "sandbox,pci";
+        ...
+        sandbox,dev-info = &lt;0x08 0x00 0x1234 0x5678
+                            0x0c 0x00 0x1234 0x5678&gt;;
+};
+</pre></div>
+</div>
+<p>The “sandbox,dev-info” property specifies all dynamic PCI devices on this bus.
+Each dynamic PCI device is encoded as 4 cells a group. The first and second
+cells are PCI device number and function number respectively. The third and
+fourth cells are PCI vendor ID and device ID respectively.</p>
+<p>When this bus is scanned we will end up with something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pci        [ + ]   pci_sandbo  |-- pci1
+pci_emul   [   ]   sandbox_sw  |   |-- sandbox_swap_case_emul
+pci_emul   [   ]   sandbox_sw  |   `-- sandbox_swap_case_emul
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="of-plat.html" rel="prev" title="Compiled-in Device Tree / Platform Data"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="pmic-framework.html" rel="next" title="PMIC framework based on Driver Model">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

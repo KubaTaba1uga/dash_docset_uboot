@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>i.MX7D/i.MX8MM SRC_GPR10 PERSIST_SECONDARY_BOOT for bootloader A/B switching — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../openpiton/index.html" rel="next" title="OpenPiton"/>
+<link href="mx6ullevk.html" rel="prev" title="mx6ullevk"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">NXP Semiconductors</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="imx8mm_evk.html">imx8mm_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mn_evk.html">imx8mn_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mp_evk.html">imx8mp_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mq_evk.html">imx8mq_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8qxp_mek.html">imx8qxp_mek</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxrt1020-evk.html">imxrt1020-evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxrt1050-evk.html">imxrt1050-evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ls1046ardb.html">LS1046ARDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6sabreauto.html">mx6sabreauto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6sabresd.html">mx6sabresd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6ul_14x14_evk.html">mx6ul_14x14_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6ullevk.html">mx6ullevk</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">i.MX7D/i.MX8MM SRC_GPR10 PERSIST_SECONDARY_BOOT for bootloader A/B switching</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operation">Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">NXP Semiconductors</a> »</li>
+<li>i.MX7D/i.MX8MM SRC_GPR10 PERSIST_SECONDARY_BOOT for bootloader A/B switching</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/nxp/psb.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/i.MX7D/i.MX8MM SRC_GPR10 PERSIST_SECONDARY_BOOT for bootloader A/B switching"></a><div class="section" id="i-mx7d-i-mx8mm-src-gpr10-persist-secondary-boot-for-bootloader-a-b-switching">
+<h1>i.MX7D/i.MX8MM SRC_GPR10 PERSIST_SECONDARY_BOOT for bootloader A/B switching<a class="headerlink" href="#i-mx7d-i-mx8mm-src-gpr10-persist-secondary-boot-for-bootloader-a-b-switching" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Since at least iMX53 until iMX8MM, it is possible to have two copies of
+bootloader in SD/eMMC and switch between them. The switch is triggered
+either by the BootROM in case the bootloader image is faulty OR can be
+enforced by the user.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Operation"></a><div class="section" id="operation">
+<h2>Operation<a class="headerlink" href="#operation" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Upon Power-On Reset (POR)</p>
+<ul>
+<li><p>SRC_GPR10 bit PERSIST_SECONDARY_BOOT is set to 0</p></li>
+<li><p>BootROM attempts to start bootloader A-copy</p>
+<ul>
+<li><p>if A-copy valid</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>BootROM starts A-copy</p></li>
+<li><p>END</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>if A-copy NOT valid</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>BootROM sets SRC_GPR10 bit PERSIST_SECONDARY_BOOT to 1</p></li>
+<li><p>BootROM triggers WARM reset, GOTO 1)</p></li>
+<li><p>END</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Upon COLD Reset</p>
+<ul class="simple">
+<li><p>GOTO 1)</p></li>
+<li><p>END</p></li>
+</ul>
+</li>
+<li><p>Upon WARM Reset</p>
+<ul class="simple">
+<li><p>SRC_GPR10 bit PERSIST_SECONDARY_BOOT is retained</p>
+<ul>
+<li><p>if SRC_GPR10 bit PERSIST_SECONDARY_BOOT is 0</p>
+<ul>
+<li><p>BootROM attempts to start bootloader A-copy</p>
+<ul>
+<li><p>if A-copy valid</p>
+<ul>
+<li><p>BootROM starts A-copy</p></li>
+<li><p>END</p></li>
+</ul>
+</li>
+<li><p>if A-copy NOT valid</p>
+<ul>
+<li><p>BootROM sets SRC_GPR10 bit PERSIST_SECONDARY_BOOT to 1</p></li>
+<li><p>BootROM triggers WARM reset. GOTO 1.3)</p></li>
+<li><p>END</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>if SRC_GPR10 bit PERSIST_SECONDARY_BOOT is 1</p>
+<ul>
+<li><p>BootROM attempts to start bootloader B-copy</p>
+<ul>
+<li><p>if B-copy valid</p>
+<ul>
+<li><p>BootROM starts B-copy</p></li>
+<li><p>END</p></li>
+</ul>
+</li>
+<li><p>if B-copy NOT valid
+- System hangs
+- END</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Setup"></a><div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>The bootloader A-copy must be placed at predetermined offset in SD/eMMC. The
+bootloader B-copy area offset is determined by an offset stored in Secondary
+Image Table (SIT). The SIT must be placed at predetermined offset in SD/eMMC.</p>
+<p>The following table contains offset of SIT, bootloader A-copy and recommended
+bootloader B-copy offset. The offsets are in 512 Byte sector units (that is
+offset 0x1 means 512 Bytes from the start of SD/eMMC card data partition).
+For details on the addition of two numbers in recommended B-copy offset, see
+SIT format below.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%"/>
+<col style="width: 26%"/>
+<col style="width: 18%"/>
+<col style="width: 21%"/>
+<col style="width: 26%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>SoC</p></td>
+<td><p>Boot Device Type</p></td>
+<td><p>SIT offset (fixed)</p></td>
+<td><p>A-copy offset (fixed)</p></td>
+<td><p>B-copy offset (recommended)</p></td>
+</tr>
+<tr class="row-even"><td><p>iMX7D</p></td>
+<td></td>
+<td><p>0x1</p></td>
+<td><p>0x2</p></td>
+<td><p>0x800+0x2</p></td>
+</tr>
+<tr class="row-odd"><td><p>iMX8MM</p></td>
+<td><p>SD/eSD/MMC/eMMC normal boot</p></td>
+<td><p>0x41</p></td>
+<td><p>0x42</p></td>
+<td><p>0x1000+0x42</p></td>
+</tr>
+<tr class="row-even"><td><p>iMX8MM</p></td>
+<td><p>eMMC Fast boot fuse blown</p></td>
+<td><p>0x1</p></td>
+<td><p>0x2</p></td>
+<td><p>0x1000+0x2</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="sit-format">
+<h3>SIT format<a class="headerlink" href="#sit-format" title="Permalink to this headline">¶</a></h3>
+<p>SIT is a 20 byte long structure containing of 5 32-bit words. Those encode
+bootloader B-copy area offset (called “firstSectorNumber”), magic value
+(called “tag”) that is always 0x00112233, and three unused words set to 0.
+SIT is documented in <a class="footnote-reference brackets" href="#id3" id="id1">1</a> and <a class="footnote-reference brackets" href="#id4" id="id2">2</a>. Example SIT are below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ hexdump -vC sit-mx7d.bin
+  00000000  00 00 00 00
+  00000004  00 00 00 00
+  00000008  33 22 11 00 &lt;--- This is the "tag"
+  0000000c  00 08 00 00 &lt;--- This is the "firstSectorNumber"
+  00000010  00 00 00 00
+
+$ hexdump -vC sit-mx8mm.bin
+  00000000  00 00 00 00
+  00000004  00 00 00 00
+  00000008  33 22 11 00 &lt;--- This is the "tag"
+  0000000c  00 10 00 00 &lt;--- This is the "firstSectorNumber"
+  00000010  00 00 00 00
+</pre></div>
+</div>
+<p>B-copy area offset (“firstSectorNumber”) is offset, in units of 512 Byte
+sectors, that is added to the start of boot media when switching between
+A-copy and B-copy. For A-copy, this offset is 0x0. For B-copy, this offset
+is determined by SIT (e.g. if firstSectorNumber is 0x1000 as it is above
+in sit-mx8mm.bin, then the B-copy offset is 0x1000 sectors = 2 MiB).</p>
+<p>Bootloader A-copy (e.g. u-boot.imx or flash.bin) is placed at fixed offset
+from A-copy area offset (e.g. 0x2 sectors from sector 0x0 for iMX7D, which
+means u-boot.imx A-copy must be written to sector 0x2).</p>
+<p>The same applies to bootloader B-copy, which is placed at fixed offset from
+B-copy area offset determined by SIT (e.g. 0x2 sectors from sector 0x800 [see
+sit-mx7d.bin example above, this can be changed in SIT firstSectorNumber] for
+iMX7D, which means u-boot.imx B-copy must be written to sector 0x802)</p>
+<p><strong>WARNING:</strong>
+B-copy area offset (“firstSectorNumber”) is NOT equal to bootloader
+(image, which is u-boot.imx or flash.bin) B-copy offset.</p>
+<p>To generate SIT, use for example the following bourne shell printf command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ printf '\x0\x0\x0\x0\x0\x0\x0\x0\x33\x22\x11\x00\x00\x08\x00\x00\x0\x0\x0\x0' &gt; sit-mx7d.bin
+$ printf '\x0\x0\x0\x0\x0\x0\x0\x0\x33\x22\x11\x00\x00\x10\x00\x00\x0\x0\x0\x0' &gt; sit-mx8mm.bin
+</pre></div>
+</div>
+</div>
+<div class="section" id="write-bootloader-a-b-copy-and-sit-to-sd-emmc">
+<h3>Write bootloader A/B copy and SIT to SD/eMMC<a class="headerlink" href="#write-bootloader-a-b-copy-and-sit-to-sd-emmc" title="Permalink to this headline">¶</a></h3>
+<p>Examples of writing SIT and two copies of bootloader to SD or eMMC:</p>
+<ul>
+<li><p>iMX8MM, SD card at /dev/sdX, Linux command line</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ dd if=sit-mx8mm.bin of=/dev/sdX bs=512 seek=65
+$ dd if=flash.bin     of=/dev/sdX bs=512 seek=66
+$ dd if=flash.bin     of=/dev/sdX bs=512 seek=4162
+</pre></div>
+</div>
+</li>
+<li><p>iMX8MM, eMMC 1 data partition, U-Boot command line</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; mmc partconf 1 0 0 0
+
+=&gt; dhcp ${loadaddr} sit-mx8mm.bin
+=&gt; mmc dev 1
+=&gt; mmc write ${loadaddr} 0x41 0x1
+
+=&gt; dhcp ${loadaddr} flash.bin
+=&gt; setexpr blkcnt ${filesize} + 0x1ff &amp;&amp; setexpr blkcnt ${blkcnt} / 0x200
+=&gt; mmc dev 1
+=&gt; mmc write ${loadaddr} 0x42   ${blkcnt}
+=&gt; mmc write ${loadaddr} 0x1042 ${blkcnt}
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="warm-reset-into-b-copy-using-wdt">
+<h3>WARM reset into B-copy using WDT<a class="headerlink" href="#warm-reset-into-b-copy-using-wdt" title="Permalink to this headline">¶</a></h3>
+<p>To perform a reboot into B-copy, the PERSIST_SECONDARY_BOOT must be set
+in SRC_GPR10 register. Example on iMX8MM:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; mw 0x30390098 0x40000000
+</pre></div>
+</div>
+<p>A WARM reset can be triggered using WDT as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; mw.w 0x30280000 0x25
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/References"></a><div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>i.MX 7Dual Applications Processor Reference Manual, Rev. 1, 01/2018 ; section 6.6.5.3.5 Redundant boot support for expansion device</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>i.MX 8M Mini Applications Processor Reference Manual, Rev. 3, 11/2020 ; section 6.1.5.4.5 Redundant boot support for expansion device</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="mx6ullevk.html" rel="prev" title="mx6ullevk"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../openpiton/index.html" rel="next" title="OpenPiton">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

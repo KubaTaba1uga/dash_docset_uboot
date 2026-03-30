@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M68K / ColdFire — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="mips.html" rel="next" title="MIPS"/>
+<link href="arm64.ffa.html" rel="prev" title="Arm FF-A Support"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html">ARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">M68K / ColdFire</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#history">History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-cpu-families">Supported CPU families</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-boards">Supported boards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-u-boot-for-a-specific-board">Build U-Boot for a specific board</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#adopted-toolchains">Adopted toolchains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coldfire-specific-configuration-options-settings">ColdFire specific configuration options/settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-to-use-a-pre-loader">Configuration to use a pre-loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coldfire-cpu-specific-options-settings">ColdFire CPU specific options/settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html">RISC-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/index.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Architecture-specific doc</a> »</li>
+<li>M68K / ColdFire</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/arch/m68k.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/M68K / ColdFire"></a><div class="section" id="m68k-coldfire">
+<h1>M68K / ColdFire<a class="headerlink" href="#m68k-coldfire" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/History"></a><div class="section" id="history">
+<h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>November 02, 2017     Angelo Dureghello &lt;<a class="reference external" href="mailto:angelo%40kernel-space.org">angelo<span>@</span>kernel-space<span>.</span>org</a>&gt;</p></li>
+<li><p>August   08, 2005     Jens Scharsig &lt;<a class="reference external" href="mailto:esw%40bus-elektronik.de">esw<span>@</span>bus-elektronik<span>.</span>de</a>&gt;
+MCF5282 implementation without preloader</p></li>
+<li><p>January  12, 2004     &lt;<a class="reference external" href="mailto:josef.baumgartner%40telex.de">josef<span>.</span>baumgartner<span>@</span>telex<span>.</span>de</a>&gt;</p></li>
+</ul>
+<p>This file contains status information for the port of U-Boot to the
+Motorola ColdFire series of CPUs.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The ColdFire instruction set is “assembly source” compatible but an evolution
+of the original 68000 instruction set. Some not much used instructions has
+been removed. The instructions are only 16, 32, or 48 bits long, a
+simplification compared to the 68000 series.</p>
+<p>Bernhard Kuhn ported U-Boot 0.4.0 to the Motorola ColdFire architecture.
+The patches of Bernhard support the MCF5272 and MCF5282. A great disadvantage
+of these patches was that they needed a pre-bootloader to start U-Boot.
+Because of this, a new port was created which no longer needs a first stage
+booter.</p>
+<p>Thanks mainly to Freescale but also to several other contributors, U-Boot now
+supports nearly the entire range of ColdFire processors and their related
+development boards.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Supported CPU families"></a><div class="section" id="supported-cpu-families">
+<h2>Supported CPU families<a class="headerlink" href="#supported-cpu-families" title="Permalink to this headline">¶</a></h2>
+<p>Please “make menuconfig” and select “m68k” or check arch/m68k/cpu to see the
+currently supported processor and families.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Supported boards"></a><div class="section" id="supported-boards">
+<h2>Supported boards<a class="headerlink" href="#supported-boards" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot supports actually more than 40 ColdFire based boards.
+Board configuration can be done trough include/configs/&lt;boardname&gt;.h but the
+current recommended method is to use the new and more friendly approach as
+the “make menuconfig” way, very similar to the Linux way.</p>
+<p>To know details as memory map, build targets, default setup, etc, of a
+specific board please check:</p>
+<ul class="simple">
+<li><p>include/configs/&lt;boardname&gt;.h</p></li>
+</ul>
+<p>and/or</p>
+<ul class="simple">
+<li><p>configs/&lt;boardname&gt;_defconfig</p></li>
+</ul>
+<p>It is possible to build all ColdFire boards in a single command-line command,
+from u-boot root directory, as:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./tools/buildman/buildman m68k
+</pre></div>
+</div>
+<div class="section" id="build-u-boot-for-a-specific-board">
+<h3>Build U-Boot for a specific board<a class="headerlink" href="#build-u-boot-for-a-specific-board" title="Permalink to this headline">¶</a></h3>
+<p>A bash script similar to the one below may be used:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>/opt/toolchains/m68k/gcc-4.9.0-nolibc/bin/m68k-linux-
+
+<span class="nv">board</span><span class="o">=</span>M5249EVB
+
+make<span class="w"> </span>distclean
+make<span class="w"> </span><span class="si">${</span><span class="nv">board</span><span class="si">}</span>_defconfig
+make<span class="w"> </span><span class="nv">KBUILD_VERBOSE</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Adopted toolchains"></a><div class="section" id="adopted-toolchains">
+<h2>Adopted toolchains<a class="headerlink" href="#adopted-toolchains" title="Permalink to this headline">¶</a></h2>
+<p>Please check:
+<a class="reference external" href="https://www.denx.de/wiki/U-Boot/ColdFireNotes">https://www.denx.de/wiki/U-Boot/ColdFireNotes</a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/ColdFire specific configuration options/settings"></a><div class="section" id="coldfire-specific-configuration-options-settings">
+<h2>ColdFire specific configuration options/settings<a class="headerlink" href="#coldfire-specific-configuration-options-settings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configuration-to-use-a-pre-loader">
+<h3>Configuration to use a pre-loader<a class="headerlink" href="#configuration-to-use-a-pre-loader" title="Permalink to this headline">¶</a></h3>
+<p>If U-Boot should be loaded to RAM and started by a pre-loader
+CONFIG_MONITOR_IS_IN_RAM must be enabled. If it is enabled the
+initial vector table and basic processor initialization will not
+be compiled in. The start address of U-Boot must be adjusted in
+the boards defconfig file (CONFIG_SYS_MONITOR_BASE) and Makefile
+(CONFIG_TEXT_BASE) to the load address.</p>
+</div>
+<div class="section" id="coldfire-cpu-specific-options-settings">
+<h3>ColdFire CPU specific options/settings<a class="headerlink" href="#coldfire-cpu-specific-options-settings" title="Permalink to this headline">¶</a></h3>
+<p>To specify a CPU model, some defines shoudl be used, i.e.:</p>
+<dl class="simple">
+<dt>CONFIG_MCF52x2:</dt><dd><p>defined for all MCF52x2 CPUs</p>
+</dd>
+<dt>CONFIG_M5272:</dt><dd><p>defined for all Motorola MCF5272 CPUs</p>
+</dd>
+</dl>
+<p>Other options, generally set inside include/configs/&lt;boardname&gt;.h, they may
+apply to one or more cpu for the ColdFire family:</p>
+<dl class="simple">
+<dt>CFG_SYS_MBAR:</dt><dd><p>defines the base address of the MCF5272 configuration registers</p>
+</dd>
+<dt>CFG_SYS_SCR:</dt><dd><p>defines the contents of the System Configuration Register</p>
+</dd>
+<dt>CFG_SYS_SPR:</dt><dd><p>defines the contents of the System Protection Register</p>
+</dd>
+<dt>CFG_SYS_MFD:</dt><dd><p>defines the PLL Multiplication Factor Divider
+(see table 9-4 of MCF user manual)</p>
+</dd>
+<dt>CFG_SYS_RFD:</dt><dd><p>defines the PLL Reduce Frequency Devider
+(see table 9-4 of MCF user manual)</p>
+</dd>
+<dt>CONFIG_SYS_CSx_BASE:</dt><dd><p>defines the base address of chip select x</p>
+</dd>
+<dt>CONFIG_SYS_CSx_SIZE:</dt><dd><p>defines the memory size (address range) of chip select x</p>
+</dd>
+<dt>CONFIG_SYS_CSx_WIDTH:</dt><dd><p>defines the bus with of chip select x</p>
+</dd>
+<dt>CONFIG_SYS_CSx_MASK:</dt><dd><p>defines the mask for the related chip select x</p>
+</dd>
+<dt>CONFIG_SYS_CSx_RO:</dt><dd><p>if set to 0 chip select x is read/write else chip select is read only</p>
+</dd>
+<dt>CONFIG_SYS_CSx_WS:</dt><dd><p>defines the number of wait states  of chip select x</p>
+</dd>
+<dt>CFG_SYS_CACHE_ICACR:</dt><dd><p>cache-related registers config</p>
+</dd>
+<dt>CFG_SYS_CACHE_DCACR:</dt><dd><p>cache-related registers config</p>
+</dd>
+<dt>CONFIG_SYS_CACHE_ACRX:</dt><dd><p>cache-related registers config</p>
+</dd>
+<dt>CFG_SYS_SDRAM_BASE:</dt><dd><p>SDRAM config for SDRAM controller-specific registers</p>
+</dd>
+<dt>CFG_SYS_SDRAM_SIZE:</dt><dd><p>SDRAM config for SDRAM controller-specific registers</p>
+</dd>
+<dt>CFG_SYS_SDRAM_BASEX:</dt><dd><p>SDRAM config for SDRAM controller-specific registers</p>
+</dd>
+<dt>CFG_SYS_SDRAM_CFG1:</dt><dd><p>SDRAM config for SDRAM controller-specific registers</p>
+</dd>
+<dt>CFG_SYS_SDRAM_CFG2:</dt><dd><p>SDRAM config for SDRAM controller-specific registers</p>
+</dd>
+<dt>CFG_SYS_SDRAM_CTRL:</dt><dd><p>SDRAM config for SDRAM controller-specific registers</p>
+</dd>
+<dt>CFG_SYS_SDRAM_MODE:</dt><dd><p>SDRAM config for SDRAM controller-specific registers</p>
+</dd>
+<dt>CFG_SYS_SDRAM_EMOD:</dt><dd><p>SDRAM config for SDRAM controller-specific registers, please
+see arch/m68k/cpu/&lt;specific_cpu&gt;/start.S files to see how
+these options are used.</p>
+</dd>
+<dt>CONFIG_MCFUART:</dt><dd><p>defines enabling of ColdFire UART driver</p>
+</dd>
+<dt>CFG_SYS_UART_PORT:</dt><dd><p>defines the UART port to be used (only a single UART can be actually enabled)</p>
+</dd>
+<dt>CFG_SYS_SBFHDR_SIZE:</dt><dd><p>size of the prepended SBF header, if any</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="arm64.ffa.html" rel="prev" title="Arm FF-A Support"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="mips.html" rel="next" title="MIPS">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>mx6sabresd — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="mx6ul_14x14_evk.html" rel="next" title="mx6ul_14x14_evk"/>
+<link href="mx6sabreauto.html" rel="prev" title="mx6sabreauto"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">NXP Semiconductors</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="imx8mm_evk.html">imx8mm_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mn_evk.html">imx8mn_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mp_evk.html">imx8mp_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mq_evk.html">imx8mq_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8qxp_mek.html">imx8qxp_mek</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxrt1020-evk.html">imxrt1020-evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxrt1050-evk.html">imxrt1050-evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ls1046ardb.html">LS1046ARDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6sabreauto.html">mx6sabreauto</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">mx6sabresd</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-use-and-build-u-boot-on-mx6sabresd">How to use and build U-Boot on mx6sabresd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booting-from-sd-card-via-spl">1. Booting from SD card via SPL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booting-from-emmc">2. Booting from eMMC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booting-via-falcon-mode">3. Booting via Falcon mode</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mx6ul_14x14_evk.html">mx6ul_14x14_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6ullevk.html">mx6ullevk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="psb.html">i.MX7D/i.MX8MM SRC_GPR10 PERSIST_SECONDARY_BOOT for bootloader A/B switching</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">NXP Semiconductors</a> »</li>
+<li>mx6sabresd</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/nxp/mx6sabresd.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/mx6sabresd"></a><div class="section" id="mx6sabresd">
+<h1>mx6sabresd<a class="headerlink" href="#mx6sabresd" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to use and build U-Boot on mx6sabresd"></a><div class="section" id="how-to-use-and-build-u-boot-on-mx6sabresd">
+<h2>How to use and build U-Boot on mx6sabresd<a class="headerlink" href="#how-to-use-and-build-u-boot-on-mx6sabresd" title="Permalink to this headline">¶</a></h2>
+<p>The following methods can be used for booting mx6sabresd boards:</p>
+<ol class="arabic simple">
+<li><p>Booting from SD card</p></li>
+<li><p>Booting from eMMC</p></li>
+<li><p>Booting via Falcon mode (SPL launches the kernel directly)</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/1. Booting from SD card via SPL"></a><div class="section" id="booting-from-sd-card-via-spl">
+<h2>1. Booting from SD card via SPL<a class="headerlink" href="#booting-from-sd-card-via-spl" title="Permalink to this headline">¶</a></h2>
+<p>mx6sabresd_defconfig target supports mx6q/mx6dl/mx6qp sabresd variants.</p>
+<p>In order to build it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>mx6sabresd_defconfig
+$<span class="w"> </span>make
+</pre></div>
+</div>
+<p>This will generate the SPL and u-boot-dtb.img binaries.</p>
+<ul class="simple">
+<li><p>Flash the SPL binary into the SD card:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>SPL<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdX<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1K<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sync
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Flash the u-boot-dtb.img binary into the SD card:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>u-boot-dtb.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdX<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1K<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">69</span><span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sync
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/2. Booting from eMMC"></a><div class="section" id="booting-from-emmc">
+<h2>2. Booting from eMMC<a class="headerlink" href="#booting-from-emmc" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>mx6sabresd_defconfig
+$<span class="w"> </span>make
+</pre></div>
+</div>
+<p>This will generate the SPL and u-boot-dtb.img binaries.</p>
+<ul class="simple">
+<li><p>Boot first from SD card as shown in the previous section</p></li>
+</ul>
+<p>In U-Boot change the eMMC partition config:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; mmc partconf 2 1 0 0
+</pre></div>
+</div>
+<p>Mount the eMMC in the host PC:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; ums 0 mmc 2
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Flash SPL and u-boot-dtb.img binaries into the eMMC:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>SPL<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdX<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1K<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sync
+$<span class="w"> </span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>u-boot-dtb.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdX<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1K<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">69</span><span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sync
+</pre></div>
+</div>
+<p>Set SW6 to eMMC 8-bit boot: 11010110</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/3. Booting via Falcon mode"></a><div class="section" id="booting-via-falcon-mode">
+<h2>3. Booting via Falcon mode<a class="headerlink" href="#booting-via-falcon-mode" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>mx6sabresd_defconfig
+$<span class="w"> </span>make
+</pre></div>
+</div>
+<p>This will generate the SPL image called SPL and the u-boot-dtb.img.</p>
+<ul class="simple">
+<li><p>Flash the SPL image into the SD card</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>SPL<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdX<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1K<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync<span class="w"> </span><span class="nv">status</span><span class="o">=</span>none<span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sync
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Flash the u-boot-dtb.img image into the SD card</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>u-boot-dtb.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdX<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1K<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">69</span><span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync<span class="w"> </span><span class="nv">status</span><span class="o">=</span>none<span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sync
+</pre></div>
+</div>
+<p>Create a partition for root file system and extract it there</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>tar<span class="w"> </span>xvf<span class="w"> </span>rootfs.tar.gz<span class="w"> </span>-C<span class="w"> </span>/media/root
+</pre></div>
+</div>
+<p>The SD card must have enough space for raw “args” and “kernel”.
+To configure Falcon mode for the first time, on U-Boot do the following commands:</p>
+<ul>
+<li><p>Setup the IP server:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># setenv serverip &lt;server_ip_address&gt;
+</pre></div>
+</div>
+</li>
+<li><p>Download dtb file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># dhcp ${fdt_addr} imx6q-sabresd.dtb
+</pre></div>
+</div>
+</li>
+<li><p>Download kernel image:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># dhcp ${loadaddr} uImage
+</pre></div>
+</div>
+</li>
+<li><p>Write kernel at 2MB offset:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># mmc write ${loadaddr} 0x1000 0x4000
+</pre></div>
+</div>
+</li>
+<li><p>Setup kernel bootargs:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># setenv bootargs "console=ttymxc0,115200 root=/dev/mmcblk1p1 rootfstype=ext4 rootwait quiet rw"
+</pre></div>
+</div>
+</li>
+<li><p>Prepare args:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># spl export fdt ${loadaddr} - ${fdt_addr}
+</pre></div>
+</div>
+</li>
+<li><p>Write args 1MB data (0x800 sectors) to 1MB offset (0x800 sectors):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># mmc write 18000000 0x800 0x800
+</pre></div>
+</div>
+</li>
+<li><p>Press KEY_VOL_UP key, power up the board and then SPL binary will launch the kernel directly.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="mx6sabreauto.html" rel="prev" title="mx6sabreauto"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="mx6ul_14x14_evk.html" rel="next" title="mx6ul_14x14_evk">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

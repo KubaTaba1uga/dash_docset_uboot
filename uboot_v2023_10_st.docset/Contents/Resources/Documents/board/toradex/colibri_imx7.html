@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Colibri iMX7 Modules — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="colibri-imx8x.html" rel="next" title="Colibri iMX8X Module"/>
+<link href="apalis-imx8.html" rel="prev" title="Apalis iMX8 Module"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Toradex</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apalis-imx8.html">Apalis iMX8 Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Colibri iMX7 Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-u-boot">Build U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imx-image-adjustments-prior-to-flashing">IMX image adjustments prior to flashing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flash-u-boot-imx-image-to-emmc">Flash U-Boot IMX image to eMMC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flash-u-boot-imx-image-to-nand">Flash U-Boot IMX image to NAND</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-update-uboot-script">Using update_uboot script</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="colibri-imx8x.html">Colibri iMX8X Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verdin-am62.html">Verdin AM62 Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verdin-imx8mm.html">Verdin iMX8M Mini Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verdin-imx8mp.html">Verdin iMX8M Plus Module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Toradex</a> »</li>
+<li>Colibri iMX7 Modules</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/toradex/colibri_imx7.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Colibri iMX7 Modules"></a><div class="section" id="colibri-imx7-modules">
+<h1>Colibri iMX7 Modules<a class="headerlink" href="#colibri-imx7-modules" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>SoM: <a class="reference external" href="https://www.toradex.com/computer-on-modules/colibri-arm-family/nxp-freescale-imx7">https://www.toradex.com/computer-on-modules/colibri-arm-family/nxp-freescale-imx7</a></p></li>
+<li><p>Carrier board: <a class="reference external" href="https://www.toradex.com/products/carrier-board/colibri-evaluation-board">https://www.toradex.com/products/carrier-board/colibri-evaluation-board</a></p></li>
+</ul>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Quick Start"></a><div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Build U-Boot</p></li>
+<li><p>NAND IMX image adjustments before flashing</p></li>
+<li><p>Flashing manually U-Boot to eMMC</p></li>
+<li><p>Flashing manually U-Boot to NAND</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">update_uboot</span></code> script</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build U-Boot"></a><div class="section" id="build-u-boot">
+<h2>Build U-Boot<a class="headerlink" href="#build-u-boot" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>arm-linux-gnueabi-
+$<span class="w"> </span>make<span class="w"> </span>colibri_imx7_emmc_defconfig<span class="w"> </span><span class="c1"># For NAND: colibri_imx7_defconfig</span>
+$<span class="w"> </span>make
+</pre></div>
+</div>
+<p>After the build succeeds, you will obtain the final <code class="docutils literal notranslate"><span class="pre">u-boot-dtb.imx</span></code> IMX
+specific image, ready for flashing (but check next section for additional
+adjustments).</p>
+<p>The final IMX program image includes (section <code class="docutils literal notranslate"><span class="pre">6.6.7</span></code> from <a class="reference external" href="https://www.nxp.com/webapp/Download?colCode=IMX7DRM">IMX7DRM</a>):</p>
+<ul class="simple">
+<li><p><strong>Image vector table</strong> (IVT) for BootROM</p></li>
+<li><p><strong>Boot data</strong> -indicates the program image location, program image size
+in bytes, and the plugin flag.</p></li>
+<li><p><strong>Device configuration data</strong></p></li>
+<li><p><strong>User image</strong>: U-Boot image (<code class="docutils literal notranslate"><span class="pre">u-boot-dtb.bin</span></code>)</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/IMX image adjustments prior to flashing"></a><div class="section" id="imx-image-adjustments-prior-to-flashing">
+<h2>IMX image adjustments prior to flashing<a class="headerlink" href="#imx-image-adjustments-prior-to-flashing" title="Permalink to this headline">¶</a></h2>
+<p>1. U-Boot for both Colibri iMX7 NAND and eMMC versions
+is built with HABv4 support (<a class="reference external" href="https://www.nxp.com/docs/en/application-note/AN4581.pdf">AN4581.pdf</a>)
+enabled by default, which requires generating a proper
+Command Sequence File (CSF) by srktool from NXP (not included in the
+U-Boot tree, check additional details in introduction_habv4.txt)
+and concatenate it to the final <code class="docutils literal notranslate"><span class="pre">u-boot-dtb.imx</span></code>.</p>
+<p>2. In case you don’t want to generate a proper <code class="docutils literal notranslate"><span class="pre">CSF</span></code> (for any reason),
+you still need to pad the IMX image so it has the same size as specified in
+the <strong>Boot Data</strong> section of the IMX image.
+To obtain this value, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>od<span class="w"> </span>-X<span class="w"> </span>-N<span class="w"> </span>0x30<span class="w"> </span>u-boot-dtb.imx
+<span class="m">0000000</span><span class="w">    </span>402000d1<span class="w"> </span><span class="m">87800000</span><span class="w"> </span><span class="m">00000000</span><span class="w"> </span>877ff42c
+<span class="m">0000020</span><span class="w">    </span>877ff420<span class="w"> </span>877ff400<span class="w"> </span>878a5000<span class="w"> </span><span class="m">00000000</span>
+<span class="w">                    </span>^^^^^^^^
+<span class="m">0000040</span><span class="w">    </span>877ff000<span class="w"> </span>000a8060<span class="w"> </span><span class="m">00000000</span><span class="w"> </span>40b401d2
+<span class="w">           </span>^^^^^^^^<span class="w"> </span>^^^^^^^^
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">877ff400</span></code> - IVT self address</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">877ff000</span></code> - Program image address</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">000a8060</span></code> - Program image size</p></li>
+</ul>
+<p>To calculate the padding:</p>
+<ul class="simple">
+<li><p>IVT offset = <code class="docutils literal notranslate"><span class="pre">0x877ff400</span></code> - <code class="docutils literal notranslate"><span class="pre">0x877ff000</span></code> = <code class="docutils literal notranslate"><span class="pre">0x400</span></code></p></li>
+<li><p>Program image size = <code class="docutils literal notranslate"><span class="pre">0xa8060</span></code> - <code class="docutils literal notranslate"><span class="pre">0x400</span></code> = <code class="docutils literal notranslate"><span class="pre">0xa7c60</span></code></p></li>
+</ul>
+<p>and then pad the image:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>objcopy<span class="w"> </span>-I<span class="w"> </span>binary<span class="w"> </span>-O<span class="w"> </span>binary<span class="w"> </span>--pad-to<span class="w"> </span>0xa7c60<span class="w"> </span>--gap-fill<span class="o">=</span>0x00<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>u-boot-dtb.imx<span class="w"> </span>u-boot-dtb.imx.zero-padded
+</pre></div>
+</div>
+<p>3. Also, according to the requirement from <code class="docutils literal notranslate"><span class="pre">6.6.7.1</span></code>, the final image
+should have <code class="docutils literal notranslate"><span class="pre">0x400</span></code> offset for the initial IVT table.</p>
+<p>For eMMC setup we handle this by flashing it to <code class="docutils literal notranslate"><span class="pre">0x400</span></code>, however
+for NAND setup we adjust the image prior to flashing, adding padding at the
+beginning of the image.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>u-boot-dtb.imx.zero-padded<span class="w"> </span><span class="nv">of</span><span class="o">=</span>u-boot-dtb.imx.ready<span class="w"> </span><span class="nv">bs</span><span class="o">=</span><span class="m">1024</span><span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flash U-Boot IMX image to eMMC"></a><div class="section" id="flash-u-boot-imx-image-to-emmc">
+<h2>Flash U-Boot IMX image to eMMC<a class="headerlink" href="#flash-u-boot-imx-image-to-emmc" title="Permalink to this headline">¶</a></h2>
+<p>Flash the <code class="docutils literal notranslate"><span class="pre">u-boot-dtb.imx.zero-padded</span></code> binary to the primary eMMC hardware
+boot area partition:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">=</span>&gt;<span class="w"> </span>load<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span>u-boot-dtb.imx.zero-padded
+<span class="o">=</span>&gt;<span class="w"> </span>setexpr<span class="w"> </span>blkcnt<span class="w"> </span><span class="si">${</span><span class="nv">filesize</span><span class="si">}</span><span class="w"> </span>+<span class="w"> </span>0x1ff<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>setexpr<span class="w"> </span>blkcnt<span class="w"> </span><span class="si">${</span><span class="nv">blkcnt</span><span class="si">}</span><span class="w"> </span>/<span class="w"> </span><span class="nv">0x200</span>
+<span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span>dev<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nv">1</span>
+<span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>0x2<span class="w"> </span><span class="si">${</span><span class="nv">blkcnt</span><span class="si">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flash U-Boot IMX image to NAND"></a><div class="section" id="flash-u-boot-imx-image-to-nand">
+<h2>Flash U-Boot IMX image to NAND<a class="headerlink" href="#flash-u-boot-imx-image-to-nand" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">=</span>&gt;<span class="w"> </span>load<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span>u-boot-dtb.imx.ready
+<span class="o">=</span>&gt;<span class="w"> </span>nand<span class="w"> </span>erase.part<span class="w"> </span>u-boot1
+<span class="o">=</span>&gt;<span class="w"> </span>nand<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>u-boot1<span class="w"> </span><span class="si">${</span><span class="nv">filesize</span><span class="si">}</span>
+<span class="o">=</span>&gt;<span class="w"> </span>nand<span class="w"> </span>erase.part<span class="w"> </span>u-boot2
+<span class="o">=</span>&gt;<span class="w"> </span>nand<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>u-boot2<span class="w"> </span><span class="si">${</span><span class="nv">filesize</span><span class="si">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Using update_uboot script"></a><div class="section" id="using-update-uboot-script">
+<h2>Using update_uboot script<a class="headerlink" href="#using-update-uboot-script" title="Permalink to this headline">¶</a></h2>
+<p>You can also use U-Boot env update_uboot script,
+which wraps all eMMC/NAND specific command invocations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">=</span>&gt;<span class="w"> </span>load<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span>u-boot-dtb.imx.ready
+<span class="o">=</span>&gt;<span class="w"> </span>run<span class="w"> </span>update_uboot
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="apalis-imx8.html" rel="prev" title="Apalis iMX8 Module"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="colibri-imx8x.html" rel="next" title="Colibri iMX8X Module">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

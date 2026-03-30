@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>System reset — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="timer.html" rel="next" title="Timer Subsystem"/>
+<link href="serial.html" rel="prev" title="Serial system"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>System reset</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/sysreset.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/System reset"></a><div class="section" id="system-reset">
+<h1>System reset<a class="headerlink" href="#system-reset" title="Permalink to this headline">¶</a></h1>
+<dl class="c enum">
+<dt id="c.sysreset_t">
+<em class="property">enum </em><code class="sig-name descname">sysreset_t</code><a class="headerlink" href="#c.sysreset_t" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>system reset types</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SYSRESET_WARM</span></code></dt><dd><p>reset CPU, keep GPIOs active</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SYSRESET_COLD</span></code></dt><dd><p>reset CPU and GPIOs</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SYSRESET_POWER</span></code></dt><dd><p>reset PMIC (remove and restore power)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SYSRESET_POWER_OFF</span></code></dt><dd><p>turn off power</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SYSRESET_COUNT</span></code></dt><dd><p>number of available reset types</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.sysreset_ops">
+<em class="property">struct </em><code class="sig-name descname">sysreset_ops</code><a class="headerlink" href="#c.sysreset_ops" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>operations of system reset drivers</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct sysreset_ops {
+  int (*request)(struct udevice *dev, enum sysreset_t type);
+  int (*get_status)(struct udevice *dev, char *buf, int size);
+  int (*get_last)(struct udevice *dev);
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">request</span></code></dt><dd><p>request a sysreset of the given type</p>
+<p>Note that this function may return before the reset takes effect.</p>
+<p><strong>dev</strong>:        Device to be used for system reset
+<strong>type</strong>:       Reset type to request
+Return:
+-EINPROGRESS if the reset has been started and
+will complete soon, -EPROTONOSUPPORT if not supported
+by this device, 0 if the reset has already happened
+(in which case this method will not actually return)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_status</span></code></dt><dd><p>get printable reset status information</p>
+<p><strong>dev</strong>:        Device to check
+<strong>buf</strong>:        Buffer to receive the textual reset information
+<strong>size</strong>:       Size of the passed buffer
+Return:      0 if OK, -ve on error</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_last</span></code></dt><dd><p>get information on the last reset</p>
+<p><strong>dev</strong>:        Device to check
+Return:      last reset state (enum <a class="reference internal" href="#c.sysreset_t" title="sysreset_t"><code class="xref c c-enum docutils literal notranslate"><span class="pre">sysreset_t</span></code></a>) or -ve error</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.sysreset_request">
+int <code class="sig-name descname">sysreset_request</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">enum</em> <a class="reference internal" href="#c.sysreset_t" title="sysreset_t">sysreset_t</a> <em>type</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/sysreset_request"></a><a class="headerlink" href="#c.sysreset_request" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>request a sysreset</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to be used for system reset</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">sysreset_t</span> <span class="pre">type</span></code></dt><dd><p>Reset type to request</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -EPROTONOSUPPORT if not supported by this device</p>
+<dl class="c function">
+<dt id="c.sysreset_get_status">
+int <code class="sig-name descname">sysreset_get_status</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, char *<em>buf</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/sysreset_get_status"></a><a class="headerlink" href="#c.sysreset_get_status" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get printable reset status information</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to check</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*buf</span></code></dt><dd><p>Buffer to receive the textual reset information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Size of the passed buffer</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.sysreset_get_last">
+int <code class="sig-name descname">sysreset_get_last</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/sysreset_get_last"></a><a class="headerlink" href="#c.sysreset_get_last" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get information on the last reset</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to check</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>last reset state (enum sysreset_t) or -ve error</p>
+<dl class="c function">
+<dt id="c.sysreset_walk">
+int <code class="sig-name descname">sysreset_walk</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.sysreset_t" title="sysreset_t">sysreset_t</a> <em>type</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/sysreset_walk"></a><a class="headerlink" href="#c.sysreset_walk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>cause a system reset</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">sysreset_t</span> <span class="pre">type</span></code></dt><dd><p>Reset type to request</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This works through the available sysreset devices until it finds one that can
+perform a reset. If the provided sysreset type is not available, the next one
+will be tried.</p>
+<p>If this function fails to reset, it will display a message and halt</p>
+<p><strong>Return</strong></p>
+<p>-EINPROGRESS if a reset is in progress, -ENOSYS if not available</p>
+<dl class="c function">
+<dt id="c.sysreset_get_last_walk">
+int <code class="sig-name descname">sysreset_get_last_walk</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/sysreset_get_last_walk"></a><a class="headerlink" href="#c.sysreset_get_last_walk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get information on the last reset</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This works through the available sysreset devices until it finds one that can
+perform a reset. If the provided sysreset type is not available, the next one
+will be tried.</p>
+<p>If no device prives the information, this function returns -ENOENT</p>
+<p><strong>Return</strong></p>
+<p>last reset state (enum sysreset_t) or -ve error</p>
+<dl class="c function">
+<dt id="c.sysreset_walk_halt">
+void <code class="sig-name descname">sysreset_walk_halt</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.sysreset_t" title="sysreset_t">sysreset_t</a> <em>type</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/sysreset_walk_halt"></a><a class="headerlink" href="#c.sysreset_walk_halt" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>try to reset, otherwise halt</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">sysreset_t</span> <span class="pre">type</span></code></dt><dd><p>Reset type to request</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This calls sysreset_walk(). If it returns, indicating that reset is not
+supported, it prints a message and halts.</p>
+<dl class="c function">
+<dt id="c.reset_cpu">
+void <code class="sig-name descname">reset_cpu</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/reset_cpu"></a><a class="headerlink" href="#c.reset_cpu" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>calls sysreset_walk(SYSRESET_WARM)</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.sysreset_register_wdt">
+int <code class="sig-name descname">sysreset_register_wdt</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/sysreset_register_wdt"></a><a class="headerlink" href="#c.sysreset_register_wdt" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>register a watchdog for use with sysreset</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>WDT device</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This registers the given watchdog timer to be used to reset the system.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -errno if error</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="serial.html" rel="prev" title="Serial system"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="timer.html" rel="next" title="Timer Subsystem">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

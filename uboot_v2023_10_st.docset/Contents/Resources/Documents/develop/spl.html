@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Generic SPL framework — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="falcon.html" rel="next" title="Falcon Mode"/>
+<link href="smbios.html" rel="prev" title="SMBIOS tables"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Generic SPL framework</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adding-spl-specific-code">Adding SPL-specific code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#u-boot-boot-phases">U-Boot Boot Phases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checking-the-boot-phase">Checking the boot phase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device-tree">Device tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debugging">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#estimating-stack-usage">Estimating stack usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Generic SPL framework</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/spl.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Generic SPL framework"></a><div class="section" id="generic-spl-framework">
+<h1>Generic SPL framework<a class="headerlink" href="#generic-spl-framework" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>To unify all existing implementations for a secondary program loader (SPL)
+and to allow simply adding of new implementations this generic SPL framework
+has been created. With this framework almost all source files for a board
+can be reused. No code duplication or symlinking is necessary anymore.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How it works"></a><div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>The object files for SPL are built separately and placed in the “spl” directory.
+The final binaries which are generated are u-boot-spl, u-boot-spl.bin and
+u-boot-spl.map.</p>
+<p>A config option named CONFIG_SPL_BUILD is enabled by Kconfig for SPL.
+Source files can therefore be compiled for SPL with different settings.</p>
+<p>For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ifeq ($(CONFIG_SPL_BUILD),y)
+obj-y += board_spl.o
+else
+obj-y += board.o
+endif
+
+obj-$(CONFIG_SPL_BUILD) += foo.o
+
+#ifdef CONFIG_SPL_BUILD
+        foo();
+#endif
+</pre></div>
+</div>
+<p>The building of SPL images can be enabled by CONFIG_SPL option in Kconfig.</p>
+<p>Because SPL images normally have a different text base, one has to be
+configured by defining CONFIG_SPL_TEXT_BASE. The linker script has to be
+defined with CONFIG_SPL_LDSCRIPT.</p>
+<p>To support generic U-Boot libraries and drivers in the SPL binary one can
+optionally define CONFIG_SPL_XXX_SUPPORT. Currently following options
+are supported:</p>
+<p>CONFIG_SPL_LIBCOMMON_SUPPORT (common/libcommon.o)
+CONFIG_SPL_LIBDISK_SUPPORT (disk/libdisk.o)
+CONFIG_SPL_I2C (drivers/i2c/libi2c.o)
+CONFIG_SPL_GPIO (drivers/gpio/libgpio.o)
+CONFIG_SPL_MMC (drivers/mmc/libmmc.o)
+CONFIG_SPL_SERIAL (drivers/serial/libserial.o)
+CONFIG_SPL_SPI_FLASH_SUPPORT (drivers/mtd/spi/libspi_flash.o)
+CONFIG_SPL_SPI (drivers/spi/libspi.o)
+CONFIG_SPL_FS_FAT (fs/fat/libfat.o)
+CONFIG_SPL_FS_EXT4
+CONFIG_SPL_LIBGENERIC_SUPPORT (lib/libgeneric.o)
+CONFIG_SPL_POWER (drivers/power/libpower.o)
+CONFIG_SPL_NAND_SUPPORT (drivers/mtd/nand/raw/libnand.o)
+CONFIG_SPL_DRIVERS_MISC (drivers/misc)
+CONFIG_SPL_DMA (drivers/dma/libdma.o)
+CONFIG_SPL_POST_MEM_SUPPORT (post/drivers/memory.o)
+CONFIG_SPL_NAND_LOAD (drivers/mtd/nand/raw/nand_spl_load.o)
+CONFIG_SPL_SPI_LOAD (drivers/mtd/spi/spi_spl_load.o)
+CONFIG_SPL_RAM_DEVICE (common/spl/spl.c)
+CONFIG_SPL_WATCHDOG (drivers/watchdog/libwatchdog.o)</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Adding SPL-specific code"></a><div class="section" id="adding-spl-specific-code">
+<h2>Adding SPL-specific code<a class="headerlink" href="#adding-spl-specific-code" title="Permalink to this headline">¶</a></h2>
+<p>To check whether a feature is enabled, use CONFIG_IS_ENABLED():</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>if (CONFIG_IS_ENABLED(CLK))
+    ...
+</pre></div>
+</div>
+<p>This checks CONFIG_CLK for the main build, CONFIG_SPL_CLK for the SPL build,
+CONFIG_TPL_CLK for the TPL build, etc.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Boot Phases"></a><div class="section" id="u-boot-boot-phases">
+<h2>U-Boot Boot Phases<a class="headerlink" href="#u-boot-boot-phases" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot goes through the following boot phases where TPL, VPL, SPL are optional.
+While many boards use SPL, less use TPL.</p>
+<dl class="simple">
+<dt>TPL</dt><dd><p>Very early init, as tiny as possible. This loads SPL (or VPL if enabled).</p>
+</dd>
+<dt>VPL</dt><dd><p>Optional verification step, which can select one of several SPL binaries,
+if A/B verified boot is enabled. Implementation of the VPL logic is
+work-in-progress. For now it just boots into SPL.</p>
+</dd>
+<dt>SPL</dt><dd><p>Secondary program loader. Sets up SDRAM and loads U-Boot proper. It may also
+load other firmware components.</p>
+</dd>
+<dt>U-Boot</dt><dd><p>U-Boot proper, containing the command line and boot logic.</p>
+</dd>
+</dl>
+<p>Further usages of U-Boot SPL comprise:</p>
+<ul class="simple">
+<li><p>Launching BL31 of ARM Trusted Firmware which invokes main U-Boot as BL33</p></li>
+<li><p>launching EDK II</p></li>
+<li><p>launching Linux kernel</p></li>
+<li><p>launching RISC-V OpenSBI which invokes main U-Boot</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Checking the boot phase"></a><div class="section" id="checking-the-boot-phase">
+<h2>Checking the boot phase<a class="headerlink" href="#checking-the-boot-phase" title="Permalink to this headline">¶</a></h2>
+<p>Use <cite>spl_phase()</cite> to find the current U-Boot phase, e.g. <cite>PHASE_SPL</cite>. You can
+also find the previous and next phase and get the phase name.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Device tree"></a><div class="section" id="device-tree">
+<h2>Device tree<a class="headerlink" href="#device-tree" title="Permalink to this headline">¶</a></h2>
+<p>The U-Boot device tree is filtered by the fdtgrep tools during the build
+process to generate a much smaller device tree used in SPL (spl/u-boot-spl.dtb)
+with:</p>
+<ul class="simple">
+<li><p>the mandatory nodes (/alias, /chosen, /config)</p></li>
+<li><p>the nodes with one pre-relocation property:
+‘bootph-all’ or ‘bootph-pre-ram’</p></li>
+</ul>
+<p>fdtgrep is also used to remove:</p>
+<ul class="simple">
+<li><p>the properties defined in CONFIG_OF_SPL_REMOVE_PROPS</p></li>
+<li><p>all the pre-relocation properties
+(‘bootph-all’, ‘bootph-pre-ram’ (SPL), ‘bootph-pre-sram’ (TPL) and
+‘bootph-verify’ (TPL))</p></li>
+</ul>
+<p>All the nodes remaining in the SPL devicetree are bound
+(see doc/driver-model/design.rst).</p>
+<p>NOTE: U-Boot migrated to a new schema for the u-boot,dm-* tags in 2023. Please
+update to use the new bootph-* tags as described in the
+doc/device-tree-bindings/bootph.yaml binding file.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debugging"></a><div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>When building SPL with DEBUG set you may also need to set CONFIG_PANIC_HANG
+as in most cases do_reset is not defined within SPL.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Estimating stack usage"></a><div class="section" id="estimating-stack-usage">
+<h2>Estimating stack usage<a class="headerlink" href="#estimating-stack-usage" title="Permalink to this headline">¶</a></h2>
+<p>With gcc 4.6 (and later) and the use of GNU cflow it is possible to estimate
+stack usage at various points in run sequence of SPL.  The -fstack-usage option
+to gcc will produce ‘.su’ files (such as arch/arm/cpu/armv7/syslib.su) that
+will give stack usage information and cflow can construct program flow.</p>
+<p>Must have gcc 4.6 or later, which supports -fstack-usage:</p>
+<ol class="arabic simple">
+<li><p>Build normally</p></li>
+<li><p>Perform the following shell command to generate a list of C files used in
+SPL:</p></li>
+<li><p><cite>find spl -name ‘*.su’ | sed -e ‘s:^spl/::’ -e ‘s:[.]su$:.c:’ &gt; used-spl.list</cite></p></li>
+<li><p>Execute cflow:
+<cite>$ cflow –main=board_init_r $(cat used-spl.list) 2&gt;&amp;1 | $PAGER</cite></p></li>
+</ol>
+<p>cflow will spit out a number of warnings as it does not parse
+the config files and picks functions based on #ifdef.  Parsing the ‘.i’
+files instead introduces another set of headaches.  These warnings are
+not usually important to understanding the flow, however.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="smbios.html" rel="prev" title="SMBIOS tables"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="falcon.html" rel="next" title="Falcon Mode">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

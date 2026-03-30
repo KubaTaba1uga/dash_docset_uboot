@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Block Maps (blkmap) — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="dfu.html" rel="next" title="Device Firmware Upgrade (DFU)"/>
+<link href="spl_boot.html" rel="prev" title="Booting from TPL/SPL"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Block Maps (blkmap)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-netbooting-an-ext4-image">Example: Netbooting an Ext4 Image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-accessing-a-filesystem-inside-an-fit-image">Example: Accessing a filesystem inside an FIT image</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Use U-Boot</a> »</li>
+<li>Block Maps (blkmap)</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/usage/blkmap.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Block Maps (blkmap)"></a><div class="section" id="block-maps-blkmap">
+<h1>Block Maps (blkmap)<a class="headerlink" href="#block-maps-blkmap" title="Permalink to this headline">¶</a></h1>
+<p>Block maps are a way of looking at various sources of data through the
+lens of a regular block device. It lets you treat devices that are not
+block devices, like RAM, as if they were. It also lets you export a
+slice of an existing block device, which does not have to correspond
+to a partition boundary, as a new block device.</p>
+<p>This is primarily useful because U-Boot’s filesystem drivers only
+operate on block devices, so a block map lets you access filesystems
+wherever they might be located.</p>
+<p>The implementation is loosely modeled on Linux’s “Device Mapper”
+subsystem, see <a class="reference external" href="https://www.kernel.org/doc/html/latest/admin-guide/device-mapper/index.html">kernel documentation</a> for more information.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example: Netbooting an Ext4 Image"></a><div class="section" id="example-netbooting-an-ext4-image">
+<h2>Example: Netbooting an Ext4 Image<a class="headerlink" href="#example-netbooting-an-ext4-image" title="Permalink to this headline">¶</a></h2>
+<p>Say that our system is using an Ext4 filesystem as its rootfs, where
+the kernel is stored in <code class="docutils literal notranslate"><span class="pre">/boot</span></code>. This image is then typically stored
+in an eMMC partition. In this configuration, we can use something like
+<code class="docutils literal notranslate"><span class="pre">load</span> <span class="pre">mmc</span> <span class="pre">0</span> <span class="pre">${kernel_addr_r}</span> <span class="pre">/boot/Image</span></code> to load the kernel image
+into the expected location, and then boot the system. No problems.</p>
+<p>Now imagine that during development, or as a recovery mechanism, we
+want to boot the same type of image by downloading it over the
+network. Getting the image to the target is easy enough:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>dhcp ${ramdisk_addr_r} rootfs.ext4
+</pre></div>
+</div>
+<p>But now we are faced with a predicament: how to we extract the kernel
+image? Block maps to the rescue!</p>
+<p>We start by creating a new device:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>blkmap create netboot
+</pre></div>
+</div>
+<p>Before setting up the mapping, we figure out the size of the
+downloaded file, in blocks:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>setexpr fileblks ${filesize} + 0x1ff
+setexpr fileblks ${filesize} / 0x200
+</pre></div>
+</div>
+<p>Then we can add a mapping to the start of our device, backed by the
+memory at <cite>${loadaddr}</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>blkmap map netboot 0 ${fileblks} mem ${fileaddr}
+</pre></div>
+</div>
+<p>Now we can access the filesystem via the virtual device:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>blkmap get netboot dev devnum
+load blkmap ${devnum} ${kernel_addr_r} /boot/Image
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example: Accessing a filesystem inside an FIT image"></a><div class="section" id="example-accessing-a-filesystem-inside-an-fit-image">
+<h2>Example: Accessing a filesystem inside an FIT image<a class="headerlink" href="#example-accessing-a-filesystem-inside-an-fit-image" title="Permalink to this headline">¶</a></h2>
+<p>In this example, an FIT image is stored in an eMMC partition. We would
+like to read the file <code class="docutils literal notranslate"><span class="pre">/etc/version</span></code>, stored inside a Squashfs image
+in the FIT. Since the Squashfs image is not stored on a partition
+boundary, there is no way of accessing it via <code class="docutils literal notranslate"><span class="pre">load</span> <span class="pre">mmc</span> <span class="pre">...</span></code>.</p>
+<p>What we can to instead is to first figure out the offset and size of
+the filesystem:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mmc dev 0
+mmc read ${loadaddr} 0 0x100
+
+fdt addr ${loadaddr}
+fdt get value squashaddr /images/ramdisk data-position
+fdt get value squashsize /images/ramdisk data-size
+
+setexpr squashblk  ${squashaddr} / 0x200
+setexpr squashsize ${squashsize} + 0x1ff
+setexpr squashsize ${squashsize} / 0x200
+</pre></div>
+</div>
+<p>Then we can create a block map that maps to that slice of the full
+partition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>blkmap create sq
+blkmap map sq 0 ${squashsize} linear mmc 0 ${squashblk}
+</pre></div>
+</div>
+<p>Now we can access the filesystem:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>blkmap get sq dev devnum
+load blkmap ${devnum} ${loadaddr} /etc/version
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="spl_boot.html" rel="prev" title="Booting from TPL/SPL"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="dfu.html" rel="next" title="Device Firmware Upgrade (DFU)">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

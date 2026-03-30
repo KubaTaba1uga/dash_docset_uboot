@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Board-specific doc — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="actions/index.html" rel="next" title="Actions"/>
+<link href="../arch/xtensa.html" rel="prev" title="Xtensa"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Board-specific doc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li>Board-specific doc</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/board/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Board-specific doc"></a><div class="section" id="board-specific-doc">
+<h1>Board-specific doc<a class="headerlink" href="#board-specific-doc" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="actions/index.html">Actions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="actions/cubieboard7.html">CUBIEBOARD7</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advantech/index.html">Advantech</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advantech/imx8qm-rom7720-a1.html">U-Boot for the NXP i.MX8QM ROM 7720a1 board</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advantech/imx8qm-dmsse20-a1.html">NXP i.MX8QM DMSSE20-a1 board</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AndesTech/index.html">Andes Tech</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AndesTech/adp-ag101p.html">ADP-AG101P</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AndesTech/ae350.html">AE350</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="allwinner/index.html">Allwinner (sunxi) boards</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="allwinner/sunxi.html">Allwinner SoC based boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="amlogic/index.html">Amlogic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="amlogic/index.html#hardware-support-matrix">Hardware Support Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="amlogic/index.html#boot-documentation">Boot Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="amlogic/index.html#board-documentation">Board Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="anbernic/index.html">Anbernic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="anbernic/rgxx3.html">U-Boot for Anbernic RGxx3 Devices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apple/index.html">Apple</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apple/m1.html">U-Boot for Apple Silicon Macs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="armltd/index.html">Arm Ltd</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="armltd/juno.html">Arm Juno development platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="armltd/vexpress64.html">Arm Versatile Express</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="asus/index.html">ASUS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="asus/grouper_common.html">U-Boot for the ASUS/Google Nexus 7 (2012)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asus/transformer_t30.html">U-Boot for the ASUS Transformer device family</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="atmel/index.html">Atmel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="atmel/at91ek.html">AT91 Evaluation kits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="beacon/index.html">Beacon</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="beacon/beacon-imx8mp.html">U-Boot for the Beacon EmbeddedWorks i.MX8M Plus Devkit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="beacon/beacon-imx8mm.html">U-Boot for the Beacon EmbeddedWorks i.MX8M Mini Devkit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="beacon/beacon-imx8mn.html">U-Boot for the Beacon EmbeddedWorks i.MX8M Nano Devkit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="broadcom/index.html">Broadcom</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="broadcom/bcm7xxx.html">BCM7445 and BCM7260</a></li>
+<li class="toctree-l2"><a class="reference internal" href="broadcom/raspberrypi.html">Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="broadcom/northstar.html">Broadcom Northstar Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bsh/index.html">BSH Hausgeraete GmbH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bsh/imx8mn_bsh_smm_s2.html">imx8mn_bsh_smm_s2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cloos/index.html">Cloos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cloos/imx8mm_phg.html">Cloos i.MX8MM PHG board</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="congatec/index.html">Congatec</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="congatec/cgtqmx8.html">U-Boot for the Congatec conga-QMX8 board</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coreboot/index.html">Coreboot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coreboot/coreboot.html">Coreboot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="emulation/index.html">Emulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="emulation/blkdev.html">Emulation of block devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="emulation/qemu-arm.html">QEMU ARM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="emulation/qemu-mips.html">QEMU MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="emulation/qemu-ppce500.html">QEMU PPC E500</a></li>
+<li class="toctree-l2"><a class="reference internal" href="emulation/qemu-riscv.html">QEMU RISC-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="emulation/qemu-x86.html">QEMU x86</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gateworks/index.html">Gateworks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gateworks/imx8mm_venice.html">imx8mm_venice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateworks/imx8mn_venice.html">imx8mn_venice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateworks/imx8mp_venice.html">imx8mp_venice</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="google/index.html">Google</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="google/chromebook_coral.html">Chromebook Coral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google/chromebook_link.html">Chromebook Link</a></li>
+<li class="toctree-l2"><a class="reference internal" href="google/chromebook_samus.html">Chromebook Samus</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="highbank/index.html">Highbank</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="highbank/highbank.html">Calxeda Highbank/Midway board support</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="htc/index.html">HTC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="htc/endeavoru.html">U-Boot for the HTC One X (endeavoru)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="intel/index.html">Intel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intel/bayleybay.html">Bayley Bay CRB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intel/cherryhill.html">Cherry Hill CRB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intel/cougarcanyon2.html">Cougar Canyon 2 CRB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intel/crownbay.html">Crown Bay CRB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intel/edison.html">Edison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intel/galileo.html">Galileo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intel/minnowmax.html">Minnowboard MAX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intel/slimbootloader.html">Slim Bootloader</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kontron/index.html">Kontron</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kontron/pitx-imx8m.html">Kontron pitx-imx8m</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kontron/sl28.html">Kontron SMARC-sAL28</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kontron/sl-mx6ul.html">Kontron Electronics SL i.MX6UL/ULL SoM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kontron/sl-mx8mm.html">Kontron Electronics i.MX8MM SoMs and Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lg/index.html">LG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lg/x3_t30.html">U-Boot for the LG X3 T30 device family</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mediatek/index.html">Mediatek</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mediatek/mt7621.html">mt7621_rfb/mt7621_nand_rfb</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="microchip/index.html">Microchip</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="microchip/mpfs_icicle.html">Microchip PolarFire SoC Icicle Kit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nxp/index.html">NXP Semiconductors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nxp/imx8mm_evk.html">imx8mm_evk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/imx8mn_evk.html">imx8mn_evk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/imx8mp_evk.html">imx8mp_evk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/imx8mq_evk.html">imx8mq_evk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/imx8qxp_mek.html">imx8qxp_mek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/imxrt1020-evk.html">imxrt1020-evk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/imxrt1050-evk.html">imxrt1050-evk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/ls1046ardb.html">LS1046ARDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/mx6sabreauto.html">mx6sabreauto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/mx6sabresd.html">mx6sabresd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/mx6ul_14x14_evk.html">mx6ul_14x14_evk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/mx6ullevk.html">mx6ullevk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nxp/psb.html">i.MX7D/i.MX8MM SRC_GPR10 PERSIST_SECONDARY_BOOT for bootloader A/B switching</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="openpiton/index.html">OpenPiton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="openpiton/riscv64.html">Openpiton RISC-V SoC</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="phytec/index.html">PHYTEC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="phytec/phycore-imx8mm.html">phyCORE-i.MX 8M Mini</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phytec/phycore-imx8mp.html">phyCORE-i.MX 8M Plus</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="purism/index.html">Purism SPC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="purism/librem5.html">Librem5</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qualcomm/index.html">Qualcomm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qualcomm/dragonboard410c.html">DragonBoard 410c</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qualcomm/sdm845.html">Snapdragon 845</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qualcomm/qcs404.html">QCS404 EVB</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="renesas/index.html">Renesas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="renesas/renesas.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renesas/rzn1.html">Renesas RZ/N1</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rockchip/index.html">Rockchip</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rockchip/rockchip.html">ROCKCHIP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="samsung/index.html">Samsung</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="samsung/axy17lte.html">Samsung 2017 A series phones</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="siemens/index.html">Siemens</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="siemens/iot2050.html">SIMATIC IOT2050 BASIC and ADVANCED</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sifive/index.html">SiFive</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sifive/unleashed.html">HiFive Unleashed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sifive/unmatched.html">HiFive Unmatched</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sipeed/index.html">Sipeed</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sipeed/maix.html">MAIX</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="socionext/index.html">Socionext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="socionext/developerbox.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="socionext/developerbox.html#compile-from-source">Compile from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="socionext/developerbox.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="socionext/developerbox.html#enable-fwu-multi-bank-update">Enable FWU Multi Bank Update</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="st/index.html">STMicroelectronics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="st/st-dt.html">U-Boot device tree bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="st/stm32mp1.html">STM32MP1xx boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="st/stm32mp2.html">STM32MP2xx boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="st/stm32_MCU.html">STM32 MCU boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="starfive/index.html">StarFive</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="starfive/visionfive2.html">StarFive VisionFive2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ste/index.html">ST-Ericsson</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ste/stemmy.html">ST-Ericsson U8500 Samsung “stemmy” board</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tbs/index.html">TBS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tbs/tbs2910.html">TBS2910 Matrix ARM miniPC</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="thead/index.html">T-HEAD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="thead/lpi4a.html">Sipeed’s Lichee PI 4A based on T-HEAD TH1520 SoC</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ti/index.html">Texas Instruments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ti/am335x_evm.html">AM335x Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ti/am43xx_evm.html">AM43xx Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ti/dra7xx_evm.html">DRA7xx Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ti/ks2_evm.html">Keystone II EVM Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ti/k3.html">K3 Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="toradex/index.html">Toradex</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="toradex/apalis-imx8.html">Apalis iMX8 Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toradex/colibri_imx7.html">Colibri iMX7 Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toradex/colibri-imx8x.html">Colibri iMX8X Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toradex/verdin-am62.html">Verdin AM62 Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toradex/verdin-imx8mm.html">Verdin iMX8M Mini Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="toradex/verdin-imx8mp.html">Verdin iMX8M Plus Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="variscite/index.html">Variscite</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variscite/imx8mn_var_som.html">imx8mn_var_som</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xen/index.html">XenGuestARM64</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xen/xenguest_arm64.html">Xen guest ARM64 board</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xilinx/index.html">Xilinx</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xilinx/xilinx.html">U-Boot device tree bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xilinx/zynq.html">ZYNQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xilinx/zynqmp.html">ZYNQMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xilinx/zynqmp-r5.html">ZYNQMP-R5</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../arch/xtensa.html" rel="prev" title="Xtensa"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="actions/index.html" rel="next" title="Actions">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

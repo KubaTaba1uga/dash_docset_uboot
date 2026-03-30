@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Amlogic — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="boot-flow.html" rel="next" title="Amlogic SoC Boot Flow"/>
+<link href="../allwinner/sunxi.html" rel="prev" title="Allwinner SoC based boards"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Amlogic</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-support-matrix">Hardware Support Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boot-documentation">Boot Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="boot-flow.html">Amlogic SoC Boot Flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pre-generated-fip.html">Pre-Generated FIP File Repo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#board-documentation">Board Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="bananapi-cm4io.html">U-Boot for BananaPi CM4 with CM4IO (A311D)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bananapi-m2pro.html">U-Boot for BananaPi BPI-M2-PRO (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bananapi-m2s.html">U-Boot for BananaPi M2S (A311D &amp; S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bananapi-m5.html">U-Boot for BananaPi BPI-M5 (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beelink-gskingx.html">U-Boot for Beelink GS-King-X (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beelink-gt1-ultimate.html">U-Boot for Beelink GT1 Ultimate (S912)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beelink-gtking.html">U-Boot for Beelink GT-King (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beelink-gtkingpro.html">U-Boot for Beelink GT-King Pro (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jethub-j80.html">U-Boot for JetHub J80 (S905W)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jethub-j100.html">U-Boot for JetHub J100 (A113X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="khadas-vim.html">U-Boot for Khadas VIM (S905X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="khadas-vim2.html">U-Boot for Khadas VIM2 (S912)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="khadas-vim3.html">U-Boot for Khadas VIM3 (A311D)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="khadas-vim3l.html">U-Boot for Khadas VIM3L (S905D3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="libretech-ac.html">U-Boot for LibreTech-AC ‘LaFrite’ (S805X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="libretech-cc.html">U-Boot for LibreTech CC ‘LePotato’ (S905X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nanopi-k2.html">U-Boot for NanoPi-K2 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-c2.html">U-Boot for ODROID-C2 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-c4.html">U-Boot for ODROID-C4 (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-hc4.html">U-Boot for ODROID-HC4 (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-n2.html">U-Boot for ODROID-N2/N2+ (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-n2l.html">U-Boot for ODROID-N2L (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-go-ultra.html">U-Boot for ODROID-GO-ULTRA (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="p200.html">U-Boot for Amlogic P200 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="p201.html">U-Boot for Amlogic P201 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="p212.html">U-Boot for Amlogic P212</a></li>
+<li class="toctree-l4"><a class="reference internal" href="q200.html">U-Boot for Amlogic Q200 (S912)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="radxa-zero.html">U-Boot for Radxa Zero (S905Y2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="radxa-zero2.html">U-Boot for Radxa Zero2 (A311D)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sei510.html">U-Boot for Amlogic SEI510 (S905X2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sei610.html">U-Boot for Amlogic SEI610 (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="s400.html">U-Boot for Amlogic S400 (A113X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="u200.html">U-Boot for Amlogic U200 (S905X2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="videostrong-kii-pro.html">U-Boot for Videostrong KII Pro (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wetek-core2.html">U-Boot for WeTek Core2 (S912)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wetek-hub.html">U-Boot for WeTek Hub (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wetek-play2.html">U-Boot for WeTek Play2 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="w400.html">U-Boot for Amlogic W400 (S922X)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li>Amlogic</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/amlogic/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Amlogic"></a><div class="section" id="amlogic">
+<h1>Amlogic<a class="headerlink" href="#amlogic" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Hardware Support Matrix"></a><div class="section" id="hardware-support-matrix">
+<h2>Hardware Support Matrix<a class="headerlink" href="#hardware-support-matrix" title="Permalink to this headline">¶</a></h2>
+<p>An up-do-date matrix is also available on: <a class="reference external" href="http://linux-meson.com">http://linux-meson.com</a></p>
+<p>This matrix concerns the actual source code version.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 21%"/>
+<col style="width: 12%"/>
+<col style="width: 11%"/>
+<col style="width: 11%"/>
+<col style="width: 11%"/>
+<col style="width: 11%"/>
+<col style="width: 11%"/>
+<col style="width: 11%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>SoCs</p></th>
+<th class="head"><p>S905</p></th>
+<th class="head"><p>S805X
+S905X
+S905W</p></th>
+<th class="head"><p>S912
+S905D</p></th>
+<th class="head"><p>A113X</p></th>
+<th class="head"><p>S905X2
+S905D2
+S905Y2</p></th>
+<th class="head"><p>S922X
+A311D</p></th>
+<th class="head"><p>S905X3
+S905D3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>UART</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pinctrl/GPIO</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Clock Control</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>PWM</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Reset Control</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Infrared Decoder</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>Ethernet</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Multi-core</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Fuse access</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>SPI (FC)</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>SPI (CC)</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>I2C</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>USB</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>USB OTG</p></td>
+<td><p>No</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>eMMC</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>SDCard</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>NAND</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>ADC</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>CVBS Output</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>HDMI Output</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>CEC</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p><em>N/A</em></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Thermal Sensor</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>LCD/LVDS Output</p></td>
+<td><p>No</p></td>
+<td><p><em>N/A</em></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>MIPI DSI Output</p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>SoC Rev/Info</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>PCIe (+NVMe)</p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Watchdog</p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><em>N/A</em></p></td>
+<td><p><em>N/A</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot Documentation"></a><div class="section" id="boot-documentation">
+<h2>Boot Documentation<a class="headerlink" href="#boot-documentation" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="boot-flow.html">Amlogic SoC Boot Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre-generated-fip.html">Pre-Generated FIP File Repo</a></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Board Documentation"></a><div class="section" id="board-documentation">
+<h2>Board Documentation<a class="headerlink" href="#board-documentation" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bananapi-cm4io.html">U-Boot for BananaPi CM4 with CM4IO (A311D)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bananapi-m2pro.html">U-Boot for BananaPi BPI-M2-PRO (S905X3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bananapi-m2s.html">U-Boot for BananaPi M2S (A311D &amp; S922X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bananapi-m5.html">U-Boot for BananaPi BPI-M5 (S905X3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beelink-gskingx.html">U-Boot for Beelink GS-King-X (S922X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beelink-gt1-ultimate.html">U-Boot for Beelink GT1 Ultimate (S912)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beelink-gtking.html">U-Boot for Beelink GT-King (S922X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beelink-gtkingpro.html">U-Boot for Beelink GT-King Pro (S922X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jethub-j80.html">U-Boot for JetHub J80 (S905W)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jethub-j100.html">U-Boot for JetHub J100 (A113X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="khadas-vim.html">U-Boot for Khadas VIM (S905X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="khadas-vim2.html">U-Boot for Khadas VIM2 (S912)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="khadas-vim3.html">U-Boot for Khadas VIM3 (A311D)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="khadas-vim3l.html">U-Boot for Khadas VIM3L (S905D3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libretech-ac.html">U-Boot for LibreTech-AC ‘LaFrite’ (S805X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libretech-cc.html">U-Boot for LibreTech CC ‘LePotato’ (S905X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nanopi-k2.html">U-Boot for NanoPi-K2 (S905)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="odroid-c2.html">U-Boot for ODROID-C2 (S905)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="odroid-c4.html">U-Boot for ODROID-C4 (S905X3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="odroid-hc4.html">U-Boot for ODROID-HC4 (S905X3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="odroid-n2.html">U-Boot for ODROID-N2/N2+ (S922X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="odroid-n2l.html">U-Boot for ODROID-N2L (S922X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="odroid-go-ultra.html">U-Boot for ODROID-GO-ULTRA (S922X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p200.html">U-Boot for Amlogic P200 (S905)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p201.html">U-Boot for Amlogic P201 (S905)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p212.html">U-Boot for Amlogic P212</a></li>
+<li class="toctree-l1"><a class="reference internal" href="q200.html">U-Boot for Amlogic Q200 (S912)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="radxa-zero.html">U-Boot for Radxa Zero (S905Y2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="radxa-zero2.html">U-Boot for Radxa Zero2 (A311D)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sei510.html">U-Boot for Amlogic SEI510 (S905X2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sei610.html">U-Boot for Amlogic SEI610 (S905X3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s400.html">U-Boot for Amlogic S400 (A113X)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="u200.html">U-Boot for Amlogic U200 (S905X2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videostrong-kii-pro.html">U-Boot for Videostrong KII Pro (S905)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wetek-core2.html">U-Boot for WeTek Core2 (S912)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wetek-hub.html">U-Boot for WeTek Hub (S905)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wetek-play2.html">U-Boot for WeTek Play2 (S905)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="w400.html">U-Boot for Amlogic W400 (S922X)</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../allwinner/sunxi.html" rel="prev" title="Allwinner SoC based boards"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="boot-flow.html" rel="next" title="Amlogic SoC Boot Flow">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

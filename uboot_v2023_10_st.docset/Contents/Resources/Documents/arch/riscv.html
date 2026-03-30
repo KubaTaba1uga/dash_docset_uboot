@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RISC-V — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="sandbox/index.html" rel="next" title="Sandbox"/>
+<link href="nios2.html" rel="prev" title="Nios II"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html">ARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nios2.html">Nios II</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RISC-V</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#typical-boot-process">Typical Boot Process</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#m-mode-u-boot">M-mode U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#s-mode-u-boot">S-mode U-Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#toolchain">Toolchain</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/index.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Architecture-specific doc</a> »</li>
+<li>RISC-V</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/arch/riscv.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/RISC-V"></a><div class="section" id="risc-v">
+<h1>RISC-V<a class="headerlink" href="#risc-v" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This document outlines the U-Boot boot process for the RISC-V architecture.
+RISC-V is an open-source instruction set architecture (ISA) based on the
+principles of reduced instruction set computing (RISC). It has been designed
+to be flexible and customizable, allowing it to be adapted to different use
+cases, from embedded systems to high performance servers.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Typical Boot Process"></a><div class="section" id="typical-boot-process">
+<h2>Typical Boot Process<a class="headerlink" href="#typical-boot-process" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot can run in either M-mode or S-mode, depending on whether it runs before
+the initialization of the firmware providing SBI (Supervisor Binary Interface).
+The firmware is necessary in the RISC-V boot process as it serves as a SEE
+(Supervisor Execution Environment) to handle exceptions for the S-mode U-Boot
+or Operating System.</p>
+<p>In between the boot phases, the hartid is passed through the a0 register, and
+the start address of the devicetree is passed through the a1 register.</p>
+<p>As a reference, OpenSBI is an SBI implementation that can be used with U-Boot
+in different modes, see the
+<a class="reference external" href="https://github.com/riscv-software-src/opensbi/tree/master/docs/firmware">OpenSBI firmware document</a>
+for more details.</p>
+<div class="section" id="m-mode-u-boot">
+<h3>M-mode U-Boot<a class="headerlink" href="#m-mode-u-boot" title="Permalink to this headline">¶</a></h3>
+<p>When running in M-mode U-Boot, it will load the payload image (e.g.
+<a class="reference external" href="https://github.com/riscv-software-src/opensbi/blob/master/docs/firmware/fw_payload.md">fw_payload</a>)
+which contains the firmware and the S-mode Operating System; in this case, you
+can use mkimage to package the payload image into an uImage format, and boot it
+using the bootm command.</p>
+<p>The following diagram illustrates the boot process:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;-----------( M-mode )----------&gt;&lt;--( S-mode )--&gt;
++----------+   +--------------+    +------------+
+|  U-Boot  |--&gt;| SBI firmware |---&gt;|     OS     |
++----------+   +--------------+    +------------+
+</pre></div>
+</div>
+<p>To examine the boot process with the QEMU virt machine, you can follow the
+steps in the “Building U-Boot” section of the following document:
+<a class="reference internal" href="../board/emulation/qemu-riscv.html"><span class="doc">QEMU RISC-V</span></a>.</p>
+</div>
+<div class="section" id="s-mode-u-boot">
+<h3>S-mode U-Boot<a class="headerlink" href="#s-mode-u-boot" title="Permalink to this headline">¶</a></h3>
+<p>RISC-V production boot images may include a U-Boot SPL for platform-specific
+initialization. The U-Boot SPL then loads a FIT image (u-boot.itb), which
+contains a firmware (e.g.
+<a class="reference external" href="https://github.com/riscv-software-src/opensbi/blob/master/docs/firmware/fw_dynamic.md">fw_dynamic</a>)
+providing the SBI, as well as a regular U-Boot (or U-Boot proper) running in
+S-mode. Finally, the S-mode Operating
+System is loaded.</p>
+<p>The following diagram illustrates the boot process:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;-------------( M-mode )----------&gt;&lt;----------( S-mode )-------&gt;
++------------+   +--------------+    +----------+   +----------+
+| U-Boot SPL |--&gt;| SBI firmware |---&gt;|  U-Boot  |--&gt;|    OS    |
++------------+   +--------------+    +----------+   +----------+
+</pre></div>
+</div>
+<p>To examine the boot process with the QEMU virt machine, you can follow the
+steps in the “Running U-Boot SPL” section of the following document:
+<a class="reference internal" href="../board/emulation/qemu-riscv.html"><span class="doc">QEMU RISC-V</span></a>.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Toolchain"></a><div class="section" id="toolchain">
+<h2>Toolchain<a class="headerlink" href="#toolchain" title="Permalink to this headline">¶</a></h2>
+<p>You can build the
+<a class="reference external" href="https://github.com/riscv-collab/riscv-gnu-toolchain">RISC-V GNU toolchain</a>
+from scratch, or download a pre-built toolchain from the
+<a class="reference external" href="https://github.com/riscv-collab/riscv-gnu-toolchain/releases">releases page</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="nios2.html" rel="prev" title="Nios II"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="sandbox/index.html" rel="next" title="Sandbox">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

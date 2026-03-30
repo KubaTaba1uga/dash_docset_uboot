@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Plan 9 — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="vxworks.html" rel="next" title="VxWorks"/>
+<link href="../cmd/xxd.html" rel="prev" title="xxd command"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#booting-os">Booting OS</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Plan 9</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vxworks.html">VxWorks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li>Plan 9</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/os/plan9.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Plan 9"></a><div class="section" id="plan-9">
+<h1>Plan 9<a class="headerlink" href="#plan-9" title="Permalink to this headline">¶</a></h1>
+<p>Plan 9 from Bell Labs kernel images require additional setup to pass
+configuration information to the kernel.  An environment variable named
+confaddr must be defined with the same value as CONFADDR (see mem.h).
+Use of this facility is optional, but should be preferable to manual
+configuration.</p>
+<p>When booting an image, arguments supplied to the bootm command will be
+copied to CONFADDR.  If no arguments are specified, the contents of the
+bootargs environment variable will be copied.</p>
+<p>If no command line arguments or bootargs are defined, CONFADDR is left
+uninitialized to permit manual configuration.  For example, PC-style
+configuration could be simulated by issuing a fatload in bootcmd:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># setenv bootcmd fatload mmc 0 $confaddr plan9.ini; ...; bootm
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../cmd/xxd.html" rel="prev" title="xxd command"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="vxworks.html" rel="next" title="VxWorks">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

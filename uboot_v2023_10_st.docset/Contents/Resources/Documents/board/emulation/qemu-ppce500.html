@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QEMU PPC E500 — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="qemu-riscv.html" rel="next" title="QEMU RISC-V"/>
+<link href="qemu-mips.html" rel="prev" title="QEMU MIPS"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Emulation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="blkdev.html">Emulation of block devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/semihosting.html">Semihosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-arm.html">QEMU ARM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-mips.html">QEMU MIPS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">QEMU PPC E500</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building-u-boot">Building U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-u-boot">Running U-Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-riscv.html">QEMU RISC-V</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-x86.html">QEMU x86</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Emulation</a> »</li>
+<li>QEMU PPC E500</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/emulation/qemu-ppce500.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/QEMU PPC E500"></a><div class="section" id="qemu-ppc-e500">
+<h1>QEMU PPC E500<a class="headerlink" href="#qemu-ppc-e500" title="Permalink to this headline">¶</a></h1>
+<p>QEMU for PPC supports a special ‘ppce500’ machine designed for emulation and
+virtualization purposes. This document describes how to run U-Boot under it.</p>
+<p>The QEMU ppce500 machine models a generic PowerPC e500 virtual machine with
+support for the VirtIO standard networking device connected to the built-in
+PCI host controller. Some common devices in the CCSBAR space are modeled,
+including MPIC, 16550A UART devices, GPIO, I2C and PCI host controller with
+MSI delivery to MPIC. It uses device-tree to pass configuration information
+to guest software.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building U-Boot"></a><div class="section" id="building-u-boot">
+<h2>Building U-Boot<a class="headerlink" href="#building-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>Set the CROSS_COMPILE environment variable as usual, and run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make qemu-ppce500_defconfig
+$ make
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running U-Boot"></a><div class="section" id="running-u-boot">
+<h2>Running U-Boot<a class="headerlink" href="#running-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>The minimal QEMU command line to get U-Boot up and running is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ qemu-system-ppc -nographic -machine ppce500 -bios u-boot
+</pre></div>
+</div>
+<p>You can also run U-Boot using ‘qemu-system-ppc64’:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ qemu-system-ppc64 -nographic -machine ppce500 -bios u-boot
+</pre></div>
+</div>
+<p>The commands above create a target with 128 MiB memory by default. A freely
+configurable amount of RAM can be created via the ‘-m’ parameter. For example,
+‘-m 2G’ creates 2 GiB memory for the target, and the memory node in the
+embedded DTB created by QEMU reflects the new setting.</p>
+<p>Both qemu-system-ppc and qemu-system-ppc64 provide emulation for the following
+32-bit PowerPC CPUs:</p>
+<ul class="simple">
+<li><p>e500v1</p></li>
+<li><p>e500v2</p></li>
+<li><p>e500mc</p></li>
+</ul>
+<p>Additionally qemu-system-ppc64 provides support for the following 64-bit CPUs:</p>
+<ul class="simple">
+<li><p>e5500</p></li>
+<li><p>e6500</p></li>
+</ul>
+<p>The CPU type can be specified via the ‘-cpu’ command line. If not specified,
+it creates a machine with e500v2 core. The following example shows an e6500
+based machine creation:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ qemu-system-ppc64 -nographic -machine ppce500 -cpu e6500 -bios u-boot
+</pre></div>
+</div>
+<p>When U-Boot boots, you will notice the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CPU:   Unknown, Version: 0.0, (0x00000000)
+Core:  e6500, Version: 2.0, (0x80400020)
+</pre></div>
+</div>
+<p>This is because we only specified a core name to QEMU and it does not have a
+meaningful SVR value which represents an actual SoC that integrates such core.
+You can specify a real world SoC device that QEMU has built-in support but all
+these SoCs are e500v1/e500v2 based MPC85xx series, hence you cannot test anything
+built for P10xx/P2010/P2020 (e500v2), P204x/P304x/P40xx (e500mc), P50xx/T10xx (e5500)
+and T208x/T4080/T4160/T4240 (e6500).</p>
+<p>By default a VirtIO standard PCI networking device is connected as an ethernet
+interface at PCI address 0.1.0, but we can switch that to an e1000 NIC by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ qemu-system-ppc -nographic -machine ppce500 -bios u-boot \
+                  -nic tap,ifname=tap0,script=no,downscript=no,model=e1000
+</pre></div>
+</div>
+<p>The QEMU ppce500 machine can also dynamically instantiate an eTSEC device if
+“-device eTSEC” is given to QEMU:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-netdev tap,ifname=tap0,script=no,downscript=no,id=net0 -device eTSEC,netdev=net0
+</pre></div>
+</div>
+<p>VirtIO BLK driver is also enabled to support booting from a disk image where
+a kernel image is stored. Append the following to QEMU:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-drive file=disk.img,format=raw,id=disk0 -device virtio-blk-pci,drive=disk0
+</pre></div>
+</div>
+<p>Pericom pt7c4338 RTC is supported so we can use the ‘date’ command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; date
+Date: 2021-02-18 (Thursday)    Time: 15:33:20
+</pre></div>
+</div>
+<p>Additionally, ‘poweroff’ command is supported to shut down the QEMU session:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; poweroff
+poweroff ...
+</pre></div>
+</div>
+<p>These have been tested in QEMU 5.2.0.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="qemu-mips.html" rel="prev" title="QEMU MIPS"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="qemu-riscv.html" rel="next" title="QEMU RISC-V">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

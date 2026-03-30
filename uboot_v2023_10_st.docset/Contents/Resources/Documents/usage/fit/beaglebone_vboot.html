@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verified Boot on the Beaglebone Black — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="overlay-fdt-boot.html" rel="next" title="U-Boot FDT Overlay FIT usage"/>
+<link href="verified-boot.html" rel="prev" title="U-Boot Verified Boot"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Flat Image Tree (FIT)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="source_file_format.html">Flattened Image Tree (FIT) Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto.html">How to use images in the new image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="x86-fit-boot.html">Booting Linux on x86 with FIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="signature.html">U-Boot FIT Signature Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verified-boot.html">U-Boot Verified Boot</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Verified Boot on the Beaglebone Black</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-build-u-boot">Step 1: Build U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-build-linux">Step 2: Build Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-create-the-its">Step 3: Create the ITS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-4-create-a-key-pair">Step 4: Create a key pair</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-5-sign-the-kernel">Step 5: Sign the kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#put-the-public-key-into-u-boot-s-image">6. Put the public key into U-Boot’s image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#put-u-boot-and-the-kernel-onto-the-board">7. Put U-Boot and the kernel onto the board</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#try-it">8. Try it</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#further-improvements">Further Improvements</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="overlay-fdt-boot.html">U-Boot FDT Overlay FIT usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li><a href="index.html">Flat Image Tree (FIT)</a> »</li>
+<li>Verified Boot on the Beaglebone Black</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/fit/beaglebone_vboot.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Verified Boot on the Beaglebone Black"></a><div class="section" id="verified-boot-on-the-beaglebone-black">
+<h1>Verified Boot on the Beaglebone Black<a class="headerlink" href="#verified-boot-on-the-beaglebone-black" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Before reading this, please read <a class="reference internal" href="verified-boot.html"><span class="doc">U-Boot Verified Boot</span></a> and <a class="reference internal" href="signature.html"><span class="doc">U-Boot FIT Signature Verification</span></a>.
+These instructions are for mainline U-Boot from v2014.07 onwards.</p>
+<p>There is quite a bit of documentation in this directory describing how
+verified boot works in U-Boot. There is also a test which runs through the
+entire process of signing an image and running U-Boot (sandbox) to check it.
+However, it might be useful to also have an example on a real board.</p>
+<p>Beaglebone Black is a fairly common board so seems to be a reasonable choice
+for an example of how to enable verified boot using U-Boot.</p>
+<p>First a note that may to help avoid confusion. U-Boot and Linux both use
+device tree. They may use the same device tree source, but it is seldom useful
+for them to use the exact same binary from the same place. More typically,
+U-Boot has its device tree packaged with it, and the kernel’s device tree is
+packaged with the kernel. In particular this is important with verified boot,
+since U-Boot’s device tree must be immutable. If it can be changed then the
+public keys can be changed and verified boot is useless. An attacker can
+simply generate a new key and put his public key into U-Boot so that
+everything verifies. On the other hand the kernel’s device tree typically
+changes when the kernel changes, so it is useful to package an updated device
+tree with the kernel binary. U-Boot supports the latter with its flexible FIT
+format (Flat Image Tree).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The steps are roughly as follows:</p>
+<ol class="arabic simple">
+<li><p>Build U-Boot for the board, with the verified boot options enabled.</p></li>
+<li><p>Obtain a suitable Linux kernel</p></li>
+<li><p>Create a Image Tree Source file (ITS) file describing how you want the
+kernel to be packaged, compressed and signed.</p></li>
+<li><p>Create a key pair</p></li>
+<li><p>Sign the kernel</p></li>
+<li><p>Put the public key into U-Boot’s image</p></li>
+<li><p>Put U-Boot and the kernel onto the board</p></li>
+<li><p>Try it</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Step 1: Build U-Boot"></a><div class="section" id="step-1-build-u-boot">
+<h2>Step 1: Build U-Boot<a class="headerlink" href="#step-1-build-u-boot" title="Permalink to this headline">¶</a></h2>
+<ol class="loweralpha">
+<li><p>Set up the environment variable to point to your toolchain. You will need
+this for U-Boot and also for the kernel if you build it. For example if you
+installed a Linaro version manually it might be something like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>export CROSS_COMPILE=/opt/linaro/gcc-linaro-arm-linux-gnueabihf-4.8-2013.08_linux/bin/arm-linux-gnueabihf-
+</pre></div>
+</div>
+<p>or if you just installed gcc-arm-linux-gnueabi then it might be:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>export CROSS_COMPILE=arm-linux-gnueabi-
+</pre></div>
+</div>
+</li>
+<li><p>Configure and build U-Boot with verified boot enabled:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>export UBOOT=/path/to/u-boot
+cd $UBOOT
+# You can add -j10 if you have 10 CPUs to make it faster
+make O=b/am335x_boneblack_vboot am335x_boneblack_vboot_config all
+export UOUT=$UBOOT/b/am335x_boneblack_vboot
+</pre></div>
+</div>
+</li>
+<li><p>You will now have a U-Boot image:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>file b/am335x_boneblack_vboot/u-boot-dtb.img
+b/am335x_boneblack_vboot/u-boot-dtb.img: u-boot legacy uImage,
+  U-Boot 2014.07-rc2-00065-g2f69f8, Firmware/ARM, Firmware Image
+  (Not compressed), 395375 bytes, Sat May 31 16:19:04 2014,
+  Load Address: 0x80800000, Entry Point: 0x00000000,
+  Header CRC: 0x0ABD6ACA, Data CRC: 0x36DEF7E4
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Step 2: Build Linux"></a><div class="section" id="step-2-build-linux">
+<h2>Step 2: Build Linux<a class="headerlink" href="#step-2-build-linux" title="Permalink to this headline">¶</a></h2>
+<ol class="loweralpha">
+<li><p>Find the kernel image (‘Image’) and device tree (.dtb) file you plan to
+use. In our case it is am335x-boneblack.dtb and it is built with the kernel.
+At the time of writing an SD Boot image can be obtained from here:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>http://www.elinux.org/Beagleboard:Updating_The_Software#Image_For_Booting_From_microSD
+</pre></div>
+</div>
+<p>You can write this to an SD card and then mount it to extract the kernel and
+device tree files.</p>
+<p>You can also build a kernel. Instructions for this are are here:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>http://elinux.org/Building_BBB_Kernel
+</pre></div>
+</div>
+<p>or you can use your favourite search engine. Following these instructions
+produces a kernel Image and device tree files. For the record the steps
+were:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>export KERNEL=/path/to/kernel
+cd $KERNEL
+git clone git://github.com/beagleboard/kernel.git .
+git checkout v3.14
+./patch.sh
+cp configs/beaglebone kernel/arch/arm/configs/beaglebone_defconfig
+cd kernel
+make beaglebone_defconfig
+make uImage dtbs   # -j10 if you have 10 CPUs
+export OKERNEL=$KERNEL/kernel/arch/arm/boot
+</pre></div>
+</div>
+</li>
+<li><p>You now have the ‘Image’ and ‘am335x-boneblack.dtb’ files needed to boot.</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Step 3: Create the ITS"></a><div class="section" id="step-3-create-the-its">
+<h2>Step 3: Create the ITS<a class="headerlink" href="#step-3-create-the-its" title="Permalink to this headline">¶</a></h2>
+<p>Set up a directory for your work:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>export WORK=/path/to/dir
+cd $WORK
+</pre></div>
+</div>
+<p>Put this into a file in that directory called sign.its:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dts-v1/;
+
+/ {
+    description = "Beaglebone black";
+    #address-cells = &lt;1&gt;;
+
+    images {
+        kernel {
+            data = /incbin/("Image.lzo");
+            type = "kernel";
+            arch = "arm";
+            os = "linux";
+            compression = "lzo";
+            load = &lt;0x80008000&gt;;
+            entry = &lt;0x80008000&gt;;
+            hash-1 {
+                algo = "sha1";
+            };
+        };
+        fdt-1 {
+            description = "beaglebone-black";
+            data = /incbin/("am335x-boneblack.dtb");
+            type = "flat_dt";
+            arch = "arm";
+            compression = "none";
+            hash-1 {
+                algo = "sha1";
+            };
+        };
+    };
+    configurations {
+        default = "conf-1";
+        conf-1 {
+            kernel = "kernel";
+            fdt = "fdt-1";
+            signature-1 {
+                algo = "sha1,rsa2048";
+                key-name-hint = "dev";
+                sign-images = "fdt", "kernel";
+            };
+        };
+    };
+};
+</pre></div>
+</div>
+<p>The explanation for this is all in the documentation you have already read.
+But briefly it packages a kernel and device tree, and provides a single
+configuration to be signed with a key named ‘dev’. The kernel is compressed
+with LZO to make it smaller.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Step 4: Create a key pair"></a><div class="section" id="step-4-create-a-key-pair">
+<h2>Step 4: Create a key pair<a class="headerlink" href="#step-4-create-a-key-pair" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference internal" href="signature.html"><span class="doc">U-Boot FIT Signature Verification</span></a> for details on this step:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd $WORK
+mkdir keys
+openssl genrsa -F4 -out keys/dev.key 2048
+openssl req -batch -new -x509 -key keys/dev.key -out keys/dev.crt
+</pre></div>
+</div>
+<p>Note: keys/dev.key contains your private key and is very secret. If anyone
+gets access to that file they can sign kernels with it. Keep it secure.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Step 5: Sign the kernel"></a><div class="section" id="step-5-sign-the-kernel">
+<h2>Step 5: Sign the kernel<a class="headerlink" href="#step-5-sign-the-kernel" title="Permalink to this headline">¶</a></h2>
+<p>We need to use mkimage (which was built when you built U-Boot) to package the
+Linux kernel into a FIT (Flat Image Tree, a flexible file format that U-Boot
+can load) using the ITS file you just created.</p>
+<p>At the same time we must put the public key into U-Boot device tree, with the
+‘required’ property, which tells U-Boot that this key must be verified for the
+image to be valid. You will make this key available to U-Boot for booting in
+step 6:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ln -s $OKERNEL/dts/am335x-boneblack.dtb
+ln -s $OKERNEL/Image
+ln -s $UOUT/u-boot-dtb.img
+cp $UOUT/arch/arm/dts/am335x-boneblack.dtb am335x-boneblack-pubkey.dtb
+lzop Image
+$UOUT/tools/mkimage -f sign.its -K am335x-boneblack-pubkey.dtb -k keys -r image.fit
+</pre></div>
+</div>
+<p>You should see something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FIT description: Beaglebone black
+Created:         Sun Jun  1 12:50:30 2014
+ Image 0 (kernel)
+  Description:  unavailable
+  Created:      Sun Jun  1 12:50:30 2014
+  Type:         Kernel Image
+  Compression:  lzo compressed
+  Data Size:    7790938 Bytes = 7608.34 kB = 7.43 MB
+  Architecture: ARM
+  OS:           Linux
+  Load Address: 0x80008000
+  Entry Point:  0x80008000
+  Hash algo:    sha1
+  Hash value:   c94364646427e10f423837e559898ef02c97b988
+ Image 1 (fdt-1)
+  Description:  beaglebone-black
+  Created:      Sun Jun  1 12:50:30 2014
+  Type:         Flat Device Tree
+  Compression:  uncompressed
+  Data Size:    31547 Bytes = 30.81 kB = 0.03 MB
+  Architecture: ARM
+  Hash algo:    sha1
+  Hash value:   cb09202f889d824f23b8e4404b781be5ad38a68d
+ Default Configuration: 'conf-1'
+ Configuration 0 (conf-1)
+  Description:  unavailable
+  Kernel:       kernel
+  FDT:          fdt-1
+</pre></div>
+</div>
+<p>Now am335x-boneblack-pubkey.dtb contains the public key and image.fit contains
+the signed kernel. Jump to step 6 if you like, or continue reading to increase
+your understanding.</p>
+<p>You can also run fit_check_sign to check it:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$UOUT/tools/fit_check_sign -f image.fit -k am335x-boneblack-pubkey.dtb
+</pre></div>
+</div>
+<p>which results in:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Verifying Hash Integrity ... sha1,rsa2048:dev+
+## Loading kernel from FIT Image at 7fc6ee469000 ...
+   Using 'conf-1' configuration
+   Verifying Hash Integrity ...
+sha1,rsa2048:dev+
+OK
+
+   Trying 'kernel' kernel subimage
+     Description:  unavailable
+     Created:      Sun Jun  1 12:50:30 2014
+     Type:         Kernel Image
+     Compression:  lzo compressed
+     Data Size:    7790938 Bytes = 7608.34 kB = 7.43 MB
+     Architecture: ARM
+     OS:           Linux
+     Load Address: 0x80008000
+     Entry Point:  0x80008000
+     Hash algo:    sha1
+     Hash value:   c94364646427e10f423837e559898ef02c97b988
+   Verifying Hash Integrity ...
+sha1+
+OK
+
+Unimplemented compression type 4
+## Loading fdt from FIT Image at 7fc6ee469000 ...
+   Using 'conf-1' configuration
+   Trying 'fdt-1' fdt subimage
+     Description:  beaglebone-black
+     Created:      Sun Jun  1 12:50:30 2014
+     Type:         Flat Device Tree
+     Compression:  uncompressed
+     Data Size:    31547 Bytes = 30.81 kB = 0.03 MB
+     Architecture: ARM
+     Hash algo:    sha1
+     Hash value:   cb09202f889d824f23b8e4404b781be5ad38a68d
+   Verifying Hash Integrity ...
+sha1+
+OK
+
+   Loading Flat Device Tree ... OK
+
+## Loading ramdisk from FIT Image at 7fc6ee469000 ...
+   Using 'conf-1' configuration
+Could not find subimage node
+
+Signature check OK
+</pre></div>
+</div>
+<p>At the top, you see “sha1,rsa2048:dev+”. This means that it checked an RSA key
+of size 2048 bits using SHA1 as the hash algorithm. The key name checked was
+‘dev’ and the ‘+’ means that it verified. If it showed ‘-‘ that would be bad.</p>
+<p>Once the configuration is verified it is then possible to rely on the hashes
+in each image referenced by that configuration. So fit_check_sign goes on to
+load each of the images. We have a kernel and an FDT but no ramkdisk. In each
+case fit_check_sign checks the hash and prints sha1+ meaning that the SHA1
+hash verified. This means that none of the images has been tampered with.</p>
+<p>There is a test in test/vboot which uses U-Boot’s sandbox build to verify that
+the above flow works.</p>
+<p>But it is fun to do this by hand, so you can load image.fit into a hex editor
+like ghex, and change a byte in the kernel:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$UOUT/tools/fit_info -f image.fit -n /images/kernel -p data
+NAME: kernel
+LEN: 7790938
+OFF: 168
+</pre></div>
+</div>
+<p>This tells us that the kernel starts at byte offset 168 (decimal) in image.fit
+and extends for about 7MB. Try changing a byte at 0x2000 (say) and run
+fit_check_sign again. You should see something like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Verifying Hash Integrity ... sha1,rsa2048:dev+
+## Loading kernel from FIT Image at 7f5a39571000 ...
+   Using 'conf-1' configuration
+   Verifying Hash Integrity ...
+sha1,rsa2048:dev+
+OK
+
+   Trying 'kernel' kernel subimage
+     Description:  unavailable
+     Created:      Sun Jun  1 13:09:21 2014
+     Type:         Kernel Image
+     Compression:  lzo compressed
+     Data Size:    7790938 Bytes = 7608.34 kB = 7.43 MB
+     Architecture: ARM
+     OS:           Linux
+     Load Address: 0x80008000
+     Entry Point:  0x80008000
+     Hash algo:    sha1
+     Hash value:   c94364646427e10f423837e559898ef02c97b988
+   Verifying Hash Integrity ...
+sha1 error
+Bad hash value for 'hash-1' hash node in 'kernel' image node
+Bad Data Hash
+
+## Loading fdt from FIT Image at 7f5a39571000 ...
+   Using 'conf-1' configuration
+   Trying 'fdt-1' fdt subimage
+     Description:  beaglebone-black
+     Created:      Sun Jun  1 13:09:21 2014
+     Type:         Flat Device Tree
+     Compression:  uncompressed
+     Data Size:    31547 Bytes = 30.81 kB = 0.03 MB
+     Architecture: ARM
+     Hash algo:    sha1
+     Hash value:   cb09202f889d824f23b8e4404b781be5ad38a68d
+   Verifying Hash Integrity ...
+sha1+
+OK
+
+   Loading Flat Device Tree ... OK
+
+## Loading ramdisk from FIT Image at 7f5a39571000 ...
+   Using 'conf-1' configuration
+Could not find subimage node
+
+Signature check Bad (error 1)
+</pre></div>
+</div>
+<p>It has detected the change in the kernel.</p>
+<p>You can also be sneaky and try to switch images, using the libfdt utilities
+that come with dtc (package name is device-tree-compiler but you will need a
+recent version like 1.4:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>dtc -v
+Version: DTC 1.4.0
+</pre></div>
+</div>
+<p>First we can check which nodes are actually hashed by the configuration:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ fdtget -l image.fit /
+images
+configurations
+
+$ fdtget -l image.fit /configurations
+conf-1
+fdtget -l image.fit /configurations/conf-1
+signature-1
+
+$ fdtget -p image.fit /configurations/conf-1/signature-1
+hashed-strings
+hashed-nodes
+timestamp
+signer-version
+signer-name
+value
+algo
+key-name-hint
+sign-images
+
+$ fdtget image.fit /configurations/conf-1/signature-1 hashed-nodes
+/ /configurations/conf-1 /images/fdt-1 /images/fdt-1/hash /images/kernel /images/kernel/hash-1
+</pre></div>
+</div>
+<p>This gives us a bit of a look into the signature that mkimage added. Note you
+can also use fdtdump to list the entire device tree.</p>
+<p>Say we want to change the kernel that this configuration uses
+(/images/kernel). We could just put a new kernel in the image, but we will
+need to change the hash to match. Let’s simulate that by changing a byte of
+the hash:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fdtget -tx image.fit /images/kernel/hash-1 value
+c9436464 6427e10f 423837e5 59898ef0 2c97b988
+fdtput -tx image.fit /images/kernel/hash-1 value c9436464 6427e10f 423837e5 59898ef0 2c97b981
+</pre></div>
+</div>
+<p>Now check it again:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$UOUT/tools/fit_check_sign -f image.fit -k am335x-boneblack-pubkey.dtb
+Verifying Hash Integrity ... sha1,rsa2048:devrsa_verify_with_keynode: RSA failed to verify: -13
+rsa_verify_with_keynode: RSA failed to verify: -13
+-
+Failed to verify required signature 'key-dev'
+Signature check Bad (error 1)
+</pre></div>
+</div>
+<p>This time we don’t even get as far as checking the images, since the
+configuration signature doesn’t match. We can’t change any hashes without the
+signature check noticing. The configuration is essentially locked. U-Boot has
+a public key for which it requires a match, and will not permit the use of any
+configuration that does not match that public key. The only way the
+configuration will match is if it was signed by the matching private key.</p>
+<p>It would also be possible to add a new signature node that does match your new
+configuration. But that won’t work since you are not allowed to change the
+configuration in any way. Try it with a fresh (valid) image if you like by
+running the mkimage link again. Then:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fdtput -p image.fit /configurations/conf-1/signature-1 value fred
+$UOUT/tools/fit_check_sign -f image.fit -k am335x-boneblack-pubkey.dtb
+Verifying Hash Integrity ... -
+sha1,rsa2048:devrsa_verify_with_keynode: RSA failed to verify: -13
+rsa_verify_with_keynode: RSA failed to verify: -13
+-
+Failed to verify required signature 'key-dev'
+Signature check Bad (error 1)
+</pre></div>
+</div>
+<p>Of course it would be possible to add an entirely new configuration and boot
+with that, but it still needs to be signed, so it won’t help.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/6. Put the public key into U-Boot’s image"></a><div class="section" id="put-the-public-key-into-u-boot-s-image">
+<h2>6. Put the public key into U-Boot’s image<a class="headerlink" href="#put-the-public-key-into-u-boot-s-image" title="Permalink to this headline">¶</a></h2>
+<p>Having confirmed that the signature is doing its job, let’s try it out in
+U-Boot on the board. U-Boot needs access to the public key corresponding to
+the private key that you signed with so that it can verify any kernels that
+you sign:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd $UBOOT
+make O=b/am335x_boneblack_vboot EXT_DTB=${WORK}/am335x-boneblack-pubkey.dtb
+</pre></div>
+</div>
+<p>Here we are overriding the normal device tree file with our one, which
+contains the public key.</p>
+<p>Now you have a special U-Boot image with the public key. It can verify can
+kernel that you sign with the private key as in step 5.</p>
+<p>If you like you can take a look at the public key information that mkimage
+added to U-Boot’s device tree:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fdtget -p am335x-boneblack-pubkey.dtb /signature/key-dev
+required
+algo
+rsa,r-squared
+rsa,modulus
+rsa,n0-inverse
+rsa,num-bits
+key-name-hint
+</pre></div>
+</div>
+<p>This has information about the key and some pre-processed values which U-Boot
+can use to verify against it. These values are obtained from the public key
+certificate by mkimage, but require quite a bit of code to generate. To save
+code space in U-Boot, the information is extracted and written in raw form for
+U-Boot to easily use. The same mechanism is used in Google’s Chrome OS.</p>
+<p>Notice the ‘required’ property. This marks the key as required - U-Boot will
+not boot any image that does not verify against this key.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/7. Put U-Boot and the kernel onto the board"></a><div class="section" id="put-u-boot-and-the-kernel-onto-the-board">
+<h2>7. Put U-Boot and the kernel onto the board<a class="headerlink" href="#put-u-boot-and-the-kernel-onto-the-board" title="Permalink to this headline">¶</a></h2>
+<p>The method here varies depending on how you are booting. For this example we
+are booting from an micro-SD card with two partitions, one for U-Boot and one
+for Linux. Put it into your machine and write U-Boot and the kernel to it.
+Here the card is /dev/sde:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd $WORK
+export UDEV=/dev/sde1   # Change thes two lines to the correct device
+export KDEV=/dev/sde2
+sudo mount $UDEV /mnt/tmp &amp;&amp; sudo cp $UOUT/u-boot-dtb.img /mnt/tmp/u-boot.img  &amp;&amp; sleep 1 &amp;&amp; sudo umount $UDEV
+sudo mount $KDEV /mnt/tmp &amp;&amp; sudo cp $WORK/image.fit /mnt/tmp/boot/image.fit &amp;&amp; sleep 1 &amp;&amp; sudo umount $KDEV
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/8. Try it"></a><div class="section" id="try-it">
+<h2>8. Try it<a class="headerlink" href="#try-it" title="Permalink to this headline">¶</a></h2>
+<p>Boot the board using the commands below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>setenv bootargs console=ttyO0,115200n8 quiet root=/dev/mmcblk0p2 ro rootfstype=ext4 rootwait
+ext2load mmc 0:2 82000000 /boot/image.fit
+bootm 82000000
+</pre></div>
+</div>
+<p>You should then see something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot# setenv bootargs console=ttyO0,115200n8 quiet root=/dev/mmcblk0p2 ro rootfstype=ext4 rootwait
+U-Boot# ext2load mmc 0:2 82000000 /boot/image.fit
+7824930 bytes read in 589 ms (12.7 MiB/s)
+U-Boot# bootm 82000000
+## Loading kernel from FIT Image at 82000000 ...
+   Using 'conf-1' configuration
+   Verifying Hash Integrity ... sha1,rsa2048:dev+ OK
+   Trying 'kernel' kernel subimage
+     Description:  unavailable
+     Created:      2014-06-01  19:32:54 UTC
+     Type:         Kernel Image
+     Compression:  lzo compressed
+     Data Start:   0x820000a8
+     Data Size:    7790938 Bytes = 7.4 MiB
+     Architecture: ARM
+     OS:           Linux
+     Load Address: 0x80008000
+     Entry Point:  0x80008000
+     Hash algo:    sha1
+     Hash value:   c94364646427e10f423837e559898ef02c97b988
+   Verifying Hash Integrity ... sha1+ OK
+## Loading fdt from FIT Image at 82000000 ...
+   Using 'conf-1' configuration
+   Trying 'fdt-1' fdt subimage
+     Description:  beaglebone-black
+     Created:      2014-06-01  19:32:54 UTC
+     Type:         Flat Device Tree
+     Compression:  uncompressed
+     Data Start:   0x8276e2ec
+     Data Size:    31547 Bytes = 30.8 KiB
+     Architecture: ARM
+     Hash algo:    sha1
+     Hash value:   cb09202f889d824f23b8e4404b781be5ad38a68d
+   Verifying Hash Integrity ... sha1+ OK
+   Booting using the fdt blob at 0x8276e2ec
+   Uncompressing Kernel Image ... OK
+   Loading Device Tree to 8fff5000, end 8ffffb3a ... OK
+
+Starting kernel ...
+
+[    0.582377] omap_init_mbox: hwmod doesn't have valid attrs
+[    2.589651] musb-hdrc musb-hdrc.0.auto: Failed to request rx1.
+[    2.595830] musb-hdrc musb-hdrc.0.auto: musb_init_controller failed with status -517
+[    2.606470] musb-hdrc musb-hdrc.1.auto: Failed to request rx1.
+[    2.612723] musb-hdrc musb-hdrc.1.auto: musb_init_controller failed with status -517
+[    2.940808] drivers/rtc/hctosys.c: unable to open rtc device (rtc0)
+[    7.248889] libphy: PHY 4a101000.mdio:01 not found
+[    7.253995] net eth0: phy 4a101000.mdio:01 not found on slave 1
+systemd-fsck[83]: Angstrom: clean, 50607/218160 files, 306348/872448 blocks
+
+.---O---.
+|       |                  .-.           o o
+|   |   |-----.-----.-----.| |   .----..-----.-----.
+|       |     | __  |  ---'| '--.|  .-'|     |     |
+|   |   |  |  |     |---  ||  --'|  |  |  '  | | | |
+'---'---'--'--'--.  |-----''----''--'  '-----'-'-'-'
+                -'  |
+                '---'
+
+The Angstrom Distribution beaglebone ttyO0
+
+Angstrom v2012.12 - Kernel 3.14.1+
+
+beaglebone login:
+</pre></div>
+</div>
+<p>At this point your kernel has been verified and you can be sure that it is one
+that you signed. As an exercise, try changing image.fit as in step 5 and see
+what happens.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Further Improvements"></a><div class="section" id="further-improvements">
+<h2>Further Improvements<a class="headerlink" href="#further-improvements" title="Permalink to this headline">¶</a></h2>
+<p>Several of the steps here can be easily automated. In particular it would be
+capital if signing and packaging a kernel were easy, perhaps a simple make
+target in the kernel.</p>
+<p>Some mention of how to use multiple .dtb files in a FIT might be useful.</p>
+<p>U-Boot’s verified boot mechanism has not had a robust and independent security
+review. Such a review should look at the implementation and its resistance to
+attacks.</p>
+<p>Perhaps the verified boot feature could be integrated into the Amstrom
+distribution.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="verified-boot.html" rel="prev" title="U-Boot Verified Boot"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="overlay-fdt-boot.html" rel="next" title="U-Boot FDT Overlay FIT usage">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

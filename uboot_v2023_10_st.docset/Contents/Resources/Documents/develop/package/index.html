@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Package U-Boot — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="binman.html" rel="next" title="Introduction"/>
+<link href="../trace.html" rel="prev" title="Tracing in U-Boot"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#packaging">Packaging</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Package U-Boot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="binman.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#using-binman">Using binman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#image-description-format">Image description format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#templates">Templates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#updating-an-elf-file">Updating an ELF file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#entry-documentation">Entry Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#managing-images">Managing images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#bintools">Bintools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#bintool-documentation">Bintool Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#binman-commands-and-arguments">Binman commands and arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#technical-details">Technical details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li>Package U-Boot</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/package/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Package U-Boot"></a><div class="section" id="package-u-boot">
+<h1>Package U-Boot<a class="headerlink" href="#package-u-boot" title="Permalink to this headline">¶</a></h1>
+<p>U-Boot uses Flat Image Tree (FIT) as a standard file format for packaging
+images that it reads and boots. Documentation about FIT is available at
+doc/uImage.FIT</p>
+<p>U-Boot also provides binman for cases not covered by FIT. Examples include
+initial execution (since FIT itself does not have an executable header) and
+dealing with device boundaries, such as the read-only/read-write separation in
+SPI flash.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="binman.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#what-it-does">What it does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#motivation">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#terminology">Terminology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#relationship-to-fit">Relationship to FIT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#relationship-to-mkimage">Relationship to mkimage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#using-binman">Using binman</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#example-use-of-binman-in-u-boot">Example use of binman in U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#invoking-binman-within-u-boot">Invoking binman within U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#invoking-binman-outside-u-boot">Invoking binman outside U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#assembling-the-image-description">Assembling the image description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#producing-images-for-multiple-boards">Producing images for multiple boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#example-use-of-binman-for-x86">Example use of binman for x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#installing-binman">Installing binman</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#running-binman">Running binman</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#enabling-binman-for-a-board">Enabling binman for a board</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#access-to-binman-entry-offsets-at-run-time-symbols">Access to binman entry offsets at run time (symbols)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#access-to-binman-entry-offsets-at-run-time-fdt">Access to binman entry offsets at run time (fdt)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#map-files">Map files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#passing-command-line-arguments-to-entries">Passing command-line arguments to entries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#image-description-format">Image description format</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#sections-and-hierachical-images">Sections and hierachical images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#image-properties">Image Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#image-dependencies">Image dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#hashing-entries">Hashing Entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#expanded-entries">Expanded entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#optional-entries">Optional entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#compression">Compression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#automatic-dtsi-inclusion">Automatic .dtsi inclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#templates">Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#dealing-with-phandles">Dealing with phandles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#updating-an-elf-file">Updating an ELF file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#entry-documentation">Entry Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="entries.html">Binman Entry Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#managing-images">Managing images</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#listing-images">Listing images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#extracting-files-from-images">Extracting files from images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#replacing-files-in-an-image">Replacing files in an image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#signing-fit-container-with-private-key-in-an-image">Signing FIT container with private key in an image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#logging">Logging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#bintools">Bintools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#bintool-documentation">Bintool Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html">Binman bintool Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#binman-commands-and-arguments">Binman commands and arguments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-build">binman build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-bintool-docs">binman bintool-docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-entry-docs">binman entry-docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-ls">binman ls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-extract">binman extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-replace">binman replace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-test">binman test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-sign">binman sign</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#binman-tool">binman tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binman.html#technical-details">Technical details</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#order-of-image-creation">Order of image creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#external-tools">External tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#external-blobs">External blobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#code-coverage">Code coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#exit-status">Exit status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#u-boot-environment-variables-for-binman">U-Boot environment variables for binman</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#error-messages">Error messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#concurrent-tests">Concurrent tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#debugging-tests">Debugging tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#running-tests-on-non-x86-architectures">Running tests on non-x86 architectures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#writing-new-entries-and-debugging">Writing new entries and debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#building-sections-in-parallel">Building sections in parallel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#collecting-data-for-an-entry-type">Collecting data for an entry type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#history-credits">History / Credits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#design-notes">Design notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binman.html#to-do">To do</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../trace.html" rel="prev" title="Tracing in U-Boot"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="binman.html" rel="next" title="Introduction">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

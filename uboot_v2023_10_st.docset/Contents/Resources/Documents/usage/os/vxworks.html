@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VxWorks — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../../develop/index.html" rel="next" title="Develop U-Boot"/>
+<link href="plan9.html" rel="prev" title="Plan 9"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#booting-os">Booting OS</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plan9.html">Plan 9</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">VxWorks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#status">Status</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vxworks-7-on-powerpc-arm-risc-v">VxWorks 7 on PowerPC/ARM/RISC-V</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vxworks-bootline">VxWorks bootline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#serial-console">Serial console</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#x86-specific-information">x86-specific information</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li>VxWorks</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/os/vxworks.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/VxWorks"></a><div class="section" id="vxworks">
+<h1>VxWorks<a class="headerlink" href="#vxworks" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the information about U-Boot loading VxWorks kernel.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Status"></a><div class="section" id="status">
+<h2>Status<a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot supports loading VxWorks kernels via ‘bootvx’ and ‘bootm’ commands.
+For booting old kernels (6.9.x) on PowerPC and ARM, and all kernel versions
+on other architectures, ‘bootvx’ shall be used. For booting VxWorks 7 kernels
+on PowerPC/ARM/RISC-V, ‘bootm’ shall be used.</p>
+<p>With CONFIG_EFI_LOADER option, it’s possible to chain load a VxWorks x86 kernel
+via the UEFI boot loader application for VxWorks loaded by ‘bootefi’ command.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/VxWorks 7 on PowerPC/ARM/RISC-V"></a><div class="section" id="vxworks-7-on-powerpc-arm-risc-v">
+<h2>VxWorks 7 on PowerPC/ARM/RISC-V<a class="headerlink" href="#vxworks-7-on-powerpc-arm-risc-v" title="Permalink to this headline">¶</a></h2>
+<p>From VxWorks 7, VxWorks starts adopting device tree as its hardware description
+mechanism (for PowerPC and ARM), thus requiring boot interface changes.
+This section will describe the new interface.</p>
+<p>Since VxWorks 7 SR0640 release, VxWorks starts using Linux compatible standard
+DTB for some boards. With that, the exact same bootm flow as used by Linux is
+used, which includes board-specific DTB fix up. To keep backward compatibility,
+only when the least significant bit of flags in bootargs is set, the standard
+DTB will be used. Otherwise it falls back to the legacy bootm flow.</p>
+<p>For legacy bootm flow, make sure the least significant bit of flags in bootargs
+is cleared. The calling convention is described below:</p>
+<p>For PowerPC, the calling convention of the new VxWorks entry point conforms to
+the ePAPR standard, which is shown below (see ePAPR for more details):</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">kernel_entry</span><span class="p">)(</span><span class="n">fdt_addr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">EPAPR_MAGIC</span><span class="p">,</span><span class="w"> </span><span class="n">boot_IMA</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For ARM, the calling convention is shown below:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">kernel_entry</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">fdt_addr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When using the Linux compatible standard DTB, the calling convention of VxWorks
+entry point is exactly the same as the Linux kernel.</p>
+<p>For RISC-V, there is no legacy bootm flow as VxWorks always uses the same boot
+interface as the Linux kernel, with the calling convention below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>void (*kernel_entry)(unsigned long hartid, void *fdt_addr)
+</pre></div>
+</div>
+<p>When booting a VxWorks 7 kernel (uImage format), the parameters passed to bootm
+is like below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootm &lt;kernel image address&gt; - &lt;device tree address&gt;
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/VxWorks bootline"></a><div class="section" id="vxworks-bootline">
+<h2>VxWorks bootline<a class="headerlink" href="#vxworks-bootline" title="Permalink to this headline">¶</a></h2>
+<p>When using ‘bootvx’, the kernel bootline must be prepared by U-Boot at a
+board-specific address before loading VxWorks. U-Boot supplies its address
+via “bootaddr” environment variable. To check where the bootline should be
+for a specific board, go to the VxWorks BSP for that board, and look for a
+parameter called BOOT_LINE_ADRS. Assign its value to “bootaddr”. A typical
+value for “bootaddr” on an x86 board is 0x101200.</p>
+<p>If a “bootargs” variable is defined, its content will be copied to the memory
+location pointed by “bootaddr” as the kernel bootline. If “bootargs” is not
+there, command ‘bootvx’ can construct a valid bootline using the following
+environments variables: bootdev, bootfile, ipaddr, netmask, serverip,
+gatewayip, hostname, othbootargs.</p>
+<p>When using ‘bootm’, just define “bootargs” in the environment and U-Boot will
+handle bootline fix up for the kernel dtb automatically.</p>
+<p>When using ‘bootefi’ to chain load an x86 kernel, the UEFI boot loader
+application for VxWorks takes care of the kernel bootline preparation.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Serial console"></a><div class="section" id="serial-console">
+<h2>Serial console<a class="headerlink" href="#serial-console" title="Permalink to this headline">¶</a></h2>
+<p>It’s very common that VxWorks BSPs configure a different baud rate for the
+serial console from what is being used by U-Boot. For example, VxWorks tends
+to use 9600 as the default baud rate on all x86 BSPs while U-Boot uses 115200.
+Please configure both U-Boot and VxWorks to use the same baud rate, or it may
+look like VxWorks hangs somewhere as nothing outputs on the serial console.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/x86-specific information"></a><div class="section" id="x86-specific-information">
+<h2>x86-specific information<a class="headerlink" href="#x86-specific-information" title="Permalink to this headline">¶</a></h2>
+<p>Before direct loading an x86 kernel via ‘bootvx’, one additional environment
+variable need to be provided. This is “vx_phys_mem_base”, which represent the
+physical memory base address of VxWorks.</p>
+<p>Check VxWorks kernel configuration to look for LOCAL_MEM_LOCAL_ADRS. For
+VxWorks 7, this is normally a virtual address and you need find out its
+corresponding physical address and assign its value to “vx_phys_mem_base”.</p>
+<p>For boards on which ACPI is not supported by U-Boot yet, VxWorks kernel must
+be configured to use MP table and virtual wire interrupt mode. This requires
+INCLUDE_MPTABLE_BOOT_OP and INCLUDE_VIRTUAL_WIRE_MODE to be included in a
+VxWorks kernel configuration.</p>
+<p>Both 32-bit x86 and 64-bit x64 kernels can be loaded.</p>
+<p>There are two types of graphics console drivers in VxWorks. One is the 80x25
+VGA text mode driver. The other one is the EFI console bitmapped graphics mode
+driver. To make these drivers function, U-Boot needs to load and run the VGA
+BIOS of the graphics card first.</p>
+<blockquote>
+<div><ul>
+<li><p>If the kernel is configured with 80x25 VGA text mode driver,
+CONFIG_FRAMEBUFFER_SET_VESA_MODE must be unset in U-Boot.</p></li>
+<li><p>If the kernel is configured with bitmapped graphics mode driver,
+CONFIG_FRAMEBUFFER_SET_VESA_MODE need remain set but care must be taken
+at which VESA mode is to be set. The supported pixel format is 32-bit
+RGBA, hence the available VESA mode can only be one of the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>FRAMEBUFFER_VESA_MODE_10F</p></li>
+<li><p>FRAMEBUFFER_VESA_MODE_112</p></li>
+<li><p>FRAMEBUFFER_VESA_MODE_115</p></li>
+<li><p>FRAMEBUFFER_VESA_MODE_118</p></li>
+<li><p>FRAMEBUFFER_VESA_MODE_11B</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="plan9.html" rel="prev" title="Plan 9"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../../develop/index.html" rel="next" title="Develop U-Boot">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

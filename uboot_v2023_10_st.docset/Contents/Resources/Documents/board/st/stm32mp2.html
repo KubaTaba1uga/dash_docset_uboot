@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>STM32MP2xx boards — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="stm32_MCU.html" rel="next" title="STM32 MCU boards"/>
+<link href="stm32mp1.html" rel="prev" title="STM32MP1xx boards"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">STMicroelectronics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="st-dt.html">U-Boot device tree bindings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stm32mp1.html">STM32MP1xx boards</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">STM32MP2xx boards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#supported-devices">Supported devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot-sequences">Boot Sequences</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device-tree">Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-procedure">Build Procedure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#switch-setting-for-boot-mode">Switch Setting for Boot Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-a-sd-card">Prepare a SD card</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-emmc">Prepare eMMC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coprocessor-firmware-on-stm32mp25x">Coprocessor firmware on STM32MP25x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dfu-support">DFU support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stm32_MCU.html">STM32 MCU boards</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">STMicroelectronics</a> »</li>
+<li>STM32MP2xx boards</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/st/stm32mp2.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/STM32MP2xx boards"></a><div class="section" id="stm32mp2xx-boards">
+<h1>STM32MP2xx boards<a class="headerlink" href="#stm32mp2xx-boards" title="Permalink to this headline">¶</a></h1>
+<p>This is a quick instruction for setup STMicroelectronics STM32MP2xx boards.</p>
+<p>Further information can be found in STMicroelectronics STM32 <a class="reference internal" href="#wiki">WIKI</a>.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Supported devices"></a><div class="section" id="supported-devices">
+<h2>Supported devices<a class="headerlink" href="#supported-devices" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot supports all the STMicroelectronics MPU with the associated boards</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>STMP32MP25x SoCs:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>STM32MP257</p></li>
+<li><p>STM32MP253</p></li>
+<li><p>STM32MP251</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p>Everything is supported in Linux but U-Boot is limited to the boot device:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>UART</p></li>
+<li><p>SD card/MMC controller (SDMMC)</p></li>
+<li><p>NAND controller (FMC)</p></li>
+<li><p>NOR controller (OSPI)</p></li>
+<li><p>HyperFlash controller (OSPI)</p></li>
+<li><p>USB controller (USB_STM32_USBH)</p></li>
+<li><p>Ethernet controller</p></li>
+</ol>
+</div></blockquote>
+<p>And the necessary drivers</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>I2C</p></li>
+<li><p>Clock, Reset, Sysreset</p></li>
+<li><p>Fuse (BSEC)</p></li>
+<li><p>OP-TEE</p></li>
+<li><p>ETH</p></li>
+<li><p>USB host</p></li>
+<li><p>WATCHDOG</p></li>
+<li><p>RNG</p></li>
+<li><p>RTC</p></li>
+</ol>
+</div></blockquote>
+<div class="section" id="stm32mp25x">
+<h3>STM32MP25x<a class="headerlink" href="#stm32mp25x" title="Permalink to this headline">¶</a></h3>
+<p>The STM32MP25x is a Cortex-A35 MPU aimed at various applications.</p>
+<p>It features:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Dual core Cortex-A35 application core (Single on STM32MP251)</p></li>
+<li><p>2D/3D image composition with GPU (only on STM32MP255 and STM32MP257)</p></li>
+<li><p>Standard memories interface support</p></li>
+<li><p>Standard connectivity, widely inherited from the STM32 MCU family</p></li>
+<li><p>Comprehensive security support</p></li>
+<li><p>Cortex M33 coprocessor</p></li>
+</ul>
+</div></blockquote>
+<p>Each line comes with a security option (cryptography &amp; secure boot) and
+a Cortex-A frequency option:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>A : Cortex-A35 @ 1.2 GHz</p></li>
+<li><p>C : Secure Boot + HW Crypto + Cortex-A35 @ 1.2 GHz</p></li>
+<li><p>D : Cortex-A35 @ 1.5 GHz</p></li>
+<li><p>F : Secure Boot + HW Crypto + Cortex-A35 @ 1.5 GHz</p></li>
+</ul>
+</div></blockquote>
+<p>Currently the following STMicroelectronics boards are supported:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>stm32mp257f-dk.dts</p></li>
+<li><p>stm32mp257f-ev1.dts</p></li>
+</ul>
+</div></blockquote>
+<p>The access to reset and clock resources are provided by OP-TEE and the associated SCMI
+services.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot Sequences"></a><div class="section" id="boot-sequences">
+<h2>Boot Sequences<a class="headerlink" href="#boot-sequences" title="Permalink to this headline">¶</a></h2>
+<p>The boot chain is :</p>
+<ul class="simple">
+<li><p>FSBL = <strong>TF-A BL2</strong></p></li>
+<li><p>Secure monitor = <strong>TF-A BL31</strong></p></li>
+<li><p>Secure OS = <strong>OP-TEE</strong></p></li>
+<li><p>SSBL = <strong>U-Boot</strong></p></li>
+</ul>
+<p>It is the only supported boot chain for STM32MP25x family.</p>
+<dl class="simple">
+<dt>defconfig_file :</dt><dd><ul class="simple">
+<li><p><strong>stm32mp25_defconfig</strong></p></li>
+</ul>
+</dd>
+</dl>
+<p><a class="reference internal" href="#tf-a">TF-A</a> and <a class="reference internal" href="#op-tee">OP-TEE</a> are 2 separate projects, with their git repository;
+they are compiled separately.</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#tf-a">TF-A</a> (BL2) initialize the DDR and loads the next stage binaries from a FIP file:</dt><dd><ul class="simple">
+<li><p>BL32: a secure monitor BL32 = OP-TEE, performs a full initialization of
+Secure peripherals and provides service to normal world.</p></li>
+<li><p>BL33: a non-trusted firmware = U-Boot, running in normal world and uses
+the secure monitor to access to secure resources.</p></li>
+<li><p>HW_CONFIG: The hardware configuration file = the U-Boot device tree</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Device Tree"></a><div class="section" id="device-tree">
+<h2>Device Tree<a class="headerlink" href="#device-tree" title="Permalink to this headline">¶</a></h2>
+<p>All the STM32MP25x boards supported by U-Boot use the same generic board stm32mp2
+which supports all the bootable devices.</p>
+<p>Each STMicroelectronics board is only configured with the associated device tree.</p>
+<div class="section" id="stm32mp25x-device-tree-selection">
+<h3>STM32MP25x device Tree Selection<a class="headerlink" href="#stm32mp25x-device-tree-selection" title="Permalink to this headline">¶</a></h3>
+<p>The supported device trees for STM32MP25x are:</p>
+<ul>
+<li><p>ev1: Evaluation board</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>stm32mp257f-ev1</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>dk: Discovery board</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>stm32mp257f-dk</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build Procedure"></a><div class="section" id="build-procedure">
+<h2>Build Procedure<a class="headerlink" href="#build-procedure" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Install the required tools for U-Boot</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>install package needed in U-Boot makefile
+(libssl-dev, swig, libpython-dev…)</p></li>
+<li><p>install ARMv8 toolchain for 64bit Cortex-A (from Linaro,
+from SDK for STM32MP25x, or any crosstoolchains from your distribution)
+(you can use any gcc cross compiler compatible with U-Boot)</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p>Set the cross compiler:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># export CROSS_COMPILE=/path/to/toolchain/arm-linux-gnueabi-
+</pre></div>
+</div>
+</li>
+<li><p>Select the output directory (optional):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># export KBUILD_OUTPUT=/path/to/output
+</pre></div>
+</div>
+<p>for example: use one output directory for each board:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># export KBUILD_OUTPUT=stm32mp257f-ev1
+# export KBUILD_OUTPUT=stm32mp257f-dk
+</pre></div>
+</div>
+<p>you can build outside of code directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># export KBUILD_OUTPUT=../build/stm32mp25
+</pre></div>
+</div>
+</li>
+<li><p>Configure U-Boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># make &lt;defconfig_file&gt;
+</pre></div>
+</div>
+<p>with &lt;defconfig_file&gt;: stm32mp25_defconfig</p>
+</li>
+<li><p>Configure the device-tree and build the U-Boot image:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># make DEVICE_TREE=&lt;name&gt; all
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple" start="6">
+<li><p>U-Boot Output files</p></li>
+</ol>
+<blockquote>
+<div><p>In the output directory (selected by KBUILD_OUTPUT),
+you can found the needed U-Boot files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>stm32mp25_defconfig = <strong>u-boot-nodtb.bin</strong> and <strong>u-boot.dtb</strong></p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<ol class="arabic" start="7">
+<li><p><a class="reference internal" href="#tf-a">TF-A</a> compilation</p>
+<p>see <a class="reference internal" href="#op-tee">OP-TEE</a> and <a class="reference internal" href="#tf-a">TF-A</a> documentation for build commands.</p>
+<ul>
+<li><p>compile OP-TEE to generate the binary included in FIP</p></li>
+<li><p>after TF-A compilation, the used files are:</p>
+<ul>
+<li><p><a class="reference internal" href="#tf-a">TF-A</a> BL2 =&gt; FSBL = <strong>tf-a.stm32</strong></p></li>
+<li><p>FIP =&gt; <strong>fip.bin</strong></p>
+<p>FIP file includes the 2 files given in arguments of <a class="reference internal" href="#tf-a">TF-A</a> compilation:</p>
+</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>BL33=u-boot-nodtb.bin</p></li>
+<li><p>BL33_CFG=u-boot.dtb</p></li>
+</ul>
+</div></blockquote>
+<p>You can also update an existing FIP after U-boot compilation with fiptool,
+a tool provided by <a class="reference internal" href="#tf-a">TF-A</a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># fiptool update --nt-fw u-boot-nodtb.bin --hw-config u-boot.dtb fip-stm32mp157c-ev1.bin
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>The bootloaders files</p></li>
+</ol>
+<ul class="simple">
+<li><p>The <strong>ROM code</strong> expects FSBL binaries with STM32 image header = tf-a.stm32</p></li>
+</ul>
+<p>According the FSBL / the boot mode:</p>
+<ul class="simple">
+<li><p><strong>TF-A</strong> expect a FIP binary = fip.bin, including the OS monitor (<a class="reference internal" href="#op-tee">OP-TEE</a>) and the
+U-Boot binary + device tree</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Switch Setting for Boot Mode"></a><div class="section" id="switch-setting-for-boot-mode">
+<h2>Switch Setting for Boot Mode<a class="headerlink" href="#switch-setting-for-boot-mode" title="Permalink to this headline">¶</a></h2>
+<p>You can select the boot mode, on the board with one switch, to select
+the boot pin values = BOOT0, BOOT1, BOOT2, BOOT3</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 27%"/>
+<col style="width: 18%"/>
+<col style="width: 18%"/>
+<col style="width: 18%"/>
+<col style="width: 18%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><em>Boot Mode</em></p></th>
+<th class="head"><p><em>BOOT3</em></p></th>
+<th class="head"><p><em>BOOT2</em></p></th>
+<th class="head"><p><em>BOOT1</em></p></th>
+<th class="head"><p><em>BOOT0</em></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Recovery</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>SD-Card</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>eMMC</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reserved</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>SPI-NOR</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reserved</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>Reserved</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reserved</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>Reserved</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reserved</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>Reserved</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reserved</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>Reserved</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reserved</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>Reserved</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recovery</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ul class="simple">
+<li><p>on the STM32MP25x <strong>evaluation board ev1 = MB1936</strong> with the switch SW1
+(BOOT0, BOOT1, BOOT2, BOOT3)</p></li>
+<li><p>on the STM32MP25x <strong>discovery board dk = MB1605</strong> with the switch SW1
+(BOOT0, BOOT1 only)</p></li>
+</ul>
+<p>Recovery is a boot from serial link (UART/USB) and it is used with
+STM32CubeProgrammer tool to load executable in RAM and to update the flash
+devices available on the board (HyperFlash/NOR/NAND/eMMC/SD card).</p>
+<p>The communication between HOST and board is based on</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>for UARTs : the uart protocol used with all MCU STM32</p></li>
+<li><p>for USB : based on USB DFU 1.1 (without the ST extensions used on MCU STM32)</p></li>
+</ul>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Prepare a SD card"></a><div class="section" id="prepare-a-sd-card">
+<h2>Prepare a SD card<a class="headerlink" href="#prepare-a-sd-card" title="Permalink to this headline">¶</a></h2>
+<p>The minimal requirements for STMP32MP25x boot up to U-Boot are:</p>
+<ul class="simple">
+<li><p>GPT partitioning (with gdisk or with sgdisk)</p></li>
+<li><p>2 fsbl partitions, named “fsbla1” and “fsbla2”, size at least 256KiB (2 copies for
+redundancy)</p></li>
+<li><p>2 metadata partitions for FIP update support, named “metadata1” and “metadata2”,
+size at least 256KiB (2 copies for redundancy)</p></li>
+<li><p>2 fip partitions named “fip-a” and “fip-b” for FIP binary</p></li>
+<li><p>1 environment partition named “u-boot-env”</p></li>
+</ul>
+<p>The 2 fsbl partitions have the same content and are present to guarantee a
+fail-safe update of FSBL; fsbl2 can be omitted if this ROM code feature is
+not required.</p>
+<p>Then the minimal GPT partition is:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 13%"/>
+<col style="width: 23%"/>
+<col style="width: 17%"/>
+<col style="width: 46%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><em>Num</em></p></th>
+<th class="head"><p><em>Name</em></p></th>
+<th class="head"><p><em>Size</em></p></th>
+<th class="head"><p><em>Content</em></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>fsbla1</p></td>
+<td><p>256 KiB</p></td>
+<td><p><a class="reference internal" href="#tf-a">TF-A</a> BL2 (tf-a.stm32)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>fsbla2</p></td>
+<td><p>256 KiB</p></td>
+<td><p><a class="reference internal" href="#tf-a">TF-A</a> BL2 (tf-a.stm32)</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>metadata1</p></td>
+<td><p>256 KiB</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>metadata1</p></td>
+<td><p>256 KiB</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>fip-a</p></td>
+<td><p>4 MiB</p></td>
+<td><p>fip.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>fip-b</p></td>
+<td><p>4 MiB</p></td>
+<td><p>fip.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>u-boot-env</p></td>
+<td><p>512 KiB</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>&lt;any&gt;</p></td>
+<td><p>&lt;any&gt;</p></td>
+<td><p>Rootfs</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>And the 8th partition (Rootfs) is marked bootable with a file extlinux.conf
+following the Generic Distribution feature (see <a class="reference internal" href="../../develop/distro.html"><span class="doc">Generic Distro Configuration Concept</span></a> for
+use).</p>
+<p>The size of fip partition must be enough for the associated binary file,
+4MB is the default value.</p>
+<p>According the used card reader select the correct block device
+(for example /dev/sdx or /dev/mmcblk0), in the next example, it is /dev/mmcblk0</p>
+<p>For example:</p>
+<ol class="loweralpha">
+<li><p>remove previous formatting:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># sgdisk -o /dev/&lt;SD card dev&gt;
+</pre></div>
+</div>
+</li>
+<li><p>create minimal image for FIP</p>
+<p>For FIP support in <a class="reference internal" href="#tf-a">TF-A</a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># sgdisk --resize-table=128 -a 1 \
+-n 1:34:545                 -c 1:fsbla1 \
+-n 2:546:1057               -c 2:fsbla2 \
+-n 3:1058:1569              -c 3:metadata1 \
+-n 4:1570:2081              -c 4:metadata2 \
+-n 5:2082:10273             -c 5:fip-a \
+-n 6:10274:18465            -c 6:fip-b \
+-n 7:18466:19489            -c 7:u-boot-env \
+-n 8:19490:                 -c 8:rootfs -A 4:set:2 \
+-p /dev/&lt;SD card dev&gt;
+</pre></div>
+</div>
+<p>With gpt table with 128 entries an the partition 4 marked bootable (bit 2).</p>
+</li>
+<li><p>copy the FSBL (2 times) and SSBL file on the correct partition.
+in this example in partition 1 to 6:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># dd if=tf-a.stm32 of=/dev/mmcblk0p1
+# dd if=tf-a.stm32 of=/dev/mmcblk0p2
+# dd if=fip.bin of=/dev/mmcblk0p5
+# dd if=fip.bin of=/dev/mmcblk0p6
+</pre></div>
+</div>
+</li>
+</ol>
+<p>To boot from SD card, select BootPinMode = 1 0 0 0 and reset.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Prepare eMMC"></a><div class="section" id="prepare-emmc">
+<h2>Prepare eMMC<a class="headerlink" href="#prepare-emmc" title="Permalink to this headline">¶</a></h2>
+<p>You can use U-Boot to copy binary in eMMC.</p>
+<p>In the next example, you need to boot from SD card and the images
+(tf-a.stm32, metadata, fip.bin, u-boot.img are presents on SD card
+(mmc 0) in ext4 partition 4 (bootfs)</p>
+<p>To boot from SD card, select BootPinMode = 1 0 0 0 and reset.</p>
+<p>Then you update the eMMC with the next U-Boot command :</p>
+<ol class="loweralpha">
+<li><p>prepare GPT on eMMC,
+example with 3 partitions, fip, bootfs and roots:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># setenv emmc_part "name==metadata1,size=256KiB;name=metada2,size=256KiB;name=fip-a,size=4MiB;name=fip-b,size=4MiB;name=bootfs,type=linux,bootable,size=64MiB;name=rootfs,type=linux,size=512"
+# gpt write mmc 1 ${emmc_part}
+</pre></div>
+</div>
+</li>
+<li><p>copy FSBL ( <a class="reference internal" href="#tf-a">TF-A</a> ) in first eMMC boot partition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># ext4load mmc 0:4 0xC0000000 tf-a.stm32
+
+# mmc dev 1
+# mmc partconf 1 1 1 1
+# mmc write ${fileaddr} 0 200
+# mmc partconf 1 1 1 0
+</pre></div>
+</div>
+</li>
+<li><p>copy SSBL ( FIP ) in fip-a GPT partition of eMMC:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># ext4load mmc 0:4 0xC0000000 fip.bin
+
+# mmc dev 1
+# part start mmc 1 fip-a partstart
+# mmc write ${fileaddr} ${partstart} ${filesize}
+</pre></div>
+</div>
+</li>
+</ol>
+<p>To boot from eMMC, select BootPinMode = 0 0 1 0 and reset.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Coprocessor firmware on STM32MP25x"></a><div class="section" id="coprocessor-firmware-on-stm32mp25x">
+<h2>Coprocessor firmware on STM32MP25x<a class="headerlink" href="#coprocessor-firmware-on-stm32mp25x" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot can boot the coprocessor before the kernel (coprocessor early boot) by using rproc commands (update the bootcmd)</p>
+<blockquote>
+<div><p>Configurations:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># env set name_copro "rproc-m33-fw_sign.bin"
+# env set dev_copro 0
+# env set loadaddr_copro ${kernel_addr_r}
+</pre></div>
+</div>
+<p>Load binary from bootfs partition on SD card (mmc 0):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># load mmc 0#bootfs ${loadaddr_copro} ${name_copro}
+</pre></div>
+</div>
+<p>=&gt; ${filesize} variable is updated with the size of the loaded file.</p>
+<p>Start M33 firmware with remote proc command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># rproc init
+# rproc load ${dev_copro} ${loadaddr_copro} ${filesize}
+# rproc start ${dev_copro}"0
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/DFU support"></a><div class="section" id="dfu-support">
+<h2>DFU support<a class="headerlink" href="#dfu-support" title="Permalink to this headline">¶</a></h2>
+<p>The DFU is supported on ST board.</p>
+<p>The env variable dfu_alt_info is automatically build, and all
+the memory present on the ST boards are exported.</p>
+<p>The dfu mode is started by the command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>STM32MP&gt; dfu 0
+</pre></div>
+</div>
+<p>On EV1 board, booting from SD card:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>STM32MP&gt; dfu 0 list
+DFU alt settings list:
+</pre></div>
+</div>
+<p>dev: RAM alt: 0 name: uImage layout: RAM_ADDR
+dev: RAM alt: 1 name: devicetree.dtb layout: RAM_ADDR
+dev: RAM alt: 2 name: uramdisk.image.gz layout: RAM_ADDR
+dev: eMMC alt: 3 name: mmc0_fsbla1 layout: RAW_ADDR
+dev: eMMC alt: 4 name: mmc0_fsbla2 layout: RAW_ADDR
+dev: eMMC alt: 5 name: mmc0_metadata1 layout: RAW_ADDR
+dev: eMMC alt: 6 name: mmc0_metadata2 layout: RAW_ADDR
+dev: eMMC alt: 7 name: mmc0_fip-a layout: RAW_ADDR
+dev: eMMC alt: 8 name: mmc0_fip-b layout: RAW_ADDR
+dev: eMMC alt: 9 name: mmc0_u-boot-env layout: RAW_ADDR
+dev: eMMC alt: 10 name: mmc0_bootfs layout: RAW_ADDR
+dev: eMMC alt: 11 name: mmc0_vendorfs layout: RAW_ADDR
+dev: eMMC alt: 12 name: mmc0_rootfs layout: RAW_ADDR
+dev: eMMC alt: 13 name: mmc0_userfs layout: RAW_ADDR
+dev: eMMC alt: 14 name: mmc1_boot1 layout: RAW_ADDR
+dev: eMMC alt: 15 name: mmc1_boot2 layout: RAW_ADDR
+dev: eMMC alt: 16 name: mmc1_fip layout: RAW_ADDR
+dev: eMMC alt: 17 name: mmc1_bootfs layout: RAW_ADDR
+dev: eMMC alt: 18 name: mmc1_vendorfs layout: RAW_ADDR
+dev: eMMC alt: 19 name: mmc1_rootfs layout: RAW_ADDR
+dev: eMMC alt: 20 name: mmc1_test_report layout: RAW_ADDR
+dev: eMMC alt: 21 name: mmc1_backup layout: RAW_ADDR
+dev: MTD alt: 22 name: nor1 layout: RAW_ADDR
+dev: MTD alt: 23 name: nor1_fsbla1 layout: RAW_ADDR
+dev: MTD alt: 24 name: nor1_fsbla2 layout: RAW_ADDR
+dev: MTD alt: 25 name: nor1_metadata1 layout: RAW_ADDR
+dev: MTD alt: 26 name: nor1_metadata2 layout: RAW_ADDR
+dev: MTD alt: 27 name: nor1_fip-a layout: RAW_ADDR
+dev: MTD alt: 28 name: nor1_fip-b layout: RAW_ADDR
+dev: MTD alt: 29 name: nor1_u-boot-env layout: RAW_ADDR
+dev: MTD alt: 30 name: nor1_nor-user layout: RAW_ADDR
+dev: VIRT alt: 31 name: OTP layout: RAW_ADDR</p>
+<p>All the supported device are exported for dfu-util tool:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$&gt; dfu-util -l
+
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=31, name="OTP", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=30, name="nor1_nor-user", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=29, name="nor1_u-boot-env", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=28, name="nor1_fip-b", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=27, name="nor1_fip-a", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=26, name="nor1_metadata2", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=25, name="nor1_metadata1", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=24, name="nor1_fsbla2", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=23, name="nor1_fsbla1", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=22, name="nor1", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=21, name="mmc1_backup", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=20, name="mmc1_test_report", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=19, name="mmc1_rootfs", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=18, name="mmc1_vendorfs", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=17, name="mmc1_bootfs", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=16, name="mmc1_fip", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=15, name="mmc1_boot2", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=14, name="mmc1_boot1", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=13, name="mmc0_userfs", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=12, name="mmc0_rootfs", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=11, name="mmc0_vendorfs", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=10, name="mmc0_bootfs", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=9, name="mmc0_u-boot-env", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=8, name="mmc0_fip-b", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=7, name="mmc0_fip-a", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=6, name="mmc0_metadata2", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=5, name="mmc0_metadata1", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=4, name="mmc0_fsbla2", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=3, name="mmc0_fsbla1", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=2, name="uramdisk.image.gz", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=1, name="devicetree.dtb", serial="004A00253836500B00343046"
+Found DFU: [0483:df11] ver=0200, devnum=21, cfg=1, intf=0, path="3-6.1", alt=0, name="uImage", serial="004A00253836500B00343046"
+</pre></div>
+</div>
+<p>You can update the boot device:</p>
+<ul>
+<li><p>SD card (mmc0):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$&gt; dfu-util -d 0483:df11 -a 3 -D tf-a-stm32mp257f-ev1.stm32
+$&gt; dfu-util -d 0483:df11 -a 4 -D tf-a-stm32mp257f-ev1.stm32
+$&gt; dfu-util -d 0483:df11 -a 5 -D fip-stm32mp257f-ev1.bin
+$&gt; dfu-util -d 0483:df11 -a 10 -D st-image-bootfs-openstlinux-weston-stm32mp2.ext4
+$&gt; dfu-util -d 0483:df11 -a 11 -D st-image-vendorfs-openstlinux-weston-stm32mp2.ext4
+$&gt; dfu-util -d 0483:df11 -a 12 -D st-image-weston-openstlinux-weston-stm32mp2.ext4
+$&gt; dfu-util -d 0483:df11 -a 13 -D st-image-userfs-openstlinux-weston-stm32mp2.ext4
+</pre></div>
+</div>
+</li>
+<li><p>EMMC (mmc1):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$&gt; dfu-util -d 0483:df11 -a 14 -D tf-a-stm32mp257f-ev1.stm32
+$&gt; dfu-util -d 0483:df11 -a 15 -D tf-a-stm32mp257f-ev1.stm32
+$&gt; dfu-util -d 0483:df11 -a 16 -D fip-stm32mp257f-ev1.bin
+$&gt; dfu-util -d 0483:df11 -a 17 -D st-image-bootfs-openstlinux-weston-stm32mp2.ext4
+$&gt; dfu-util -d 0483:df11 -a 18 -D st-image-vendorfs-openstlinux-weston-stm32mp2.ext4
+$&gt; dfu-util -d 0483:df11 -a 19 -D st-image-weston-openstlinux-weston-stm32mp2.ext4
+$&gt; dfu-util -d 0483:df11 -a 20 -D st-image-userfs-openstlinux-weston-stm32mp2.ext4
+</pre></div>
+</div>
+</li>
+<li><p>you can also dump the OTP and the PMIC NVM with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$&gt; dfu-util -d 0483:df11 -a 31 -U otp.bin
+</pre></div>
+</div>
+</li>
+</ul>
+<p>When the board is booting for nor1, only the MTD partition on the boot devices are available, for example:</p>
+<ul>
+<li><p>NOR (nor1 = alt 15) :</p>
+<p>$&gt; dfu-util -d 0483:df11 -a 16 -D tf-a-stm32mp157c-ev1.stm32
+$&gt; dfu-util -d 0483:df11 -a 17 -D tf-a-stm32mp157c-ev1.stm32
+$&gt; dfu-util -d 0483:df11 -a 20 -D fip-stm32mp157c-ev1.bin
+$&gt; dfu-util -d 0483:df11 -a 23 -D st-image-weston-openstlinux-weston-stm32mp1_nand_4_256_multivolume.ubi</p>
+</li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/References"></a><div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/wiki"></a><p id="wiki">STM32 Arm® Cortex®-based MPUs user guide</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://wiki.st.com/">https://wiki.st.com/</a></p></li>
+<li><p><a class="reference external" href="https://wiki.st.com/stm32mpu/wiki/Main_Page">https://wiki.st.com/stm32mpu/wiki/Main_Page</a></p></li>
+</ul>
+</div></blockquote>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/tf-a"></a><p id="tf-a">TF-A = The Trusted Firmware-A project provides a reference implementation of
+secure world software for Armv7-A and Armv8-A class processors</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://www.trustedfirmware.org/projects/tf-a/">https://www.trustedfirmware.org/projects/tf-a/</a></p></li>
+<li><p><a class="reference external" href="https://trustedfirmware-a.readthedocs.io/en/latest/">https://trustedfirmware-a.readthedocs.io/en/latest/</a></p></li>
+<li><p><a class="reference external" href="https://trustedfirmware-a.readthedocs.io/en/latest/plat/stm32mp2.html">https://trustedfirmware-a.readthedocs.io/en/latest/plat/stm32mp2.html</a></p></li>
+<li><p><a class="reference external" href="https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/">https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/</a></p></li>
+</ul>
+</div></blockquote>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/op-tee"></a><p id="op-tee">OP-TEE = an open source Trusted Execution Environment (TEE) implementing the
+Arm TrustZone technology</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://www.op-tee.org/">https://www.op-tee.org/</a></p></li>
+<li><p><a class="reference external" href="https://optee.readthedocs.io/en/latest/">https://optee.readthedocs.io/en/latest/</a></p></li>
+<li><p><a class="reference external" href="https://optee.readthedocs.io/en/latest/building/devices/stm32mp2.html">https://optee.readthedocs.io/en/latest/building/devices/stm32mp2.html</a></p></li>
+<li><p><a class="reference external" href="https://github.com/OP-TEE/optee_os">https://github.com/OP-TEE/optee_os</a></p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="stm32mp1.html" rel="prev" title="STM32MP1xx boards"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="stm32_MCU.html" rel="next" title="STM32 MCU boards">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Architecture-specific doc — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="arc.html" rel="next" title="ARC"/>
+<link href="../api/unicode.html" rel="prev" title="Unicode support"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture-specific doc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html">ARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html">RISC-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/index.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li>Architecture-specific doc</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/arch/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Architecture-specific doc"></a><div class="section" id="architecture-specific-doc">
+<h1>Architecture-specific doc<a class="headerlink" href="#architecture-specific-doc" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="arc.html">ARC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arm64.html">ARM64</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html#notes">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arm64.ffa.html">Arm FF-A Support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#ff-a-and-smc-specifications">FF-A and SMC specifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#supported-hardware">Supported hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#ff-a-abis-under-the-hood">FF-A ABIs under the hood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#ff-a-bus-discovery-on-arm-64-bit-platforms">FF-A bus discovery on Arm 64-bit platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#requirements-for-clients">Requirements for clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#requirements-for-user-drivers">Requirements for user drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#the-bus-driver-layer">The bus driver layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#relationship-between-the-sandbox-emulator-and-the-ff-a-device">Relationship between the sandbox emulator and the FF-A device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#the-armffa-command">The armffa command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#example-of-boot-logs-with-ff-a-enabled">Example of boot logs with FF-A enabled</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="m68k.html">M68K / ColdFire</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html#history">History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html#supported-cpu-families">Supported CPU families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html#supported-boards">Supported boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html#adopted-toolchains">Adopted toolchains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html#coldfire-specific-configuration-options-settings">ColdFire specific configuration options/settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">MIPS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mips.html#toolchains">Toolchains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mips.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mips.html#todos">TODOs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nios2.html">Nios II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="riscv.html">RISC-V</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html#typical-boot-process">Typical Boot Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html#toolchain">Toolchain</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox/index.html">Sandbox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/block_impl.html">Sandbox block devices (implementation)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sh.html">SuperH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sh.html#what-s-this">What’s this?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html#supported-cpus">Supported CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html#supported-boards">Supported Boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html#compiler">Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html#future">Future</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="x86.html">x86</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#status">Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#build-instructions-for-u-boot-as-bios-replacement-bare-mode">Build Instructions for U-Boot as BIOS replacement (bare mode)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#cpu-microcode">CPU Microcode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#smp-support">SMP Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#driver-model">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#device-tree">Device Tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#useful-commands">Useful Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#booting-ubuntu">Booting Ubuntu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#test-with-seabios">Test with SeaBIOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#development-flow">Development Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#porting-hints">Porting Hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#acpi-support-status">ACPI Support Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#efi-support">EFI Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#chain-loading">Chain-loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#smbios-tables">SMBIOS tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html#todo-list">TODO List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xtensa.html">Xtensa</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html#xtensa-architecture-and-diamond-cores">Xtensa Architecture and Diamond Cores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html#adding-support-for-an-additional-processor-configuration">Adding support for an additional processor configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html#global-data-pointer-exported-function-stubs-and-the-abi">Global Data Pointer, Exported Function Stubs, and the ABI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html#access-to-invalid-memory-addresses">Access to Invalid Memory Addresses</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../api/unicode.html" rel="prev" title="Unicode support"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="arc.html" rel="next" title="ARC">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

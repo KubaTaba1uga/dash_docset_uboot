@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Building with Clang — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="reproducible.html" rel="next" title="Reproducible builds"/>
+<link href="gcc.html" rel="prev" title="Building with GCC"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Build U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="source.html">Obtaining the source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gcc.html">Building with GCC</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Building with Clang</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#debian-based">Debian based</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#freebsd-11">FreeBSD 11</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#known-issues">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reproducible.html">Reproducible builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker.html">GitLab CI / U-Boot runner container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">Host tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildman.html">Buildman build tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html">Building documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Build U-Boot</a> »</li>
+<li>Building with Clang</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/build/clang.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building with Clang"></a><div class="section" id="building-with-clang">
+<h1>Building with Clang<a class="headerlink" href="#building-with-clang" title="Permalink to this headline">¶</a></h1>
+<p>The biggest problem when trying to compile U-Boot with Clang is that almost all
+archs rely on storing gd in a global register and the Clang 3.5 user manual
+states: “Clang does not support global register variables; this is unlikely to
+be implemented soon because it requires additional LLVM backend support.”</p>
+<p>The ARM backend can be instructed not to use the r9 and x18 registers using
+-ffixed-r9 or -ffixed-x18 respectively. As global registers themselves are not
+supported inline assembly is needed to get and set the r9 or x18 value. This
+leads to larger code then strictly necessary, but at least works.</p>
+<p><strong>NOTE:</strong> target compilation only work for _some_ ARM boards at the moment.
+Also AArch64 is not supported currently due to a lack of private libgcc
+support. Boards which reassign gd in c will also fail to compile, but there is
+in no strict reason to do so in the ARM world, since crt0.S takes care of this.
+These assignments can be avoided by changing the init calls but this is not in
+mainline yet.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debian based"></a><div class="section" id="debian-based">
+<h2>Debian based<a class="headerlink" href="#debian-based" title="Permalink to this headline">¶</a></h2>
+<p>Required packages can be installed via apt, e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>clang
+</pre></div>
+</div>
+<p>Note that we still use binutils for some tools so we must continue to set
+CROSS_COMPILE. To compile U-Boot with Clang on Linux without IAS use e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">HOSTCC</span><span class="o">=</span>clang<span class="w"> </span>rpi_2_defconfig
+make<span class="w"> </span><span class="nv">HOSTCC</span><span class="o">=</span>clang<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>arm-linux-gnueabi-<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="nv">CC</span><span class="o">=</span><span class="s2">"clang -target arm-linux-gnueabi"</span><span class="w"> </span>-j8
+</pre></div>
+</div>
+<p>It can also be used to compile sandbox:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">HOSTCC</span><span class="o">=</span>clang<span class="w"> </span>sandbox_defconfig
+make<span class="w"> </span><span class="nv">HOSTCC</span><span class="o">=</span>clang<span class="w"> </span><span class="nv">CC</span><span class="o">=</span>clang<span class="w"> </span>-j8
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/FreeBSD 11"></a><div class="section" id="freebsd-11">
+<h2>FreeBSD 11<a class="headerlink" href="#freebsd-11" title="Permalink to this headline">¶</a></h2>
+<p>Since llvm 3.4 is currently in the base system, the integrated assembler as
+is incapable of building U-Boot. Therefore gas from devel/arm-gnueabi-binutils
+is used instead. It needs a symlink to be picked up correctly though:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/bin/arm-gnueabi-freebsd-as<span class="w"> </span>/usr/bin/arm-freebsd-eabi-as
+</pre></div>
+</div>
+<p>The following commands compile U-Boot using the Clang xdev toolchain.</p>
+<p><strong>NOTE:</strong> CROSS_COMPILE and target differ on purpose!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>arm-gnueabi-freebsd-
+gmake<span class="w"> </span>rpi_2_defconfig
+gmake<span class="w"> </span><span class="nv">CC</span><span class="o">=</span><span class="s2">"clang -target arm-freebsd-eabi --sysroot /usr/arm-freebsd"</span><span class="w"> </span>-j8
+</pre></div>
+</div>
+<p>Given that U-Boot will default to gcc, above commands can be
+simplified with a simple wrapper script - saved as
+/usr/local/bin/arm-gnueabi-freebsd-gcc - listed below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<span class="nb">exec</span><span class="w"> </span>clang<span class="w"> </span>-target<span class="w"> </span>arm-freebsd-eabi<span class="w"> </span>--sysroot<span class="w"> </span>/usr/arm-freebsd<span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Known Issues"></a><div class="section" id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<p>When build U-boot for <cite>xenguest_arm64_defconfig</cite> target, it reports linkage
+error:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aarch64-linux-gnu-ld.bfd:<span class="w"> </span>drivers/xen/hypervisor.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>do_hypervisor_callback<span class="s1">':</span>
+<span class="s1">/home/leoy/Dev2/u-boot/drivers/xen/hypervisor.c:188: undefined reference to `__aarch64_swp8_acq_rel'</span>
+aarch64-linux-gnu-ld.bfd:<span class="w"> </span>drivers/xen/hypervisor.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>synch_test_and_set_bit<span class="s1">':</span>
+<span class="s1">/home/leoy/Dev2/u-boot/./arch/arm/include/asm/xen/system.h:40: undefined reference to `__aarch64_ldset1_acq_rel'</span>
+aarch64-linux-gnu-ld.bfd:<span class="w"> </span>drivers/xen/hypervisor.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>synch_test_and_clear_bit<span class="s1">':</span>
+<span class="s1">/home/leoy/Dev2/u-boot/./arch/arm/include/asm/xen/system.h:28: undefined reference to `__aarch64_ldclr1_acq_rel'</span>
+aarch64-linux-gnu-ld.bfd:<span class="w"> </span>drivers/xen/hypervisor.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>synch_test_and_set_bit<span class="s1">':</span>
+<span class="s1">/home/leoy/Dev2/u-boot/./arch/arm/include/asm/xen/system.h:40: undefined reference to `__aarch64_ldset1_acq_rel'</span>
+aarch64-linux-gnu-ld.bfd:<span class="w"> </span>drivers/xen/hypervisor.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>synch_test_and_clear_bit<span class="s1">':</span>
+<span class="s1">/home/leoy/Dev2/u-boot/./arch/arm/include/asm/xen/system.h:28: undefined reference to `__aarch64_ldclr1_acq_rel'</span>
+aarch64-linux-gnu-ld.bfd:<span class="w"> </span>drivers/xen/events.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>synch_test_and_clear_bit<span class="s1">':</span>
+<span class="s1">/home/leoy/Dev2/u-boot/./arch/arm/include/asm/xen/system.h:28: undefined reference to `__aarch64_ldclr1_acq_rel'</span>
+aarch64-linux-gnu-ld.bfd:<span class="w"> </span>drivers/xen/events.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>synch_test_and_set_bit<span class="s1">':</span>
+<span class="s1">/home/leoy/Dev2/u-boot/./arch/arm/include/asm/xen/system.h:40: undefined reference to `__aarch64_ldset1_acq_rel'</span>
+aarch64-linux-gnu-ld.bfd:<span class="w"> </span>drivers/xen/gnttab.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>gnttab_end_access<span class="s1">':</span>
+<span class="s1">/home/leoy/Dev2/u-boot/drivers/xen/gnttab.c:109: undefined reference to `__aarch64_cas2_acq_rel'</span>
+Segmentation<span class="w"> </span>fault
+</pre></div>
+</div>
+<p>To fix the failure, we need to append option <cite>-mno-outline-atomics</cite> in Clang
+command to not generate local calls to out-of-line atomic operations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">HOSTCC</span><span class="o">=</span>clang<span class="w"> </span>xenguest_arm64_defconfig
+make<span class="w"> </span><span class="nv">HOSTCC</span><span class="o">=</span>clang<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="nv">CC</span><span class="o">=</span><span class="s2">"clang -target aarch64-linux-gnueabi -mno-outline-atomics"</span><span class="w"> </span>-j8
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="gcc.html" rel="prev" title="Building with GCC"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="reproducible.html" rel="next" title="Reproducible builds">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

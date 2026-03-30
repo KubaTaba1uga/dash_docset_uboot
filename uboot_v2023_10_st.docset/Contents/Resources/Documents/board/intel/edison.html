@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edison — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="galileo.html" rel="next" title="Galileo"/>
+<link href="crownbay.html" rel="prev" title="Crown Bay CRB"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Intel</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bayleybay.html">Bayley Bay CRB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cherryhill.html">Cherry Hill CRB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cougarcanyon2.html">Cougar Canyon 2 CRB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crownbay.html">Crown Bay CRB</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Edison</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-instructions-for-u-boot-as-main-bootloader">Build Instructions for U-Boot as main bootloader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-u-boot-on-edison">Updating U-Boot on Edison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-u-boot-using-xfstk">Updating U-Boot using xFSTK</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="galileo.html">Galileo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minnowmax.html">Minnowboard MAX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slimbootloader.html">Slim Bootloader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Intel</a> »</li>
+<li>Edison</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/intel/edison.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Edison"></a><div class="section" id="edison">
+<h1>Edison<a class="headerlink" href="#edison" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build Instructions for U-Boot as main bootloader"></a><div class="section" id="build-instructions-for-u-boot-as-main-bootloader">
+<h2>Build Instructions for U-Boot as main bootloader<a class="headerlink" href="#build-instructions-for-u-boot-as-main-bootloader" title="Permalink to this headline">¶</a></h2>
+<p>Simple you can build U-Boot and obtain u-boot.bin:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make edison_defconfig
+$ make all
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Updating U-Boot on Edison"></a><div class="section" id="updating-u-boot-on-edison">
+<h2>Updating U-Boot on Edison<a class="headerlink" href="#updating-u-boot-on-edison" title="Permalink to this headline">¶</a></h2>
+<p>By default Intel Edison boards are shipped with preinstalled heavily
+patched U-Boot v2014.04. Though it supports DFU which we may be able to
+use.</p>
+<ol class="arabic">
+<li><p>Prepare u-boot.bin as described in chapter above. You still need one
+more step (if and only if you have original U-Boot), i.e. run the
+following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ truncate -s %4096 u-boot.bin
+</pre></div>
+</div>
+</li>
+<li><p>Run your board and interrupt booting to U-Boot console. In the console
+call:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; run do_force_flash_os
+</pre></div>
+</div>
+</li>
+<li><p>Wait for few seconds, it will prepare environment variable and runs
+DFU. Run DFU command from the host system:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ dfu-util -v -d 8087:0a99 --alt u-boot0 -D u-boot.bin
+</pre></div>
+</div>
+</li>
+<li><p>Return to U-Boot console and following hint. i.e. push Ctrl+C, and
+reset the board:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; reset
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Updating U-Boot using xFSTK"></a><div class="section" id="updating-u-boot-using-xfstk">
+<h2>Updating U-Boot using xFSTK<a class="headerlink" href="#updating-u-boot-using-xfstk" title="Permalink to this headline">¶</a></h2>
+<p>You can also update U-Boot using the xfstk-dldr-solo tool if you can build it.
+One way to do that is to follow the <a class="reference external" href="https://github.com/edison-fw/xFSTK">xFSTK</a> instructions. In short, after you
+install all necessary dependencies and clone repository, it will look like this:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>xFSTK
+<span class="nb">export</span><span class="w"> </span><span class="nv">DISTRIBUTION_NAME</span><span class="o">=</span>ubuntu20.04
+<span class="nb">export</span><span class="w"> </span><span class="nv">BUILD_VERSION</span><span class="o">=</span><span class="m">1</span>.8.5
+git<span class="w"> </span>checkout<span class="w"> </span>v<span class="nv">$BUILD_VERSION</span>
+...
+</pre></div>
+</div>
+<p>Once you have built it, you can copy xfstk-dldr-solo to /usr/local/bin and
+libboost_program_options.so.1.54.0 to /usr/lib/i386-linux-gnu/ and with luck
+it will work. You might find this <a class="reference external" href="https://drive.google.com/drive/u/0/folders/1URPHrOk9-UBsh8hjv-7WwC0W6Fy61uAJ">drive</a> helpful.</p>
+<p>If it does, then you can download and unpack the Edison recovery image,
+install dfu-util, reset your board and flash U-Boot like this:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>xfstk-dldr-solo<span class="w"> </span>--gpflags<span class="w"> </span>0x80000007<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--osimage<span class="w"> </span>u-boot-edison.img<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--fwdnx<span class="w"> </span>recover/edison_dnx_fwr.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--fwimage<span class="w"> </span>recover/edison_ifwi-dbg-00.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--osdnx<span class="w"> </span>recover/edison_dnx_osr.bin
+</pre></div>
+</div>
+<p>This should show the following</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>XFSTK Downloader Solo 1.8.5
+Copyright (c) 2015 Intel Corporation
+Build date and time: Aug 15 2020 15:07:13
+
+.Intel SoC Device Detection Found
+Parsing Commandline....
+Registering Status Callback....
+.Initiating Download Process....
+.......(lots of dots)........XFSTK-STATUS--Reconnecting to device - Attempt #1
+.......(even more dots)......................
+</pre></div>
+</div>
+<p>You have about 10 seconds after resetting the board to type the above command.
+If you want to check if the board is ready, type:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>lsusb | grep -E "8087|8086"
+Bus 001 Device 004: ID 8086:e005 Intel Corp.
+</pre></div>
+</div>
+<p>If you see a device with the same ID as above, the board is waiting for your
+command.</p>
+<p>After about 5 seconds you should see some console output from the board:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>******************************
+PSH KERNEL VERSION: b0182b2b
+              WR: 20104000
+******************************
+
+SCU IPC: 0x800000d0  0xfffce92c
+
+PSH miaHOB version: TNG.B0.VVBD.0000000c
+
+microkernel built 11:24:08 Feb  5 2015
+
+******* PSH loader *******
+PCM page cache size = 192 KB
+Cache Constraint = 0 Pages
+Arming IPC driver ..
+Adding page store pool ..
+PagestoreAddr(IMR Start Address) = 0x04899000
+pageStoreSize(IMR Size)          = 0x00080000
+
+*** Ready to receive application ***
+</pre></div>
+</div>
+<p>After another 10 seconds the xFSTK tool completes and the board resets. About
+10 seconds after that should see the above message again and then within a few
+seconds U-Boot should start on your board:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot 2020.10-rc3 (Sep 03 2020 - 18:44:28 -0600)
+
+CPU:   Genuine Intel(R) CPU   4000  @  500MHz
+DRAM:  980.6 MiB
+WDT:   Started with servicing (60s timeout)
+MMC:   mmc@ff3fc000: 0, mmc@ff3fa000: 1
+Loading Environment from MMC... OK
+In:    serial
+Out:   serial
+Err:   serial
+Saving Environment to MMC... Writing to redundant MMC(0)... OK
+Saving Environment to MMC... Writing to MMC(0)... OK
+Net:   No ethernet found.
+Hit any key to stop autoboot:  0
+Target:blank
+Partitioning using GPT
+Writing GPT: success!
+Saving Environment to MMC... Writing to redundant MMC(0)... OK
+Flashing already done...
+5442816 bytes read in 238 ms (21.8 MiB/s)
+Valid Boot Flag
+Setup Size = 0x00003c00
+Magic signature found
+Using boot protocol version 2.0c
+Linux kernel version 3.10.17-poky-edison+ (ferry@kalamata) #1 SMP PREEMPT Mon Jan 11 14:54:18 CET 2016
+Building boot_params at 0x00090000
+Loading bzImage at address 100000 (5427456 bytes)
+Magic signature found
+Kernel command line: "rootwait ..."
+Magic signature found
+
+Starting kernel ...
+
+...
+
+Poky (Yocto Project Reference Distro) 1.7.2 edison ttyMFD2
+
+edison login:
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="crownbay.html" rel="prev" title="Crown Bay CRB"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="galileo.html" rel="next" title="Galileo">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

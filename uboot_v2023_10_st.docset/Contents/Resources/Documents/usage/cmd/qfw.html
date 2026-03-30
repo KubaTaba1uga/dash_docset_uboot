@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>qfw command — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="read.html" rel="next" title="read and write commands"/>
+<link href="pstore.html" rel="prev" title="pstore command"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acpi.html">acpi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="addrmap.html">addrmap command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="armffa.html">armffa command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="askenv.html">askenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base.html">base command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bdinfo.html">bdinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bind.html">bind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blkcache.html">blkcache command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootd.html">bootd command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootdev.html">bootdev command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootefi.html">bootefi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootflow.html">bootflow command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="booti.html">booti command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootm.html">bootm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmenu.html">bootmenu command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmeth.html">bootmeth command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html">button command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootz.html">bootz command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cat.html">cat command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cbsysinfo.html">cbsysinfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cedit.html">cedit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cls.html">cls command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmp.html">cmp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coninfo.html">coninfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conitrace.html">conitrace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cp.html">cp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">cyclic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dm.html">dm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ebtupdate.html">ebtupdate command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="echo.html">echo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efi.html">efi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eficonfig.html">eficonfig command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="env.html">env command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">event command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exception.html">exception command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extension.html">extension command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exit.html">exit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="false.html">false command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatinfo.html">fatinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatload.html">fatload command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fdt.html">fdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="font.html">font command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="for.html">for command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fwu_mdata.html">fwu_mdata_read command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">gpio command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpt.html">gpt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host.html">host command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxtract.html">imxtract command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load.html">load command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadb.html">loadb command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadm.html">loadm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads.html">loads command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadx.html">loadx command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loady.html">loady command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mbr.html">mbr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="md.html">md command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mmc.html">mmc command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtest.html">mtest command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtrr.html">mtrr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="panic.html">panic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part.html">part command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pause.html">pause command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pinmux.html">pinmux command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printenv.html">printenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pstore.html">pstore command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">qfw command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="read.html">read and write commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">reset command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rng.html">rng command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saves.html">saves command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sbi.html">sbi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sf.html">sf command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scp03.html">scp03 command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="seama.html">seama command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setexpr.html">setexpr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="size.html">size command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep.html">sleep command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sound.html">sound command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source.html">source command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sm.html">sm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temperature.html">temperature command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftpput.html">tftpput command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trace.html">trace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="true.html">true command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ums.html">ums command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unbind.html">unbind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ut.html">ut command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdt.html">wdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wget.html">wget command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="write.html">write command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xxd.html">xxd command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li>qfw command</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/cmd/qfw.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/qfw command"></a><div class="section" id="qfw-command">
+<h1>qfw command<a class="headerlink" href="#qfw-command" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Synopsis"></a><div class="section" id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>qfw list
+qfw cpus
+qfw load [kernel_addr [initrd_addr]]
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Description"></a><div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The <em>qfw</em> command is used to retrieve information form the QEMU firmware.</p>
+<p>The <em>qfw list</em> sub-command displays the QEMU firmware files.</p>
+<p>The <em>qfw cpus</em> sub-command displays the available CPUs.</p>
+<p>The <em>qfw load</em> command is used to load a kernel and an initial RAM disk.</p>
+<dl class="simple">
+<dt>kernel_addr</dt><dd><p>address to which the file specified by the -kernel parameter of QEMU shall
+be loaded. Defaults to environment variable <em>loadaddr</em> and further to
+the value of <em>CONFIG_SYS_LOAD_ADDR</em>.</p>
+</dd>
+<dt>initrd_addr</dt><dd><p>address to which the file specified by the -initrd parameter of QEMU shall
+be loaded. Defaults to environment variable <em>ramdiskaddr</em> and further to
+the value of <em>CFG_RAMDISK_ADDR</em>.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Examples"></a><div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>QEMU firmware files are listed via the <em>qfw list</em> command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; qfw list
+00000000 bios-geometry
+00000000 bootorder
+000f0060 etc/acpi/rsdp
+bed14040 etc/acpi/tables
+00000000 etc/boot-fail-wait
+00000000 etc/e820
+00000000 etc/smbios/smbios-anchor
+00000000 etc/smbios/smbios-tables
+00000000 etc/system-states
+00000000 etc/table-loader
+00000000 etc/tpm/log
+00000000 genroms/kvmvapic.bin
+</pre></div>
+</div>
+<p>Where an address is shown, it indicates where the data is available for
+inspection, e.g. using the <a class="reference internal" href="md.html"><span class="doc">md command</span></a>.</p>
+<p>The available CPUs can be shown via the <em>qfw cpus</em> command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; qfw cpu
+2 cpu(s) online
+</pre></div>
+</div>
+<p>The <em>-kernel</em> and <em>-initrd</em> parameters allow to specify a kernel and an
+initial RAM disk for QEMU:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>qemu-system-x86_64<span class="w"> </span>-machine<span class="w"> </span>pc-i440fx-2.5<span class="w"> </span>-bios<span class="w"> </span>u-boot.rom<span class="w"> </span>-m<span class="w"> </span>1G<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-nographic<span class="w"> </span>-kernel<span class="w"> </span>vmlinuz<span class="w"> </span>-initrd<span class="w"> </span>initrd
+</pre></div>
+</div>
+<p>Now the kernel and the initial RAM disk can be loaded to the U-Boot memory via
+the <em>qfw load</em> command and booted thereafter.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; qfw load ${kernel_addr_r} ${ramdisk_addr_r}
+loading kernel to address 0000000001000000 size 5048f0 initrd 0000000004000000 size 3c94891
+=&gt; zboot 1000000 5048f0 4000000 3c94891
+Valid Boot Flag
+Magic signature found
+Linux kernel version 4.19.0-14-amd64 (debian-kernel@lists.debian.org) #1 SMP Debian 4.19.171-2 (2021-01-30)
+Building boot_params at 0x00090000
+Loading bzImage at address 100000 (5260160 bytes)
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration"></a><div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>The qfw command is only available if CONFIG_CMD_QFW=y.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="pstore.html" rel="prev" title="pstore command"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="read.html" rel="next" title="read and write commands">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

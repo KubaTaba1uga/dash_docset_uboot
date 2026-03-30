@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>U-Boot FDT Overlay FIT usage — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../netconsole.html" rel="next" title="Network console"/>
+<link href="beaglebone_vboot.html" rel="prev" title="Verified Boot on the Beaglebone Black"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Flat Image Tree (FIT)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="source_file_format.html">Flattened Image Tree (FIT) Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto.html">How to use images in the new image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="x86-fit-boot.html">Booting Linux on x86 with FIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="signature.html">U-Boot FIT Signature Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verified-boot.html">U-Boot Verified Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="beaglebone_vboot.html">Verified Boot on the Beaglebone Black</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">U-Boot FDT Overlay FIT usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-without-overlays">Configuration without overlays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-using-overlays">Configuration using overlays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-using-overlays-and-feature-selection">Configuration using overlays and feature selection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li><a href="index.html">Flat Image Tree (FIT)</a> »</li>
+<li>U-Boot FDT Overlay FIT usage</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/fit/overlay-fdt-boot.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot FDT Overlay FIT usage"></a><div class="section" id="u-boot-fdt-overlay-fit-usage">
+<h1>U-Boot FDT Overlay FIT usage<a class="headerlink" href="#u-boot-fdt-overlay-fit-usage" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In many cases it is desirable to have a single FIT image support a multitude
+of similar boards and their expansion options. The same kernel on DT enabled
+platforms can support this easily enough by providing a DT blob upon boot
+that matches the desired configuration.</p>
+<p>This document focuses on specifically using overlays as part of a FIT image.
+General information regarding overlays including its syntax and building it
+can be found in doc/README.fdt-overlays</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration without overlays"></a><div class="section" id="configuration-without-overlays">
+<h2>Configuration without overlays<a class="headerlink" href="#configuration-without-overlays" title="Permalink to this headline">¶</a></h2>
+<p>Take a hypothetical board named ‘foo’ where there are different supported
+revisions, reva and revb. Assume that both board revisions can use add a bar
+add-on board, while only the revb board can use a baz add-on board.</p>
+<p>Without using overlays the configuration would be as follows for every case:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dts-v1/;
+/ {
+    images {
+    kernel {
+        data = /incbin/("./zImage");
+        type = "kernel";
+        arch = "arm";
+        os = "linux";
+        load = &lt;0x82000000&gt;;
+        entry = &lt;0x82000000&gt;;
+    };
+    fdt-1 {
+        data = /incbin/("./foo-reva.dtb");
+        type = "flat_dt";
+        arch = "arm";
+    };
+    fdt-2 {
+        data = /incbin/("./foo-revb.dtb");
+        type = "flat_dt";
+        arch = "arm";
+    };
+    fdt-3 {
+        data = /incbin/("./foo-reva-bar.dtb");
+        type = "flat_dt";
+        arch = "arm";
+    };
+    fdt-4 {
+        data = /incbin/("./foo-revb-bar.dtb");
+        type = "flat_dt";
+        arch = "arm";
+    };
+    fdt-5 {
+        data = /incbin/("./foo-revb-baz.dtb");
+        type = "flat_dt";
+        arch = "arm";
+    };
+    fdt-6 {
+        data = /incbin/("./foo-revb-bar-baz.dtb");
+        type = "flat_dt";
+        arch = "arm";
+    };
+    };
+
+    configurations {
+    default = "foo-reva.dtb;
+    foo-reva.dtb {
+        kernel = "kernel";
+        fdt = "fdt-1";
+    };
+    foo-revb.dtb {
+        kernel = "kernel";
+        fdt = "fdt-2";
+    };
+    foo-reva-bar.dtb {
+        kernel = "kernel";
+        fdt = "fdt-3";
+    };
+    foo-revb-bar.dtb {
+        kernel = "kernel";
+        fdt = "fdt-4";
+    };
+    foo-revb-baz.dtb {
+        kernel = "kernel";
+        fdt = "fdt-5";
+    };
+    foo-revb-bar-baz.dtb {
+        kernel = "kernel";
+        fdt = "fdt-6";
+    };
+    };
+};
+</pre></div>
+</div>
+<p>Note the blob needs to be compiled for each case and the combinatorial explosion of
+configurations. A typical device tree blob is in the low hunderds of kbytes so a
+multitude of configuration grows the image quite a bit.</p>
+<p>Booting this image is done by using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># bootm &lt;addr&gt;#&lt;config&gt;
+</pre></div>
+</div>
+<p>Where config is one of:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>foo-reva.dtb, foo-revb.dtb, foo-reva-bar.dtb, foo-revb-bar.dtb,
+foo-revb-baz.dtb, foo-revb-bar-baz.dtb
+</pre></div>
+</div>
+<p>This selects the DTB to use when booting.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration using overlays"></a><div class="section" id="configuration-using-overlays">
+<h2>Configuration using overlays<a class="headerlink" href="#configuration-using-overlays" title="Permalink to this headline">¶</a></h2>
+<p>Device tree overlays can be applied to a base DT and result in the same blob
+being passed to the booting kernel. This saves on space and avoid the combinatorial
+explosion problem:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dts-v1/;
+/ {
+    images {
+        kernel {
+            data = /incbin/("./zImage");
+            type = "kernel";
+            arch = "arm";
+            os = "linux";
+            load = &lt;0x82000000&gt;;
+            entry = &lt;0x82000000&gt;;
+        };
+        fdt-1 {
+            data = /incbin/("./foo.dtb");
+            type = "flat_dt";
+            arch = "arm";
+            load = &lt;0x87f00000&gt;;
+        };
+        fdt-2 {
+            data = /incbin/("./reva.dtbo");
+            type = "flat_dt";
+            arch = "arm";
+            load = &lt;0x87fc0000&gt;;
+        };
+        fdt-3 {
+            data = /incbin/("./revb.dtbo");
+            type = "flat_dt";
+            arch = "arm";
+            load = &lt;0x87fc0000&gt;;
+        };
+        fdt-4 {
+            data = /incbin/("./bar.dtbo");
+            type = "flat_dt";
+            arch = "arm";
+            load = &lt;0x87fc0000&gt;;
+        };
+        fdt-5 {
+            data = /incbin/("./baz.dtbo");
+            type = "flat_dt";
+            arch = "arm";
+            load = &lt;0x87fc0000&gt;;
+        };
+    };
+
+    configurations {
+        default = "foo-reva.dtb;
+        foo-reva.dtb {
+            kernel = "kernel";
+            fdt = "fdt-1", "fdt-2";
+        };
+        foo-revb.dtb {
+            kernel = "kernel";
+            fdt = "fdt-1", "fdt-3";
+        };
+        foo-reva-bar.dtb {
+            kernel = "kernel";
+            fdt = "fdt-1", "fdt-2", "fdt-4";
+        };
+        foo-revb-bar.dtb {
+            kernel = "kernel";
+            fdt = "fdt-1", "fdt-3", "fdt-4";
+        };
+        foo-revb-baz.dtb {
+            kernel = "kernel";
+            fdt = "fdt-1", "fdt-3", "fdt-5";
+        };
+        foo-revb-bar-baz.dtb {
+            kernel = "kernel";
+            fdt = "fdt-1", "fdt-3", "fdt-4", "fdt-5";
+        };
+        bar {
+            fdt = "fdt-4";
+        };
+        baz {
+            fdt = "fdt-5";
+        };
+    };
+};
+</pre></div>
+</div>
+<p>Booting this image is exactly the same as the non-overlay example.
+u-boot will retrieve the base blob and apply the overlays in sequence as
+they are declared in the configuration.</p>
+<p>Note the minimum amount of different DT blobs, as well as the requirement for
+the DT blobs to have a load address; the overlay application requires the blobs
+to be writeable.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration using overlays and feature selection"></a><div class="section" id="configuration-using-overlays-and-feature-selection">
+<h2>Configuration using overlays and feature selection<a class="headerlink" href="#configuration-using-overlays-and-feature-selection" title="Permalink to this headline">¶</a></h2>
+<p>Although the configuration in the previous section works is a bit inflexible
+since it requires all possible configuration options to be laid out before
+hand in the FIT image. For the add-on boards the extra config selection method
+might make sense.</p>
+<p>Note the two bar &amp; baz configuration nodes. To boot a reva board with
+the bar add-on board enabled simply use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; bootm &lt;addr&gt;#foo-reva.dtb#bar
+</pre></div>
+</div>
+<p>While booting a revb with bar and baz is as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; bootm &lt;addr&gt;#foo-revb.dtb#bar#baz
+</pre></div>
+</div>
+<p>The limitation for a feature selection configuration node is that a single
+fdt option is currently supported.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="beaglebone_vboot.html" rel="prev" title="Verified Boot on the Beaglebone Black"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../netconsole.html" rel="next" title="Network console">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

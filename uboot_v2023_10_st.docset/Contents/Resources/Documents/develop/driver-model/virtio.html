@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VirtIO Support — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../environment.html" rel="next" title="Environment implementation"/>
+<link href="usb-info.html" rel="prev" title="How USB works with driver model"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>VirtIO Support</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/virtio.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/VirtIO Support"></a><div class="section" id="virtio-support">
+<h1>VirtIO Support<a class="headerlink" href="#virtio-support" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the information about U-Boot support for <a class="reference external" href="http://docs.oasis-open.org/virtio/virtio/v1.0/virtio-v1.0.pdf">VirtIO</a>
+devices, including supported boards, build instructions, driver details etc.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/What’s VirtIO?"></a><div class="section" id="what-s-virtio">
+<h2>What’s VirtIO?<a class="headerlink" href="#what-s-virtio" title="Permalink to this headline">¶</a></h2>
+<p>VirtIO is a virtualization standard for network and disk device drivers where
+just the guest’s device driver “knows” it is running in a virtual environment,
+and cooperates with the hypervisor. This enables guests to get high performance
+network and disk operations, and gives most of the performance benefits of
+paravirtualization. In the U-Boot case, the guest is U-Boot itself, while the
+virtual environment are normally <a class="reference external" href="https://www.qemu.org">QEMU</a> targets like ARM, RISC-V and x86.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Status"></a><div class="section" id="status">
+<h2>Status<a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
+<p>VirtIO can use various different buses, aka transports as described in the
+spec. While VirtIO devices are commonly implemented as PCI devices on x86,
+embedded devices models like ARM/RISC-V, which does not normally come with
+PCI support might use simple memory mapped device (MMIO) instead of the PCI
+device. The memory mapped virtio device behaviour is based on the PCI device
+specification. Therefore most operations including device initialization,
+queues configuration and buffer transfers are nearly identical. Both MMIO
+and PCI transport options are supported in U-Boot.</p>
+<p>The VirtIO spec defines a lots of VirtIO device types, however at present only
+network and block device, the most two commonly used devices, are supported.</p>
+<p>The following QEMU targets are supported.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>qemu_arm_defconfig</p></li>
+<li><p>qemu_arm64_defconfig</p></li>
+<li><p>qemu-riscv32_defconfig</p></li>
+<li><p>qemu-riscv64_defconfig</p></li>
+<li><p>qemu-x86_defconfig</p></li>
+<li><p>qemu-x86_64_defconfig</p></li>
+</ul>
+</div></blockquote>
+<p>Note ARM and RISC-V targets are configured with VirtIO MMIO transport driver,
+and on x86 it’s the PCI transport driver.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build Instructions"></a><div class="section" id="build-instructions">
+<h2>Build Instructions<a class="headerlink" href="#build-instructions" title="Permalink to this headline">¶</a></h2>
+<p>Building U-Boot for pre-configured QEMU targets is no different from others.
+For example, we can do the following with the CROSS_COMPILE environment
+variable being properly set to a working toolchain for ARM:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>qemu_arm_defconfig
+$<span class="w"> </span>make
+</pre></div>
+</div>
+<p>You can even create a QEMU ARM target with VirtIO devices showing up on both
+MMIO and PCI buses. In this case, you can enable the PCI transport driver
+from ‘make menuconfig’:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Device Drivers  ---&gt;
+      ...
+      VirtIO Drivers  ---&gt;
+              ...
+              [*] PCI driver for virtio devices
+</pre></div>
+</div>
+<p>Other drivers are at the same location and can be tuned to suit the needs.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Requirements"></a><div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>It is required that QEMU v2.5.0+ should be used to test U-Boot VirtIO support
+on QEMU ARM and x86, and v2.12.0+ on QEMU RISC-V.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Testing"></a><div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>The following QEMU command line is used to get U-Boot up and running with
+VirtIO net and block devices on ARM.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>qemu-system-arm<span class="w"> </span>-nographic<span class="w"> </span>-machine<span class="w"> </span>virt<span class="w"> </span>-bios<span class="w"> </span>u-boot.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-netdev<span class="w"> </span>tap,ifname<span class="o">=</span>tap0,id<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-net-device,netdev<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>test.img,format<span class="o">=</span>raw,id<span class="o">=</span>hd0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-blk-device,drive<span class="o">=</span>hd0
+</pre></div>
+</div>
+<p>On x86, command is slightly different to create PCI VirtIO devices.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>qemu-system-i386<span class="w"> </span>-nographic<span class="w"> </span>-bios<span class="w"> </span>u-boot.rom<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-netdev<span class="w"> </span>tap,ifname<span class="o">=</span>tap0,id<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-net-pci,netdev<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>test.img,format<span class="o">=</span>raw,id<span class="o">=</span>hd0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-blk-pci,drive<span class="o">=</span>hd0
+</pre></div>
+</div>
+<p>Additional net and block devices can be created by appending more ‘-device’
+parameters. It is also possible to specify both MMIO and PCI VirtIO devices.
+For example, the following commnad creates 3 VirtIO devices, with 1 on MMIO
+and 2 on PCI bus.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>qemu-system-arm<span class="w"> </span>-nographic<span class="w"> </span>-machine<span class="w"> </span>virt<span class="w"> </span>-bios<span class="w"> </span>u-boot.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-netdev<span class="w"> </span>tap,ifname<span class="o">=</span>tap0,id<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-net-pci,netdev<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>test0.img,format<span class="o">=</span>raw,id<span class="o">=</span>hd0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-blk-device,drive<span class="o">=</span>hd0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>test1.img,format<span class="o">=</span>raw,id<span class="o">=</span>hd1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-blk-pci,drive<span class="o">=</span>hd1
+</pre></div>
+</div>
+<p>By default QEMU creates VirtIO legacy devices by default. To create non-legacy
+(aka modern) devices, pass additional device property/value pairs like below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>qemu-system-i386<span class="w"> </span>-nographic<span class="w"> </span>-bios<span class="w"> </span>u-boot.rom<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-netdev<span class="w"> </span>tap,ifname<span class="o">=</span>tap0,id<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-net-pci,netdev<span class="o">=</span>net0,disable-legacy<span class="o">=</span>true,disable-modern<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>test.img,format<span class="o">=</span>raw,id<span class="o">=</span>hd0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-device<span class="w"> </span>virtio-blk-pci,drive<span class="o">=</span>hd0,disable-legacy<span class="o">=</span>true,disable-modern<span class="o">=</span><span class="nb">false</span>
+</pre></div>
+</div>
+<p>A ‘virtio’ command is provided in U-Boot shell.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; virtio
+virtio - virtio block devices sub-system
+
+Usage:
+virtio scan - initialize virtio bus
+virtio info - show all available virtio block devices
+virtio device [dev] - show or set current virtio block device
+virtio part [dev] - print partition table of one or all virtio block devices
+virtio read addr blk# cnt - read `cnt' blocks starting at block
+     `blk#' to memory address `addr'
+virtio write addr blk# cnt - write `cnt' blocks starting at block
+     `blk#' from memory address `addr'
+</pre></div>
+</div>
+<p>To probe all the VirtIO devices, type:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; virtio scan
+</pre></div>
+</div>
+<p>Then we can show the connected block device details by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; virtio info
+Device 0: QEMU VirtIO Block Device
+            Type: Hard Disk
+            Capacity: 4096.0 MB = 4.0 GB (8388608 x 512)
+</pre></div>
+</div>
+<p>And list the directories and files on the disk by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; ls virtio 0 /
+&lt;DIR&gt;       4096 .
+&lt;DIR&gt;       4096 ..
+&lt;DIR&gt;      16384 lost+found
+&lt;DIR&gt;       4096 dev
+&lt;DIR&gt;       4096 proc
+&lt;DIR&gt;       4096 sys
+&lt;DIR&gt;       4096 var
+&lt;DIR&gt;       4096 etc
+&lt;DIR&gt;       4096 usr
+&lt;SYM&gt;          7 bin
+&lt;SYM&gt;          8 sbin
+&lt;SYM&gt;          7 lib
+&lt;SYM&gt;          9 lib64
+&lt;DIR&gt;       4096 run
+&lt;DIR&gt;       4096 boot
+&lt;DIR&gt;       4096 home
+&lt;DIR&gt;       4096 media
+&lt;DIR&gt;       4096 mnt
+&lt;DIR&gt;       4096 opt
+&lt;DIR&gt;       4096 root
+&lt;DIR&gt;       4096 srv
+&lt;DIR&gt;       4096 tmp
+               0 .autorelabel
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Driver Internals"></a><div class="section" id="driver-internals">
+<h2>Driver Internals<a class="headerlink" href="#driver-internals" title="Permalink to this headline">¶</a></h2>
+<p>There are 3 level of drivers in the VirtIO driver family.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>+---------------------------------------+
+|        virtio device drivers          |
+|    +-------------+ +------------+     |
+|    | virtio-net  | | virtio-blk |     |
+|    +-------------+ +------------+     |
++---------------------------------------+
++---------------------------------------+
+|       virtio transport drivers        |
+|    +-------------+ +------------+     |
+|    | virtio-mmio | | virtio-pci |     |
+|    +-------------+ +------------+     |
++---------------------------------------+
+        +----------------------+
+        | virtio uclass driver |
+        +----------------------+
+</pre></div>
+</div>
+<p>The root one is the virtio uclass driver (virtio-uclass.c), which does lots of
+common stuff for the transport drivers (virtio_mmio.c, virtio_pci.c). The real
+virtio device is discovered in the transport driver’s probe() method, and its
+device ID is saved in the virtio uclass’s private data of the transport device.
+Then in the virtio uclass’s post_probe() method, the real virtio device driver
+(virtio_net.c, virtio_blk.c) is bound if there is a match on the device ID.</p>
+<p>The child_post_bind(), child_pre_probe() and child_post_probe() methods of the
+virtio uclass driver help bring the virtio device driver online. They do things
+like acknowledging device, feature negotiation, etc, which are really common
+for all virtio devices.</p>
+<p>The transport drivers provide a set of ops (struct dm_virtio_ops) for the real
+virtio device driver to call. These ops APIs’s parameter is designed to remind
+the caller to pass the correct ‘struct udevice’ id of the virtio device, eg:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">virtio_get_status</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">vdev</span><span class="p">,</span><span class="w"> </span><span class="n">u8</span><span class="w"> </span><span class="o">*</span><span class="n">status</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So the parameter ‘vdev’ indicates the device should be the real virtio device.
+But we also have an API like:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">virtqueue</span><span class="w"> </span><span class="o">*</span><span class="n">vring_create_virtqueue</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">,</span>
+<span class="w">                                       </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">vring_align</span><span class="p">,</span>
+<span class="w">                                       </span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">udev</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here the parameter ‘udev’ indicates the device should be the transport device.
+Similar naming is applied in other functions that are even not APIs, eg:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">virtio_uclass_post_probe</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">udev</span><span class="p">)</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">virtio_uclass_child_pre_probe</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">vdev</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So it’s easy to tell which device these functions are operating on.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Development Flow"></a><div class="section" id="development-flow">
+<h2>Development Flow<a class="headerlink" href="#development-flow" title="Permalink to this headline">¶</a></h2>
+<p>At present only VirtIO network card (device ID 1) and block device (device
+ID 2) are supported. If you want to develop new driver for new devices,
+please follow the guideline below.</p>
+<ol class="arabic simple">
+<li><p>add new device ID in virtio.h</p></li>
+</ol>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#define VIRTIO_ID_XXX         X</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>update VIRTIO_ID_MAX_NUM to be the largest device ID plus 1</p></li>
+<li><p>add new driver name string in virtio.h</p></li>
+</ol>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#define VIRTIO_XXX_DRV_NAME   "virtio-xxx"</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>create a new driver with name set to the name string above</p></li>
+</ol>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">virtio_xxx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VIRTIO_XXX_DRV_NAME</span><span class="p">,</span>
+<span class="w">      </span><span class="p">...</span>
+<span class="w">      </span><span class="p">.</span><span class="n">remove</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">virtio_reset</span><span class="p">,</span>
+<span class="w">      </span><span class="p">.</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DM_FLAG_ACTIVE_DMA</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note the driver needs to provide the remove method and normally this can be
+hooked to virtio_reset(). The driver flags should contain DM_FLAG_ACTIVE_DMA
+for the remove method to be called before jumping to OS.</p>
+<ol class="arabic simple" start="5">
+<li><p>provide bind() method in the driver, where virtio_driver_features_init()
+should be called for driver to negotiate feature support with the device.</p></li>
+<li><p>do funny stuff with the driver</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="usb-info.html" rel="prev" title="How USB works with driver model"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../environment.html" rel="next" title="Environment implementation">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

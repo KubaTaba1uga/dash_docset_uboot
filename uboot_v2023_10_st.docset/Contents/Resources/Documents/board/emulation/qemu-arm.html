@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QEMU ARM — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="qemu-mips.html" rel="next" title="QEMU MIPS"/>
+<link href="blkdev.html" rel="prev" title="Emulation of block devices"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Emulation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="blkdev.html">Emulation of block devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/semihosting.html">Semihosting</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">QEMU ARM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building-u-boot">Building U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-u-boot">Running U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-tpmv2-support">Enabling TPMv2 support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-uart">Debug UART</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-mips.html">QEMU MIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-ppce500.html">QEMU PPC E500</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-riscv.html">QEMU RISC-V</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-x86.html">QEMU x86</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Emulation</a> »</li>
+<li>QEMU ARM</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/emulation/qemu-arm.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/QEMU ARM"></a><div class="section" id="qemu-arm">
+<h1>QEMU ARM<a class="headerlink" href="#qemu-arm" title="Permalink to this headline">¶</a></h1>
+<p>QEMU for ARM supports a special ‘virt’ machine designed for emulation and
+virtualization purposes. This document describes how to run U-Boot under it.
+Both 32-bit ARM and AArch64 are supported.</p>
+<p>The ‘virt’ platform provides the following as the basic functionality:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>A freely configurable amount of CPU cores</p></li>
+<li><p>U-Boot loaded and executing in the emulated flash at address 0x0</p></li>
+<li><p>A generated device tree blob placed at the start of RAM</p></li>
+<li><p>A freely configurable amount of RAM, described by the DTB</p></li>
+<li><p>A PL011 serial port, discoverable via the DTB</p></li>
+<li><p>An ARMv7/ARMv8 architected timer</p></li>
+<li><p>PSCI for rebooting the system</p></li>
+<li><p>A generic ECAM-based PCI host controller, discoverable via the DTB</p></li>
+</ul>
+</div></blockquote>
+<p>Additionally, a number of optional peripherals can be added to the PCI bus.</p>
+<p>See <a class="reference internal" href="../../develop/devicetree/dt_qemu.html"><span class="doc">Devicetree in QEMU</span></a> for information on how to see
+the devicetree actually generated by QEMU.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building U-Boot"></a><div class="section" id="building-u-boot">
+<h2>Building U-Boot<a class="headerlink" href="#building-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>Set the CROSS_COMPILE environment variable as usual, and run:</p>
+<ul>
+<li><p>For ARM:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make qemu_arm_defconfig
+make
+</pre></div>
+</div>
+</li>
+<li><p>For AArch64:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make qemu_arm64_defconfig
+make
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running U-Boot"></a><div class="section" id="running-u-boot">
+<h2>Running U-Boot<a class="headerlink" href="#running-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>The minimal QEMU command line to get U-Boot up and running is:</p>
+<ul>
+<li><p>For ARM:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>qemu-system-arm -machine virt -nographic -bios u-boot.bin
+</pre></div>
+</div>
+</li>
+<li><p>For AArch64:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>qemu-system-aarch64 -machine virt -nographic -cpu cortex-a57 -bios u-boot.bin
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Note that for some odd reason qemu-system-aarch64 needs to be explicitly
+told to use a 64-bit CPU or it will boot in 32-bit mode. The -nographic argument
+ensures that output appears on the terminal. Use Ctrl-A X to quit.</p>
+<p>Additional persistent U-Boot environment support can be added as follows:</p>
+<ul>
+<li><p>Create envstore.img using qemu-img:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>qemu-img create -f raw envstore.img 64M
+</pre></div>
+</div>
+</li>
+<li><p>Add a pflash drive parameter to the command line:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-drive if=pflash,format=raw,index=1,file=envstore.img
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Additional peripherals that have been tested to work in both U-Boot and Linux
+can be enabled with the following command line parameters:</p>
+<ul>
+<li><p>To add a Serial ATA disk via an Intel ICH9 AHCI controller, pass e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-drive if=none,file=disk.img,format=raw,id=mydisk \
+-device ich9-ahci,id=ahci -device ide-drive,drive=mydisk,bus=ahci.0
+</pre></div>
+</div>
+</li>
+<li><p>To add an Intel E1000 network adapter, pass e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-netdev user,id=net0 -device e1000,netdev=net0
+</pre></div>
+</div>
+</li>
+<li><p>To add an EHCI-compliant USB host controller, pass e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-device usb-ehci,id=ehci
+</pre></div>
+</div>
+</li>
+<li><p>To add an NVMe disk, pass e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-drive if=none,file=disk.img,id=mydisk -device nvme,drive=mydisk,serial=foo
+</pre></div>
+</div>
+</li>
+<li><p>To add a random number generator, pass e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-device virtio-rng-pci
+</pre></div>
+</div>
+</li>
+</ul>
+<p>These have been tested in QEMU 2.9.0 but should work in at least 2.5.0 as well.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enabling TPMv2 support"></a><div class="section" id="enabling-tpmv2-support">
+<h2>Enabling TPMv2 support<a class="headerlink" href="#enabling-tpmv2-support" title="Permalink to this headline">¶</a></h2>
+<p>To emulate a TPM the swtpm package may be used. It can be built from the
+following repositories:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/stefanberger/swtpm.git">https://github.com/stefanberger/swtpm.git</a></p>
+</div></blockquote>
+<p>Swtpm provides a socket for the TPM emulation which can be consumed by QEMU.</p>
+<p>In a first console invoke swtpm with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>swtpm socket --tpmstate dir=/tmp/mytpm1   \
+--ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock --log level=20
+</pre></div>
+</div>
+<p>In a second console invoke qemu-system-aarch64 with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+-tpmdev emulator,id=tpm0,chardev=chrtpm \
+-device tpm-tis-device,tpmdev=tpm0
+</pre></div>
+</div>
+<p>Enable the TPM on U-Boot’s command line with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>tpm autostart
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debug UART"></a><div class="section" id="debug-uart">
+<h2>Debug UART<a class="headerlink" href="#debug-uart" title="Permalink to this headline">¶</a></h2>
+<p>The debug UART on the ARM virt board uses these settings:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_DEBUG_UART=y
+CONFIG_DEBUG_UART_PL010=y
+CONFIG_DEBUG_UART_BASE=0x9000000
+CONFIG_DEBUG_UART_CLOCK=0
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="blkdev.html" rel="prev" title="Emulation of block devices"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="qemu-mips.html" rel="next" title="QEMU MIPS">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

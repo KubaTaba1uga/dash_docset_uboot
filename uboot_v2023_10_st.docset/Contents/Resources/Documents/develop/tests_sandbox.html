@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sandbox tests — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="checkpatch.html" rel="next" title="Checkpatch"/>
+<link href="tests_writing.html" rel="prev" title="Writing Tests"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#testing">Testing</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="testing.html">Introduction to testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_testing.html">U-Boot pytest suite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests_writing.html">Writing Tests</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Sandbox tests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#test-design">Test Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available-tests">Available tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-sandbox-tests-directly">Running sandbox tests directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-tests-multiple-times">Running tests multiple times</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#isolating-a-test-that-breaks-another">Isolating a test that breaks another</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-sandbox-spl-tests-directly">Running sandbox_spl tests directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-all-tests-directly">Running all tests directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-tests-are-built-in">What tests are built in?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-tests">Writing tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Sandbox tests</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/tests_sandbox.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox tests"></a><div class="section" id="sandbox-tests">
+<h1>Sandbox tests<a class="headerlink" href="#sandbox-tests" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Test Design"></a><div class="section" id="test-design">
+<h2>Test Design<a class="headerlink" href="#test-design" title="Permalink to this headline">¶</a></h2>
+<p>Most uclasses and many functions of U-Boot have sandbox tests. This allows much
+of the code to be checked in an developer-friendly environment.</p>
+<p>Sandbox provides a way to write and run unit tests. The traditional approach to
+unit tests is to build lots of little executables, one for each test or
+category of tests. With sandbox, so far as possible, all the tests share a
+small number of executables (e.g. ‘u-boot’ for sandbox, ‘u-boot-spl’ and
+‘u-boot’ for sandbox_spl) and can be run very quickly. The vast majority of
+tests can run on the ‘sandbox’ build,</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Available tests"></a><div class="section" id="available-tests">
+<h2>Available tests<a class="headerlink" href="#available-tests" title="Permalink to this headline">¶</a></h2>
+<p>Some of the available tests are:</p>
+<blockquote>
+<div><ul>
+<li><p>command_ut: Unit tests for command parsing and handling</p></li>
+<li><dl class="simple">
+<dt>compression: Unit tests for U-Boot’s compression algorithms, useful for</dt><dd><p>security checking. It supports gzip, bzip2, lzma and lzo.</p>
+</dd>
+</dl>
+</li>
+<li><p>image: Unit tests for images:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>test/image/test-imagetools.sh - multi-file images</p></li>
+<li><p>test/py/tests/test-fit.py     - FIT images</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="simple">
+<dt>tracing: test/trace/test-trace.sh tests the tracing system (see</dt><dd><p>README.trace)</p>
+</dd>
+</dl>
+</li>
+<li><p>verified boot: test/py/tests/test_vboot.py</p></li>
+</ul>
+</div></blockquote>
+<p>If you change or enhance any U-Boot subsystem, you should write or expand a
+test and include it with your patch series submission. Test coverage in some
+older areas of U-Boot is still somewhat limited and we need to work to improve
+it.</p>
+<p>Note that many of these tests are implemented as commands which you can
+run natively on your board if desired (and enabled).</p>
+<p>To run all tests, use ‘make check’.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running sandbox tests directly"></a><div class="section" id="running-sandbox-tests-directly">
+<h2>Running sandbox tests directly<a class="headerlink" href="#running-sandbox-tests-directly" title="Permalink to this headline">¶</a></h2>
+<p>Typically tests are run using the pytest suite. Running pytests on sandbox is
+easy and always gets things right. For example some tests require files to be
+set up before they can work.</p>
+<p>But it is also possible to run some sandbox tests directly. For example, this
+runs the dm_test_gpio() test which you can find in test/dm/gpio.c:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./u-boot -T -c "ut dm gpio"
+
+
+U-Boot 2021.01
+
+Model: sandbox
+DRAM:  128 MiB
+WDT:   Started with servicing (60s timeout)
+MMC:   mmc2: 2 (SD), mmc1: 1 (SD), mmc0: 0 (SD)
+In:    serial
+Out:   vidconsole
+Err:   vidconsole
+Model: sandbox
+SCSI:
+Net:   eth0: eth@10002000, eth5: eth@10003000, eth3: sbe5, eth6: eth@10004000
+Test: dm_test_gpio: gpio.c
+Test: dm_test_gpio: gpio.c (flat tree)
+Failures: 0
+</pre></div>
+</div>
+<p>The -T option tells the U-Boot sandbox to run with the ‘test’ devicetree
+(test.dts) instead of -D which selects the normal sandbox.dts - this is
+necessary because many tests rely on nodes or properties in the test devicetree.
+If you try running tests without -T then you may see failures, like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./u-boot -c "ut dm gpio"
+
+
+U-Boot 2021.01
+
+DRAM:  128 MiB
+WDT:   Not found!
+MMC:
+In:    serial
+Out:   serial
+Err:   serial
+SCSI:
+Net:   No ethernet found.
+Please run with test device tree:
+    ./u-boot -d arch/sandbox/dts/test.dtb
+Test: dm_test_gpio: gpio.c
+test/dm/gpio.c:37, dm_test_gpio(): 0 == gpio_lookup_name("b4", &amp;dev, &amp;offset, &amp;gpio): Expected 0x0 (0), got 0xffffffea (-22)
+Test: dm_test_gpio: gpio.c (flat tree)
+test/dm/gpio.c:37, dm_test_gpio(): 0 == gpio_lookup_name("b4", &amp;dev, &amp;offset, &amp;gpio): Expected 0x0 (0), got 0xffffffea (-22)
+Failures: 2
+</pre></div>
+</div>
+<p>The message above should provide a hint if you forget to use the -T flag. Even
+running with -D will produce different results.</p>
+<p>You can easily use gdb on these tests, without needing –gdbserver:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ gdb --args u-boot -T -c "ut dm gpio"
+...
+(gdb) break dm_test_gpio
+Breakpoint 1 at 0x1415bd: file test/dm/gpio.c, line 37.
+(gdb) run -T -c "ut dm gpio"
+Starting program: u-boot -T -c "ut dm gpio"
+Test: dm_test_gpio: gpio.c
+
+Breakpoint 1, dm_test_gpio (uts=0x5555558029a0 &lt;global_dm_test_state&gt;)
+    at files/test/dm/gpio.c:37
+37           ut_assertok(gpio_lookup_name("b4", &amp;dev, &amp;offset, &amp;gpio));
+(gdb)
+</pre></div>
+</div>
+<p>You can then single-step and look at variables as needed.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running tests multiple times"></a><div class="section" id="running-tests-multiple-times">
+<h2>Running tests multiple times<a class="headerlink" href="#running-tests-multiple-times" title="Permalink to this headline">¶</a></h2>
+<p>Some tests can have race conditions which are hard to detect on a single
+one. It is possible to run each individual test multiple times, before moving
+to the next test, with the ‘-r’ flag.</p>
+<p>This is most useful when running a single test, since running all tests
+multiple times can take a while.</p>
+<p>For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; ut dm -r1000 dm_test_rtc_set_get
+...
+Test: dm_test_rtc_set_get: rtc.c (flat tree)
+Test: dm_test_rtc_set_get: rtc.c
+test/dm/rtc.c:257, dm_test_rtc_reset(): old_base_time == base_time: Expected 0x62e7453c (1659323708), got 0x62e7453d (1659323709)
+Test: dm_test_rtc_set_get: rtc.c (flat tree)
+Test: dm_test_rtc_set_get: rtc.c
+Test: dm_test_rtc_set_get: rtc.c (flat tree)
+...
+Test dm_test_rtc_reset failed 3 times
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Isolating a test that breaks another"></a><div class="section" id="isolating-a-test-that-breaks-another">
+<h2>Isolating a test that breaks another<a class="headerlink" href="#isolating-a-test-that-breaks-another" title="Permalink to this headline">¶</a></h2>
+<p>When running unit tests, some may have side effects which cause a subsequent
+test to break. This can sometimes be seen when using ‘ut dm’ or similar.</p>
+<p>You can use the <cite>-I</cite> argument to the <cite>ut</cite> command to isolate this problem.
+First use <cite>ut info</cite> to see how many tests there are, then use a binary search to
+home in on the problem. Note that you might need to restart U-Boot after each
+iteration, so the <cite>-c</cite> argument to U-Boot is useful.</p>
+<p>For example, let’s stay that dm_test_host() is failing:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; ut dm
+...
+Test: dm_test_get_stats: core.c
+Test: dm_test_get_stats: core.c (flat tree)
+Test: dm_test_host: host.c
+test/dm/host.c:71, dm_test_host(): 0 == ut_check_delta(mem_start): Expected 0x0 (0), got 0xffffcbb0 (-13392)
+Test: dm_test_host: host.c (flat tree)
+Test &lt;NULL&gt; failed 1 times
+Test: dm_test_host_dup: host.c
+Test: dm_test_host_dup: host.c (flat tree)
+...
+</pre></div>
+</div>
+<p>You can then tell U-Boot to run the failing test at different points in the
+sequence:</p>
+<blockquote>
+<div><p>=&gt; ut info
+Test suites: 21
+Total tests: 645</p>
+</div></blockquote>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./u-boot -T -c "ut dm -I300:dm_test_host"
+...
+Test: dm_test_pinctrl_single: pinmux.c (flat tree)
+Test: dm_test_host: host.c
+test/dm/host.c:71, dm_test_host(): 0 == ut_check_delta(mem_start): Expected 0x0 (0), got 0xfffffdb0 (-592)
+Test: dm_test_host: host.c (flat tree)
+Test dm_test_host failed 1 times (position 300)
+Failures: 4
+</pre></div>
+</div>
+<p>So it happened before position 300. Trying 150 shows it failing, so we try 75:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./u-boot  -T  -c "ut dm -I75:dm_test_host"
+...
+Test: dm_test_autoprobe: core.c
+Test: dm_test_autoprobe: core.c (flat tree)
+Test: dm_test_host: host.c
+Test: dm_test_host: host.c (flat tree)
+Failures: 0
+</pre></div>
+</div>
+<p>That succeeds, so we try 120, etc. until eventually we can figure out that the
+problem first happens at position 82.</p>
+<blockquote>
+<div><p>$ ./u-boot  -T  -c “ut dm -I82:dm_test_host”
+…
+Test: dm_test_blk_flags: blk.c
+Test: dm_test_blk_flags: blk.c (flat tree)
+Test: dm_test_host: host.c
+test/dm/host.c:71, dm_test_host(): 0 == ut_check_delta(mem_start): Expected 0x0 (0), got 0xffffc960 (-13984)
+Test: dm_test_host: host.c (flat tree)
+Test dm_test_host failed 1 times (position 82)
+Failures: 1</p>
+</div></blockquote>
+<p>From this we can deduce that <cite>dm_test_blk_flags()</cite> causes the problem with
+<cite>dm_test_host()</cite>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running sandbox_spl tests directly"></a><div class="section" id="running-sandbox-spl-tests-directly">
+<h2>Running sandbox_spl tests directly<a class="headerlink" href="#running-sandbox-spl-tests-directly" title="Permalink to this headline">¶</a></h2>
+<p>SPL is the phase before U-Boot proper. It is present in the sandbox_spl build,
+so you can run SPL like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./spl/u-boot-spl
+</pre></div>
+</div>
+<p>SPL tests are special in that they run (only in the SPL phase, of course) if the
+-u flag is given:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./spl/u-boot-spl -u
+
+U-Boot SPL 2021.01-00723-g43c77b51be5-dirty (Jan 24 2021 - 16:38:24 -0700)
+Running 5 driver model tests
+Test: dm_test_of_plat_base: of_platdata.c (flat tree)
+Test: dm_test_of_plat_dev: of_platdata.c (flat tree)
+Test: dm_test_of_plat_parent: of_platdata.c (flat tree)
+Test: dm_test_of_plat_phandle: of_platdata.c (flat tree)
+Test: dm_test_of_plat_props: of_platdata.c (flat tree)
+Failures: 0
+
+
+U-Boot 2021.01-00723-g43c77b51be5-dirty (Jan 24 2021 - 16:38:24 -0700)
+
+DRAM:  128 MiB
+...
+</pre></div>
+</div>
+<p>It is not possible to run SPL tests in U-Boot proper, firstly because they are
+not built into U-Boot proper and secondly because the environment is very
+different, e.g. some SPL tests rely on of-platdata which is only available in
+SPL.</p>
+<p>Note that after running, SPL continues to boot into U-Boot proper. You can add
+‘-c exit’ to make U-Boot quit without doing anything further. It is not
+currently possible to run SPL tests and then stop, since the pytests require
+that U-Boot produces the expected banner.</p>
+<p>You can use the -k flag to select which tests run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./spl/u-boot-spl -u -k dm_test_of_plat_parent
+</pre></div>
+</div>
+<p>Of course you can use gdb with sandbox_spl, just as with sandbox.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running all tests directly"></a><div class="section" id="running-all-tests-directly">
+<h2>Running all tests directly<a class="headerlink" href="#running-all-tests-directly" title="Permalink to this headline">¶</a></h2>
+<p>A fast way to run all sandbox tests is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./u-boot -T -c "ut all"
+</pre></div>
+</div>
+<p>It typically runs single-thread in 6 seconds on 2021 hardware, with 2s of that
+to the delays in the time test.</p>
+<p>This should not be considered a substitute for ‘make check’, but can be helpful
+for git bisect, etc.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/What tests are built in?"></a><div class="section" id="what-tests-are-built-in">
+<h2>What tests are built in?<a class="headerlink" href="#what-tests-are-built-in" title="Permalink to this headline">¶</a></h2>
+<p>Whatever sandbox build is used, which tests are present is determined by which
+source files are built. For sandbox_spl, the of_platdata tests are built
+because of the build rule in test/dm/Makefile:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ifeq ($(CONFIG_SPL_BUILD),y)
+obj-$(CONFIG_SPL_OF_PLATDATA) += of_platdata.o
+else
+...other tests for non-spl
+endif
+</pre></div>
+</div>
+<p>You can get a list of tests in a U-Boot ELF file by looking for the
+linker_list:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ nm /tmp/b/sandbox_spl/spl/u-boot-spl |grep 2_dm_test
+000000000001f200 D _u_boot_list_2_dm_test_2_dm_test_of_plat_base
+000000000001f220 D _u_boot_list_2_dm_test_2_dm_test_of_plat_dev
+000000000001f240 D _u_boot_list_2_dm_test_2_dm_test_of_plat_parent
+000000000001f260 D _u_boot_list_2_dm_test_2_dm_test_of_plat_phandle
+000000000001f280 D _u_boot_list_2_dm_test_2_dm_test_of_plat_props
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Writing tests"></a><div class="section" id="writing-tests">
+<h2>Writing tests<a class="headerlink" href="#writing-tests" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference internal" href="tests_writing.html"><span class="doc">Writing Tests</span></a> for how to write new tests.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="tests_writing.html" rel="prev" title="Writing Tests"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="checkpatch.html" rel="next" title="Checkpatch">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

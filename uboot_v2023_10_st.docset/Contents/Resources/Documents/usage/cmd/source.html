@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>source command — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="sm.html" rel="next" title="sm command"/>
+<link href="sound.html" rel="prev" title="sound command"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acpi.html">acpi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="addrmap.html">addrmap command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="armffa.html">armffa command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="askenv.html">askenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base.html">base command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bdinfo.html">bdinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bind.html">bind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blkcache.html">blkcache command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootd.html">bootd command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootdev.html">bootdev command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootefi.html">bootefi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootflow.html">bootflow command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="booti.html">booti command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootm.html">bootm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmenu.html">bootmenu command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmeth.html">bootmeth command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html">button command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootz.html">bootz command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cat.html">cat command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cbsysinfo.html">cbsysinfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cedit.html">cedit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cls.html">cls command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmp.html">cmp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coninfo.html">coninfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conitrace.html">conitrace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cp.html">cp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">cyclic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dm.html">dm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ebtupdate.html">ebtupdate command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="echo.html">echo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efi.html">efi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eficonfig.html">eficonfig command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="env.html">env command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">event command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exception.html">exception command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extension.html">extension command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exit.html">exit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="false.html">false command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatinfo.html">fatinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatload.html">fatload command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fdt.html">fdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="font.html">font command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="for.html">for command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fwu_mdata.html">fwu_mdata_read command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">gpio command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpt.html">gpt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host.html">host command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxtract.html">imxtract command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load.html">load command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadb.html">loadb command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadm.html">loadm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads.html">loads command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadx.html">loadx command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loady.html">loady command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mbr.html">mbr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="md.html">md command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mmc.html">mmc command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtest.html">mtest command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtrr.html">mtrr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="panic.html">panic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part.html">part command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pause.html">pause command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pinmux.html">pinmux command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printenv.html">printenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pstore.html">pstore command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qfw.html">qfw command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="read.html">read and write commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">reset command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rng.html">rng command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saves.html">saves command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sbi.html">sbi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sf.html">sf command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scp03.html">scp03 command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="seama.html">seama command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setexpr.html">setexpr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="size.html">size command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep.html">sleep command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sound.html">sound command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">source command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#return-value">Return value</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sm.html">sm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temperature.html">temperature command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftpput.html">tftpput command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trace.html">trace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="true.html">true command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ums.html">ums command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unbind.html">unbind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ut.html">ut command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdt.html">wdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wget.html">wget command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="write.html">write command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xxd.html">xxd command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li>source command</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/cmd/source.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/source command"></a><div class="section" id="source-command">
+<h1>source command<a class="headerlink" href="#source-command" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Synopsis"></a><div class="section" id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>source [&lt;addr&gt;][:[&lt;image&gt;]|#[&lt;config&gt;]]
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Description"></a><div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The <em>source</em> command is used to execute a script file from memory.</p>
+<p>Two formats for script files exist:</p>
+<ul class="simple">
+<li><p>legacy U-Boot image format</p></li>
+<li><p>Flat Image Tree (FIT)</p></li>
+</ul>
+<p>The benefit of the FIT images is that they can be signed and verifed as
+described in <a class="reference internal" href="../fit/signature.html"><span class="doc">U-Boot FIT Signature Verification</span></a>.</p>
+<p>Both formats can be created with the mkimage tool.</p>
+<dl class="simple">
+<dt>addr</dt><dd><p>location of the script file in memory, defaults to CONFIG_SYS_LOAD_ADDR.</p>
+</dd>
+<dt>image</dt><dd><p>name of an image in a FIT file</p>
+</dd>
+<dt>config</dt><dd><p>name of a configuration in a FIT file. A hash sign following white space
+starts a comment. Hence, if no <em>addr</em> is specified, the hash sign has to be
+escaped with a backslash or the argument must be quoted.</p>
+</dd>
+</dl>
+<p>If both <em>image</em> and <em>config</em> are omitted, the default configuration is used, or
+if no configuration is defined, the default image.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Examples"></a><div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fit-image">
+<h3>FIT image<a class="headerlink" href="#fit-image" title="Permalink to this headline">¶</a></h3>
+<p>For creating a FIT image an image tree source file (*.its) is needed. Here is
+an example (source.its).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dts-v1/;
+
+/ {
+    description = "FIT image to test the source command";
+    #address-cells = &lt;1&gt;;
+
+    images {
+        default = "script-1";
+
+        script-1 {
+            data = "echo 1";
+            type = "script";
+            compression = "none";
+        };
+
+        script-2 {
+            data = "echo 2";
+            type = "script";
+            compression = "none";
+        };
+    };
+
+    configurations {
+        default = "conf-2";
+
+        conf-1 {
+            script = "script-1";
+        };
+
+        conf-2 {
+            script = "script-2";
+        };
+    };
+};
+</pre></div>
+</div>
+<p>The FIT image file (boot.itb) is created with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkimage<span class="w"> </span>-f<span class="w"> </span>source.its<span class="w"> </span>boot.itb
+</pre></div>
+</div>
+<p>In U-Boot the script can be loaded and execute like this</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; load host 0:1 $loadaddr boot.itb
+1552 bytes read in 0 ms
+=&gt; source $loadaddr#conf-1
+## Executing script at 00000000
+1
+=&gt; source $loadaddr#conf-2
+## Executing script at 00000000
+2
+=&gt; source $loadaddr:script-1
+## Executing script at 00000000
+1
+=&gt; source $loadaddr:script-2
+## Executing script at 00000000
+2
+=&gt; source $loadaddr
+## Executing script at 00000000
+2
+=&gt; source \#conf-1
+## Executing script at 00000000
+1
+=&gt; source '#conf-1'
+## Executing script at 00000000
+1
+=&gt; source ':script-1'
+## Executing script at 00000000
+1
+=&gt; source
+## Executing script at 00000000
+2
+=&gt;
+</pre></div>
+</div>
+<p>Instead of specifying command line instructions directly in the <em>data</em> property
+of the image tree source file another file can be included. Here is a minimal
+example which encapsulates the file boot.txt:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dts-v1/;
+/ {
+    description = "";
+    images {
+        script {
+            data = /incbin/("./boot.txt");
+            type = "script";
+        };
+    };
+};
+</pre></div>
+</div>
+</div>
+<div class="section" id="legacy-u-boot-image">
+<h3>Legacy U-Boot image<a class="headerlink" href="#legacy-u-boot-image" title="Permalink to this headline">¶</a></h3>
+<p>A script file using the legacy U-Boot image file format can be created based on
+a text file. Let’s use this example text file (boot.txt):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span>Hello<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>script
+<span class="nb">echo</span><span class="w"> </span>-------------------
+</pre></div>
+</div>
+<p>The boot scripts (boot.scr) is created with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkimage<span class="w"> </span>-T<span class="w"> </span>script<span class="w"> </span>-n<span class="w"> </span><span class="s1">'Test script'</span><span class="w"> </span>-d<span class="w"> </span>boot.txt<span class="w"> </span>boot.scr
+</pre></div>
+</div>
+<p>The script can be execute in U-Boot like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; load host 0:1 $loadaddr boot.scr
+122 bytes read in 0 ms
+=&gt; source $loadaddr
+## Executing script at 00000000
+Hello from a script
+-------------------
+=&gt; source
+## Executing script at 00000000
+Hello from a script
+-------------------
+=&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration"></a><div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>The source command is only available if CONFIG_CMD_SOURCE=y.
+The FIT image file format requires CONFIG_FIT=y.#
+The legacy U-Boot image file format requires CONFIG_LEGACY_IMAGE_FORMAT=y.
+On hardened systems support for the legacy U-Boot image format should be
+disabled as these images cannot be signed and verified.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Return value"></a><div class="section" id="return-value">
+<h2>Return value<a class="headerlink" href="#return-value" title="Permalink to this headline">¶</a></h2>
+<p>If the scripts is executed successfully, the return value $? is 0 (true).
+Otherwise it is 1 (false).</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="sound.html" rel="prev" title="sound command"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="sm.html" rel="next" title="sm command">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

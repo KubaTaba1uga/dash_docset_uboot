@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kontron Electronics i.MX8MM SoMs and Boards — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../lg/index.html" rel="next" title="LG"/>
+<link href="sl-mx6ul.html" rel="prev" title="Kontron Electronics SL i.MX6UL/ULL SoM"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Kontron</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pitx-imx8m.html">Kontron pitx-imx8m</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sl28.html">Kontron SMARC-sAL28</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sl-mx6ul.html">Kontron Electronics SL i.MX6UL/ULL SoM</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Kontron Electronics i.MX8MM SoMs and Boards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#further-information">Further Information</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Kontron</a> »</li>
+<li>Kontron Electronics i.MX8MM SoMs and Boards</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/kontron/sl-mx8mm.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Kontron Electronics i.MX8MM SoMs and Boards"></a><div class="section" id="kontron-electronics-i-mx8mm-soms-and-boards">
+<h1>Kontron Electronics i.MX8MM SoMs and Boards<a class="headerlink" href="#kontron-electronics-i-mx8mm-soms-and-boards" title="Permalink to this headline">¶</a></h1>
+<p>The SL i.MX8MM and OSM-S i.MX8MM by Kontron Electronics GmbH are SoM modules
+with an i.MX8M-Mini SoC, 1/2/4 GB LPDDR4 RAM, SPI NOR, eMMC and PMIC.</p>
+<p>The matching evaluation boards (Board-Line, BL) have two Ethernet ports,
+USB 2.0, HDMI/LVDS, SD card, CAN, RS485, RS232 and much more.</p>
+<p>The OSM-S i.MX8MM is compliant to the Open Standard Module (OSM) 1.1
+specification, size S (<a class="reference external" href="https://sget.org/standards/osm">https://sget.org/standards/osm</a>).</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Quick Start"></a><div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Get and Build the Trusted Firmware-A (TF-A)</p></li>
+<li><p>Get the DDR firmware</p></li>
+<li><p>Build U-Boot</p></li>
+<li><p>Boot</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To build on a x86-64 host machine, you need a GNU cross toolchain for the
+target architecture (aarch64). Check your distros package manager or
+download and install the necessary tools (<code class="docutils literal notranslate"><span class="pre">aarch64-linux-gnu-*</span></code>) manually.</p>
+</div>
+<div class="section" id="get-and-build-the-trusted-firmware-a-tf-a">
+<h3>Get and Build the Trusted Firmware-A (TF-A)<a class="headerlink" href="#get-and-build-the-trusted-firmware-a-tf-a" title="Permalink to this headline">¶</a></h3>
+<p>There are two sources for the TF-A. Mainline and NXP. Get the one you prefer
+(support and features might differ).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are using GCC 12 and you get compiler/linker errors, try to add the
+following arguments to your make command as workaround:
+<code class="docutils literal notranslate"><span class="pre">CFLAGS="-Wno-array-bounds"</span> <span class="pre">LDFLAGS="--no-warn-rwx-segments"</span></code></p>
+</div>
+<p><strong>NXP’s imx-atf</strong></p>
+<ol class="arabic simple">
+<li><p>Get TF-A from: <a class="reference external" href="https://github.com/nxp-imx/imx-atf">https://github.com/nxp-imx/imx-atf</a>, branch: lf_v2.6</p></li>
+<li><p>Build</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span><span class="nv">PLAT</span><span class="o">=</span>imx8mm<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span><span class="nv">IMX_BOOT_UART_BASE</span><span class="o">=</span><span class="s2">"0x30880000"</span><span class="w"> </span>bl31
+$<span class="w"> </span>cp<span class="w"> </span>build/imx8mm/release/bl31.bin<span class="w"> </span><span class="k">$(</span>builddir<span class="k">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>builddir</em> is U-Boot’s build directory (source directory for in-tree builds)</p>
+</div>
+<p><strong>Mainline TF-A</strong></p>
+<ol class="arabic simple">
+<li><p>Get TF-A from: <a class="reference external" href="https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/">https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/</a>, tag: v2.4</p></li>
+<li><p>Build</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span><span class="nv">PLAT</span><span class="o">=</span>imx8mm<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span><span class="nv">IMX_BOOT_UART_BASE</span><span class="o">=</span><span class="s2">"0x30880000"</span><span class="w"> </span>bl31
+$<span class="w"> </span>cp<span class="w"> </span>build/imx8mm/release/bl31.bin<span class="w"> </span><span class="k">$(</span>builddir<span class="k">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="get-the-ddr-firmware">
+<h3>Get the DDR firmware<a class="headerlink" href="#get-the-ddr-firmware" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://www.nxp.com/lgfiles/NMG/MAD/YOCTO/firmware-imx-8.18.bin
+$<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>firmware-imx-8.18.bin
+$<span class="w"> </span>./firmware-imx-8.18.bin
+$<span class="w"> </span>cp<span class="w"> </span>firmware-imx-8.18/firmware/ddr/synopsys/lpddr4_pmu_train_1d_imem.bin<span class="w"> </span><span class="k">$(</span>builddir<span class="k">)</span>
+$<span class="w"> </span>cp<span class="w"> </span>firmware-imx-8.18/firmware/ddr/synopsys/lpddr4_pmu_train_1d_dmem.bin<span class="w"> </span><span class="k">$(</span>builddir<span class="k">)</span>
+$<span class="w"> </span>cp<span class="w"> </span>firmware-imx-8.18/firmware/ddr/synopsys/lpddr4_pmu_train_2d_imem.bin<span class="w"> </span><span class="k">$(</span>builddir<span class="k">)</span>
+$<span class="w"> </span>cp<span class="w"> </span>firmware-imx-8.18/firmware/ddr/synopsys/lpddr4_pmu_train_2d_dmem.bin<span class="w"> </span><span class="k">$(</span>builddir<span class="k">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="build-u-boot">
+<h3>Build U-Boot<a class="headerlink" href="#build-u-boot" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>kontron-sl-mx8mm_defconfig
+$<span class="w"> </span>make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-
+</pre></div>
+</div>
+<p>Copy the flash.bin to SD card at an offset of 33 KiB:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>flash.bin<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sd<span class="o">[</span>x<span class="o">]</span><span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1K<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">33</span><span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc
+</pre></div>
+</div>
+</div>
+<div class="section" id="boot">
+<h3>Boot<a class="headerlink" href="#boot" title="Permalink to this headline">¶</a></h3>
+<p>Put the SD card in the slot on the board and apply power. Check the serial
+console for output.</p>
+</div>
+<div class="section" id="flash-the-bootloader-to-spi-nor">
+<h3>Flash the Bootloader to SPI NOR<a class="headerlink" href="#flash-the-bootloader-to-spi-nor" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>Determine and note the exact size of the <code class="docutils literal notranslate"><span class="pre">flash.bin</span></code> image in bytes (e.g.
+by running <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span> <span class="pre">flash.bin</span></code>)</p></li>
+<li><p>On the U-Boot CLI copy the bootloader from SD card to RAM:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mmc dev 1
+mmc read $loadaddr 0x42 0x1000
+</pre></div>
+</div>
+</li>
+<li><p>Erase the SPI NOR flash:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sf probe
+sf erase 0x0 0x200000
+</pre></div>
+</div>
+</li>
+<li><p>Copy the bootloader from RAM to SPI NOR. For the last parameter of the
+command, use the size determined in step 1 in <strong>hexadecimal notation</strong>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sf write $loadaddr 0x400 0x13B6F0
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To be able to boot from SPI NOR the OTP fuses need to be set accordingly.</p>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Further Information"></a><div class="section" id="further-information">
+<h2>Further Information<a class="headerlink" href="#further-information" title="Permalink to this headline">¶</a></h2>
+<p>The bootloader configuration is setup to be used with kernel FIT images. Legacy
+images might not be working out of the box.</p>
+<p>Please see <a class="reference external" href="https://docs.kontron-electronics.de">https://docs.kontron-electronics.de</a> for further vendor documentation.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="sl-mx6ul.html" rel="prev" title="Kontron Electronics SL i.MX6UL/ULL SoM"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../lg/index.html" rel="next" title="LG">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

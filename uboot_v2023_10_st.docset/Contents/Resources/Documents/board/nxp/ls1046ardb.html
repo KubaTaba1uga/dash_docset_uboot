@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LS1046ARDB — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="mx6sabreauto.html" rel="next" title="mx6sabreauto"/>
+<link href="imxrt1050-evk.html" rel="prev" title="imxrt1050-evk"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">NXP Semiconductors</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="imx8mm_evk.html">imx8mm_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mn_evk.html">imx8mn_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mp_evk.html">imx8mp_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8mq_evk.html">imx8mq_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imx8qxp_mek.html">imx8qxp_mek</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxrt1020-evk.html">imxrt1020-evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxrt1050-evk.html">imxrt1050-evk</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">LS1046ARDB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ls1046a-soc-overview">LS1046A SoC Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ls1046ardb-board-overview">LS1046ARDB board Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-map-from-core-s-view">Memory map from core’s view</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qspi-flash-map">QSPI flash map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booting-options">Booting Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-uart">Debug UART</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mx6sabreauto.html">mx6sabreauto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6sabresd.html">mx6sabresd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6ul_14x14_evk.html">mx6ul_14x14_evk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mx6ullevk.html">mx6ullevk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="psb.html">i.MX7D/i.MX8MM SRC_GPR10 PERSIST_SECONDARY_BOOT for bootloader A/B switching</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">NXP Semiconductors</a> »</li>
+<li>LS1046ARDB</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/nxp/ls1046ardb.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/LS1046ARDB"></a><div class="section" id="ls1046ardb">
+<h1>LS1046ARDB<a class="headerlink" href="#ls1046ardb" title="Permalink to this headline">¶</a></h1>
+<p>The LS1046A Reference Design Board (RDB) is a high-performance computing,
+evaluation, and development platform that supports the QorIQ LS1046A
+LayerScape Architecture processor. The LS1046ARDB provides SW development
+platform for the Freescale LS1046A processor series, with a complete
+debugging environment. The LS1046A RDB is lead-free and RoHS-compliant.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/LS1046A SoC Overview"></a><div class="section" id="ls1046a-soc-overview">
+<h2>LS1046A SoC Overview<a class="headerlink" href="#ls1046a-soc-overview" title="Permalink to this headline">¶</a></h2>
+<p>Please refer arch/arm/cpu/armv8/fsl-layerscape/doc/README.soc for LS1046A
+SoC overview.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/LS1046ARDB board Overview"></a><div class="section" id="ls1046ardb-board-overview">
+<h2>LS1046ARDB board Overview<a class="headerlink" href="#ls1046ardb-board-overview" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>SERDES1 Connections, 4 lanes supporting:</p>
+<ul>
+<li><p>Lane0: 10GBase-R with x1 RJ45 connector</p></li>
+<li><p>Lane1: 10GBase-R Cage</p></li>
+<li><p>Lane2: SGMII.5</p></li>
+<li><p>Lane3: SGMII.6</p></li>
+</ul>
+</li>
+<li><p>SERDES2 Connections, 4 lanes supporting:</p>
+<ul>
+<li><p>Lane0: PCIe1 with miniPCIe slot</p></li>
+<li><p>Lane1: PCIe2 with PCIe x2 slot</p></li>
+<li><p>Lane2: PCIe3 with PCIe x4 slot</p></li>
+<li><p>Lane3: SATA</p></li>
+</ul>
+</li>
+<li><p>DDR Controller</p>
+<ul>
+<li><p>8GB 64bits DDR4 SDRAM. Support rates of up to 2133MT/s</p></li>
+</ul>
+</li>
+<li><p>IFC/Local Bus</p>
+<ul>
+<li><p>One 512 MB NAND flash with ECC support</p></li>
+<li><p>CPLD connection</p></li>
+</ul>
+</li>
+<li><p>USB 3.0</p>
+<ul>
+<li><p>one Type A port, one Micro-AB port</p></li>
+</ul>
+</li>
+<li><p>SDHC: connects directly to a full SD/MMC slot</p></li>
+<li><p>DSPI: 64 MB high-speed flash Memory for boot code and storage (up to 108MHz)</p></li>
+<li><p>4 I2C controllers</p></li>
+<li><p>UART</p>
+<ul>
+<li><p>Two 4-pin serial ports at up to 115.2 Kbit/s</p></li>
+<li><p>Two DB9 D-Type connectors supporting one Serial port each</p></li>
+</ul>
+</li>
+<li><p>ARM JTAG support</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Memory map from core’s view"></a><div class="section" id="memory-map-from-core-s-view">
+<h2>Memory map from core’s view<a class="headerlink" href="#memory-map-from-core-s-view" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 32%"/>
+<col style="width: 32%"/>
+<col style="width: 28%"/>
+<col style="width: 9%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Start Address</p></th>
+<th class="head"><p>End Address</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_0000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_000F_FFFF</span></code></p></td>
+<td><p>Secure Boot ROM</p></td>
+<td><p>1M</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_0100_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_0FFF_FFFF</span></code></p></td>
+<td><p>CCSRBAR</p></td>
+<td><p>240M</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_1000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_1000_FFFF</span></code></p></td>
+<td><p>OCRAM0</p></td>
+<td><p>64K</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_1001_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_1001_FFFF</span></code></p></td>
+<td><p>OCRAM1</p></td>
+<td><p>64K</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_2000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_20FF_FFFF</span></code></p></td>
+<td><p>DCSR</p></td>
+<td><p>16M</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_7E80_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_7E80_FFFF</span></code></p></td>
+<td><p>IFC - NAND Flash</p></td>
+<td><p>64K</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_7FB0_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_7FB0_0FFF</span></code></p></td>
+<td><p>IFC - CPLD</p></td>
+<td><p>4K</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_8000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_FFFF_FFFF</span></code></p></td>
+<td><p>DRAM1</p></td>
+<td><p>2G</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x05_0000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05_07FF_FFFF</span></code></p></td>
+<td><p>QMAN S/W Portal</p></td>
+<td><p>128M</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x05_0800_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05_0FFF_FFFF</span></code></p></td>
+<td><p>BMAN S/W Portal</p></td>
+<td><p>128M</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x08_8000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x09_FFFF_FFFF</span></code></p></td>
+<td><p>DRAM2</p></td>
+<td><p>6G</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x40_0000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x47_FFFF_FFFF</span></code></p></td>
+<td><p>PCI Express1</p></td>
+<td><p>32G</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x48_0000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4F_FFFF_FFFF</span></code></p></td>
+<td><p>PCI Express2</p></td>
+<td><p>32G</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x50_0000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x57_FFFF_FFFF</span></code></p></td>
+<td><p>PCI Express3</p></td>
+<td><p>32G</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/QSPI flash map"></a><div class="section" id="qspi-flash-map">
+<h2>QSPI flash map<a class="headerlink" href="#qspi-flash-map" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 31%"/>
+<col style="width: 31%"/>
+<col style="width: 31%"/>
+<col style="width: 8%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Start Address</p></th>
+<th class="head"><p>End Address</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4000_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_400F_FFFF</span></code></p></td>
+<td><p>RCW + PBI</p></td>
+<td><p>1M</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4010_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_402F_FFFF</span></code></p></td>
+<td><p>U-Boot</p></td>
+<td><p>2M</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4030_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_403F_FFFF</span></code></p></td>
+<td><p>U-Boot Env</p></td>
+<td><p>1M</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4040_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_405F_FFFF</span></code></p></td>
+<td><p>PPA</p></td>
+<td><p>2M</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4060_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_408F_FFFF</span></code></p></td>
+<td><p>Secure boot header
++ bootscript</p></td>
+<td><p>3M</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4090_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_4093_FFFF</span></code></p></td>
+<td><p>FMan ucode</p></td>
+<td><p>256K</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4094_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_4097_FFFF</span></code></p></td>
+<td><p>QE/uQE firmware</p></td>
+<td><p>256K</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4098_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_40FF_FFFF</span></code></p></td>
+<td><p>Reserved</p></td>
+<td><p>6M</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0x00_4100_0000</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00_43FF_FFFF</span></code></p></td>
+<td><p>FIT Image</p></td>
+<td><p>48M</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Booting Options"></a><div class="section" id="booting-options">
+<h2>Booting Options<a class="headerlink" href="#booting-options" title="Permalink to this headline">¶</a></h2>
+<p>NB: The reference manual documents the RCW source with the <em>least-significant
+bit first</em>.</p>
+<div class="section" id="qspi-boot">
+<h3>QSPI boot<a class="headerlink" href="#qspi-boot" title="Permalink to this headline">¶</a></h3>
+<p>This is the default. <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">SW5[0:8],</span> <span class="pre">SW4[0]</span> <span class="pre">}</span></code> should be <code class="docutils literal notranslate"><span class="pre">0010_0010_0</span></code>.</p>
+</div>
+<div class="section" id="sd-boot-and-emmc-boot">
+<h3>SD boot and eMMC boot<a class="headerlink" href="#sd-boot-and-emmc-boot" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">SW5[0:8],</span> <span class="pre">SW4[0]</span> <span class="pre">}</span></code> should be <code class="docutils literal notranslate"><span class="pre">0010_0000_0</span></code>. eMMC is selected only if
+there is no SD card in the slot.</p>
+</div>
+<div class="section" id="jtag-boot">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/JTAG boot"></a><span id="ls1046ardb-jtag"></span><h3>JTAG boot<a class="headerlink" href="#jtag-boot" title="Permalink to this headline">¶</a></h3>
+<p>To recover a bricked board, or to perform initial programming, the ls1046
+supports using two hard-coded Reset Configuration Words (RCWs). Unfortunately,
+this configuration disables most functionality, including the uarts and ethernet.
+However, the SD/MMC and flash controllers are still functional. To get around
+the lack of a serial console, we will use ARM semihosting instead. When
+enabled, OpenOCD will interpret certain instructions as calls to the host
+operating system. This allows U-Boot to use the console, read/write files, or
+run arbitrary commands (!).</p>
+<p>When configuring U-Boot, ensure that <code class="docutils literal notranslate"><span class="pre">CONFIG_SEMIHOSTING</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CONFIG_SPL_SEMIHOSTING</span></code>, and <code class="docutils literal notranslate"><span class="pre">CONFIG_SEMIHOSTING_SERIAL</span></code> are enabled.
+<code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">SW5[0:8],</span> <span class="pre">SW4[0]</span> <span class="pre">}</span></code> should be <code class="docutils literal notranslate"><span class="pre">0100_1111_0</span></code>. Additionally, <code class="docutils literal notranslate"><span class="pre">SW4[7]</span></code>
+should be set to <code class="docutils literal notranslate"><span class="pre">0</span></code>. Connect to the “console” USB connector on the front of
+the enclosure.</p>
+<p>Create a new file called <code class="docutils literal notranslate"><span class="pre">u-boot.tcl</span></code> (or whatever you choose) with the
+following contents:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Load the configuration for the LS1046ARDB
+source [find board/nxp_rdb-ls1046a.cfg]
+# Initialize the scan chain
+init
+# Stop the processor
+halt
+# Enable semihosting
+arm semihosting enable
+# Load U-Boot SPL
+load_image spl/u-boot-spl 0 elf
+# Start executing SPL at the beginning of OCRAM
+resume 0x10000000
+</pre></div>
+</div>
+<p>Then, launch openocd like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>openocd -f u-boot.tcl
+</pre></div>
+</div>
+<p>You should see the U-Boot SPL banner followed by the banner for U-Boot proper
+in the output of openocd. The CMSIS-DAP adapter is slow, so this can take a
+long time. If you don’t see it, something has gone wrong. After a while, you
+should see the prompt. You can load an image using semihosting by running:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; load hostfs - $loadaddr &lt;name of file&gt;
+</pre></div>
+</div>
+<p>Note that openocd’s terminal is “cooked,” so commands will only be sent to
+U-Boot when you press enter, and all commands will be echoed twice.
+Additionally, openocd will block when waiting for input, ignoring gdb, JTAG
+events, and Ctrl-Cs. To make openocd process these events, just hit enter.</p>
+<div class="section" id="using-an-external-jtag-adapter">
+<h4>Using an external JTAG adapter<a class="headerlink" href="#using-an-external-jtag-adapter" title="Permalink to this headline">¶</a></h4>
+<p>The CMSIS-DAP adapter can be rather slow. To speed up booting, use an external
+JTAG adapter. The following examples assume you are using a J-Link, though any
+adapter supported by OpenOCD will do. Ensure that <code class="docutils literal notranslate"><span class="pre">SW4[7]</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>. Attach
+your jtag adapter to J22. Modify <code class="docutils literal notranslate"><span class="pre">u-boot.tcl</span></code> and replace the first two lines
+with the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Load the J-Link configuration (or whatever your adapter is)
+source [find interface/jlink.cfg]
+# Use JTAG, since the J-Link also supports SWD
+transport select jtag
+# The reset pin resets the whole CPU
+reset_config srst_only
+# Load the LS1046A config
+source [find target/ls1046a.cfg]
+</pre></div>
+</div>
+<p>You can proceed as normal through the rest of the steps above. I got a speedup
+of around 100x by using a J-Link.</p>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debug UART"></a><div class="section" id="debug-uart">
+<h2>Debug UART<a class="headerlink" href="#debug-uart" title="Permalink to this headline">¶</a></h2>
+<p>To enable the debug UART, enable the following config options:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_DEBUG_UART_NS16550=y
+CONFIG_DEBUG_UART_BASE=0x21c0500
+CONFIG_DEBUG_UART_CLOCK=300000000
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="imxrt1050-evk.html" rel="prev" title="imxrt1050-evk"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="mx6sabreauto.html" rel="next" title="mx6sabreauto">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

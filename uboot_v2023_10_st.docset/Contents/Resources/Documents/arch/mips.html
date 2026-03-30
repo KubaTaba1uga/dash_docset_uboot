@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MIPS — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="nios2.html" rel="next" title="Nios II"/>
+<link href="m68k.html" rel="prev" title="M68K / ColdFire"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html">ARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">MIPS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#toolchains">Toolchains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#known-issues">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#todos">TODOs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html">RISC-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/index.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Architecture-specific doc</a> »</li>
+<li>MIPS</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/arch/mips.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/MIPS"></a><div class="section" id="mips">
+<h1>MIPS<a class="headerlink" href="#mips" title="Permalink to this headline">¶</a></h1>
+<p>Notes for the MIPS architecture port of U-Boot</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Toolchains"></a><div class="section" id="toolchains">
+<h2>Toolchains<a class="headerlink" href="#toolchains" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="http://www.denx.de/wiki/DULG/ELDK">ELDK &lt; DULG &lt; DENX</a></p></li>
+<li><p><a class="reference external" href="http://www.emdebian.org/crosstools.html">Embedded Debian – Cross-development toolchains</a></p></li>
+<li><p><a class="reference external" href="http://buildroot.uclibc.org/">Buildroot</a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Known Issues"></a><div class="section" id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><p>Cache incoherency issue caused by do_bootelf_exec() at cmd_elf.c</p>
+<p>Cache will be disabled before entering the loaded ELF image without
+writing back and invalidating cache lines. This leads to cache
+incoherency in most cases, unless the code gets loaded after U-Boot
+re-initializes the cache. The more common uImage ‘bootm’ command does
+not suffer this problem.</p>
+<dl class="simple">
+<dt>[workaround] To avoid this cache incoherency:</dt><dd><ul class="simple">
+<li><p>insert flush_cache(all) before calling dcache_disable(), or</p></li>
+<li><p>fix dcache_disable() to do both flushing and disabling cache.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Note that Linux users need to kill dcache_disable() in do_bootelf_exec()
+or override do_bootelf_exec() not to disable I-/D-caches, because most
+Linux/MIPS ports don’t re-enable caches after entering kernel_entry.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/TODOs"></a><div class="section" id="todos">
+<h2>TODOs<a class="headerlink" href="#todos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Probe CPU types, I-/D-cache and TLB size etc. automatically</p></li>
+<li><p>Secondary cache support missing</p></li>
+<li><p>Initialize TLB entries redardless of their use</p></li>
+<li><p>R2000/R3000 class parts are not supported</p></li>
+<li><p>Limited testing across different MIPS variants</p></li>
+<li><p>Due to cache initialization issues, the DRAM on board must be
+initialized in board specific assembler language before the cache init
+code is run – that is, initialize the DRAM in lowlevel_init().</p></li>
+<li><p>centralize/share more CPU code of MIPS32, MIPS64 and XBurst</p></li>
+<li><p>support Qemu Malta</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="m68k.html" rel="prev" title="M68K / ColdFire"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="nios2.html" rel="next" title="Nios II">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

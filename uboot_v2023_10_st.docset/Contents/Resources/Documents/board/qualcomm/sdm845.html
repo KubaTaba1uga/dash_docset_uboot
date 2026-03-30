@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Snapdragon 845 — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="qcs404.html" rel="next" title="QCS404 EVB"/>
+<link href="dragonboard410c.html" rel="prev" title="DragonBoard 410c"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Qualcomm</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dragonboard410c.html">DragonBoard 410c</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Snapdragon 845</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#about-this">About this</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boards">Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qcs404.html">QCS404 EVB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Qualcomm</a> »</li>
+<li>Snapdragon 845</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/qualcomm/sdm845.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Snapdragon 845"></a><div class="section" id="snapdragon-845">
+<h1>Snapdragon 845<a class="headerlink" href="#snapdragon-845" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/About this"></a><div class="section" id="about-this">
+<h2>About this<a class="headerlink" href="#about-this" title="Permalink to this headline">¶</a></h2>
+<p>This document describes the information about Qualcomm Snapdragon 845
+supported boards and it’s usage steps.</p>
+<p>SDM845 - hi-end qualcomm chip, introduced in late 2017.
+Mostly used in flagship phones and tablets of 2018.</p>
+<p>The current boot flow support loading u-boot as an Android boot image via
+Qualcomm’s UEFI-based ABL (Android) Bootloader.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installation"></a><div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="build">
+<h3>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h3>
+<p>Setup <code class="docutils literal notranslate"><span class="pre">CROSS_COMPILE</span></code> for aarch64 and build U-Boot for your board:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ export CROSS_COMPILE=&lt;aarch64 toolchain prefix&gt;
+$ make &lt;your board name here, see Boards section&gt;_defconfig
+$ make
+</pre></div>
+</div>
+<p>This will build <code class="docutils literal notranslate"><span class="pre">u-boot.bin</span></code> in the configured output directory.</p>
+</div>
+<div class="section" id="generate-fit-image">
+<h3>Generate FIT image<a class="headerlink" href="#generate-fit-image" title="Permalink to this headline">¶</a></h3>
+<p>See doc/uImage.FIT for more details</p>
+</div>
+<div class="section" id="pack-android-boot-image">
+<h3>Pack android boot image<a class="headerlink" href="#pack-android-boot-image" title="Permalink to this headline">¶</a></h3>
+<p>We’ll assemble android boot image with <code class="docutils literal notranslate"><span class="pre">u-boot.bin</span></code> instead of linux kernel,
+and FIT image instead of <code class="docutils literal notranslate"><span class="pre">initramfs</span></code>. Android bootloader expect gzipped kernel
+with appended dtb, so let’s mimic linux to satisfy stock bootloader.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boards"></a><div class="section" id="boards">
+<h2>Boards<a class="headerlink" href="#boards" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="starqlte">
+<h3>starqlte<a class="headerlink" href="#starqlte" title="Permalink to this headline">¶</a></h3>
+<p>The starqltechn is a production board for Samsung S9 (SM-G9600) phone,
+based on the Qualcomm SDM845 SoC.</p>
+<p>Steps:</p>
+<ul>
+<li><p>Build u-boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ export CROSS_COMPILE=&lt;aarch64 toolchain prefix&gt;
+$ make starqltechn_defconfig
+$ make
+</pre></div>
+</div>
+</li>
+<li><p>Create dump dtb:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>workdir=/tmp/prepare_payload
+mkdir -p "$workdir"
+cd "$workdir"
+mock_dtb="$workdir"/payload_mock.dtb
+
+dtc -I dts -O dtb -o "$mock_dtb" &lt;&lt; EOF
+/dts-v1/;
+/ {
+        memory {
+                /* We expect the bootloader to fill in the size */
+                reg = &lt;0 0 0 0&gt;;
+        };
+
+        chosen { };
+};
+EOF
+</pre></div>
+</div>
+</li>
+<li><p>gzip u-boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gzip u-boot.bin
+</pre></div>
+</div>
+</li>
+<li><p>Append dtb to gzipped u-boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cat u-boot.bin.gz "$mock_dtb" &gt; u-boot.bin.gz-dtb
+</pre></div>
+</div>
+</li>
+<li><p>Now we’ve got everything to build android boot image:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkbootimg --base 0x0 --kernel_offset 0x00008000 \
+--ramdisk_offset 0x02000000 --tags_offset 0x01e00000 \
+--pagesize 4096 --second_offset 0x00f00000 \
+--ramdisk "$fit_image" \
+--kernel u-boot.bin.gz-dtb \
+-o boot.img
+</pre></div>
+</div>
+</li>
+<li><p>Flash image with your phone’s flashing method.</p></li>
+</ul>
+<p>More information can be found on the <a class="reference external" href="https://en.wikipedia.org/wiki/Samsung_Galaxy_S9">Samsung S9 page</a>.</p>
+</div>
+<div class="section" id="dragonboard845c">
+<h3>dragonboard845c<a class="headerlink" href="#dragonboard845c" title="Permalink to this headline">¶</a></h3>
+<p>The dragonboard845c is a Qualcomm Robotics RB3 Development Platform, based on
+the Qualcomm SDM845 SoC.</p>
+<p>Steps:</p>
+<ul>
+<li><p>Build u-boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ export CROSS_COMPILE=&lt;aarch64 toolchain prefix&gt;
+$ make dragonboard845c_defconfig
+$ make
+</pre></div>
+</div>
+</li>
+<li><p>Create dummy dtb:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>workdir=/tmp/prepare_payload
+mkdir -p "$workdir"
+mock_dtb="$workdir"/payload_mock.dtb
+
+dtc -I dts -O dtb -o "$mock_dtb" &lt;&lt; EOF
+/dts-v1/;
+/ {
+        #address-cells = &lt;2&gt;;
+        #size-cells = &lt;2&gt;;
+
+        memory@80000000 {
+                device_type = "memory";
+                /* We expect the bootloader to fill in the size */
+                reg = &lt;0 0x80000000 0 0&gt;;
+        };
+
+        chosen { };
+};
+EOF
+</pre></div>
+</div>
+</li>
+<li><p>gzip u-boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gzip u-boot.bin
+</pre></div>
+</div>
+</li>
+<li><p>Append dtb to gzipped u-boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cat u-boot.bin.gz "$mock_dtb" &gt; u-boot.bin.gz-dtb
+</pre></div>
+</div>
+</li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">db845c.its</span></code> file can be found in <code class="docutils literal notranslate"><span class="pre">board/qualcomm/dragonboard845c/</span></code>
+directory. It expects a folder as <code class="docutils literal notranslate"><span class="pre">db845c_imgs/</span></code> in the main directory
+containing pre-built kernel, dts and ramdisk images. See <code class="docutils literal notranslate"><span class="pre">db845c.its</span></code>
+for full path to images:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkimage -f db845c.its db845c.itb
+</pre></div>
+</div>
+</li>
+<li><p>Now we’ve got everything to build android boot image:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkbootimg --kernel u-boot.bin.gz-dtb --ramdisk db845c.itb \
+--output boot.img --pagesize 4096 --base 0x80000000
+</pre></div>
+</div>
+</li>
+<li><p>Flash boot.img using db845c fastboot method:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>fastboot<span class="w"> </span>flash<span class="w"> </span>boot<span class="w"> </span>boot.img
+</pre></div>
+</div>
+</li>
+</ul>
+<p>More information can be found on the <a class="reference external" href="https://www.96boards.org/product/rb3-platform/">DragonBoard 845c page</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="dragonboard410c.html" rel="prev" title="DragonBoard 410c"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="qcs404.html" rel="next" title="QCS404 EVB">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>File System Firmware Loader — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="i2c-howto.html" rel="next" title="How to port an I2C driver to driver model"/>
+<link href="fdt-fixup.html" rel="prev" title="Pre-relocation device tree manipulation"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>File System Firmware Loader</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/fs_firmware_loader.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/File System Firmware Loader"></a><div class="section" id="file-system-firmware-loader">
+<h1>File System Firmware Loader<a class="headerlink" href="#file-system-firmware-loader" title="Permalink to this headline">¶</a></h1>
+<p>This is file system firmware loader for U-Boot framework, which has very close
+to some Linux Firmware API. For the details of Linux Firmware API, you can refer
+to <a class="reference external" href="https://01.org/linuxgraphics/gfx-docs/drm/driver-api/firmware/index.html">https://01.org/linuxgraphics/gfx-docs/drm/driver-api/firmware/index.html</a>.</p>
+<p>File system firmware loader can be used to load whatever(firmware, image,
+and binary) from the storage device in file system format into target location
+such as memory, then consumer driver such as FPGA driver can program FPGA image
+from the target location into FPGA.</p>
+<p>To enable firmware loader, CONFIG_FS_LOADER need to be set at
+&lt;board_name&gt;_defconfig such as “CONFIG_FS_LOADER=y”.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Firmware Loader API core features"></a><div class="section" id="firmware-loader-api-core-features">
+<h2>Firmware Loader API core features<a class="headerlink" href="#firmware-loader-api-core-features" title="Permalink to this headline">¶</a></h2>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Firmware storage device described in device tree source"></a><div class="section" id="firmware-storage-device-described-in-device-tree-source">
+<h2>Firmware storage device described in device tree source<a class="headerlink" href="#firmware-storage-device-described-in-device-tree-source" title="Permalink to this headline">¶</a></h2>
+<p>For passing data like storage device phandle and partition where the
+firmware loading from to the firmware loader driver, those data could be
+defined in fs-loader node as shown in below:</p>
+<p>Example for block device:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fs_loader0: fs-loader {
+        bootph-all;
+        compatible = "u-boot,fs-loader";
+        phandlepart = &lt;&amp;mmc 1&gt;;
+};
+</pre></div>
+</div>
+<p>&lt;&amp;mmc 1&gt; means block storage device pointer and its partition.</p>
+<p>Above example is a description for block storage, but for UBI storage
+device, it can be described in FDT as shown in below:</p>
+<p>Example for ubi:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fs_loader1: fs-loader {
+        bootph-all;
+        compatible = "u-boot,fs-loader";
+        mtdpart = "UBI",
+        ubivol = "ubi0";
+};
+</pre></div>
+</div>
+<p>Then, firmware-loader property can be added with any device node, which
+driver would use the firmware loader for loading.</p>
+<p>The value of the firmware-loader property should be set with phandle
+of the fs-loader node. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>firmware-loader = &lt;&amp;fs_loader0&gt;;
+</pre></div>
+</div>
+<p>If there are majority of devices using the same fs-loader node, then
+firmware-loader property can be added under /chosen node instead of
+adding to each of device node.</p>
+<p>For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/{
+        chosen {
+                firmware-loader = &lt;&amp;fs_loader0&gt;;
+        };
+};
+</pre></div>
+</div>
+<p>In each respective driver of devices using firmware loader, the firmware
+loaded instance should be created by DT phandle.</p>
+<p>For example of getting DT phandle from /chosen and creating instance:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">chosen_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ofnode_path</span><span class="p">(</span><span class="s">"/chosen"</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">ofnode_valid</span><span class="p">(</span><span class="n">chosen_node</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">debug</span><span class="p">(</span><span class="s">"/chosen node was not found.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENOENT</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">phandle_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ofnode_get_property</span><span class="p">(</span><span class="n">chosen_node</span><span class="p">,</span><span class="w"> </span><span class="s">"firmware-loader"</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">phandle_p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">debug</span><span class="p">(</span><span class="s">"firmware-loader property was not found.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENOENT</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">phandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fdt32_to_cpu</span><span class="p">(</span><span class="o">*</span><span class="n">phandle_p</span><span class="p">);</span>
+<span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uclass_get_device_by_phandle_id</span><span class="p">(</span><span class="n">UCLASS_FS_FIRMWARE_LOADER</span><span class="p">,</span>
+<span class="w">                                     </span><span class="n">phandle</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dev</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Firmware loader driver is also designed to support U-Boot environment
+variables, so all these data from FDT can be overwritten
+through the U-Boot environment variable during run time.</p>
+<p>For examples:</p>
+<dl class="simple">
+<dt>storage_interface:</dt><dd><p>Storage interface, it can be “mmc”, “usb”, “sata” or “ubi”.</p>
+</dd>
+<dt>fw_dev_part:</dt><dd><p>Block device number and its partition, it can be “0:1”.</p>
+</dd>
+<dt>fw_ubi_mtdpart:</dt><dd><p>UBI device mtd partition, it can be “UBI”.</p>
+</dd>
+<dt>fw_ubi_volume:</dt><dd><p>UBI volume, it can be “ubi0”.</p>
+</dd>
+</dl>
+<p>When above environment variables are set, environment values would be
+used instead of data from FDT.
+The benefit of this design allows user to change storage attribute data
+at run time through U-Boot console and saving the setting as default
+environment values in the storage for the next power cycle, so no
+compilation is required for both driver and FDT.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/File system firmware Loader API"></a><div class="section" id="file-system-firmware-loader-api">
+<h2>File system firmware Loader API<a class="headerlink" href="#file-system-firmware-loader-api" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">request_firmware_into_buf</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span>
+<span class="w">                              </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span>
+<span class="w">                              </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Load firmware into a previously allocated buffer</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>struct udevice *dev: An instance of a driver</p></li>
+<li><p>const char *name: name of firmware file</p></li>
+<li><p>void *buf: address of buffer to load firmware into</p></li>
+<li><p>size_t size: size of buffer</p></li>
+<li><p>u32 offset: offset of a file for start reading into buffer</p></li>
+</ul>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>size of total read
+-ve when error</p>
+</dd>
+<dt>Description:</dt><dd><p>The firmware is loaded directly into the buffer pointed to by buf</p>
+</dd>
+</dl>
+<p>Example of calling request_firmware_into_buf API after creating firmware loader
+instance:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uclass_get_device_by_phandle_id</span><span class="p">(</span><span class="n">UCLASS_FS_FIRMWARE_LOADER</span><span class="p">,</span>
+<span class="w">                                     </span><span class="n">phandle</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dev</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+
+<span class="n">request_firmware_into_buf</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">buffer_location</span><span class="p">,</span><span class="w"> </span><span class="n">buffer_size</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">offset_ofreading</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="fdt-fixup.html" rel="prev" title="Pre-relocation device tree manipulation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="i2c-howto.html" rel="next" title="How to port an I2C driver to driver model">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Driver Model — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="bind.html" rel="next" title="Binding/unbinding a driver"/>
+<link href="../distro.html" rel="prev" title="Generic Distro Configuration Concept"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Driver Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li>Driver Model</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Driver Model"></a><div class="section" id="driver-model">
+<h1>Driver Model<a class="headerlink" href="#driver-model" title="Permalink to this headline">¶</a></h1>
+<p>The following holds information on the U-Boot device driver framework:
+driver-model, including the design details of itself and several driver
+subsystems</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging driver model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html#useful-techniques-in-general">Useful techniques in general</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html#failure-to-locate-a-device">Failure to locate a device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design Details</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design.html#terminology">Terminology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#how-to-try-it">How to try it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#running-the-tests">Running the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#what-is-going-on">What is going on?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#declaring-drivers">Declaring Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#platform-data">Platform Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#device-tree">Device Tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#declaring-uclasses">Declaring Uclasses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#device-sequence-numbers">Device Sequence Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#bus-drivers">Bus Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#driver-lifecycle">Driver Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#special-cases-for-removal">Special cases for removal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#error-codes">Error codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#data-structures">Data Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#tag-support">Tag Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#changes-since-v1">Changes since v1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#pre-relocation-support">Pre-Relocation Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#spl-support">SPL Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#enabling-driver-model">Enabling Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#things-to-punt-for-later">Things to punt for later</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ethernet.html#driver-framework">Driver framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ethernet.html#driver-methods">Driver methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ethernet.html#config-phylib-config-cmd-mii">CONFIG_PHYLIB / CONFIG_CMD_MII</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ethernet.html#legacy-network-drivers">Legacy network drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fdt-fixup.html#purpose">Purpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fdt-fixup.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fdt-fixup.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fdt-fixup.html#work-to-be-done">Work to be done</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fs_firmware_loader.html#firmware-loader-api-core-features">Firmware Loader API core features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fs_firmware_loader.html#firmware-storage-device-described-in-device-tree-source">Firmware storage device described in device tree source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fs_firmware_loader.html#file-system-firmware-loader-api">File system firmware Loader API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="livetree.html">Live Device Tree</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#motivation">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#enabling-livetree">Enabling livetree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#porting-drivers">Porting drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#useful-ofnode-functions">Useful ofnode functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#phandles">Phandles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#reading-addresses">Reading addresses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#fdtdec">fdtdec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#modifying-the-livetree">Modifying the livetree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#multiple-livetrees">Multiple livetrees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#internal-implementation">Internal implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#errors">Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#adding-new-access-functions">Adding new access functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="livetree.html#future-work">Future work</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Schedule</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-dm">CONFIG_DM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-dm-mmc">CONFIG_DM_MMC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-dm-usb">CONFIG_DM_USB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-sata">CONFIG_SATA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-blk">CONFIG_BLK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-dm-spi-config-dm-spi-flash">CONFIG_DM_SPI / CONFIG_DM_SPI_FLASH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-dm-video">CONFIG_DM_VIDEO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-dm-eth">CONFIG_DM_ETH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-dm-i2c">CONFIG_DM_I2C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#cfg-sys-timer-rate-and-cfg-sys-timer-counter">CFG_SYS_TIMER_RATE and CFG_SYS_TIMER_COUNTER</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#config-dm-serial">CONFIG_DM_SERIAL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nvme.html">NVMe Support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nvme.html#what-is-nvme">What is NVMe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvme.html#how-it-works">How it works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvme.html#status">Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvme.html#config-options">Config options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvme.html#usage-in-u-boot">Usage in U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvme.html#testing-nvme-with-qemu-x86">Testing NVMe with QEMU x86</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nvmxip.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmxip.html#supported-hardware">Supported hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmxip.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmxip.html#device-tree-nodes">Device Tree nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmxip.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#how-it-works">How it works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#converting-of-platdata-to-a-useful-form">Converting of-platdata to a useful form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#how-to-structure-your-driver">How to structure your driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#build-time-instantiation">Build-time instantiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#indexes">Indexes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#phases">Phases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#header-files">Header files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#problems">Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#caveats">Caveats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#internals">Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#credits">Credits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="of-plat.html#future-work">Future work</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pci-info.html#how-busses-are-scanned">How busses are scanned</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pci-info.html#sandbox">Sandbox</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pmic-framework.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pmic-framework.html#how-doees-it-work">How doees it work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pmic-framework.html#pmic-uclass">Pmic uclass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pmic-framework.html#regulator-uclass">Regulator uclass</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="remoteproc-framework.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remoteproc-framework.html#how-does-it-work-the-driver">How does it work - The driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remoteproc-framework.html#describing-the-device-using-platform-data">Describing the device using platform data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remoteproc-framework.html#describing-the-device-using-device-tree">Describing the device using device tree</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="serial-howto.html#converting-boards-to-config-dm-serial">Converting boards to CONFIG_DM_SERIAL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial-howto.html#serial-in-spl">Serial in SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial-howto.html#removing-old-code">Removing old code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial-howto.html#example-patch">Example patch</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="soc-framework.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="soc-framework.html#implementing-a-uclass-soc-provider">Implementing a UCLASS_SOC provider</a></li>
+<li class="toctree-l2"><a class="reference internal" href="soc-framework.html#using-a-uclass-soc-driver">Using a UCLASS_SOC driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="soc-framework.html#describing-the-device-using-device-tree">Describing the device using device tree</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#how-long-does-this-take">How long does this take?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#enable-driver-mode-for-spi-and-spi-flash">Enable driver mode for SPI and SPI flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#add-the-skeleton">Add the skeleton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#replace-exynos-in-the-above-code-with-your-driver-name">Replace ‘exynos’ in the above code with your driver name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#ifdef-out-all-of-the-code-in-your-driver-except-for-the-above">#ifdef out all of the code in your driver except for the above</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#add-some-includes">Add some includes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#build">Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#set-up-your-platform-data-structure">Set up your platform data structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#write-of-to-plat-for-device-tree-only">Write of_to_plat() [for device tree only]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#add-the-platform-data-non-device-tree-only">Add the platform data [non-device-tree only]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#add-the-device-private-data">Add the device private data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#add-the-probe-and-remove-methods">Add the probe() and remove() methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#implement-set-speed">Implement set_speed()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#implement-set-mode">Implement set_mode()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#implement-claim-bus">Implement claim_bus()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#implement-release-bus">Implement release_bus()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#implement-xfer">Implement xfer()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#set-up-the-per-child-data-and-child-pre-probe-function">Set up the per-child data and child pre-probe function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#optional-set-up-cs-info-if-you-want-it">Optional: Set up cs_info() if you want it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#test-it">Test it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#prepare-patches-and-send-them-to-the-mailing-lists">Prepare patches and send them to the mailing lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spi-howto.html#a-little-note-about-spi-uclass-features">A little note about SPI uclass features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usb-info.html">How USB works with driver model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#enabling-driver-model-for-usb">Enabling driver model for USB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#support-for-ehci-and-xhci">Support for EHCI and XHCI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#data-structures">Data structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#usb-buses">USB buses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#usb-operations">USB operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#usb-devices">USB Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#technical-details-on-enumeration-flow">Technical details on enumeration flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#hubs">Hubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#example-mass-storage">Example - Mass Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#counter-example-usb-ethernet">Counter-example: USB Ethernet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#sandbox">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-info.html#future-work">Future work</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="virtio.html">VirtIO Support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="virtio.html#what-s-virtio">What’s VirtIO?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtio.html#status">Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtio.html#build-instructions">Build Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtio.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtio.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtio.html#driver-internals">Driver Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virtio.html#development-flow">Development Flow</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../distro.html" rel="prev" title="Generic Distro Configuration Concept"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="bind.html" rel="next" title="Binding/unbinding a driver">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

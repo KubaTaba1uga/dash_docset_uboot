@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Release Cycle — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="security.html" rel="next" title="Handling of security vulnerabilities"/>
+<link href="process.html" rel="prev" title="U-Boot Development Process"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#general">General</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="board_best_practices.html">Best Practices for Board Ports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codingstyle.html">U-Boot Coding Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="designprinciples.html">U-Boot Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docstyle.html">Documentation Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patman.html">Patman patch manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="process.html">U-Boot Development Process</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Release Cycle</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#version-numbers">Version Numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#current-status">Current Status</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#future-releases">Future Releases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#previous-releases">Previous Releases</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="security.html">Handling of security vulnerabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sending_patches.html">Sending patches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_configuration.html">System configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Release Cycle</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/release_cycle.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Release Cycle"></a><div class="section" id="release-cycle">
+<h1>Release Cycle<a class="headerlink" href="#release-cycle" title="Permalink to this headline">¶</a></h1>
+<p>The U-Boot projects attempts to maintain a fixed, predictable Release
+Cycle as follows:</p>
+<ul>
+<li><p>We will have U-Boot releases at a fixed release interval of (approximately)
+every 3 months.</p></li>
+<li><p>Under normal conditions the release date will be the first Monday of the month.</p></li>
+<li><p>Immediately following each release, there will be a “merge window” of
+normally 21 days, i. e. if the release was on a Monday, then the merge window
+will close on the Monday in the 3rd week after the release.</p>
+<p>While this merge window is open, new features can be added to the U-Boot
+source tree. This is further expanded on in the <a class="reference internal" href="process.html"><span class="doc">U-Boot Development Process</span></a>.</p>
+</li>
+<li><p>After the merge window closes, no new features may be added to allow for a
+release candidate phase which is intended to fix bugs and regressions.</p></li>
+</ul>
+<p><em>Note:</em> While we try to adhere to the release schedule, we will
+not hesitate and take the liberty to delay a release if there are
+good reasons, for example if there are known bugs or other technical
+reasons.  The code will be released when it is considered ready
+without caring too much about the announced deadline.</p>
+<p><em>Note 2:</em> Even though we follow Linux ways in many respects, there are
+differences in the actual procedures, which are documented in the
+<a class="reference internal" href="process.html"><span class="doc">U-Boot Development Process</span></a>.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Version Numbers"></a><div class="section" id="version-numbers">
+<h2>Version Numbers<a class="headerlink" href="#version-numbers" title="Permalink to this headline">¶</a></h2>
+<p>Starting with the release in October 2008, the names of the releases were
+changed from numerical release numbers without deeper meaning into a time stamp
+based numbering.  Regular releases are now identified by names consisting of
+the calendar year and month of the release date.  Additional fields are
+frequently used to denote the release candidates.  They are also used on rare
+occasions to note a bug fix release on top of the previous stable release.</p>
+<p>Examples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot v2009.11       - Release November 2009
+U-Boot v2009.11.1     - Bug fix release 1 on top of the November 2009 release
+U-Boot v2010.09-rc1   - Release candidate 1 for September 2010 release
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Current Status"></a><div class="section" id="current-status">
+<h2>Current Status<a class="headerlink" href="#current-status" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>U-Boot v2023.10 was released on Mon 02 October 2023.</p></li>
+<li><p>The Merge Window for the next release (v2024.01) is <strong>open</strong> until the -rc1
+release on Mon 23 October 2023.</p></li>
+<li><p>The next branch is now <strong>closed</strong>.</p></li>
+<li><p>Release “v2024.01” is scheduled for 08 January 2024.</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Future Releases"></a><div class="section" id="future-releases">
+<h2>Future Releases<a class="headerlink" href="#future-releases" title="Permalink to this headline">¶</a></h2>
+<p>Please note that the following dates are planned only and may be deviated from
+as needed.</p>
+<ul class="simple">
+<li><p>“v2024.01”: end of MW = Mon, Oct 23, 2023; release = Mon, Jan 08, 2024</p></li>
+<li><p>“v2024.04”: end of MW = Mon, Jan 29, 2024; release = Tue, Apr 02, 2024</p></li>
+<li><p>“v2024.07”: end of MW = Mon, Apr 22, 2024; release = Mon, Jul 01, 2024</p></li>
+<li><p>“v2024.10”: end of MW = Mon, Jul 22, 2024; release = Mon, Oct 07, 2024</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Previous Releases"></a><div class="section" id="previous-releases">
+<h2>Previous Releases<a class="headerlink" href="#previous-releases" title="Permalink to this headline">¶</a></h2>
+<p>Note: these statistics are generated by our fork of <a class="reference external" href="https://source.denx.de/u-boot/gitdm">gitdm</a>, which was originally created by
+Jonathan Corbet.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2023.10.html"><span class="doc">Release Statistics for U-Boot v2023.10</span></a> which was released on 02 October 2023.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2023.07.html"><span class="doc">Release Statistics for U-Boot v2023.07</span></a> which was released on 10 July 2023.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2023.04.html"><span class="doc">Release Statistics for U-Boot v2023.04</span></a> which was released on 03 April 2023.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2023.01.html"><span class="doc">Release Statistics for U-Boot v2023.01</span></a> which was released on 09 January 2023.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2022.10.html"><span class="doc">Release Statistics for U-Boot v2022.10</span></a> which was released on 03 October 2022.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2022.07.html"><span class="doc">Release Statistics for U-Boot v2022.07</span></a> which was released on 11 July 2022.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2022.04.html"><span class="doc">Release Statistics for U-Boot v2022.04</span></a> which was released on 04 April 2022.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2022.01.html"><span class="doc">Release Statistics for U-Boot v2022.01</span></a> which was released on 10 January 2022.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2021.10.html"><span class="doc">Release Statistics for U-Boot v2021.10</span></a> which was released on 04 October 2021.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2021.07.html"><span class="doc">Release Statistics for U-Boot v2021.07</span></a> which was released on 05 July 2021.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2021.04.html"><span class="doc">Release Statistics for U-Boot v2021.04</span></a> which was released on 05 April 2021.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2021.01.html"><span class="doc">Release Statistics for U-Boot v2021.01</span></a> which was released on 11 January 2021.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2020.10.html"><span class="doc">Release Statistics for U-Boot v2020.10</span></a> which was released on 05 October 2020.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2020.07.html"><span class="doc">Release Statistics for U-Boot v2020.07</span></a> which was released on 06 July 2020.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2020.04.html"><span class="doc">Release Statistics for U-Boot v2020.04</span></a> which was released on 13 April 2020.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2020.01.html"><span class="doc">Release Statistics for U-Boot v2020.01</span></a> which was released on 06 January 2020.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2019.10.html"><span class="doc">Release Statistics for U-Boot v2019.10</span></a> which was released on 07 October 2019.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2019.07.html"><span class="doc">Release Statistics for U-Boot v2019.07</span></a> which was released on 08 July 2019.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2019.04.html"><span class="doc">Release Statistics for U-Boot v2019.04</span></a> which was released on 08 April 2019.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2019.01.html"><span class="doc">Release Statistics for U-Boot v2019.01</span></a> which was released on 04 January 2019.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2018.11.html"><span class="doc">Release Statistics for U-Boot v2018.11</span></a> which was released on 15 November 2018.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2018.09.html"><span class="doc">Release Statistics for U-Boot v2018.09</span></a> which was released on 10 September 2018.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2018.07.html"><span class="doc">Release Statistics for U-Boot v2018.07</span></a> which was released on 19 July 2018.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2018.05.html"><span class="doc">Release Statistics for U-Boot v2018.05</span></a> which was released on 07 May 2018.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2018.03.html"><span class="doc">Release Statistics for U-Boot v2018.03</span></a> which was released on 13 March 2018.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2018.01.html"><span class="doc">Release Statistics for U-Boot v2018.01</span></a> which was released on 08 January 2018.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2017.11.html"><span class="doc">Release Statistics for U-Boot v2017.11</span></a> which was released on 13 November 2017.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2017.09.html"><span class="doc">Release Statistics for U-Boot v2017.09</span></a> which was released on 11 September 2017.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2017.07.html"><span class="doc">Release Statistics for U-Boot v2017.07</span></a> which was released on 10 July 2017.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2017.05.html"><span class="doc">Release Statistics for U-Boot v2017.05</span></a> which was released on 08 May 2017.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2017.03.html"><span class="doc">Release Statistics for U-Boot v2017.03</span></a> which was released on 13 March 2017.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2017.01.html"><span class="doc">Release Statistics for U-Boot v2017.01</span></a> which was released on 09 January 2017.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2016.11.html"><span class="doc">Release Statistics for U-Boot v2016.11</span></a> which was released on 14 November 2016.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2016.09.html"><span class="doc">Release Statistics for U-Boot v2016.09</span></a> which was released on 12 September 2016.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2016.07.html"><span class="doc">Release Statistics for U-Boot v2016.07</span></a> which was released on 11 July 2016.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2016.05.html"><span class="doc">Release Statistics for U-Boot v2016.05</span></a> which was released on 16 May 2016.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2016.03.html"><span class="doc">Release Statistics for U-Boot v2016.03</span></a> which was released on 14 March 2016.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2016.01.html"><span class="doc">Release Statistics for U-Boot v2016.01</span></a> which was released on 12 January 2016.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2015.10.html"><span class="doc">Release Statistics for U-Boot v2015.10</span></a> which was released on 19 October 2015.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2015.07.html"><span class="doc">Release Statistics for U-Boot v2015.07</span></a> which was released on 14 July 2015.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2015.04.html"><span class="doc">Release Statistics for U-Boot v2015.04</span></a> which was released on 13 April 2015.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2015.01.html"><span class="doc">Release Statistics for U-Boot v2015.01</span></a> which was released on 12 January 2015.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2014.10.html"><span class="doc">Release Statistics for U-Boot v2014.10</span></a> which was released on 14 October 2014.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2014.07.html"><span class="doc">Release Statistics for U-Boot v2014.07</span></a> which was released on 14 July 2014.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2014.04.html"><span class="doc">Release Statistics for U-Boot v2014.04</span></a> which was released on 14 April 2014.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2014.01.html"><span class="doc">Release Statistics for U-Boot v2014.01</span></a> which was released on 20 January 2014.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2013.10.html"><span class="doc">Release Statistics for U-Boot v2013.10</span></a> which was released on 16 October 2013.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2013.07.html"><span class="doc">Release Statistics for U-Boot v2013.07</span></a> which was released on 22 July 2013.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2013.04.html"><span class="doc">Release Statistics for U-Boot v2013.04</span></a> which was released on 19 April 2013.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2013.01.html"><span class="doc">Release Statistics for U-Boot v2013.01</span></a> which was released on 15 January 2013.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2012.10.html"><span class="doc">Release Statistics for U-Boot v2012.12</span></a> which was released on 15 October 2012.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2012.07.html"><span class="doc">Release Statistics for U-Boot v2012.07</span></a> which was released on 30 July 2012.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2012.04.html"><span class="doc">Release Statistics for U-Boot v2012.04</span></a> which was released on 21 April 2012.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2011.12.html"><span class="doc">Release Statistics for U-Boot v2011.12</span></a> which was released on 23 December 2011.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2011.09.html"><span class="doc">Release Statistics for U-Boot v2011.09</span></a> which was released on 29 September 2011.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2011.06.html"><span class="doc">Release Statistics for U-Boot v2011.06</span></a> which was released on 27 July 2011.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2011.03.html"><span class="doc">Release Statistics for U-Boot v2011.03</span></a> which was released on 31 March 2011.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2010.12.html"><span class="doc">Release Statistics for U-Boot v2010.12</span></a> which was released on 22 December 2010.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2010.09.html"><span class="doc">Release Statistics for U-Boot v2010.09</span></a> which was released on 28 September 2010.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2010.06.html"><span class="doc">Release Statistics for U-Boot v2010.06</span></a> which was released on 29 June 2010.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2010.03.html"><span class="doc">Release Statistics for U-Boot v2010.03</span></a> which was released on 31 March 2010.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2009.11.html"><span class="doc">Release Statistics for U-Boot v2009.11</span></a> which was released on 15 December 2009.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2009.08.html"><span class="doc">Release Statistics for U-Boot v2009.08</span></a> which was released on 31 August 2009.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2009.06.html"><span class="doc">Release Statistics for U-Boot v2009.06</span></a> which was released on 14 June 2009.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2009.03.html"><span class="doc">Release Statistics for U-Boot v2009.03</span></a> which was released on 21 March 2009.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2009.01.html"><span class="doc">Release Statistics for U-Boot v2009.01</span></a> which was released on 21 January 2009.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v2008.10.html"><span class="doc">Release Statistics for U-Boot v2008.10</span></a> which was released on 18 October 2008.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v1.3.4.html"><span class="doc">Release Statistics for U-Boot v1.3.4</span></a> which was released on 12 August 2008.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v1.3.3.html"><span class="doc">Release Statistics for U-Boot v1.3.3</span></a> which was released on 19 May 2008.</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v1.3.1.html"><span class="doc">Release Statistics for U-Boot v1.3.1</span></a> which was released on 06 December 2007. (St Nicholas release).</p></li>
+<li><p><a class="reference internal" href="statistics/u-boot-stats-v1.3.0.html"><span class="doc">Release Statistics for U-Boot v1.3.0</span></a> which was released on 19 November 2007.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="process.html" rel="prev" title="U-Boot Development Process"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="security.html" rel="next" title="Handling of security vulnerabilities">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

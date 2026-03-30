@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Generic Distro Configuration Concept — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="driver-model/index.html" rel="next" title="Driver Model"/>
+<link href="devicetree/dt_qemu.html" rel="prev" title="Devicetree in QEMU"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Generic Distro Configuration Concept</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#locating-bootable-disks">Locating Bootable Disks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot-configuration-files">Boot Configuration Files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#u-boot-implementation">U-Boot Implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-the-distro-options">Enabling the distro options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#required-environment-variables">Required Environment Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot-target-configuration">Boot Target Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Generic Distro Configuration Concept</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/distro.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Generic Distro Configuration Concept"></a><div class="section" id="generic-distro-configuration-concept">
+<h1>Generic Distro Configuration Concept<a class="headerlink" href="#generic-distro-configuration-concept" title="Permalink to this headline">¶</a></h1>
+<p>Linux distributions are faced with supporting a variety of boot mechanisms,
+environments or bootloaders (PC BIOS, EFI, U-Boot, Barebox, …). This makes
+life complicated. Worse, bootloaders such as U-Boot have a configurable set
+of features, and each board chooses to enable a different set of features.
+Hence, distros typically need to have board-specific knowledge in order to
+set up a bootable system.</p>
+<p>This document defines a common set of U-Boot features that are required for
+a distro to support the board in a generic fashion. Any board wishing to
+allow distros to install and boot in an out-of-the-box fashion should enable
+all these features. Linux distros can then create a single set of boot
+support/install logic that targets these features. This will allow distros
+to install on many boards without the need for board-specific logic.</p>
+<p>In fact, some of these features can be implemented by any bootloader, thus
+decoupling distro install/boot logic from any knowledge of the bootloader.</p>
+<p>This model assumes that boards will load boot configuration files from a
+regular storage mechanism (eMMC, SD card, USB Disk, SATA disk, etc.) with
+a standard partitioning scheme (MBR, GPT). Boards that cannot support this
+storage model are outside the scope of this document, and may still need
+board-specific installer/boot-configuration support in a distro.</p>
+<p>To some extent, this model assumes that a board has a separate boot flash
+that contains U-Boot, and that the user has somehow installed U-Boot to this
+flash before running the distro installer. Even on boards that do not conform
+to this aspect of the model, the extent of the board-specific support in the
+distro installer logic would be to install a board-specific U-Boot package to
+the boot partition during installation. This distro-supplied U-Boot can still
+implement the same features as on any other board, and hence the distro’s boot
+configuration file generation logic can still be board-agnostic.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Locating Bootable Disks"></a><div class="section" id="locating-bootable-disks">
+<h2>Locating Bootable Disks<a class="headerlink" href="#locating-bootable-disks" title="Permalink to this headline">¶</a></h2>
+<p>Typical desktop/server PCs search all (or a user-defined subset of) attached
+storage devices for a bootable partition, then load the bootloader or boot
+configuration files from there. A U-Boot board port that enables the features
+mentioned in this document will search for boot configuration files in the
+same way.</p>
+<p>Thus, distros do not need to manipulate any kind of bootloader-specific
+configuration data to indicate which storage device the system should boot
+from.</p>
+<p>Distros simply need to install the boot configuration files (see next
+section) in an ext2/3/4 or FAT partition, mark the partition bootable (via
+the MBR bootable flag, or GPT legacy_bios_bootable attribute), and U-Boot (or
+any other bootloader) will find those boot files and execute them. This is
+conceptually identical to creating a grub2 configuration file on a desktop
+PC.</p>
+<p>Note that in the absence of any partition that is explicitly marked bootable,
+U-Boot falls back to searching the first valid partition of a disk for boot
+configuration files. Other bootloaders are recommended to do the same, since
+I believe that partition table bootable flags aren’t so commonly used outside
+the realm of x86 PCs.</p>
+<p>U-Boot can also search for boot configuration files from a TFTP server.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot Configuration Files"></a><div class="section" id="boot-configuration-files">
+<h2>Boot Configuration Files<a class="headerlink" href="#boot-configuration-files" title="Permalink to this headline">¶</a></h2>
+<p>The standard format for boot configuration files is that of extlinux.conf, as
+handled by U-Boot’s “syslinux” (disk) or “pxe boot” (network). This is roughly
+as specified at <a class="reference external" href="https://systemd.io/BOOT_LOADER_SPECIFICATION/">Boot Loader Specification</a>:</p>
+<p>… with the exceptions that the Boot Loader Specification document:</p>
+<ul class="simple">
+<li><p>Prescribes a separate configuration per boot menu option, whereas U-Boot
+lumps all options into a single extlinux.conf file. Hence, U-Boot searches
+for /extlinux/extlinux.conf then /boot/extlinux/extlinux.conf on disk, or
+pxelinux.cfg/default over the network.</p></li>
+<li><p>Does not document the fdtdir option, which automatically selects the DTB to
+pass to the kernel.</p></li>
+</ul>
+<p>See also doc/README.pxe under ‘pxe file format’.</p>
+<p>One example extlinux.conf generated by the Fedora installer is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># extlinux.conf generated by anaconda
+
+ui menu.c32
+
+menu autoboot Welcome to Fedora. Automatic boot in # second{,s}. Press a key for options.
+menu title Fedora Boot Options.
+menu hidden
+
+timeout 50
+#totaltimeout 9000
+
+default Fedora (3.17.0-0.rc4.git2.1.fc22.armv7hl+lpae) 22 (Rawhide)
+
+label Fedora (3.17.0-0.rc4.git2.1.fc22.armv7hl) 22 (Rawhide)
+    kernel /boot/vmlinuz-3.17.0-0.rc4.git2.1.fc22.armv7hl
+    append ro root=UUID=8eac677f-8ea8-4270-8479-d5ddbb797450 console=ttyS0,115200n8 LANG=en_US.UTF-8 drm.debug=0xf
+    fdtdir /boot/dtb-3.17.0-0.rc4.git2.1.fc22.armv7hl
+    initrd /boot/initramfs-3.17.0-0.rc4.git2.1.fc22.armv7hl.img
+
+label Fedora (3.17.0-0.rc4.git2.1.fc22.armv7hl+lpae) 22 (Rawhide)
+    kernel /boot/vmlinuz-3.17.0-0.rc4.git2.1.fc22.armv7hl+lpae
+    append ro root=UUID=8eac677f-8ea8-4270-8479-d5ddbb797450 console=ttyS0,115200n8 LANG=en_US.UTF-8 drm.debug=0xf
+    fdtdir /boot/dtb-3.17.0-0.rc4.git2.1.fc22.armv7hl+lpae
+    initrd /boot/initramfs-3.17.0-0.rc4.git2.1.fc22.armv7hl+lpae.img
+
+label Fedora-0-rescue-8f6ba7b039524e0eb957d2c9203f04bc (0-rescue-8f6ba7b039524e0eb957d2c9203f04bc)
+    kernel /boot/vmlinuz-0-rescue-8f6ba7b039524e0eb957d2c9203f04bc
+    initrd /boot/initramfs-0-rescue-8f6ba7b039524e0eb957d2c9203f04bc.img
+    append ro root=UUID=8eac677f-8ea8-4270-8479-d5ddbb797450 console=ttyS0,115200n8
+    fdtdir /boot/dtb-3.16.0-0.rc6.git1.1.fc22.armv7hl+lpae
+</pre></div>
+</div>
+<p>One example of hand-crafted extlinux.conf:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>menu title Select kernel
+timeout 100
+
+label Arch with uart devicetree overlay
+    kernel /arch/Image.gz
+    initrd /arch/initramfs-linux.img
+    fdt /dtbs/arch/board.dtb
+    fdtoverlays /dtbs/arch/overlay/uart0-gpio0-1.dtbo
+    append console=ttyS0,115200 console=tty1 rw root=UUID=fc0d0284-ca84-4194-bf8a-4b9da8d66908
+
+label Arch with uart devicetree overlay but with Boot Loader Specification keys
+    kernel /arch/Image.gz
+    initrd /arch/initramfs-linux.img
+    devicetree /dtbs/arch/board.dtb
+    devicetree-overlay /dtbs/arch/overlay/uart0-gpio0-1.dtbo
+    append console=ttyS0,115200 console=tty1 rw root=UUID=fc0d0284-ca84-4194-bf8a-4b9da8d66908
+</pre></div>
+</div>
+<p>Another hand-crafted network boot configuration file is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TIMEOUT 100
+
+MENU TITLE TFTP boot options
+
+LABEL jetson-tk1-emmc
+        MENU LABEL ../zImage root on Jetson TK1 eMMC
+        LINUX ../zImage
+        FDTDIR ../
+        APPEND console=ttyS0,115200n8 console=tty1 loglevel=8 rootwait rw earlyprintk root=PARTUUID=80a5a8e9-c744-491a-93c1-4f4194fd690b
+
+LABEL venice2-emmc
+        MENU LABEL ../zImage root on Venice2 eMMC
+        LINUX ../zImage
+        FDTDIR ../
+        APPEND console=ttyS0,115200n8 console=tty1 loglevel=8 rootwait rw earlyprintk root=PARTUUID=5f71e06f-be08-48ed-b1ef-ee4800cc860f
+
+LABEL sdcard
+        MENU LABEL ../zImage, root on 2GB sdcard
+        LINUX ../zImage
+        FDTDIR ../
+        APPEND console=ttyS0,115200n8 console=tty1 loglevel=8 rootwait rw earlyprintk root=PARTUUID=b2f82cda-2535-4779-b467-094a210fbae7
+
+LABEL fedora-installer-fk
+        MENU LABEL Fedora installer w/ Fedora kernel
+        LINUX fedora-installer/vmlinuz
+        INITRD fedora-installer/initrd.img.orig
+        FDTDIR fedora-installer/dtb
+        APPEND loglevel=8 ip=dhcp inst.repo=http://10.0.0.2/mirrors/fedora/linux/development/rawhide/armhfp/os/ rd.shell cma=64M
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Implementation"></a><div class="section" id="u-boot-implementation">
+<h1>U-Boot Implementation<a class="headerlink" href="#u-boot-implementation" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enabling the distro options"></a><div class="section" id="enabling-the-distro-options">
+<h2>Enabling the distro options<a class="headerlink" href="#enabling-the-distro-options" title="Permalink to this headline">¶</a></h2>
+<p>In your board’s defconfig, enable the DISTRO_DEFAULTS option by adding
+a line with “CONFIG_DISTRO_DEFAULTS=y”. If you want to enable this
+from Kconfig itself, for e.g. all boards using a specific SoC then
+add a “imply DISTRO_DEFAULTS” to your SoC CONFIG option.</p>
+<p>TO BE UPDATED:</p>
+<p>In your board configuration file, include the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#ifndef CONFIG_SPL_BUILD
+#include &lt;config_distro_bootcmd.h&gt;
+#endif
+</pre></div>
+</div>
+<p>The first of those headers primarily enables a core set of U-Boot features,
+such as support for MBR and GPT partitions, ext* and FAT filesystems, booting
+raw zImage and initrd (rather than FIT- or uImage-wrapped files), etc. Network
+boot support is also enabled here, which is useful in order to boot distro
+installers given that distros do not commonly distribute bootable install
+media for non-PC targets at present.</p>
+<p>Finally, a few options that are mostly relevant only when using U-Boot-
+specific boot.scr scripts are enabled. This enables distros to generate a
+U-Boot-specific boot.scr script rather than extlinux.conf as the boot
+configuration file. While doing so is fully supported, and
+CONFIG_DISTRO_DEFAULTS exposes enough parameterization to boot.scr to
+allow for board-agnostic boot.scr content, this document recommends that
+distros generate extlinux.conf rather than boot.scr. extlinux.conf is intended
+to work across multiple bootloaders, whereas boot.scr will only work with
+U-Boot. TODO: document the contract between U-Boot and boot.scr re: which
+environment variables a generic boot.scr may rely upon.</p>
+<p>The second of those headers sets up the default environment so that $bootcmd
+is defined in a way that searches attached disks for boot configuration files,
+and executes them if found.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Required Environment Variables"></a><div class="section" id="required-environment-variables">
+<h2>Required Environment Variables<a class="headerlink" href="#required-environment-variables" title="Permalink to this headline">¶</a></h2>
+<p>The U-Boot “syslinux” and “pxe boot” commands require a number of environment
+variables be set. Default values for these variables are often hard-coded into
+CFG_EXTRA_ENV_SETTINGS in the board’s U-Boot configuration file, so that
+the user doesn’t have to configure them.</p>
+<dl>
+<dt>fdt_addr:</dt><dd><p>Mandatory for any system that provides the DTB in HW (e.g. ROM) and wishes
+to pass that DTB to Linux, rather than loading a DTB from the boot
+filesystem. Prohibited for any other system.</p>
+<p>If specified a DTB to boot the system must be available at the given
+address.</p>
+</dd>
+<dt>fdt_addr_r:</dt><dd><p>Mandatory. The location in RAM where the DTB will be loaded or copied to when
+processing the fdtdir/devicetreedir or fdt/devicetree options in
+extlinux.conf.</p>
+<p>This is mandatory even when fdt_addr is provided, since extlinux.conf must
+always be able to provide a DTB which overrides any copy provided by the HW.</p>
+<p>A size of 1MB for the FDT/DTB seems reasonable.</p>
+</dd>
+<dt>fdtoverlay_addr_r:</dt><dd><p>Mandatory. The location in RAM where DTB overlays will be temporarily
+stored and then applied in the load order to the fdt blob stored at the
+address indicated in the fdt_addr_r environment variable.</p>
+</dd>
+<dt>fdtfile:</dt><dd><p>Mandatory. the name of the DTB file for the specific board for instance
+the espressobin v5 board the value is “marvell/armada-3720-espressobin.dtb”
+while on a clearfog pro it is “armada-388-clearfog-pro.dtb” in the case of
+a board providing its firmware based DTB this value can be used to override
+the DTB with a different DTB. fdtfile will automatically be set for you if
+it matches the format ${soc}-${board}.dtb which covers most 32 bit use cases.
+AArch64 generally does not match as the Linux kernel put the dtb files under
+SoC vendor directories.</p>
+</dd>
+<dt>ramdisk_addr_r:</dt><dd><p>Mandatory. The location in RAM where the initial ramdisk will be loaded to
+when processing the initrd option in extlinux.conf.</p>
+<p>It is recommended that this location be highest in RAM out of fdt_addr_r,
+kernel_addr_r, and ramdisk_addr_r, so that the RAM disk can vary in size
+and use any available RAM.</p>
+</dd>
+<dt>kernel_addr_r:</dt><dd><p>Mandatory. The location in RAM where the kernel will be loaded to when
+processing the kernel option in the extlinux.conf.</p>
+<p>The kernel should be located within the first 128M of RAM in order for the
+kernel CONFIG_AUTO_ZRELADDR option to work, which is likely enabled on any
+distro kernel. Since the kernel will decompress itself to 0x8000 after the
+start of RAM, kernel_addr_r should not overlap that area, or the kernel will
+have to copy itself somewhere else first before decompression.</p>
+<p>A size of 16MB for the kernel is likely adequate.</p>
+</dd>
+<dt>kernel_comp_addr_r:</dt><dd><p>Optional. This is only required if user wants to boot Linux from a compressed
+Image(.gz, .bz2, .lzma, .lzo) using the booti command. It represents the
+location in RAM where the compressed Image will be decompressed temporarily.
+Once the decompression is complete, the decompressed data will be moved to
+kernel_addr_r for booting.</p>
+</dd>
+<dt>kernel_comp_size:</dt><dd><p>Optional. This is only required if user wants to boot Linux from a compressed
+Image using booti command. It represents the size of the compressed file. The
+size has to at least the size of loaded image for decompression to succeed.</p>
+</dd>
+<dt>pxefile_addr_r:</dt><dd><p>Mandatory. The location in RAM where extlinux.conf will be loaded to prior
+to processing.</p>
+<p>A size of 1MB for extlinux.conf is more than adequate.</p>
+</dd>
+<dt>scriptaddr:</dt><dd><p>Mandatory, if the boot script is boot.scr rather than extlinux.conf. The
+location in RAM where boot.scr will be loaded to prior to execution.</p>
+<p>A size of 1MB for extlinux.conf is more than adequate.</p>
+</dd>
+</dl>
+<p>For suggestions on memory locations for ARM systems, you must follow the
+guidelines specified in Documentation/arm/Booting in the Linux kernel tree.</p>
+<p>For a commented example of setting these values, please see the definition of
+MEM_LAYOUT_ENV_SETTINGS in include/configs/tegra124-common.h.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot Target Configuration"></a><div class="section" id="boot-target-configuration">
+<h2>Boot Target Configuration<a class="headerlink" href="#boot-target-configuration" title="Permalink to this headline">¶</a></h2>
+<p>The <cite>config_distro_bootcmd.h</cite> file defines $bootcmd and many helper command
+variables that automatically search attached disks for boot configuration files
+and execute them. Boards must provide configure &lt;config_distro_bootcmd.h&gt; so
+that it supports the correct set of possible boot device types. To provide this
+configuration, simply define macro BOOT_TARGET_DEVICES prior to including
+&lt;config_distro_bootcmd.h&gt;. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#ifndef CONFIG_SPL_BUILD
+#define BOOT_TARGET_DEVICES(func) \
+        func(MMC, mmc, 1) \
+        func(MMC, mmc, 0) \
+        func(USB, usb, 0) \
+        func(PXE, pxe, na) \
+        func(DHCP, dhcp, na)
+#include &lt;config_distro_bootcmd.h&gt;
+#endif
+</pre></div>
+</div>
+<p>Each entry in the macro defines a single boot device (e.g. a specific eMMC
+device or SD card) or type of boot device (e.g. USB disk). The parameters to
+the func macro (passed in by the internal implementation of the header) are:</p>
+<ul class="simple">
+<li><p>Upper-case disk type (DHCP, HOST, IDE, MMC, NVME, PXE, SATA, SCSI, UBIFS, USB,
+VIRTIO).</p></li>
+<li><p>Lower-case disk type (same options as above).</p></li>
+<li><p>ID of the specific disk (MMC only) or ignored for other types.</p></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/User Configuration"></a><div class="section" id="user-configuration">
+<h1>User Configuration<a class="headerlink" href="#user-configuration" title="Permalink to this headline">¶</a></h1>
+<p>Once the user has installed U-Boot, it is expected that the environment will
+be reset to the default values in order to enable $bootcmd and friends, as set
+up by &lt;config_distro_bootcmd.h&gt;. After this, various environment variables may
+be altered to influence the boot process:</p>
+<dl>
+<dt>boot_targets:</dt><dd><p>The list of boot locations searched.</p>
+<p>Example: mmc0, mmc1, usb, pxe</p>
+<p>Entries may be removed or re-ordered in this list to affect the boot order.</p>
+</dd>
+<dt>boot_prefixes:</dt><dd><p>For disk-based booting, the list of directories within a partition that are
+searched for boot configuration files (extlinux.conf, boot.scr).</p>
+<p>Example: / /boot/</p>
+<p>Entries may be removed or re-ordered in this list to affect the set of
+directories which are searched.</p>
+</dd>
+<dt>boot_scripts:</dt><dd><p>The name of U-Boot style boot.scr files that $bootcmd searches for.</p>
+<p>Example: boot.scr.uimg boot.scr</p>
+<p>(Typically we expect extlinux.conf to be used, but execution of boot.scr is
+maintained for backwards-compatibility.)</p>
+<p>Entries may be removed or re-ordered in this list to affect the set of
+filenames which are supported.</p>
+</dd>
+<dt>scan_dev_for_extlinux:</dt><dd><p>If you want to disable extlinux.conf on all disks, set the value to something
+innocuous, e.g. setenv scan_dev_for_extlinux true.</p>
+</dd>
+<dt>scan_dev_for_scripts:</dt><dd><p>If you want to disable boot.scr on all disks, set the value to something
+innocuous, e.g. setenv scan_dev_for_scripts true.</p>
+</dd>
+<dt>boot_net_usb_start:</dt><dd><p>If you want to prevent USB enumeration by distro boot commands which execute
+network operations, set the value to something innocuous, e.g. setenv
+boot_net_usb_start true. This would be useful if you know your Ethernet
+device is not attached to USB, and you wish to increase boot speed by
+avoiding unnecessary actions.</p>
+</dd>
+<dt>boot_net_pci_enum:</dt><dd><p>If you want to prevent PCI enumeration by distro boot commands which execute
+network operations, set the value to something innocuous, e.g. setenv
+boot_net_pci_enum true. This would be useful if you know your Ethernet
+device is not attached to PCI, and you wish to increase boot speed by
+avoiding unnecessary actions.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Interactively booting from a specific device at the u-boot prompt"></a><div class="section" id="interactively-booting-from-a-specific-device-at-the-u-boot-prompt">
+<h1>Interactively booting from a specific device at the u-boot prompt<a class="headerlink" href="#interactively-booting-from-a-specific-device-at-the-u-boot-prompt" title="Permalink to this headline">¶</a></h1>
+<p>For interactively booting from a user-selected device at the u-boot command
+prompt, the environment provides predefined bootcmd_&lt;target&gt; variables for
+every target defined in boot_targets, which can be run be the user.</p>
+<p>If the target is a storage device, the format of the target is always
+&lt;device type&gt;&lt;device number&gt;, e.g. mmc0.  Specifying the device number is
+mandatory for storage devices, even if only support for a single instance
+of the storage device is actually implemented.</p>
+<p>For network targets (dhcp, pxe), only the device type gets specified;
+they do not have a device number.</p>
+<p>Examples:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>run bootcmd_usb0
+boots from the first USB mass storage device</p></li>
+<li><p>run bootcmd_mmc1
+boots from the second MMC device</p></li>
+<li><p>run bootcmd_pxe
+boots by tftp using a pxelinux.cfg</p></li>
+</ul>
+</div></blockquote>
+<p>The list of possible targets consists of:</p>
+<ul class="simple">
+<li><p>network targets</p>
+<ul>
+<li><p>dhcp</p></li>
+<li><p>pxe</p></li>
+</ul>
+</li>
+<li><p>storage targets (to which a device number must be appended)</p>
+<ul>
+<li><p>mmc</p></li>
+<li><p>sata</p></li>
+<li><p>scsi</p></li>
+<li><p>ide</p></li>
+<li><p>usb</p></li>
+<li><p>virtio</p></li>
+</ul>
+</li>
+</ul>
+<p>Other <em>boot</em> variables than the ones defined above are only for internal use
+of the boot environment and are not guaranteed to exist or work in the same
+way in future u-boot versions.  In particular the &lt;device type&gt;_boot
+variables (e.g. mmc_boot, usb_boot) are a strictly internal implementation
+detail and must not be used as a public interface.</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="devicetree/dt_qemu.html" rel="prev" title="Devicetree in QEMU"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="driver-model/index.html" rel="next" title="Driver Model">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

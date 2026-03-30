@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAIX — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../socionext/index.html" rel="next" title="Socionext"/>
+<link href="index.html" rel="prev" title="Sipeed"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Sipeed</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">MAIX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-and-boot-steps">Build and boot steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#loading-booting-and-storing-images">Loading, Booting, and Storing Images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pin-assignment">Pin Assignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#over-and-under-clocking">Over- and Under-clocking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#technical-details">Technical Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Sipeed</a> »</li>
+<li>MAIX</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/sipeed/maix.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/MAIX"></a><div class="section" id="maix">
+<h1>MAIX<a class="headerlink" href="#maix" title="Permalink to this headline">¶</a></h1>
+<p>Several of the Sipeed Maix series of boards contain the Kendryte K210 processor,
+a 64-bit RISC-V CPU produced by Canaan Inc. This processor contains several
+peripherals to accelerate neural network processing and other “ai” tasks. This
+includes a “KPU” neural network processor, an audio processor supporting
+beamforming reception, and a digital video port supporting capture and output at
+VGA resolution. Other peripherals include 8M of SRAM (accessible with and
+without caching); remappable pins, including 40 GPIOs; AES, FFT, and SHA256
+accelerators; a DMA controller; and I2C, I2S, and SPI controllers. Maix
+peripherals vary, but include spi flash; on-board usb-serial bridges; ports for
+cameras, displays, and sd cards; and ESP32 chips.</p>
+<p>Currently, only the Sipeed MAIX BiT V2.0 (bitm) and Sipeed MAIXDUINO are
+supported, but the boards are fairly similar.</p>
+<p>Documentation for Maix boards is available from
+<a class="reference external" href="http://dl.sipeed.com/MAIX/HDK/">Sipeed’s website</a>.
+Documentation for the Kendryte K210 is available from
+<a class="reference external" href="https://kendryte.com/downloads/">Kendryte’s website</a>. However, hardware
+details are rather lacking, so most technical reference has been taken from the
+<a class="reference external" href="https://github.com/kendryte/kendryte-standalone-sdk">standalone sdk</a>.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build and boot steps"></a><div class="section" id="build-and-boot-steps">
+<h2>Build and boot steps<a class="headerlink" href="#build-and-boot-steps" title="Permalink to this headline">¶</a></h2>
+<p>To build U-Boot, run</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make &lt;defconfig&gt;
+make CROSS_COMPILE=&lt;your cross compile prefix&gt;
+</pre></div>
+</div>
+<p>To flash U-Boot, run</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>kflash -tp /dev/&lt;your tty here&gt; -B &lt;board_id&gt; u-boot-dtb.bin
+</pre></div>
+</div>
+<p>The board provides two serial devices, e.g.</p>
+<ul class="simple">
+<li><p>/dev/serial/by-id/usb-Kongou_Hikari_Sipeed-Debug_12345678AB-if00-port0</p></li>
+<li><p>/dev/serial/by-id/usb-Kongou_Hikari_Sipeed-Debug_12345678AB-if01-port0</p></li>
+</ul>
+<p>Which one is used for flashing depends on the board.</p>
+<p>Currently only a small subset of the board features are supported. So we can
+use the same default configuration and device tree. In the long run we may need
+separate settings.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34%"/>
+<col style="width: 37%"/>
+<col style="width: 14%"/>
+<col style="width: 14%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Board</p></th>
+<th class="head"><p>defconfig</p></th>
+<th class="head"><p>board_id</p></th>
+<th class="head"><p>TTY device</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sipeed MAIX BiT</p></td>
+<td><p>sipeed_maix_bitm_defconfig</p></td>
+<td><p>bit</p></td>
+<td><p>first</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sipeed MAIX BiT with Mic</p></td>
+<td><p>sipeed_maix_bitm_defconfig</p></td>
+<td><p>bit_mic</p></td>
+<td><p>first</p></td>
+</tr>
+<tr class="row-even"><td><p>Sipeed MAIXDUINO</p></td>
+<td><p>sipeed_maix_bitm_defconfig</p></td>
+<td><p>maixduino</p></td>
+<td><p>first</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sipeed MAIX GO</p></td>
+<td></td>
+<td><p>goE</p></td>
+<td><p>second</p></td>
+</tr>
+<tr class="row-even"><td><p>Sipeed MAIX ONE DOCK</p></td>
+<td></td>
+<td><p>dan</p></td>
+<td><p>first</p></td>
+</tr>
+</tbody>
+</table>
+<p>Flashing causes a reboot of the device. Parameter -t specifies that the serial
+console shall be opened immediately. Boot output should look like the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot 2020.04-rc2-00087-g2221cc09c1-dirty (Feb 28 2020 - 13:53:09 -0500)
+
+DRAM:  8 MiB
+MMC:   spi@53000000:slot@0: 0
+In:    serial@38000000
+Out:   serial@38000000
+Err:   serial@38000000
+=&gt;
+</pre></div>
+</div>
+<div class="section" id="opensbi">
+<h3>OpenSBI<a class="headerlink" href="#opensbi" title="Permalink to this headline">¶</a></h3>
+<p>OpenSBI is an open source supervisor execution environment implementing the
+RISC-V Supervisor Binary Interface Specification [1]. One of its features is
+to intercept run-time exceptions, e.g. for unaligned access or illegal
+instructions, and to emulate the failing instructions.</p>
+<p>The OpenSBI source can be downloaded via:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/riscv/opensbi
+</pre></div>
+</div>
+<p>As OpenSBI will be loaded at 0x80000000 we have to adjust the U-Boot text base.
+Furthermore we have to enable building U-Boot for S-mode:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_TEXT_BASE=0x80020000
+CONFIG_RISCV_SMODE=y
+</pre></div>
+</div>
+<p>Both settings are contained in sipeed_maix_smode_defconfig so we can build
+U-Boot with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>sipeed_maix_smode_defconfig
+make
+</pre></div>
+</div>
+<p>To build OpenSBI with U-Boot as a payload:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>opensbi
+make<span class="w"> </span><span class="se">\</span>
+<span class="nv">PLATFORM</span><span class="o">=</span>kendryte/k210<span class="w"> </span><span class="se">\</span>
+<span class="nv">FW_PAYLOAD</span><span class="o">=</span>y<span class="w"> </span><span class="se">\</span>
+<span class="nv">FW_PAYLOAD_OFFSET</span><span class="o">=</span>0x20000<span class="w"> </span><span class="se">\</span>
+<span class="nv">FW_PAYLOAD_PATH</span><span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>U-Boot&gt;/u-boot-dtb.bin
+</pre></div>
+</div>
+<p>The value of FW_PAYLOAD_OFFSET must match CONFIG_TEXT_BASE - 0x80000000.</p>
+<p>The file to flash is build/platform/kendryte/k210/firmware/fw_payload.bin.</p>
+</div>
+<div class="section" id="booting">
+<h3>Booting<a class="headerlink" href="#booting" title="Permalink to this headline">¶</a></h3>
+<p>The default boot process is to load and boot the files <code class="docutils literal notranslate"><span class="pre">/uImage</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/k210.dtb</span></code> off of the first partition of the MMC. For Linux, this will result
+in an output like</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot 2020.10-00691-gd1d651d988-dirty (Oct 16 2020 - 17:05:24 -0400)
+
+DRAM:  8 MiB
+MMC:   spi@53000000:slot@0: 0
+Loading Environment from SPIFlash... SF: Detected w25q128fw with page size 256 Bytes, erase size 4 KiB, total 16 MiB
+OK
+In:    serial@38000000
+Out:   serial@38000000
+Err:   serial@38000000
+Hit any key to stop autoboot:  0
+1827380 bytes read in 1044 ms (1.7 MiB/s)
+13428 bytes read in 10 ms (1.3 MiB/s)
+## Booting kernel from Legacy Image at 80060000 ...
+   Image Name:   linux
+   Image Type:   RISC-V Linux Kernel Image (uncompressed)
+   Data Size:    1827316 Bytes = 1.7 MiB
+   Load Address: 80000000
+   Entry Point:  80000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at 80400000
+   Booting using the fdt blob at 0x80400000
+   Loading Kernel Image
+   Loading Device Tree to 00000000803f9000, end 00000000803ff473 ... OK
+
+Starting kernel ...
+
+[    0.000000] Linux version 5.9.0-00021-g6dcc2f0814c6-dirty (sean@godwin) (riscv64-linux-gnu-gcc (GCC) 10.2.0, GNU ld (GNU Binutils) 2.35) #34 SMP Fri Oct 16 14:40:57 EDT 2020
+[    0.000000] earlycon: sifive0 at MMIO 0x0000000038000000 (options '115200n8')
+[    0.000000] printk: bootconsole [sifive0] enabled
+[    0.000000] Zone ranges:
+[    0.000000]   DMA32    [mem 0x0000000080000000-0x00000000807fffff]
+[    0.000000]   Normal   empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000080000000-0x00000000807fffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000080000000-0x00000000807fffff]
+[    0.000000] riscv: ISA extensions acdfgim
+[    0.000000] riscv: ELF capabilities acdfim
+[    0.000000] percpu: max_distance=0x18000 too large for vmalloc space 0x0
+[    0.000000] percpu: Embedded 12 pages/cpu s18848 r0 d30304 u49152
+[    0.000000] Built 1 zonelists, mobility grouping off.  Total pages: 2020
+[    0.000000] Kernel command line: earlycon console=ttySIF0
+[    0.000000] Dentry cache hash table entries: 1024 (order: 1, 8192 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.000000] Sorting __ex_table...
+[    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+[    0.000000] Memory: 6004K/8192K available (1139K kernel code, 126K rwdata, 198K rodata, 90K init, 81K bss, 2188K reserved, 0K cma-reserved)
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] riscv-intc: 64 local interrupts mapped
+[    0.000000] plic: interrupt-controller@C000000: mapped 65 interrupts with 2 handlers for 2 contexts.
+[    0.000000] random: get_random_bytes called from 0x00000000800019a8 with crng_init=0
+[    0.000000] k210-clk: clock-controller
+[    0.000000] k210-clk: clock-controller: fixed-rate 26 MHz osc base clock
+[    0.000000] clint: clint@2000000: timer running at 7800000 Hz
+[    0.000000] clocksource: clint_clocksource: mask: 0xffffffffffffffff max_cycles: 0x3990be68b, max_idle_ns: 881590404272 ns
+[    0.000014] sched_clock: 64 bits at 7MHz, resolution 128ns, wraps every 4398046511054ns
+[    0.008450] Console: colour dummy device 80x25
+[    0.012494] Calibrating delay loop (skipped), value calculated using timer frequency.. 15.60 BogoMIPS (lpj=31200)
+[    0.022693] pid_max: default: 4096 minimum: 301
+[    0.027352] Mount-cache hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.034428] Mountpoint-cache hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.045099] rcu: Hierarchical SRCU implementation.
+[    0.050048] smp: Bringing up secondary CPUs ...
+[    0.055417] smp: Brought up 1 node, 2 CPUs
+[    0.059602] devtmpfs: initialized
+[    0.082796] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.091820] futex hash table entries: 16 (order: -2, 1024 bytes, linear)
+[    0.098507] pinctrl core: initialized pinctrl subsystem
+[    0.140938] clocksource: Switched to clocksource clint_clocksource
+[    0.247216] workingset: timestamp_bits=62 max_order=11 bucket_order=0
+[    0.277392] k210-fpioa 502b0000.pinmux: K210 FPIOA pin controller
+[    0.291724] k210-sysctl 50440000.syscon: K210 system controller
+[    0.305317] k210-rst 50440000.syscon:reset-controller: K210 reset controller
+[    0.313808] 38000000.serial: ttySIF0 at MMIO 0x38000000 (irq = 1, base_baud = 115200) is a SiFive UART v0
+[    0.322712] printk: console [ttySIF0] enabled
+[    0.322712] printk: console [ttySIF0] enabled
+[    0.331328] printk: bootconsole [sifive0] disabled
+[    0.331328] printk: bootconsole [sifive0] disabled
+[    0.353347] Freeing unused kernel memory: 88K
+[    0.357004] This architecture does not have kernel memory protection.
+[    0.363397] Run /init as init process
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Loading, Booting, and Storing Images"></a><div class="section" id="loading-booting-and-storing-images">
+<h2>Loading, Booting, and Storing Images<a class="headerlink" href="#loading-booting-and-storing-images" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="loading-images">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Loading Images"></a><span id="loading"></span><h3>Loading Images<a class="headerlink" href="#loading-images" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="serial">
+<h4>Serial<a class="headerlink" href="#serial" title="Permalink to this headline">¶</a></h4>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">loady</span></code> command to load images over serial.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; loady $loadaddr 1500000
+## Switch baudrate to 1500000 bps and press ENTER ...
+
+*** baud: 1500000
+
+*** baud: 1500000 ***
+## Ready for binary (ymodem) download to 0x80000000 at 1500000 bps...
+C
+*** file: loader.bin
+$ sz -vv loader.bin
+Sending: loader.bin
+Bytes Sent:2478208   BPS:72937
+Sending:
+Ymodem sectors/kbytes sent:   0/ 0k
+Transfer complete
+
+*** exit status: 0 ***
+## Total Size      = 0x0025d052 = 2478162 Bytes
+## Switch baudrate to 115200 bps and press ESC ...
+
+*** baud: 115200
+
+*** baud: 115200 ***
+=&gt;
+</pre></div>
+</div>
+<p>This command does not set <code class="docutils literal notranslate"><span class="pre">$filesize</span></code>, so it may need to be set manually.</p>
+</div>
+<div class="section" id="spi-flash">
+<h4>SPI Flash<a class="headerlink" href="#spi-flash" title="Permalink to this headline">¶</a></h4>
+<p>To load an image off of SPI flash, first set up a partition as described in
+<a class="reference internal" href="#k210-partitions"><span class="std std-ref">Partitions</span></a>. Then, use <code class="docutils literal notranslate"><span class="pre">mtd</span></code> to load that partition</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; sf probe
+SF: Detected w25q128fw with page size 256 Bytes, erase size 4 KiB, total 16 MiB
+=&gt; mtd read linux $loadaddr
+Reading 2097152 byte(s) at offset 0x00000000
+</pre></div>
+</div>
+<p>This command does not set <code class="docutils literal notranslate"><span class="pre">$filesize</span></code>, so it may need to be set manually.</p>
+</div>
+<div class="section" id="mmc">
+<h4>MMC<a class="headerlink" href="#mmc" title="Permalink to this headline">¶</a></h4>
+<p>The MMC device number is 0. To list partitions on the device, use <code class="docutils literal notranslate"><span class="pre">part</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; part list mmc 0
+
+Partition Map for MMC device 0  --   Partition Type: EFI
+
+Part    Start LBA       End LBA          Name
+        Attributes
+        Type GUID
+        Partition GUID
+  1     0x00000800      0x039effde      "boot"
+        attrs:  0x0000000000000000
+        type:   c12a7328-f81f-11d2-ba4b-00a0c93ec93b
+        guid:   96161f7d-7113-4cc7-9a24-08ab7fc5cb72
+</pre></div>
+</div>
+<p>To list files, use <code class="docutils literal notranslate"><span class="pre">ls</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; ls mmc 0:1
+&lt;DIR&gt;       4096 .
+&lt;DIR&gt;       4096 ..
+&lt;DIR&gt;      16384 lost+found
+           13428 k210.dtb
+         1827380 uImage
+</pre></div>
+</div>
+<p>To load a file, use <code class="docutils literal notranslate"><span class="pre">load</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; load mmc 0:1 $loadaddr uImage
+1827380 bytes read in 1049 ms (1.7 MiB/s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="running-programs">
+<h3>Running Programs<a class="headerlink" href="#running-programs" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="binaries">
+<h4>Binaries<a class="headerlink" href="#binaries" title="Permalink to this headline">¶</a></h4>
+<p>To run a bare binary, use the <code class="docutils literal notranslate"><span class="pre">go</span></code> command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; go 80000000
+## Starting application at 0x80000000 ...
+Example expects ABI version 9
+Actual U-Boot ABI version 9
+Hello World
+argc = 1
+argv[0] = "80000000"
+argv[1] = "&lt;NULL&gt;"
+Hit any key to exit ...
+</pre></div>
+</div>
+<p>Note that this will only start a program on one hart. As-of this writing it is
+only possible to start a program on multiple harts using the <code class="docutils literal notranslate"><span class="pre">bootm</span></code> command.</p>
+</div>
+<div class="section" id="legacy-images">
+<h4>Legacy Images<a class="headerlink" href="#legacy-images" title="Permalink to this headline">¶</a></h4>
+<p>To create a legacy image, use <code class="docutils literal notranslate"><span class="pre">tools/mkimage</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ tools/mkimage -A riscv -O linux -T kernel -C none -a 0x80000000 -e 0x80000000 -n linux -d ../linux-git/arch/riscv/boot/Image uImage
+Image Name:   linux
+Created:      Fri Oct 16 17:36:32 2020
+Image Type:   RISC-V Linux Kernel Image (uncompressed)
+Data Size:    1827316 Bytes = 1784.49 KiB = 1.74 MiB
+Load Address: 80000000
+Entry Point:  80000000
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">bootm</span></code> command also requires an FDT, even if the image doesn’t require
+one. After loading the image to <code class="docutils literal notranslate"><span class="pre">$loadaddr</span></code> and the FDT to <code class="docutils literal notranslate"><span class="pre">$fdt_addr_r</span></code>,
+boot with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; bootm $loadaddr - $fdt_addr_r
+## Booting kernel from Legacy Image at 80060000 ...
+   Image Name:   linux
+   Image Type:   RISC-V Linux Kernel Image (uncompressed)
+   Data Size:    1827316 Bytes = 1.7 MiB
+   Load Address: 80000000
+   Entry Point:  80000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at 80400000
+   Booting using the fdt blob at 0x80400000
+   Loading Kernel Image
+   Loading Device Tree to 00000000803f9000, end 00000000803ff473 ... OK
+
+Starting kernel ...
+</pre></div>
+</div>
+<p>The FDT is verified after the kernel is relocated, so it must be loaded high
+enough so that it won’t be overwritten. The default values for <code class="docutils literal notranslate"><span class="pre">$loadaddr</span></code>
+and <code class="docutils literal notranslate"><span class="pre">$fdt_addr_r</span></code> should provide ample headroom for most use-cases.</p>
+</div>
+</div>
+<div class="section" id="flashing-images">
+<h3>Flashing Images<a class="headerlink" href="#flashing-images" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>SPI Flash<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>To flash data to SPI flash, first load it using one of the methods in
+<a class="reference internal" href="#loading"><span class="std std-ref">Loading Images</span></a>. Addiotionally, create some partitions as described in
+<a class="reference internal" href="../../usage/partitions.html#partitions"><span class="std std-ref">Partitions</span></a>. Then use the <code class="docutils literal notranslate"><span class="pre">mtd</span></code> command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; sf probe
+SF: Detected w25q128fw with page size 256 Bytes, erase size 4 KiB, total 16 MiB
+=&gt; mtd write linux $loadaddr 0 $filesize
+Writing 2478162 byte(s) at offset 0x00000000
+</pre></div>
+</div>
+<p>Note that in order to write a bootable image, a header and tailer must be added.</p>
+</div>
+<div class="section" id="id2">
+<h4>MMC<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>MMC writes are unsupported for now.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>SPI Flash<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Sipeed MAIX boards typically provide around 16 MiB of SPI NOR flash. U-Boot is
+stored in the first 1 MiB or so of this flash. U-Boot’s environment is stored at
+the end of flash.</p>
+<div class="section" id="partitions">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Partitions"></a><span id="k210-partitions"></span><h4>Partitions<a class="headerlink" href="#partitions" title="Permalink to this headline">¶</a></h4>
+<p>There is no set data layout. The default partition layout only allocates
+partitions for U-Boot and its default environment</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; mtd list
+List of MTD devices:
+* nor0
+  - type: NOR flash
+  - block size: 0x1000 bytes
+  - min I/O: 0x1 bytes
+  - 0x000000000000-0x000001000000 : "nor0"
+      - 0x000000000000-0x000000100000 : "u-boot"
+      - 0x000000fff000-0x000001000000 : "env"
+</pre></div>
+</div>
+<p>As an example, to allocate 2MiB for Linux and (almost) 13 MiB for other data,
+set the <code class="docutils literal notranslate"><span class="pre">mtdparts</span></code> like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; env set mtdparts nor0:1M(u-boot),2M(linux),0xcff000(data),0x1000@0xfff000(env)
+=&gt; mtd list
+List of MTD devices:
+* nor0
+  - type: NOR flash
+  - block size: 0x1000 bytes
+  - min I/O: 0x1 bytes
+  - 0x000000000000-0x000001000000 : "nor0"
+      - 0x000000000000-0x000000100000 : "u-boot"
+      - 0x000000100000-0x000000300000 : "linux"
+      - 0x000000300000-0x000000fff000 : "data"
+      - 0x000000fff000-0x000001000000 : "env"
+</pre></div>
+</div>
+<p>To make these changes permanent, save the environment:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; env save
+Saving Environment to SPIFlash... Erasing SPI flash...Writing to SPI flash...done
+OK
+</pre></div>
+</div>
+<p>U-Boot will always load the environment from the last 4 KiB of flash.</p>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Pin Assignment"></a><div class="section" id="pin-assignment">
+<h2>Pin Assignment<a class="headerlink" href="#pin-assignment" title="Permalink to this headline">¶</a></h2>
+<p>The K210 contains a Fully Programmable I/O Array (FPIOA), which can remap any of
+its 256 input functions to any any of 48 output pins. The following table has
+the default pin assignments for the BitM.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 21%"/>
+<col style="width: 42%"/>
+<col style="width: 38%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Pin</p></th>
+<th class="head"><p>Function</p></th>
+<th class="head"><p>Comment</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>IO_0</p></td>
+<td><p>JTAG_TCLK</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_1</p></td>
+<td><p>JTAG_TDI</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_2</p></td>
+<td><p>JTAG_TMS</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_3</p></td>
+<td><p>JTAG_TDO</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_4</p></td>
+<td><p>UARTHS_RX</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_5</p></td>
+<td><p>UARTHS_TX</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_6</p></td>
+<td></td>
+<td><p>Not set</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_7</p></td>
+<td></td>
+<td><p>Not set</p></td>
+</tr>
+<tr class="row-even"><td><p>IO_8</p></td>
+<td><p>GPIO_0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_9</p></td>
+<td><p>GPIO_1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_10</p></td>
+<td><p>GPIO_2</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_11</p></td>
+<td><p>GPIO_3</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_12</p></td>
+<td><p>GPIO_4</p></td>
+<td><p>Green LED</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_13</p></td>
+<td><p>GPIO_5</p></td>
+<td><p>Red LED</p></td>
+</tr>
+<tr class="row-even"><td><p>IO_14</p></td>
+<td><p>GPIO_6</p></td>
+<td><p>Blue LED</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_15</p></td>
+<td><p>GPIO_7</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_16</p></td>
+<td><p>GPIOHS_0</p></td>
+<td><p>ISP</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_17</p></td>
+<td><p>GPIOHS_1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_18</p></td>
+<td><p>I2S0_SCLK</p></td>
+<td><p>MIC CLK</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_19</p></td>
+<td><p>I2S0_WS</p></td>
+<td><p>MIC WS</p></td>
+</tr>
+<tr class="row-even"><td><p>IO_20</p></td>
+<td><p>I2S0_IN_D0</p></td>
+<td><p>MIC SD</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_21</p></td>
+<td><p>GPIOHS_5</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_22</p></td>
+<td><p>GPIOHS_6</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_23</p></td>
+<td><p>GPIOHS_7</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_24</p></td>
+<td><p>GPIOHS_8</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_25</p></td>
+<td><p>GPIOHS_9</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_26</p></td>
+<td><p>SPI1_D1</p></td>
+<td><p>MMC MISO</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_27</p></td>
+<td><p>SPI1_SCLK</p></td>
+<td><p>MMC CLK</p></td>
+</tr>
+<tr class="row-even"><td><p>IO_28</p></td>
+<td><p>SPI1_D0</p></td>
+<td><p>MMC MOSI</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_29</p></td>
+<td><p>GPIOHS_13</p></td>
+<td><p>MMC CS</p></td>
+</tr>
+<tr class="row-even"><td><p>IO_30</p></td>
+<td><p>GPIOHS_14</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_31</p></td>
+<td><p>GPIOHS_15</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_32</p></td>
+<td><p>GPIOHS_16</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_33</p></td>
+<td><p>GPIOHS_17</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_34</p></td>
+<td><p>GPIOHS_18</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_35</p></td>
+<td><p>GPIOHS_19</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_36</p></td>
+<td><p>GPIOHS_20</p></td>
+<td><p>Panel CS</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_37</p></td>
+<td><p>GPIOHS_21</p></td>
+<td><p>Panel RST</p></td>
+</tr>
+<tr class="row-even"><td><p>IO_38</p></td>
+<td><p>GPIOHS_22</p></td>
+<td><p>Panel DC</p></td>
+</tr>
+<tr class="row-odd"><td><p>IO_39</p></td>
+<td><p>SPI0_SCK</p></td>
+<td><p>Panel WR</p></td>
+</tr>
+<tr class="row-even"><td><p>IO_40</p></td>
+<td><p>SCCP_SDA</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_41</p></td>
+<td><p>SCCP_SCLK</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_42</p></td>
+<td><p>DVP_RST</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_43</p></td>
+<td><p>DVP_VSYNC</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_44</p></td>
+<td><p>DVP_PWDN</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_45</p></td>
+<td><p>DVP_HSYNC</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IO_46</p></td>
+<td><p>DVP_XCLK</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>IO_47</p></td>
+<td><p>DVP_PCLK</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Over- and Under-clocking"></a><div class="section" id="over-and-under-clocking">
+<h2>Over- and Under-clocking<a class="headerlink" href="#over-and-under-clocking" title="Permalink to this headline">¶</a></h2>
+<p>To change the clock speed of the K210, you will need to enable
+<code class="docutils literal notranslate"><span class="pre">CONFIG_CLK_K210_SET_RATE</span></code> and edit the board’s device tree. To do this, add a
+section to <code class="docutils literal notranslate"><span class="pre">arch/riscv/arch/riscv/dts/k210-maix-bit.dts</span></code> like the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&amp;sysclk {
+    assigned-clocks = &lt;&amp;sysclk K210_CLK_PLL0&gt;;
+    assigned-clock-rates = &lt;800000000&gt;;
+};
+</pre></div>
+</div>
+<p>There are three PLLs on the K210: PLL0 is the parent of most of the components,
+including the CPU and RAM. PLL1 is the parent of the neural network coprocessor.
+PLL2 is the parent of the sound processing devices. Note that child clocks of
+PLL0 and PLL2 run at <em>half</em> the speed of the PLLs. For example, if PLL0 is
+running at 800 MHz, then the CPU will run at 400 MHz. This is the example given
+above. The CPU can be overclocked to around 600 MHz, and underclocked to 26 MHz.</p>
+<p>It is possible to set PLL2’s parent to PLL0. The plls are more accurate when
+converting between similar frequencies. This makes it easier to get an accurate
+frequency for I2S. As an example, consider sampling an I2S device at 44.1 kHz.
+On this device, the I2S serial clock runs at 64 times the sample rate.
+Therefore, we would like to run PLL2 at an even multiple of 2.8224 MHz. If
+PLL2’s parent is IN0, we could use a frequency of 390 MHz (the same as the CPU’s
+default speed).  Dividing by 138 yields a serial clock of about 2.8261 MHz. This
+results in a sample rate of 44.158 kHz—around 50 Hz or .1% too fast. If,
+instead, we set PLL2’s parent to PLL1 running at 390 MHz, and request a rate of
+2.8224 * 136 = 383.8464 MHz, the achieved rate is 383.90625 MHz. Dividing by 136
+yields a serial clock of about 2.8228 MHz. This results in a sample rate of
+44.107 kHz—just 7 Hz or .02% too fast. This configuration is shown in the
+following example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&amp;sysclk {
+    assigned-clocks = &lt;&amp;sysclk K210_CLK_PLL1&gt;, &lt;&amp;sysclk K210_CLK_PLL2&gt;;
+    assigned-clock-parents = &lt;0&gt;, &lt;&amp;sysclk K210_CLK_PLL1&gt;;
+    assigned-clock-rates = &lt;390000000&gt;, &lt;383846400&gt;;
+};
+</pre></div>
+</div>
+<p>There are a couple of quirks to the PLLs. First, there are more frequency ratios
+just above and below 1.0, but there is a small gap around 1.0. To be explicit,
+if the input frequency is 100 MHz, it would be impossible to have an output of
+99 or 101 MHz. In addition, there is a maximum frequency for the internal VCO,
+so higher input/output frequencies will be less accurate than lower ones.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Technical Details"></a><div class="section" id="technical-details">
+<h2>Technical Details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="boot-sequence">
+<h3>Boot Sequence<a class="headerlink" href="#boot-sequence" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RESET</span></code> pin is deasserted. The pin is connected to the <code class="docutils literal notranslate"><span class="pre">RESET</span></code> button. It
+can also be set to low via either the <code class="docutils literal notranslate"><span class="pre">DTR</span></code> or the <code class="docutils literal notranslate"><span class="pre">RTS</span></code> line of the
+serial interface (depending on the board).</p></li>
+<li><p>Both harts begin executing at <code class="docutils literal notranslate"><span class="pre">0x00001000</span></code>.</p></li>
+<li><p>Both harts jump to firmware at <code class="docutils literal notranslate"><span class="pre">0x88000000</span></code>.</p></li>
+<li><p>One hart is chosen as a boot hart.</p></li>
+<li><p>Firmware reads the value of pin <code class="docutils literal notranslate"><span class="pre">IO_16</span></code> (ISP). This pin is connected to the
+<code class="docutils literal notranslate"><span class="pre">BOOT</span></code> button. The pin can equally be set to low via either the <code class="docutils literal notranslate"><span class="pre">DTR</span></code> or
+<code class="docutils literal notranslate"><span class="pre">RTS</span></code> line of the serial interface (depending on the board).</p>
+<ul class="simple">
+<li><p>If the pin is low, enter ISP mode. This mode allows loading data to ram,
+writing it to flash, and booting from specific addresses.</p></li>
+<li><p>If the pin is high, continue boot.</p></li>
+</ul>
+</li>
+<li><p>Firmware reads the next stage from flash (SPI3) to address <code class="docutils literal notranslate"><span class="pre">0x80000000</span></code>.</p>
+<ul class="simple">
+<li><p>If byte 0 is 1, the next stage is decrypted using the built-in AES
+accelerator and the one-time programmable, 128-bit AES key.</p></li>
+<li><p>Bytes 1 to 4 hold the length of the next stage.</p></li>
+<li><p>The SHA-256 sum of the next stage is automatically calculated, and verified
+against the 32 bytes following the next stage.</p></li>
+</ul>
+</li>
+<li><p>The boot hart sends an IPI to the other hart telling it to jump to the next
+stage.</p></li>
+<li><p>The boot hart jumps to <code class="docutils literal notranslate"><span class="pre">0x80000000</span></code>.</p></li>
+</ol>
+</div>
+<div class="section" id="debug-uart">
+<h3>Debug UART<a class="headerlink" href="#debug-uart" title="Permalink to this headline">¶</a></h3>
+<p>The Debug UART is provided with the following settings:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_DEBUG_UART=y
+CONFIG_DEBUG_UART_SIFIVE=y
+CONFIG_DEBUG_UART_BASE=0x38000000
+CONFIG_DEBUG_UART_CLOCK=390000000
+</pre></div>
+</div>
+</div>
+<div class="section" id="resetting-the-board">
+<h3>Resetting the board<a class="headerlink" href="#resetting-the-board" title="Permalink to this headline">¶</a></h3>
+<p>The MAIX boards can be reset using the DTR and RTS lines of the serial console.
+How the lines are used depends on the specific board. See the code of kflash.py
+for details.</p>
+<p>This is the reset sequence for the MAXDUINO and MAIX BiT with Mic:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">setDTR</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">setRTS</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">setDTR</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">setDTR</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and this for the MAIX Bit:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">setDTR</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">setRTS</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">setRTS</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">setRTS</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="memory-map">
+<h3>Memory Map<a class="headerlink" href="#memory-map" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%"/>
+<col style="width: 13%"/>
+<col style="width: 72%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Address</p></th>
+<th class="head"><p>Size</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0x00000000</p></td>
+<td><p>0x1000</p></td>
+<td><p>debug</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x00001000</p></td>
+<td><p>0x1000</p></td>
+<td><p>rom</p></td>
+</tr>
+<tr class="row-even"><td><p>0x02000000</p></td>
+<td><p>0xC000</p></td>
+<td><p>clint</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x0C000000</p></td>
+<td><p>0x4000000</p></td>
+<td><p>plic</p></td>
+</tr>
+<tr class="row-even"><td><p>0x38000000</p></td>
+<td><p>0x1000</p></td>
+<td><p>uarths</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x38001000</p></td>
+<td><p>0x1000</p></td>
+<td><p>gpiohs</p></td>
+</tr>
+<tr class="row-even"><td><p>0x40000000</p></td>
+<td><p>0x400000</p></td>
+<td><p>sram0 (non-cached)</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x40400000</p></td>
+<td><p>0x200000</p></td>
+<td><p>sram1 (non-cached)</p></td>
+</tr>
+<tr class="row-even"><td><p>0x40600000</p></td>
+<td><p>0x200000</p></td>
+<td><p>airam (non-cached)</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x40800000</p></td>
+<td><p>0xC00000</p></td>
+<td><p>kpu</p></td>
+</tr>
+<tr class="row-even"><td><p>0x42000000</p></td>
+<td><p>0x400000</p></td>
+<td><p>fft</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50000000</p></td>
+<td><p>0x1000</p></td>
+<td><p>dmac</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50200000</p></td>
+<td><p>0x200000</p></td>
+<td><p>apb0</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50200000</p></td>
+<td><p>0x80</p></td>
+<td><p>gpio</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50210000</p></td>
+<td><p>0x100</p></td>
+<td><p>uart0</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50220000</p></td>
+<td><p>0x100</p></td>
+<td><p>uart1</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50230000</p></td>
+<td><p>0x100</p></td>
+<td><p>uart2</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50240000</p></td>
+<td><p>0x100</p></td>
+<td><p>spi slave</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50250000</p></td>
+<td><p>0x200</p></td>
+<td><p>i2s0</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50250200</p></td>
+<td><p>0x200</p></td>
+<td><p>apu</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50260000</p></td>
+<td><p>0x200</p></td>
+<td><p>i2s1</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50270000</p></td>
+<td><p>0x200</p></td>
+<td><p>i2s2</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50280000</p></td>
+<td><p>0x100</p></td>
+<td><p>i2c0</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50290000</p></td>
+<td><p>0x100</p></td>
+<td><p>i2c1</p></td>
+</tr>
+<tr class="row-even"><td><p>0x502A0000</p></td>
+<td><p>0x100</p></td>
+<td><p>i2c2</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x502B0000</p></td>
+<td><p>0x100</p></td>
+<td><p>fpioa</p></td>
+</tr>
+<tr class="row-even"><td><p>0x502C0000</p></td>
+<td><p>0x100</p></td>
+<td><p>sha256</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x502D0000</p></td>
+<td><p>0x100</p></td>
+<td><p>timer0</p></td>
+</tr>
+<tr class="row-even"><td><p>0x502E0000</p></td>
+<td><p>0x100</p></td>
+<td><p>timer1</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x502F0000</p></td>
+<td><p>0x100</p></td>
+<td><p>timer2</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50400000</p></td>
+<td><p>0x200000</p></td>
+<td><p>apb1</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50400000</p></td>
+<td><p>0x100</p></td>
+<td><p>wdt0</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50410000</p></td>
+<td><p>0x100</p></td>
+<td><p>wdt1</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50420000</p></td>
+<td><p>0x100</p></td>
+<td><p>otp control</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50430000</p></td>
+<td><p>0x100</p></td>
+<td><p>dvp</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50440000</p></td>
+<td><p>0x100</p></td>
+<td><p>sysctl</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50450000</p></td>
+<td><p>0x100</p></td>
+<td><p>aes</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x50460000</p></td>
+<td><p>0x100</p></td>
+<td><p>rtc</p></td>
+</tr>
+<tr class="row-even"><td><p>0x52000000</p></td>
+<td><p>0x4000000</p></td>
+<td><p>apb2</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x52000000</p></td>
+<td><p>0x100</p></td>
+<td><p>spi0</p></td>
+</tr>
+<tr class="row-even"><td><p>0x53000000</p></td>
+<td><p>0x100</p></td>
+<td><p>spi1</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x54000000</p></td>
+<td><p>0x200</p></td>
+<td><p>spi3</p></td>
+</tr>
+<tr class="row-even"><td><p>0x80000000</p></td>
+<td><p>0x400000</p></td>
+<td><p>sram0 (cached)</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x80400000</p></td>
+<td><p>0x200000</p></td>
+<td><p>sram1 (cached)</p></td>
+</tr>
+<tr class="row-even"><td><p>0x80600000</p></td>
+<td><p>0x200000</p></td>
+<td><p>airam (cached)</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x88000000</p></td>
+<td><p>0x20000</p></td>
+<td><p>otp</p></td>
+</tr>
+<tr class="row-even"><td><p>0x88000000</p></td>
+<td><p>0xC200</p></td>
+<td><p>firmware</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x8801C000</p></td>
+<td><p>0x1000</p></td>
+<td><p>riscv priv spec 1.9 config</p></td>
+</tr>
+<tr class="row-even"><td><p>0x8801D000</p></td>
+<td><p>0x2000</p></td>
+<td><p>flattened device tree (contains only addresses and
+interrupts)</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x8801F000</p></td>
+<td><p>0x1000</p></td>
+<td><p>credits</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Links"></a><div class="section" id="links">
+<h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>[1] <a class="reference external" href="https://github.com/riscv/riscv-sbi-doc">https://github.com/riscv/riscv-sbi-doc</a></dt><dd><p>RISC-V Supervisor Binary Interface Specification</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Sipeed"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../socionext/index.html" rel="next" title="Socionext">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

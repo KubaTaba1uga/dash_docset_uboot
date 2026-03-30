@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>U-Boot for JetHub J100 (A113X) — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="khadas-vim.html" rel="next" title="U-Boot for Khadas VIM (S905X)"/>
+<link href="jethub-j80.html" rel="prev" title="U-Boot for JetHub J80 (S905W)"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Amlogic</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#hardware-support-matrix">Hardware Support Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#boot-documentation">Boot Documentation</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#board-documentation">Board Documentation</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bananapi-cm4io.html">U-Boot for BananaPi CM4 with CM4IO (A311D)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bananapi-m2pro.html">U-Boot for BananaPi BPI-M2-PRO (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bananapi-m2s.html">U-Boot for BananaPi M2S (A311D &amp; S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bananapi-m5.html">U-Boot for BananaPi BPI-M5 (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beelink-gskingx.html">U-Boot for Beelink GS-King-X (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beelink-gt1-ultimate.html">U-Boot for Beelink GT1 Ultimate (S912)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beelink-gtking.html">U-Boot for Beelink GT-King (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beelink-gtkingpro.html">U-Boot for Beelink GT-King Pro (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="jethub-j80.html">U-Boot for JetHub J80 (S905W)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">U-Boot for JetHub J100 (A113X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="khadas-vim.html">U-Boot for Khadas VIM (S905X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="khadas-vim2.html">U-Boot for Khadas VIM2 (S912)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="khadas-vim3.html">U-Boot for Khadas VIM3 (A311D)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="khadas-vim3l.html">U-Boot for Khadas VIM3L (S905D3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="libretech-ac.html">U-Boot for LibreTech-AC ‘LaFrite’ (S805X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="libretech-cc.html">U-Boot for LibreTech CC ‘LePotato’ (S905X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nanopi-k2.html">U-Boot for NanoPi-K2 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-c2.html">U-Boot for ODROID-C2 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-c4.html">U-Boot for ODROID-C4 (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-hc4.html">U-Boot for ODROID-HC4 (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-n2.html">U-Boot for ODROID-N2/N2+ (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-n2l.html">U-Boot for ODROID-N2L (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="odroid-go-ultra.html">U-Boot for ODROID-GO-ULTRA (S922X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="p200.html">U-Boot for Amlogic P200 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="p201.html">U-Boot for Amlogic P201 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="p212.html">U-Boot for Amlogic P212</a></li>
+<li class="toctree-l4"><a class="reference internal" href="q200.html">U-Boot for Amlogic Q200 (S912)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="radxa-zero.html">U-Boot for Radxa Zero (S905Y2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="radxa-zero2.html">U-Boot for Radxa Zero2 (A311D)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sei510.html">U-Boot for Amlogic SEI510 (S905X2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sei610.html">U-Boot for Amlogic SEI610 (S905X3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="s400.html">U-Boot for Amlogic S400 (A113X)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="u200.html">U-Boot for Amlogic U200 (S905X2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="videostrong-kii-pro.html">U-Boot for Videostrong KII Pro (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wetek-core2.html">U-Boot for WeTek Core2 (S912)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wetek-hub.html">U-Boot for WeTek Hub (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wetek-play2.html">U-Boot for WeTek Play2 (S905)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="w400.html">U-Boot for Amlogic W400 (S922X)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Amlogic</a> »</li>
+<li>U-Boot for JetHub J100 (A113X)</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/amlogic/jethub-j100.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot for JetHub J100 (A113X)"></a><div class="section" id="u-boot-for-jethub-j100-a113x">
+<h1>U-Boot for JetHub J100 (A113X)<a class="headerlink" href="#u-boot-for-jethub-j100-a113x" title="Permalink to this headline">¶</a></h1>
+<p>JetHome Jethub D1 (<a class="reference external" href="http://jethome.ru/jethub-d1">http://jethome.ru/jethub-d1</a>) is a home automation controller device
+manufactured by JetHome with the following specifications:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Amlogic A113X (ARM Cortex-A53) quad-core up to 1.5GHz</p></li>
+<li><p>no video out</p></li>
+<li><p>512MB/1GB DDR3 or 2GB DDR4 SDRAM</p></li>
+<li><p>8/16/32GB eMMC flash</p></li>
+<li><p>1 x USB 2.0</p></li>
+<li><p>1 x 10/100Mbps ethernet</p></li>
+<li><p>WiFi / Bluetooth one from:
+- AMPAK AP6255 (Broadcom BCM43455) IEEE 802.11a/b/g/n/ac, Bluetooth 4.2
+- RTL8822CS IEEE 802.11a/b/g/n/ac, Bluetooth 5.0
+- Amlogic W155S1 WiFi5 IEEE 802.11a/b/g/n/ac, Bluetooth 5.2</p></li>
+<li><p>2 x gpio LEDS</p></li>
+<li><p>GPIO user Button</p></li>
+<li><p>DC source with a voltage of 9 to 56 V / Passive POE</p></li>
+<li><p>DIN Rail Mounting case</p></li>
+</ul>
+</div></blockquote>
+<p>The basic version also has:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>TI CC2538 + CC2592 Zigbee Wireless with upto 20dBm output power and Zigbee 3.0</p></li>
+<li><p>1 x 1-Wire</p></li>
+<li><p>2 x RS-485</p></li>
+<li><p>4 x dry contact digital GPIO inputs</p></li>
+<li><p>3 x relay GPIO outputs</p></li>
+</ul>
+</div></blockquote>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Compilation"></a><div class="section" id="u-boot-compilation">
+<h2>U-Boot Compilation<a class="headerlink" href="#u-boot-compilation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-none-elf-
+$<span class="w"> </span>make<span class="w"> </span>jethub_j100_defconfig
+$<span class="w"> </span>make
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Signing with Pre-Built FIP repo"></a><div class="section" id="u-boot-signing-with-pre-built-fip-repo">
+<h2>U-Boot Signing with Pre-Built FIP repo<a class="headerlink" href="#u-boot-signing-with-pre-built-fip-repo" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/LibreELEC/amlogic-boot-fip<span class="w"> </span>--depth<span class="o">=</span><span class="m">1</span>
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>amlogic-boot-fip
+$<span class="w"> </span>mkdir<span class="w"> </span>my-output-dir
+$<span class="w"> </span>./build-fip.sh<span class="w"> </span>jethub-j100<span class="w"> </span>/path/to/u-boot/u-boot.bin<span class="w"> </span>my-output-dir
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Manual Signing"></a><div class="section" id="u-boot-manual-signing">
+<h2>U-Boot Manual Signing<a class="headerlink" href="#u-boot-manual-signing" title="Permalink to this headline">¶</a></h2>
+<p>Amlogic does not provide sources for the firmware and tools needed to create a bootloader
+image so it is necessary to obtain binaries from sources published by the board vendor:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jethome-ru/jethub-aml-tools<span class="w"> </span>jethub-u-boot
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>jethub-u-boot
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">FIPDIR</span><span class="o">=</span><span class="nv">$PWD</span>
+</pre></div>
+</div>
+<p>Go back to the mainline U-Boot source tree then:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>fip
+
+$<span class="w"> </span>cp<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/bl2.bin<span class="w"> </span>fip/
+$<span class="w"> </span>cp<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/acs.bin<span class="w"> </span>fip/
+$<span class="w"> </span>cp<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/bl21.bin<span class="w"> </span>fip/
+$<span class="w"> </span>cp<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/bl30.bin<span class="w"> </span>fip/
+$<span class="w"> </span>cp<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/bl301.bin<span class="w"> </span>fip/
+$<span class="w"> </span>cp<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/bl31.img<span class="w"> </span>fip/
+$<span class="w"> </span>cp<span class="w"> </span>u-boot.bin<span class="w"> </span>fip/bl33.bin
+
+$<span class="w"> </span><span class="nv">$FIPDIR</span>/blx_fix.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl30.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/zero_tmp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl30_zero.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl301.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl301_zero.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl30_new.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>bl30
+
+$<span class="w"> </span><span class="nv">$FIPDIR</span>/acs_tool.pyc<span class="w"> </span>fip/bl2.bin<span class="w"> </span>fip/bl2_acs.bin<span class="w"> </span>fip/acs.bin<span class="w"> </span><span class="m">0</span>
+
+$<span class="w"> </span><span class="nv">$FIPDIR</span>/blx_fix.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl2_acs.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/zero_tmp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl2_zero.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl21.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl21_zero.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fip/bl2_new.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>bl2
+
+$<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/aml_encrypt_axg<span class="w"> </span>--bl3sig<span class="w"> </span>--input<span class="w"> </span>fip/bl30_new.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--output<span class="w"> </span>fip/bl30_new.bin.enc<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--level<span class="w"> </span>v3<span class="w"> </span>--type<span class="w"> </span>bl30
+$<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/aml_encrypt_axg<span class="w"> </span>--bl3sig<span class="w"> </span>--input<span class="w"> </span>fip/bl31.img<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--output<span class="w"> </span>fip/bl31.img.enc<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--level<span class="w"> </span>v3<span class="w"> </span>--type<span class="w"> </span>bl31
+$<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/aml_encrypt_axg<span class="w"> </span>--bl3sig<span class="w"> </span>--input<span class="w"> </span>fip/bl33.bin<span class="w"> </span>--compress<span class="w"> </span>lz4<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--output<span class="w"> </span>fip/bl33.bin.enc<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--level<span class="w"> </span>v3<span class="w"> </span>--type<span class="w"> </span>bl33
+$<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/aml_encrypt_axg<span class="w"> </span>--bl2sig<span class="w"> </span>--input<span class="w"> </span>fip/bl2_new.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--output<span class="w"> </span>fip/bl2.n.bin.sig
+$<span class="w"> </span><span class="nv">$FIPDIR</span>/j100/aml_encrypt_axg<span class="w"> </span>--bootmk<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--output<span class="w"> </span>fip/u-boot.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--bl2<span class="w"> </span>fip/bl2.n.bin.sig<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--bl30<span class="w"> </span>fip/bl30_new.bin.enc<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--bl31<span class="w"> </span>fip/bl31.img.enc<span class="w"> </span><span class="se">\</span>
+<span class="w">                               </span>--bl33<span class="w"> </span>fip/bl33.bin.enc<span class="w"> </span>--level<span class="w"> </span>v3
+</pre></div>
+</div>
+<p>Then write U-Boot to SD or eMMC with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nv">DEV</span><span class="o">=</span>/dev/boot_device
+$<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>fip/u-boot.bin.sd.bin<span class="w"> </span><span class="nv">of</span><span class="o">=</span><span class="nv">$DEV</span><span class="w"> </span><span class="nv">conv</span><span class="o">=</span>fsync,notrunc<span class="w"> </span><span class="nv">bs</span><span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="nv">skip</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">1</span>
+$<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>fip/u-boot.bin.sd.bin<span class="w"> </span><span class="nv">of</span><span class="o">=</span><span class="nv">$DEV</span><span class="w"> </span><span class="nv">conv</span><span class="o">=</span>fsync,notrunc<span class="w"> </span><span class="nv">bs</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">440</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="jethub-j80.html" rel="prev" title="U-Boot for JetHub J80 (S905W)"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="khadas-vim.html" rel="next" title="U-Boot for Khadas VIM (S905X)">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

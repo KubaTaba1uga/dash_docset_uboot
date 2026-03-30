@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sandbox — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="sandbox.html" rel="next" title="Sandbox"/>
+<link href="../riscv.html" rel="prev" title="RISC-V"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arm64.html">ARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../riscv.html">RISC-V</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sandbox</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="block_impl.html">Sandbox block devices (implementation)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Architecture-specific doc</a> »</li>
+<li>Sandbox</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/arch/sandbox/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox"></a><div class="section" id="sandbox">
+<h1>Sandbox<a class="headerlink" href="#sandbox" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">Sandbox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#native-execution-of-u-boot">Native Execution of U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#basic-operation">Basic Operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#console-lcd-support">Console / LCD support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#command-line-options">Command-line Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#memory-emulation">Memory Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#storing-state">Storing State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#running-and-booting">Running and Booting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#supported-drivers">Supported Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#sandbox-variants">Sandbox Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#linux-raw-networking-bridge">Linux RAW Networking Bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#spi-emulation">SPI Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#block-device-emulation">Block Device Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#writing-sandbox-drivers">Writing Sandbox Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#vpl-verifying-program-loader">VPL (Verifying Program Loader)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#debugging-the-init-sequence">Debugging the init sequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#sdl-config">SDL_CONFIG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#using-valgrind-memcheck">Using valgrind / memcheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#memory-map">Memory Map</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="block_impl.html">Sandbox block devices (implementation)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="block_impl.html#uclass-api">Uclass API</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../riscv.html" rel="prev" title="RISC-V"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="sandbox.html" rel="next" title="Sandbox">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

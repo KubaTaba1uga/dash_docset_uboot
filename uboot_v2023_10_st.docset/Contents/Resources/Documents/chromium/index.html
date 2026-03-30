@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chromium OS-specific doc — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="overview.html" rel="next" title="Chromium OS Support in U-Boot"/>
+<link href="../android/fastboot.html" rel="prev" title="Android Fastboot"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chromium OS-specific doc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Chromium OS Support in U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html">Running U-Boot with Chromium OS verified boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chainload.html">Running U-Boot from coreboot on Chromebooks</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li>Chromium OS-specific doc</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/chromium/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Chromium OS-specific doc"></a><div class="section" id="chromium-os-specific-doc">
+<h1>Chromium OS-specific doc<a class="headerlink" href="#chromium-os-specific-doc" title="Permalink to this headline">¶</a></h1>
+<p>This provides some information about Chromium OS and U-Boot.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Chromium OS Support in U-Boot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#talks-and-documents">Talks and documents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="run_vboot.html">Running U-Boot with Chromium OS verified boot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#sandbox">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#samus">Samus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#boot-flow">Boot flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#new-uclasses">New uclasses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#commands">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#config-options">Config options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#device-tree-config">Device-tree config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#porting-to-other-hardware">Porting to other hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#tests">Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_vboot.html#u-boot-without-chromium-os-verified-boot">U-Boot without Chromium OS verified boot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chainload.html">Running U-Boot from coreboot on Chromebooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chainload.html#snow-samsung-arm-chromebook">Snow (Samsung ARM Chromebook)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chainload.html#nyan-big">Nyan-big</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chainload.html#chromebook-jerry">chromebook_jerry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chainload.html#other-notes">Other notes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../android/fastboot.html" rel="prev" title="Android Fastboot"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="overview.html" rel="next" title="Chromium OS Support in U-Boot">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

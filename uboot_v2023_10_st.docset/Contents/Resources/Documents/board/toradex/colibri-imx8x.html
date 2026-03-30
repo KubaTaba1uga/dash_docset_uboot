@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Colibri iMX8X Module — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="verdin-imx8mm.html" rel="next" title="Verdin iMX8M Mini Module"/>
+<link href="colibri_imx7.html" rel="prev" title="Colibri iMX7 Modules"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Toradex</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apalis-imx8.html">Apalis iMX8 Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="colibri_imx7.html">Colibri iMX7 Modules</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Colibri iMX8X Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-and-build-the-arm-trusted-firmware">Get and Build the ARM Trusted Firmware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-scfw-tcm-bin-and-ahab-container-img">Get scfw_tcm.bin and ahab-container.img</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-u-boot">Build U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#load-the-u-boot-binary-using-uuu">Load the U-Boot Binary Using UUU</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flash-the-u-boot-binary-into-the-emmc">Flash the U-Boot Binary into the eMMC</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="verdin-am62.html">Verdin AM62 Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verdin-imx8mm.html">Verdin iMX8M Mini Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verdin-imx8mp.html">Verdin iMX8M Plus Module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Toradex</a> »</li>
+<li>Colibri iMX8X Module</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/toradex/colibri-imx8x.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Colibri iMX8X Module"></a><div class="section" id="colibri-imx8x-module">
+<h1>Colibri iMX8X Module<a class="headerlink" href="#colibri-imx8x-module" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>SoM: <a class="reference external" href="https://www.toradex.com/computer-on-modules/colibri-arm-family/nxp-imx-8x">https://www.toradex.com/computer-on-modules/colibri-arm-family/nxp-imx-8x</a></p></li>
+<li><p>Carrier board: <a class="reference external" href="https://www.toradex.com/products/carrier-board/colibri-evaluation-board">https://www.toradex.com/products/carrier-board/colibri-evaluation-board</a></p></li>
+</ul>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Quick Start"></a><div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Build the ARM trusted firmware binary</p></li>
+<li><p>Get scfw_tcm.bin and ahab-container.img</p></li>
+<li><p>Build U-Boot</p></li>
+<li><p>Load U-Boot binary using uuu</p></li>
+<li><p>Flash U-Boot binary into the eMMC</p></li>
+<li><p>Boot</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Get and Build the ARM Trusted Firmware"></a><div class="section" id="get-and-build-the-arm-trusted-firmware">
+<h2>Get and Build the ARM Trusted Firmware<a class="headerlink" href="#get-and-build-the-arm-trusted-firmware" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>toradex_imx_5.4.70_2.3.0<span class="w"> </span>http://git.toradex.com/cgit/imx-atf.git/
+$<span class="w"> </span>make<span class="w"> </span><span class="nv">PLAT</span><span class="o">=</span>imx8qx<span class="w"> </span>bl31<span class="w"> </span>-C<span class="w"> </span>imx-atf
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Get scfw_tcm.bin and ahab-container.img"></a><div class="section" id="get-scfw-tcm-bin-and-ahab-container-img">
+<h2>Get scfw_tcm.bin and ahab-container.img<a class="headerlink" href="#get-scfw-tcm-bin-and-ahab-container-img" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://github.com/toradex/i.MX-System-Controller-Firmware/raw/master/src/scfw_export_mx8qx_b0/build_mx8qx_b0/mx8qx-colibri-scfw-tcm.bin
+$<span class="w"> </span>wget<span class="w"> </span>https://www.nxp.com/lgfiles/NMG/MAD/YOCTO/imx-seco-3.8.1.bin
+$<span class="w"> </span>sh<span class="w"> </span>imx-seco-3.8.1.bin<span class="w"> </span>--auto-accept
+</pre></div>
+</div>
+<p>Copy the following firmware to the U-Boot folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>imx-atf/build/imx8qx/release/bl31.bin<span class="w"> </span>.
+$<span class="w"> </span>cp<span class="w"> </span>imx-seco-3.8.1/firmware/seco/mx8qxc0-ahab-container.img<span class="w"> </span>mx8qx-ahab-container.img
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build U-Boot"></a><div class="section" id="build-u-boot">
+<h2>Build U-Boot<a class="headerlink" href="#build-u-boot" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>colibri-imx8x_defconfig
+$<span class="w"> </span>make<span class="w"> </span>u-boot-dtb.imx
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Load the U-Boot Binary Using UUU"></a><div class="section" id="load-the-u-boot-binary-using-uuu">
+<h2>Load the U-Boot Binary Using UUU<a class="headerlink" href="#load-the-u-boot-binary-using-uuu" title="Permalink to this headline">¶</a></h2>
+<p>Get the latest version of the universal update utility (uuu) aka <code class="docutils literal notranslate"><span class="pre">mfgtools</span> <span class="pre">3.0</span></code>:</p>
+<p><a class="reference external" href="https://community.nxp.com/external-link.jspa?url=https%3A%2F%2Fgithub.com%2FNXPmicro%2Fmfgtools%2Freleases">https://community.nxp.com/external-link.jspa?url=https%3A%2F%2Fgithub.com%2FNXPmicro%2Fmfgtools%2Freleases</a></p>
+<p>Put the module into USB recovery aka serial downloader mode, connect the USB
+device to your host and execute <code class="docutils literal notranslate"><span class="pre">uuu</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./uuu<span class="w"> </span>u-boot/u-boot-dtb.imx
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flash the U-Boot Binary into the eMMC"></a><div class="section" id="flash-the-u-boot-binary-into-the-emmc">
+<h2>Flash the U-Boot Binary into the eMMC<a class="headerlink" href="#flash-the-u-boot-binary-into-the-emmc" title="Permalink to this headline">¶</a></h2>
+<p>Burn the <code class="docutils literal notranslate"><span class="pre">u-boot-dtb.imx</span></code> binary to the primary eMMC hardware boot area
+partition and boot:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>load<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span>u-boot-dtb.imx
+setexpr<span class="w"> </span>blkcnt<span class="w"> </span><span class="si">${</span><span class="nv">filesize</span><span class="si">}</span><span class="w"> </span>+<span class="w"> </span>0x1ff<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>setexpr<span class="w"> </span>blkcnt<span class="w"> </span><span class="si">${</span><span class="nv">blkcnt</span><span class="si">}</span><span class="w"> </span>/<span class="w"> </span>0x200
+mmc<span class="w"> </span>dev<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
+mmc<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>0x0<span class="w"> </span><span class="si">${</span><span class="nv">blkcnt</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>As a convenience, instead of the last three commands, one may also use the
+update U-Boot wrapper:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>run<span class="w"> </span>update_uboot
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="colibri_imx7.html" rel="prev" title="Colibri iMX7 Modules"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="verdin-imx8mm.html" rel="next" title="Verdin iMX8M Mini Module">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

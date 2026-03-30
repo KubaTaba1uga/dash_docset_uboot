@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Linker-Generated Arrays — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="lmb.html" rel="next" title="Logical memory blocks"/>
+<link href="getopt.html" rel="prev" title="Option Parsing"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Linker-Generated Arrays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#alignment-issues">Alignment issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Linker-Generated Arrays</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/linker_lists.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Linker-Generated Arrays"></a><div class="section" id="linker-generated-arrays">
+<h1>Linker-Generated Arrays<a class="headerlink" href="#linker-generated-arrays" title="Permalink to this headline">¶</a></h1>
+<p>A linker list is constructed by grouping together linker input
+sections, each containing one entry of the list. Each input section
+contains a constant initialized variable which holds the entry’s
+content. Linker list input sections are constructed from the list
+and entry names, plus a prefix which allows grouping all lists
+together. Assuming _list and _entry are the list and entry names,
+then the corresponding input section name is</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>__u_boot_list_ + 2_ + @_list + _2_ + @_entry
+</pre></div>
+</div>
+<p>and the C variable name is</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>_u_boot_list + _2_ + @_list + _2_ + @_entry
+</pre></div>
+</div>
+<p>This ensures uniqueness for both input section and C variable name.</p>
+<p>Note that the names differ only in the characters, “__” for the
+section and “_” for the variable, so that the linker cannot confuse
+section and symbol names. From now on, both names will be referred
+to as</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>%u_boot_list_ + 2_ + @_list + _2_ + @_entry
+</pre></div>
+</div>
+<p>Entry variables need never be referred to directly.</p>
+<p>The naming scheme for input sections allows grouping all linker lists
+into a single linker output section and grouping all entries for a
+single list.</p>
+<p>Note the two ‘_2_’ constant components in the names: their presence
+allows putting a start and end symbols around a list, by mapping
+these symbols to sections names with components “1” (before) and
+“3” (after) instead of “2” (within).
+Start and end symbols for a list can generally be defined as</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>%u_boot_list_2_ + @_list + _1_...
+%u_boot_list_2_ + @_list + _3_...
+</pre></div>
+</div>
+<p>Start and end symbols for the whole of the linker lists area can be
+defined as</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>%u_boot_list_1_...
+%u_boot_list_3_...
+</pre></div>
+</div>
+<p>Here is an example of the sorted sections which result from a list
+“array” made up of three entries : “first”, “second” and “third”,
+iterated at least once.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>__u_boot_list_2_array_1
+__u_boot_list_2_array_2_first
+__u_boot_list_2_array_2_second
+__u_boot_list_2_array_2_third
+__u_boot_list_2_array_3
+</pre></div>
+</div>
+<p>If lists must be divided into sublists (e.g. for iterating only on
+part of a list), one can simply give the list a name of the form
+‘outer_2_inner’, where ‘outer’ is the global list name and ‘inner’
+is the sub-list name. Iterators for the whole list should use the
+global list name (“outer”); iterators for only a sub-list should use
+the full sub-list name (“outer_2_inner”).</p>
+<p>Here is an example of the sections generated from a global list
+named “drivers”, two sub-lists named “i2c” and “pci”, and iterators
+defined for the whole list and each sub-list:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>%u_boot_list_2_drivers_1
+%u_boot_list_2_drivers_2_i2c_1
+%u_boot_list_2_drivers_2_i2c_2_first
+%u_boot_list_2_drivers_2_i2c_2_first
+%u_boot_list_2_drivers_2_i2c_2_second
+%u_boot_list_2_drivers_2_i2c_2_third
+%u_boot_list_2_drivers_2_i2c_3
+%u_boot_list_2_drivers_2_pci_1
+%u_boot_list_2_drivers_2_pci_2_first
+%u_boot_list_2_drivers_2_pci_2_second
+%u_boot_list_2_drivers_2_pci_2_third
+%u_boot_list_2_drivers_2_pci_3
+%u_boot_list_2_drivers_3
+</pre></div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Alignment issues"></a><div class="section" id="alignment-issues">
+<h2>Alignment issues<a class="headerlink" href="#alignment-issues" title="Permalink to this headline">¶</a></h2>
+<p>The linker script uses alphabetic sorting to group the different linker
+lists together. Each group has its own struct and potentially its own
+alignment. But when the linker packs the structs together it cannot ensure
+that a linker list starts on the expected alignment boundary.</p>
+<p>For example, if the first list has a struct size of 8 and we place 3 of
+them in the image, that means that the next struct will start at offset
+0x18 from the start of the linker_list section. If the next struct has
+a size of 16 then it will start at an 8-byte aligned offset, but not a
+16-byte aligned offset.</p>
+<p>With sandbox on x86_64, a reference to a linker list item using
+ll_entry_get() can force alignment of that particular linker_list item,
+if it is in the same file as the linker_list item is declared.</p>
+<p>Consider this example, where struct driver is 0x80 bytes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ll_entry_declare(struct driver, fred, driver)
+
+...
+
+void *p = ll_entry_get(struct driver, fred, driver)
+</pre></div>
+</div>
+<p>If these two lines of code are in the same file, then the entry is forced
+to be aligned at the ‘struct driver’ alignment, which is 16 bytes. If the
+second line of code is in a different file, then no action is taken, since
+the compiler cannot update the alignment of the linker_list item.</p>
+<p>In the first case, an 8-byte ‘fill’ region is added:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>__u_boot_list_2_driver_2_testbus_drv
+            0x0000000000270018       0x80 test/built-in.o
+            0x0000000000270018                _u_boot_list_2_driver_2_testbus_drv
+__u_boot_list_2_driver_2_testfdt1_drv
+            0x0000000000270098       0x80 test/built-in.o
+            0x0000000000270098                _u_boot_list_2_driver_2_testfdt1_drv
+*fill*         0x0000000000270118        0x8
+__u_boot_list_2_driver_2_testfdt_drv
+            0x0000000000270120       0x80 test/built-in.o
+            0x0000000000270120                _u_boot_list_2_driver_2_testfdt_drv
+__u_boot_list_2_driver_2_testprobe_drv
+            0x00000000002701a0       0x80 test/built-in.o
+            0x00000000002701a0                _u_boot_list_2_driver_2_testprobe_drv
+</pre></div>
+</div>
+<p>With this, the linker_list no-longer works since items after testfdt1_drv
+are not at the expected address.</p>
+<p>Ideally we would have a way to tell gcc not to align structs in this way.
+It is not clear how we could do this, and in any case it would require us
+to adjust every struct used by the linker_list feature.</p>
+<p>The simplest fix seems to be to force each separate linker_list to start
+on the largest possible boundary that can be required by the compiler. This
+is the purpose of CONFIG_LINKER_LIST_ALIGN</p>
+<dl class="c macro">
+<dt id="c.llsym">
+<code class="sig-name descname">llsym</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/llsym"></a><a class="headerlink" href="#c.llsym" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">llsym</span> <span class="pre">(_type,</span> <span class="pre">_name,</span> <span class="pre">_list)</span></code></p>
+<blockquote>
+<div><p>Access a linker-generated array entry</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_name</span></code></dt><dd><p>Name of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_list</span></code></dt><dd><p>name of the list. Should contain only characters allowed
+in a C variable name!</p>
+</dd>
+</dl>
+<dl class="c macro">
+<dt id="c.ll_entry_declare">
+<code class="sig-name descname">ll_entry_declare</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_entry_declare"></a><a class="headerlink" href="#c.ll_entry_declare" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_entry_declare</span> <span class="pre">(_type,</span> <span class="pre">_name,</span> <span class="pre">_list)</span></code></p>
+<blockquote>
+<div><p>Declare linker-generated array entry</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_name</span></code></dt><dd><p>Name of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_list</span></code></dt><dd><p>name of the list. Should contain only characters allowed
+in a C variable name!</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This macro declares a variable that is placed into a linker-generated
+array. This is a basic building block for more advanced use of linker-
+generated arrays. The user is expected to build their own macro wrapper
+around this one.</p>
+<p>A variable declared using this macro must be compile-time initialized.</p>
+<p>Special precaution must be made when using this macro:</p>
+<ol class="arabic simple">
+<li><p>The _type must not contain the “static” keyword, otherwise the
+entry is generated and can be iterated but is listed in the map
+file and cannot be retrieved by name.</p></li>
+<li><p>In case a section is declared that contains some array elements AND
+a subsection of this section is declared and contains some elements,
+it is imperative that the elements are of the same type.</p></li>
+<li><p>In case an outer section is declared that contains some array elements
+AND an inner subsection of this section is declared and contains some
+elements, then when traversing the outer section, even the elements of
+the inner sections are present in the array.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ll_entry_declare(struct my_sub_cmd, my_sub_cmd, cmd_sub) = {
+        .x = 3,
+        .y = 4,
+};
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<dl class="c macro">
+<dt id="c.ll_entry_declare_list">
+<code class="sig-name descname">ll_entry_declare_list</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_entry_declare_list"></a><a class="headerlink" href="#c.ll_entry_declare_list" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_entry_declare_list</span> <span class="pre">(_type,</span> <span class="pre">_name,</span> <span class="pre">_list)</span></code></p>
+<blockquote>
+<div><p>Declare a list of link-generated array entries</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of each entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_name</span></code></dt><dd><p>Name of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_list</span></code></dt><dd><p>name of the list. Should contain only characters allowed
+in a C variable name!</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This is like ll_entry_declare() but creates multiple entries. It should
+be assigned to an array.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ll_entry_declare_list(struct my_sub_cmd, my_sub_cmd, cmd_sub) = {
+     { .x = 3, .y = 4 },
+     { .x = 8, .y = 2 },
+     { .x = 1, .y = 7 }
+};
+</pre></div>
+</div>
+<dl class="c macro">
+<dt id="c.ll_entry_start">
+<code class="sig-name descname">ll_entry_start</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_entry_start"></a><a class="headerlink" href="#c.ll_entry_start" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_entry_start</span> <span class="pre">(_type,</span> <span class="pre">_list)</span></code></p>
+<blockquote>
+<div><p>Point to first entry of linker-generated array</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_list</span></code></dt><dd><p>Name of the list in which this entry is placed</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function returns <code class="docutils literal notranslate"><span class="pre">(_type</span> <span class="pre">*)</span></code> pointer to the very first entry of a
+linker-generated array placed into subsection of __u_boot_list section
+specified by _list argument.</p>
+<p>Since this macro defines an array start symbol, its leftmost index
+must be 2 and its rightmost index must be 1.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct my_sub_cmd *msc = ll_entry_start(struct my_sub_cmd, cmd_sub);
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<dl class="c macro">
+<dt id="c.ll_entry_end">
+<code class="sig-name descname">ll_entry_end</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_entry_end"></a><a class="headerlink" href="#c.ll_entry_end" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_entry_end</span> <span class="pre">(_type,</span> <span class="pre">_list)</span></code></p>
+<blockquote>
+<div><p>Point after last entry of linker-generated array</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_list</span></code></dt><dd><p>Name of the list in which this entry is placed
+(with underscores instead of dots)</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function returns <code class="docutils literal notranslate"><span class="pre">(_type</span> <span class="pre">*)</span></code> pointer after the very last entry of
+a linker-generated array placed into subsection of __u_boot_list
+section specified by _list argument.</p>
+<p>Since this macro defines an array end symbol, its leftmost index
+must be 2 and its rightmost index must be 3.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct my_sub_cmd *msc = ll_entry_end(struct my_sub_cmd, cmd_sub);
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<dl class="c macro">
+<dt id="c.ll_entry_count">
+<code class="sig-name descname">ll_entry_count</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_entry_count"></a><a class="headerlink" href="#c.ll_entry_count" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_entry_count</span> <span class="pre">(_type,</span> <span class="pre">_list)</span></code></p>
+<blockquote>
+<div><p>Return the number of elements in linker-generated array</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_list</span></code></dt><dd><p>Name of the list of which the number of elements is computed</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function returns the number of elements of a linker-generated array
+placed into subsection of __u_boot_list section specified by _list
+argument. The result is of an unsigned int type.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>int i;
+const unsigned int count = ll_entry_count(struct my_sub_cmd, cmd_sub);
+struct my_sub_cmd *msc = ll_entry_start(struct my_sub_cmd, cmd_sub);
+for (i = 0; i &lt; count; i++, msc++)
+        printf("Entry ``i``, x=``i`` y=``i``\n", i, msc-&gt;x, msc-&gt;y);
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<dl class="c macro">
+<dt id="c.ll_entry_get">
+<code class="sig-name descname">ll_entry_get</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_entry_get"></a><a class="headerlink" href="#c.ll_entry_get" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_entry_get</span> <span class="pre">(_type,</span> <span class="pre">_name,</span> <span class="pre">_list)</span></code></p>
+<blockquote>
+<div><p>Retrieve entry from linker-generated array by name</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_name</span></code></dt><dd><p>Name of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_list</span></code></dt><dd><p>Name of the list in which this entry is placed</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function returns a pointer to a particular entry in linker-generated
+array identified by the subsection of u_boot_list where the entry resides
+and it’s name.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ll_entry_declare(struct my_sub_cmd, my_sub_cmd, cmd_sub) = {
+        .x = 3,
+        .y = 4,
+};
+...
+struct my_sub_cmd *c = ll_entry_get(struct my_sub_cmd, my_sub_cmd, cmd_sub);
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<dl class="c macro">
+<dt id="c.ll_entry_ref">
+<code class="sig-name descname">ll_entry_ref</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_entry_ref"></a><a class="headerlink" href="#c.ll_entry_ref" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_entry_ref</span> <span class="pre">(_type,</span> <span class="pre">_name,</span> <span class="pre">_list)</span></code></p>
+<blockquote>
+<div><p>Get a reference to a linker-generated array entry</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>C type of the list entry, e.g. ‘struct foo’</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_name</span></code></dt><dd><p>name of the entry</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_list</span></code></dt><dd><p>name of the list</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Once an extern ll_entry_declare() has been used to declare the reference,
+this macro allows the entry to be accessed.</p>
+<p>This is like ll_entry_get(), but without the extra code, so it is suitable
+for putting into data structures.</p>
+<dl class="c macro">
+<dt id="c.ll_start">
+<code class="sig-name descname">ll_start</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_start"></a><a class="headerlink" href="#c.ll_start" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_start</span> <span class="pre">(_type)</span></code></p>
+<blockquote>
+<div><p>Point to first entry of first linker-generated array</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of the entry</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function returns <code class="docutils literal notranslate"><span class="pre">(_type</span> <span class="pre">*)</span></code> pointer to the very first entry of
+the very first linker-generated array.</p>
+<p>Since this macro defines the start of the linker-generated arrays,
+its leftmost index must be 1.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct my_sub_cmd *msc = ll_start(struct my_sub_cmd);
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<dl class="c macro">
+<dt id="c.ll_end">
+<code class="sig-name descname">ll_end</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/ll_end"></a><a class="headerlink" href="#c.ll_end" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">ll_end</span> <span class="pre">(_type)</span></code></p>
+<blockquote>
+<div><p>Point after last entry of last linker-generated array</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_type</span></code></dt><dd><p>Data type of the entry</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function returns <code class="docutils literal notranslate"><span class="pre">(_type</span> <span class="pre">*)</span></code> pointer after the very last entry of
+the very last linker-generated array.</p>
+<p>Since this macro defines the end of the linker-generated arrays,
+its leftmost index must be 3.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct my_sub_cmd *msc = ll_end(struct my_sub_cmd);
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="getopt.html" rel="prev" title="Option Parsing"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="lmb.html" rel="next" title="Logical memory blocks">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kontron SMARC-sAL28 — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="sl-mx6ul.html" rel="next" title="Kontron Electronics SL i.MX6UL/ULL SoM"/>
+<link href="pitx-imx8m.html" rel="prev" title="Kontron pitx-imx8m"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Kontron</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pitx-imx8m.html">Kontron pitx-imx8m</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Kontron SMARC-sAL28</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#update-image">Update image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#builtin-watchdog">Builtin watchdog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-volatile-board-configuration-bits">Non-volatile Board Configuration Bits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#further-documentation">Further documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sl-mx6ul.html">Kontron Electronics SL i.MX6UL/ULL SoM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sl-mx8mm.html">Kontron Electronics i.MX8MM SoMs and Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Kontron</a> »</li>
+<li>Kontron SMARC-sAL28</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/kontron/sl28.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Kontron SMARC-sAL28"></a><div class="section" id="kontron-smarc-sal28">
+<h1>Kontron SMARC-sAL28<a class="headerlink" href="#kontron-smarc-sal28" title="Permalink to this headline">¶</a></h1>
+<p>The Kontron SMARC-sAL28 board is a TSN-enabled dual-core ARM A72
+processor module with an on-chip 6-port TSN switch and a 3D GPU.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Quickstart"></a><div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="compile-u-boot">
+<h3>Compile U-Boot<a class="headerlink" href="#compile-u-boot" title="Permalink to this headline">¶</a></h3>
+<p>Configure and compile the binary:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make kontron_sl28_defconfig
+$ CROSS_COMPILE=aarch64-linux-gnu make
+</pre></div>
+</div>
+<p>Copy u-boot.rom to a TFTP server.</p>
+</div>
+<div class="section" id="install-the-bootloader-on-the-board">
+<h3>Install the bootloader on the board<a class="headerlink" href="#install-the-bootloader-on-the-board" title="Permalink to this headline">¶</a></h3>
+<p>To install the bootloader binary use the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt; tftp path/to/u-boot.rom
+&gt; sf probe 0
+&gt; sf update $fileaddr 0x210000 $filesize
+</pre></div>
+</div>
+<p>The board is fully failsafe, you can’t break anything. If builtin watchdog
+is enabled, you’ll automatically end up in the failsafe bootloader if
+something goes wrong. If the watchdog is disabled, you have to manually
+enter failsafe mode by asserting the <code class="docutils literal notranslate"><span class="pre">FORCE_RECOV#</span></code> line during board
+reset.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Update image"></a><div class="section" id="update-image">
+<h2>Update image<a class="headerlink" href="#update-image" title="Permalink to this headline">¶</a></h2>
+<p>After the build finished, there will be an update image called
+u-boot.update. This can either be used in the DFU mode (which isn’t
+supported yet) or encapsulated in an EFI UpdateCapsule.</p>
+<p>To build the capsule use the following command</p>
+<blockquote>
+<div><p>$ tools/mkeficapsule -f u-boot.update -i 1 UpdateUboot</p>
+</div></blockquote>
+<p>Afterward you can copy this file to your ESP into the /EFI/UpdateCapsule/
+folder. On the next EFI boot this will automatically update your
+bootloader.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Builtin watchdog"></a><div class="section" id="builtin-watchdog">
+<h2>Builtin watchdog<a class="headerlink" href="#builtin-watchdog" title="Permalink to this headline">¶</a></h2>
+<p>The builtin watchdog will supervise the bootloader startup. If anything
+goes wrong it will reset the board and boot into the failsafe bootloader.</p>
+<p>Once the bootloader is started successfully, it will disable the watchdog
+timer.</p>
+<div class="section" id="wdt-command-flags">
+<h3>wdt command flags<a class="headerlink" href="#wdt-command-flags" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>wdt start</cite> as well as the <cite>wdt expire</cite> command take a flags argument.
+The supported bitmask is as follows.</p>
+<div class="line-block">
+<div class="line">Bit | Description                   |</div>
+<div class="line">— | —————————– |</div>
+<div class="line-block">
+<div class="line">0 | Enable failsafe mode          |</div>
+<div class="line">1 | Lock the control register     |</div>
+<div class="line">2 | Disable board reset           |</div>
+<div class="line">3 | Enable WDT_TIME_OUT# line     |</div>
+</div>
+</div>
+<p>For example, you can use <cite>wdt expire 1</cite> to issue a reset and boot into the
+failsafe bootloader.</p>
+</div>
+<div class="section" id="disable-the-builtin-watchdog">
+<h3>Disable the builtin watchdog<a class="headerlink" href="#disable-the-builtin-watchdog" title="Permalink to this headline">¶</a></h3>
+<p>If for some reason, this isn’t a desired behavior, the watchdog can also
+be configured to not be enabled on board reset. It’s configuration is saved
+in the non-volatile board configuration bits. To change these you can use
+the <cite>sl28 nvm</cite> command.</p>
+<p>For more information on the non-volatile board configuration bits, see the
+following section.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Non-volatile Board Configuration Bits"></a><div class="section" id="non-volatile-board-configuration-bits">
+<h2>Non-volatile Board Configuration Bits<a class="headerlink" href="#non-volatile-board-configuration-bits" title="Permalink to this headline">¶</a></h2>
+<p>The board has 16 configuration bits which are stored in the CPLD and are
+non-volatile. These can be changed by the <cite>sl28 nvm</cite> command.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 5%"/>
+<col style="width: 95%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Bit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Power-on inhibit</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Enable eMMC boot</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Enable watchdog by default</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Disable failsafe watchdog by default</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>Clock generator selection bit 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Clock generator selection bit 1</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>Disable CPU SerDes clock #2 and PCIe-A clock output</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>Disable PCIe-B and PCIe-C clock output</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>Keep onboard PHYs in reset</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>Keep USB hub in reset</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>Keep eDP-to-LVDS converter in reset</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>Enable I2C stuck recovery on I2C PM and I2C GP busses</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>Enable automatic onboard PHY H/W reset</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>reserved</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>Used by the RCW to determine boot source</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>Used by the RCW to determine boot source</p></td>
+</tr>
+</tbody>
+</table>
+<p>Please note, that if the board is in failsafe mode, the bits will have the
+factory defaults, ie. all bits are off.</p>
+<div class="section" id="power-on-inhibit">
+<h3>Power-On Inhibit<a class="headerlink" href="#power-on-inhibit" title="Permalink to this headline">¶</a></h3>
+<p>If this is set, the board doesn’t automatically turn on when power is
+applied. Instead, the user has to either toggle the <code class="docutils literal notranslate"><span class="pre">PWR_BTN#</span></code> line or
+use any other wake-up source such as RTC alarm or Wake-on-LAN.</p>
+</div>
+<div class="section" id="emmc-boot">
+<h3>eMMC Boot<a class="headerlink" href="#emmc-boot" title="Permalink to this headline">¶</a></h3>
+<p>If this is set, the RCW will be fetched from the on-board eMMC at offset
+1MiB. For further details, have a look at the <a class="reference external" href="https://raw.githubusercontent.com/kontron/rcw-smarc-sal28/master/README.md">Reset Configuration Word
+Documentation</a>.</p>
+</div>
+<div class="section" id="watchdog">
+<h3>Watchdog<a class="headerlink" href="#watchdog" title="Permalink to this headline">¶</a></h3>
+<p>By default, the CPLD watchdog is enabled in failsafe mode. Using bits 2 and
+3, the user can change its mode or disable it altogether.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12%"/>
+<col style="width: 12%"/>
+<col style="width: 76%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Bit 2</p></th>
+<th class="head"><p>Bit 3</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>Watchdog enabled, failsafe mode</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>Watchdog disabled</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>Watchdog enabled, failsafe mode</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>Watchdog enabled, normal mode</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="clock-generator-select">
+<h3>Clock Generator Select<a class="headerlink" href="#clock-generator-select" title="Permalink to this headline">¶</a></h3>
+<p>The board is prepared to supply different SerDes clock speeds. But for now,
+only setting 0 is supported, otherwise the CPU will hang because the PLL
+will not lock.</p>
+</div>
+<div class="section" id="clock-output-disable-and-keep-devices-in-reset">
+<h3>Clock Output Disable And Keep Devices In Reset<a class="headerlink" href="#clock-output-disable-and-keep-devices-in-reset" title="Permalink to this headline">¶</a></h3>
+<p>To safe power, the user might disable different devices and clock output of
+the board. It is not supported to disable the “CPU SerDes clock #2” for
+now, otherwise the CPU will hang because the PLL will not lock.</p>
+</div>
+<div class="section" id="automatic-reset-of-the-onboard-phys">
+<h3>Automatic reset of the onboard PHYs<a class="headerlink" href="#automatic-reset-of-the-onboard-phys" title="Permalink to this headline">¶</a></h3>
+<p>By default, there is no hardware reset of the onboard PHY. This is because
+for Wake-on-LAN, some registers have to retain their values. If you don’t
+use the WOL feature and a soft reset of the PHY is not enough you can
+enable the hardware reset. The onboard PHY hardware reset follows the
+power-on reset.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Further documentation"></a><div class="section" id="further-documentation">
+<h2>Further documentation<a class="headerlink" href="#further-documentation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://raw.githubusercontent.com/kontron/u-boot-smarc-sal28/master/board/kontron/sl28/README.md">Vendor Documentation</a></p></li>
+<li><p><a class="reference external" href="https://raw.githubusercontent.com/kontron/rcw-smarc-sal28/master/README.md">Reset Configuration Word Documentation</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="pitx-imx8m.html" rel="prev" title="Kontron pitx-imx8m"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="sl-mx6ul.html" rel="next" title="Kontron Electronics SL i.MX6UL/ULL SoM">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

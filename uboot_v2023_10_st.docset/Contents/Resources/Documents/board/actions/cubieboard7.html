@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CUBIEBOARD7 — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../advantech/index.html" rel="next" title="Advantech"/>
+<link href="index.html" rel="prev" title="Actions"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Actions</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CUBIEBOARD7</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#about-this">About this</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cubieboard7-initial-configuration">Cubieboard7 initial configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enter-adfu-mode">Enter ADFU Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#check-whether-entered-adfu-mode">Check whether entered ADFU Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashing-debian-image">Flashing debian image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#building-u-boot-proper-image">Building U-BOOT proper image</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Actions</a> »</li>
+<li>CUBIEBOARD7</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/actions/cubieboard7.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/CUBIEBOARD7"></a><div class="section" id="cubieboard7">
+<h1>CUBIEBOARD7<a class="headerlink" href="#cubieboard7" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/About this"></a><div class="section" id="about-this">
+<h2>About this<a class="headerlink" href="#about-this" title="Permalink to this headline">¶</a></h2>
+<p>This document describes build and flash steps for Actions S700 SoC based Cubieboard7
+board.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Cubieboard7 initial configuration"></a><div class="section" id="cubieboard7-initial-configuration">
+<h2>Cubieboard7 initial configuration<a class="headerlink" href="#cubieboard7-initial-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Default Cubieboard7 comes with pre-installed Android where U-Boot is configured with
+a bootdelay of 0, entering a prompt by pressing keys does not seem to work.</p>
+<p>Though, one can enter ADFU mode and flash debian image(from host machine) where
+getting into u-boot prompt is easy.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enter ADFU Mode"></a><div class="section" id="enter-adfu-mode">
+<h2>Enter ADFU Mode<a class="headerlink" href="#enter-adfu-mode" title="Permalink to this headline">¶</a></h2>
+<p>Before write the firmware, let the development board entering the ADFU mode: insert
+one end of the USB cable to the PC, press and hold the ADFU button, and then connect
+the other end of the USB cable to the Mini USB port of the development board, release
+the ADFU button, after connecting it will enter the ADFU mode.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Check whether entered ADFU Mode"></a><div class="section" id="check-whether-entered-adfu-mode">
+<h2>Check whether entered ADFU Mode<a class="headerlink" href="#check-whether-entered-adfu-mode" title="Permalink to this headline">¶</a></h2>
+<p>The user needs to run the following command on the PC side to check if the ADFU
+device is detected. ID realted to “Actions Semiconductor Co., Ltd”  means that
+the PC side has been correctly detected ADFU device, the development board
+also enter into the ADFU mode.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ lsusb
+Bus 001 Device 005: ID 04f2:b2eb Chicony Electronics Co., Ltd
+Bus 001 Device 004: ID 0a5c:21e6 Broadcom Corp. BCM20702 Bluetooth 4.0 [ThinkPad]
+Bus 001 Device 003: ID 046d:c534 Logitech, Inc. Unifying Receiver
+Bus 001 Device 002: ID 8087:0024 Intel Corp. Integrated Rate Matching Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 003 Device 013: ID 10d6:10d6 Actions Semiconductor Co., Ltd
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flashing debian image"></a><div class="section" id="flashing-debian-image">
+<h2>Flashing debian image<a class="headerlink" href="#flashing-debian-image" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo ./ActionsFWU.py --fw=debian-stretch-desktop-cb7-emmc-v2.0.fw
+ActionsFWU.py        : 1.0.150828.0830
+libScript.so    : 2.3.150825.0951
+libFileSystem.so: 2.3.150825.0952
+libProduction.so: 2.3.150915.1527
+=====burn all partition====
+FW_VER: 3.10.37.180608
+3% DOWNLOAD ADFUDEC ...
+5% DOWNLOAD BOOT PARA ...
+7% SWITCH ADFUDEC ...
+12% DOWNLOAD BL31 ...
+13% DOWNLOAD BL32 ...
+15% DOWNLOAD VMLINUX ...
+20% DOWNLOAD INITRD ...
+24% DOWNLOAD FDT ...
+27% DOWNLOAD ADFUS ...
+30% SWITCH ADFUS ...
+32% DOWNLOAD MBR ...
+35% DOWNLOAD PARTITIONS ...
+WRITE_MBRC_PARTITION
+35% write p0 size = 2048 : ok
+WRITE_BOOT_PARTITION
+35% write p1 size = 2048 : ok
+WRITE_MISC_PARTITION
+36% write p2 size = 98304 : ok
+WRITE_SYSTEM_PARTITION
+94% write p3 size = 4608000 : ok
+FORMAT_SWAP_PARTITION
+94% write p4 size = 20480 : ok
+95% TRANSFER OVER ...
+Firmware upgrade successfully!
+</pre></div>
+</div>
+<p>Debian image can be downloaded from here[1].</p>
+<p>Once debian image is flashed, one can get into u-boot prompt by pressing any key and from
+there run ums command(make sure, usb cable is connected between host and target):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>owl&gt; ums 0 mmc 1
+</pre></div>
+</div>
+<p>Above command would mount debian image partition on host machine.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building U-BOOT proper image"></a><div class="section" id="building-u-boot-proper-image">
+<h2>Building U-BOOT proper image<a class="headerlink" href="#building-u-boot-proper-image" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make clean
+$ export CROSS_COMPILE=aarch64-linux-gnu-
+$ make cubieboard7_defconfig
+$ make u-boot-dtb.img -j16
+</pre></div>
+</div>
+<p>u-boot-dtb.img can now be flashed to debian image partition mounted on host machine.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo dd if=u-boot-dtb.img of=/dev/sdb bs=1024 seek=3072
+</pre></div>
+</div>
+<p>[1]: <a class="reference external" href="https://pan.baidu.com/s/1uawPr0Jao2HgWFLZCLzHAg#list/path=%2FCubieBoard_Download%2FBoard%2FCubieBoard7%2F%E6%96%B9%E7%B3%96%E6%96%B9%E6%A1%88%E5%BC%80%E5%8F%91%E8%B5%84%E6%96%99%2FImage%2FDebian%2FV2.1-test&amp;parentPath=%2F">https://pan.baidu.com/s/1uawPr0Jao2HgWFLZCLzHAg#list/path=%2FCubieBoard_Download%2FBoard%2FCubieBoard7%2F%E6%96%B9%E7%B3%96%E6%96%B9%E6%A1%88%E5%BC%80%E5%8F%91%E8%B5%84%E6%96%99%2FImage%2FDebian%2FV2.1-test&amp;parentPath=%2F</a></p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Actions"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../advantech/index.html" rel="next" title="Advantech">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

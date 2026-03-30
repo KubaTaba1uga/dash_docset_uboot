@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>trace command — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="true.html" rel="next" title="true command"/>
+<link href="tftpput.html" rel="prev" title="tftpput command"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acpi.html">acpi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="addrmap.html">addrmap command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="armffa.html">armffa command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="askenv.html">askenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base.html">base command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bdinfo.html">bdinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bind.html">bind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blkcache.html">blkcache command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootd.html">bootd command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootdev.html">bootdev command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootefi.html">bootefi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootflow.html">bootflow command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="booti.html">booti command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootm.html">bootm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmenu.html">bootmenu command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmeth.html">bootmeth command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html">button command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootz.html">bootz command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cat.html">cat command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cbsysinfo.html">cbsysinfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cedit.html">cedit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cls.html">cls command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmp.html">cmp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coninfo.html">coninfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conitrace.html">conitrace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cp.html">cp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">cyclic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dm.html">dm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ebtupdate.html">ebtupdate command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="echo.html">echo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efi.html">efi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eficonfig.html">eficonfig command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="env.html">env command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">event command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exception.html">exception command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extension.html">extension command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exit.html">exit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="false.html">false command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatinfo.html">fatinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatload.html">fatload command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fdt.html">fdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="font.html">font command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="for.html">for command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fwu_mdata.html">fwu_mdata_read command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">gpio command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpt.html">gpt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host.html">host command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxtract.html">imxtract command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load.html">load command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadb.html">loadb command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadm.html">loadm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads.html">loads command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadx.html">loadx command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loady.html">loady command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mbr.html">mbr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="md.html">md command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mmc.html">mmc command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtest.html">mtest command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtrr.html">mtrr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="panic.html">panic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part.html">part command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pause.html">pause command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pinmux.html">pinmux command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printenv.html">printenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pstore.html">pstore command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qfw.html">qfw command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="read.html">read and write commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">reset command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rng.html">rng command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saves.html">saves command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sbi.html">sbi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sf.html">sf command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scp03.html">scp03 command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="seama.html">seama command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setexpr.html">setexpr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="size.html">size command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep.html">sleep command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sound.html">sound command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source.html">source command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sm.html">sm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temperature.html">temperature command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftpput.html">tftpput command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">trace command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#synopis">Synopis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="true.html">true command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ums.html">ums command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unbind.html">unbind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ut.html">ut command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdt.html">wdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wget.html">wget command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="write.html">write command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xxd.html">xxd command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li>trace command</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/cmd/trace.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/trace command"></a><div class="section" id="trace-command">
+<h1>trace command<a class="headerlink" href="#trace-command" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Synopis"></a><div class="section" id="synopis">
+<h2>Synopis<a class="headerlink" href="#synopis" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>trace stats
+trace pause
+trace resume
+trace funclist [&lt;addr&gt; &lt;size&gt;]
+trace calls [&lt;addr&gt; &lt;size&gt;]
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Description"></a><div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The <em>trace</em> command is used to control the U-Boot tracing system. It allows
+tracing to be paused and resumed, shows statistics for traces and provides a
+way to dump out the trace information.</p>
+<div class="section" id="trace-stats">
+<h3>trace stats<a class="headerlink" href="#trace-stats" title="Permalink to this headline">¶</a></h3>
+<p>This display tracing statistics, as follows:</p>
+<dl class="simple">
+<dt>function sites</dt><dd><p>Functions are binned as a way of reducing the amount of space needed to
+hold all the function information. This is controlled by FUNC_SITE_SIZE in
+the trace.h header file. The usual value is 4, which provides the finest
+granularity (assuming a minimum instruction size of 4 bytes) which means
+that every function can be resolved individually.</p>
+</dd>
+<dt>function calls</dt><dd><p>Total number of function calls, including those which were not traced due
+to buffer space. This count does not include functions which exceeded the
+depth limit.</p>
+</dd>
+<dt>untracked function calls</dt><dd><p>Total number of function calls which did not appear in the U-Boot image.
+This can happen if a function is called outside the normal code area.</p>
+</dd>
+<dt>traced function calls</dt><dd><p>Total number of function calls which were actually traced, i.e. are included
+in the recorded trace data.</p>
+</dd>
+<dt>dropped due to overflow</dt><dd><p>If the trace buffer was exhausted then this shows the number of records that
+were dropped. Try reducing the depth limit or expanding the buffer size.</p>
+</dd>
+<dt>maximum observed call depth</dt><dd><p>Maximum observed call depth while tracing.</p>
+</dd>
+<dt>calls not traced due to depth</dt><dd><p>Counts the number of function calls that were not recorded because they
+exceeded the maximum call depth.</p>
+</dd>
+<dt>max function calls</dt><dd><p>Maximum number of function calls which can be recorded in the trace buffer,
+given its size. Once <cite>function calls</cite> hits this value, recording stops.</p>
+</dd>
+<dt>trace buffer</dt><dd><p>Address of trace buffer</p>
+</dd>
+<dt>call records</dt><dd><p>Address of first trace record. This is near the start of the trace buffer,
+after the function-call counts.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="trace-pause">
+<h3>trace pause<a class="headerlink" href="#trace-pause" title="Permalink to this headline">¶</a></h3>
+<p>Pauses tracing, so that no more data is added to the trace buffer.</p>
+</div>
+<div class="section" id="trace-resume">
+<h3>trace resume<a class="headerlink" href="#trace-resume" title="Permalink to this headline">¶</a></h3>
+<p>Resumes tracing, so that new function calls are added to the trace buffer if
+there is sufficient space.</p>
+</div>
+<div class="section" id="trace-funclist-addr-size">
+<h3>trace funclist [&lt;addr&gt; &lt;size&gt;]<a class="headerlink" href="#trace-funclist-addr-size" title="Permalink to this headline">¶</a></h3>
+<p>Dumps a list of functions into the provided buffer. The file uses a format
+specific to U-Boot: a header, following by the function offset and call count.</p>
+<p>If the address and size are not given, these are obtained from
+<a class="reference internal" href="../../develop/trace.html#environment-variables"><span class="std std-ref">Environment Variables</span></a>. In any case the environment
+variables are updated after the command runs.</p>
+<p>The resulting data should be written out to the host, e.g. using Ethernet or
+a filesystem. There are no tools provided to read this sdata.</p>
+</div>
+<div class="section" id="trace-calls-addr-size">
+<h3>trace calls [&lt;addr&gt; &lt;size&gt;]<a class="headerlink" href="#trace-calls-addr-size" title="Permalink to this headline">¶</a></h3>
+<p>Dumps a list of function calls into the provided buffer. The file uses a format
+specific to U-Boot: a header, following by the list of calls. The proftool
+tool can be used to convert this information ready for further analysis.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example"></a><div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; trace stats
+        269,252 function sites
+     38,025,059 function calls
+              3 untracked function calls
+      7,382,690 traced function calls
+             17 maximum observed call depth
+             15 call depth limit
+     68,667,432 calls not traced due to depth
+     22,190,112 max function calls
+
+trace buffer 6c000000 call records 6c20de78
+=&gt; trace resume
+=&gt; trace pause
+</pre></div>
+</div>
+<p>This shows that resuming the trace causes the buffer to overflow:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; trace stats
+        269,252 function sites
+     49,573,694 function calls
+              3 untracked function calls
+     22,190,112 traced function calls (8289848 dropped due to overflow)
+             17 maximum observed call depth
+             15 call depth limit
+     68,667,432 calls not traced due to depth
+     22,190,112 max function calls
+
+trace buffer 6c000000 call records 6c20de78
+=&gt; trace funcs 30000000 0x100000
+Function trace dumped to 30000000, size 0x1e70
+</pre></div>
+</div>
+<p>This shows collecting and writing out the result trace data:</p>
+<dl class="simple">
+<dt>::</dt><dd><p>=&gt; trace calls 20000000 0x10000000
+Call list dumped to 20000000, size 0xfdf21a0
+=&gt; save mmc 1:1 20000000 /trace ${profoffset}
+File System is consistent
+file found, deleting
+update journal finished
+File System is consistent
+update journal finished
+266281376 bytes written in 18584 ms (13.7 MiB/s)</p>
+</dd>
+</dl>
+<p>From here you can use proftool to convert it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tools/proftool<span class="w"> </span>-m<span class="w"> </span>System.map<span class="w"> </span>-t<span class="w"> </span>trace<span class="w"> </span>-o<span class="w"> </span>asc.fg<span class="w"> </span>dump-ftrace
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="tftpput.html" rel="prev" title="tftpput command"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="true.html" rel="next" title="true command">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

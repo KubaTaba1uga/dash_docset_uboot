@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Implementing shell commands — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="config_binding.html" rel="next" title="U-Boot configuration node"/>
+<link href="ci_testing.html" rel="prev" title="Continuous Integration testing"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Implementing shell commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#command-definition">Command definition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sub-command-definition">Sub-command definition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#command-function">Command function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#completion-function">Completion function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#behind-the-scene">Behind the scene</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-tests">Writing tests</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Implementing shell commands</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/commands.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Implementing shell commands"></a><div class="section" id="implementing-shell-commands">
+<h1>Implementing shell commands<a class="headerlink" href="#implementing-shell-commands" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Command definition"></a><div class="section" id="command-definition">
+<h2>Command definition<a class="headerlink" href="#command-definition" title="Permalink to this headline">¶</a></h2>
+<p>Commands are added to U-Boot by creating a new command structure.
+This is done by first including command.h, then using the U_BOOT_CMD() or the
+U_BOOT_CMD_COMPLETE macro to fill in a struct cmd_tbl structure.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">U_BOOT_CMD</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">maxargs</span><span class="p">,</span><span class="w"> </span><span class="n">repeatable</span><span class="p">,</span><span class="w"> </span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="s">"usage"</span><span class="p">,</span><span class="w"> </span><span class="s">"help"</span><span class="p">)</span>
+<span class="n">U_BOOT_CMD_COMPLETE</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">maxargs</span><span class="p">,</span><span class="w"> </span><span class="n">repeatable</span><span class="p">,</span><span class="w"> </span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="s">"usage, "</span><span class="n">help</span><span class="s">", comp)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>name</dt><dd><p>The name of the command. This is <strong>not</strong> a string.</p>
+</dd>
+<dt>maxargs</dt><dd><p>The maximum number of arguments this function takes including
+the command itself.</p>
+</dd>
+<dt>repeatable</dt><dd><p>Either 0 or 1 to indicate if autorepeat is allowed.</p>
+</dd>
+<dt>command</dt><dd><p>Pointer to the command function. This is the function that is
+called when the command is issued.</p>
+</dd>
+<dt>usage</dt><dd><p>Short description. This is a string.</p>
+</dd>
+<dt>help</dt><dd><p>Long description. This is a string. The long description is
+only available if CONFIG_SYS_LONGHELP is defined.</p>
+</dd>
+<dt>comp</dt><dd><p>Pointer to the completion function. May be NULL.
+This function is called if the user hits the TAB key while
+entering the command arguments to complete the entry. Command
+completion is only available if CONFIG_AUTO_COMPLETE is defined.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sub-command definition"></a><div class="section" id="sub-command-definition">
+<h2>Sub-command definition<a class="headerlink" href="#sub-command-definition" title="Permalink to this headline">¶</a></h2>
+<p>Likewise an array of struct cmd_tbl holding sub-commands can be created using
+either of the following macros:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">U_BOOT_CMD_MKENT</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">maxargs</span><span class="p">,</span><span class="w"> </span><span class="n">repeatable</span><span class="p">,</span><span class="w"> </span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="s">"usage"</span><span class="p">,</span><span class="w"> </span><span class="s">"help"</span><span class="p">)</span>
+<span class="n">U_BOOT_CMD_MKENTCOMPLETE</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">maxargs</span><span class="p">,</span><span class="w"> </span><span class="n">repeatable</span><span class="p">,</span><span class="w"> </span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="s">"usage, "</span><span class="n">help</span><span class="s">", comp)</span>
+</pre></div>
+</div>
+<p>This table has to be evaluated in the command function of the main command, e.g.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">cmd_tbl</span><span class="w"> </span><span class="n">cmd_sub</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">U_BOOT_CMD_MKENT</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="n">CONFIG_SYS_MAXARGS</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">do_foo</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">),</span>
+<span class="w">    </span><span class="n">U_BOOT_CMD_MKENT</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span><span class="w"> </span><span class="n">CONFIG_SYS_MAXARGS</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">do_bar</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">),</span>
+<span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">do_cmd</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cmd_tbl</span><span class="w"> </span><span class="o">*</span><span class="n">cmdtp</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flag</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cmd_tbl</span><span class="w"> </span><span class="o">*</span><span class="n">cp</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">CMD_RET_USAGE</span><span class="p">;</span>
+
+<span class="w">    </span><span class="cm">/* drop sub-command argument */</span>
+<span class="w">    </span><span class="n">argc</span><span class="o">--</span><span class="p">;</span>
+<span class="w">    </span><span class="n">argv</span><span class="o">++</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_cmd_tbl</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">cmd_ut_sub</span><span class="p">,</span><span class="w"> </span><span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">cmd_sub</span><span class="p">));</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">cp</span><span class="o">-&gt;</span><span class="n">cmd</span><span class="p">(</span><span class="n">cmdtp</span><span class="p">,</span><span class="w"> </span><span class="n">flag</span><span class="p">,</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">CMD_RET_USAGE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Command function"></a><div class="section" id="command-function">
+<h2>Command function<a class="headerlink" href="#command-function" title="Permalink to this headline">¶</a></h2>
+<p>The command function pointer has to be of type</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">cmd</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cmd_tbl</span><span class="w"> </span><span class="o">*</span><span class="n">cmdtp</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flag</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[]);</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>cmdtp</dt><dd><p>Table entry describing the command (see above).</p>
+</dd>
+<dt>flag</dt><dd><p>A bitmap which may contain the following bits</p>
+<ul class="simple">
+<li><p>CMD_FLAG_REPEAT - The last command is repeated.</p></li>
+<li><p>CMD_FLAG_BOOTD  - The command is called by the bootd command.</p></li>
+<li><p>CMD_FLAG_ENV    - The command is called by the run command.</p></li>
+</ul>
+</dd>
+<dt>argc</dt><dd><p>Number of arguments including the command.</p>
+</dd>
+<dt>argv</dt><dd><p>Arguments.</p>
+</dd>
+</dl>
+<p>Allowable return value are:</p>
+<dl class="simple">
+<dt>CMD_RET_SUCCESS</dt><dd><p>The command was successfully executed.</p>
+</dd>
+<dt>CMD_RET_FAILURE</dt><dd><p>The command failed.</p>
+</dd>
+<dt>CMD_RET_USAGE</dt><dd><p>The command was called with invalid parameters. This value
+leads to the display of the usage string.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Completion function"></a><div class="section" id="completion-function">
+<h2>Completion function<a class="headerlink" href="#completion-function" title="Permalink to this headline">¶</a></h2>
+<p>The completion function pointer has to be of type</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">complete</span><span class="p">)(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">argv</span><span class="p">[],</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">last_char</span><span class="p">,</span>
+<span class="w">                </span><span class="kt">int</span><span class="w"> </span><span class="n">maxv</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">cmdv</span><span class="p">[]);</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>argc</dt><dd><p>Number of arguments including the command.</p>
+</dd>
+<dt>argv</dt><dd><p>Arguments.</p>
+</dd>
+<dt>last_char</dt><dd><p>The last character in the command line buffer.</p>
+</dd>
+<dt>maxv</dt><dd><p>Maximum number of possible completions that may be returned by
+the function.</p>
+</dd>
+<dt>cmdv</dt><dd><p>Used to return possible values for the last argument. The last
+possible completion must be followed by NULL.</p>
+</dd>
+</dl>
+<p>The function returns the number of possible completions (without the terminating
+NULL value).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Behind the scene"></a><div class="section" id="behind-the-scene">
+<h2>Behind the scene<a class="headerlink" href="#behind-the-scene" title="Permalink to this headline">¶</a></h2>
+<p>The structure created is named with a special prefix and placed by
+the linker in a special section using the linker lists mechanism
+(see include/linker_lists.h)</p>
+<p>This makes it possible for the final link to extract all commands
+compiled into any object code and construct a static array so the
+command array can be iterated over using the linker lists macros.</p>
+<p>The linker lists feature ensures that the linker does not discard
+these symbols when linking full U-Boot even though they are not
+referenced in the source code as such.</p>
+<p>If a new board is defined do not forget to define the command section
+by writing in u-boot.lds ($(srctree)/board/boardname/u-boot.lds) these
+3 lines:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="nl">__u_boot_list</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">KEEP</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">SORT</span><span class="p">(</span><span class="n">__u_boot_list</span><span class="o">*</span><span class="p">)));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Writing tests"></a><div class="section" id="writing-tests">
+<h2>Writing tests<a class="headerlink" href="#writing-tests" title="Permalink to this headline">¶</a></h2>
+<p>All new commands should have tests. Tests for existing commands are very
+welcome.</p>
+<p>It is fairly easy to write a test for a command. Enable it in sandbox, and
+then add code that runs the command and checks the output.</p>
+<p>Here is an example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Test 'acpi items' command */</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">dm_test_acpi_cmd_items</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">unit_test_state</span><span class="w"> </span><span class="o">*</span><span class="n">uts</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">acpi_ctx</span><span class="w"> </span><span class="n">ctx</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">BUF_SIZE</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assertnonnull</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ctx</span><span class="p">.</span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buf</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ut_assertok</span><span class="p">(</span><span class="n">acpi_fill_ssdt</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="p">));</span>
+<span class="w">    </span><span class="n">console_record_reset</span><span class="p">();</span>
+<span class="w">    </span><span class="n">run_command</span><span class="p">(</span><span class="s">"acpi items"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextline</span><span class="p">(</span><span class="s">"dev 'acpi-test', type 1, size 2"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextline</span><span class="p">(</span><span class="s">"dev 'acpi-test2', type 1, size 2"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_console_end</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">ctx</span><span class="p">.</span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buf</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ut_assertok</span><span class="p">(</span><span class="n">acpi_inject_dsdt</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="p">));</span>
+<span class="w">    </span><span class="n">console_record_reset</span><span class="p">();</span>
+<span class="w">    </span><span class="n">run_command</span><span class="p">(</span><span class="s">"acpi items"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextline</span><span class="p">(</span><span class="s">"dev 'acpi-test', type 2, size 2"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextline</span><span class="p">(</span><span class="s">"dev 'acpi-test2', type 2, size 2"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_console_end</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">console_record_reset</span><span class="p">();</span>
+<span class="w">    </span><span class="n">run_command</span><span class="p">(</span><span class="s">"acpi items -d"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextline</span><span class="p">(</span><span class="s">"dev 'acpi-test', type 2, size 2"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextlines_are_dump</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextline</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextline</span><span class="p">(</span><span class="s">"dev 'acpi-test2', type 2, size 2"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextlines_are_dump</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_nextline</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ut_assert_console_end</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">DM_TEST</span><span class="p">(</span><span class="n">dm_test_acpi_cmd_items</span><span class="p">,</span><span class="w"> </span><span class="n">UT_TESTF_SCAN_PDATA</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">UT_TESTF_SCAN_FDT</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="ci_testing.html" rel="prev" title="Continuous Integration testing"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="config_binding.html" rel="next" title="U-Boot configuration node">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

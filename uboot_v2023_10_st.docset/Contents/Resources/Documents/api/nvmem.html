@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NVMEM API — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="part.html" rel="next" title="Partition API"/>
+<link href="logging.html" rel="prev" title="Logging API"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>NVMEM API</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/nvmem.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/NVMEM API"></a><div class="section" id="nvmem-api">
+<h1>NVMEM API<a class="headerlink" href="#nvmem-api" title="Permalink to this headline">¶</a></h1>
+<p>The NVMEM subsystem is a “meta-uclass” in that it abstracts over several
+different uclasses all with read/write APIs. One approach to implementing
+this could be to add a new sub-device for each nvmem-style device of
+UCLASS_NVMEM. This subsystem has taken the approach of using the existing
+access methods (i2c_eeprom_write, misc_write, etc.) directly. This has the
+advantage of not requiring an extra device/driver, saving on binary size and
+runtime memory usage. On the other hand, it is not idiomatic. Similar
+efforts should generally use a new uclass.</p>
+<dl class="c struct">
+<dt id="c.nvmem_cell">
+<em class="property">struct </em><code class="sig-name descname">nvmem_cell</code><a class="headerlink" href="#c.nvmem_cell" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>One datum within non-volatile memory</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct nvmem_cell {
+  struct udevice *nvmem;
+  unsigned int offset;
+  size_t size;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">nvmem</span></code></dt><dd><p>The backing storage device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">offset</span></code></dt><dd><p>The offset of the cell from the start of <strong>nvmem</strong></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size</span></code></dt><dd><p>The size of the cell, in bytes</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.nvmem_cell_read">
+int <code class="sig-name descname">nvmem_cell_read</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.nvmem_cell" title="nvmem_cell">nvmem_cell</a> *<em>cell</em>, void *<em>buf</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/nvmem_cell_read"></a><a class="headerlink" href="#c.nvmem_cell_read" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Read the value of an nvmem cell</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">nvmem_cell</span> <span class="pre">*cell</span></code></dt><dd><p>The nvmem cell to read</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>The buffer to read into</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">size</span></code></dt><dd><p>The size of <strong>buf</strong></p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<ul class="simple">
+<li><p>0 on success</p></li>
+<li><p>-EINVAL if <strong>buf</strong> is not the same size as <strong>cell</strong>.</p></li>
+<li><p>-ENOSYS if CONFIG_NVMEM is disabled</p></li>
+<li><p>A negative error if there was a problem reading the underlying storage</p></li>
+</ul>
+<dl class="c function">
+<dt id="c.nvmem_cell_write">
+int <code class="sig-name descname">nvmem_cell_write</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.nvmem_cell" title="nvmem_cell">nvmem_cell</a> *<em>cell</em>, <em class="property">const</em> void *<em>buf</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/nvmem_cell_write"></a><a class="headerlink" href="#c.nvmem_cell_write" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Write a value to an nvmem cell</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">nvmem_cell</span> <span class="pre">*cell</span></code></dt><dd><p>The nvmem cell to write</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>The buffer to write from</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">size</span></code></dt><dd><p>The size of <strong>buf</strong></p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<ul class="simple">
+<li><p>0 on success</p></li>
+<li><p>-EINVAL if <strong>buf</strong> is not the same size as <strong>cell</strong></p></li>
+<li><p>-ENOSYS if <strong>cell</strong> is read-only, or if CONFIG_NVMEM is disabled</p></li>
+<li><p>A negative error if there was a problem writing the underlying storage</p></li>
+</ul>
+<dl class="c function">
+<dt id="c.nvmem_cell_get_by_index">
+int <code class="sig-name descname">nvmem_cell_get_by_index</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, int <em>index</em>, <em class="property">struct</em> <a class="reference internal" href="#c.nvmem_cell" title="nvmem_cell">nvmem_cell</a> *<em>cell</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/nvmem_cell_get_by_index"></a><a class="headerlink" href="#c.nvmem_cell_get_by_index" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get an nvmem cell from a given device and index</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>The device that uses the nvmem cell</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">index</span></code></dt><dd><p>The index of the cell in nvmem-cells</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">nvmem_cell</span> <span class="pre">*cell</span></code></dt><dd><p>The cell to initialize</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Look up the nvmem cell referenced by the phandle at <strong>index</strong> in nvmem-cells in
+<strong>dev</strong>.</p>
+<p><strong>Return</strong></p>
+<ul class="simple">
+<li><p>0 on success</p></li>
+<li><p>-EINVAL if the regs property is missing, empty, or undersized</p></li>
+<li><p>-ENODEV if the nvmem device is missing or unimplemented</p></li>
+<li><p>-ENOSYS if CONFIG_NVMEM is disabled</p></li>
+<li><p>A negative error if there was a problem reading nvmem-cells or getting the
+device</p></li>
+</ul>
+<dl class="c function">
+<dt id="c.nvmem_cell_get_by_name">
+int <code class="sig-name descname">nvmem_cell_get_by_name</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">const</em> char *<em>name</em>, <em class="property">struct</em> <a class="reference internal" href="#c.nvmem_cell" title="nvmem_cell">nvmem_cell</a> *<em>cell</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/nvmem_cell_get_by_name"></a><a class="headerlink" href="#c.nvmem_cell_get_by_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get an nvmem cell from a given device and name</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>The device that uses the nvmem cell</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>The name of the nvmem cell</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">nvmem_cell</span> <span class="pre">*cell</span></code></dt><dd><p>The cell to initialize</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Look up the nvmem cell referenced by <strong>name</strong> in the nvmem-cell-names property
+of <strong>dev</strong>.</p>
+<p><strong>Return</strong></p>
+<ul class="simple">
+<li><p>0 on success</p></li>
+<li><p>-EINVAL if the regs property is missing, empty, or undersized</p></li>
+<li><p>-ENODEV if the nvmem device is missing or unimplemented</p></li>
+<li><p>-ENODATA if <strong>name</strong> is not in nvmem-cell-names</p></li>
+<li><p>-ENOSYS if CONFIG_NVMEM is disabled</p></li>
+<li><p>A negative error if there was a problem reading nvmem-cell-names,
+nvmem-cells, or getting the device</p></li>
+</ul>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="logging.html" rel="prev" title="Logging API"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="part.html" rel="next" title="Partition API">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

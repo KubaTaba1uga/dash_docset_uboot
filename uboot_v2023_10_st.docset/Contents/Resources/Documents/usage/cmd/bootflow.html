@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>bootflow command — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="booti.html" rel="next" title="booti command"/>
+<link href="bootefi.html" rel="prev" title="bootefi command"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acpi.html">acpi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="addrmap.html">addrmap command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="armffa.html">armffa command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="askenv.html">askenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base.html">base command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bdinfo.html">bdinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bind.html">bind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blkcache.html">blkcache command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootd.html">bootd command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootdev.html">bootdev command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootefi.html">bootefi command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">bootflow command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#synopis">Synopis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#return-value">Return value</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="booti.html">booti command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootm.html">bootm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmenu.html">bootmenu command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmeth.html">bootmeth command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html">button command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootz.html">bootz command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cat.html">cat command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cbsysinfo.html">cbsysinfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cedit.html">cedit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cls.html">cls command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmp.html">cmp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coninfo.html">coninfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conitrace.html">conitrace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cp.html">cp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">cyclic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dm.html">dm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ebtupdate.html">ebtupdate command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="echo.html">echo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efi.html">efi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eficonfig.html">eficonfig command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="env.html">env command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">event command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exception.html">exception command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extension.html">extension command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exit.html">exit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="false.html">false command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatinfo.html">fatinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatload.html">fatload command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fdt.html">fdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="font.html">font command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="for.html">for command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fwu_mdata.html">fwu_mdata_read command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">gpio command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpt.html">gpt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host.html">host command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxtract.html">imxtract command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load.html">load command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadb.html">loadb command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadm.html">loadm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads.html">loads command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadx.html">loadx command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loady.html">loady command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mbr.html">mbr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="md.html">md command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mmc.html">mmc command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtest.html">mtest command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtrr.html">mtrr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="panic.html">panic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part.html">part command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pause.html">pause command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pinmux.html">pinmux command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printenv.html">printenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pstore.html">pstore command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qfw.html">qfw command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="read.html">read and write commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">reset command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rng.html">rng command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saves.html">saves command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sbi.html">sbi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sf.html">sf command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scp03.html">scp03 command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="seama.html">seama command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setexpr.html">setexpr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="size.html">size command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep.html">sleep command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sound.html">sound command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source.html">source command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sm.html">sm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temperature.html">temperature command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftpput.html">tftpput command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trace.html">trace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="true.html">true command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ums.html">ums command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unbind.html">unbind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ut.html">ut command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdt.html">wdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wget.html">wget command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="write.html">write command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xxd.html">xxd command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li>bootflow command</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/cmd/bootflow.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/bootflow command"></a><div class="section" id="bootflow-command">
+<h1>bootflow command<a class="headerlink" href="#bootflow-command" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Synopis"></a><div class="section" id="synopis">
+<h2>Synopis<a class="headerlink" href="#synopis" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootflow scan [-abelGH] [bootdev]
+bootflow list [-e]
+bootflow select [&lt;num|name&gt;]
+bootflow info [-d]
+bootflow boot
+bootflow cmdline [set|get|clear|delete|auto] &lt;param&gt; [&lt;value&gt;]
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Description"></a><div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The <cite>bootflow</cite> command is used to manage bootflows. It can scan bootdevs to
+locate bootflows, list them and boot them.</p>
+<p>See <a class="reference internal" href="../../develop/bootstd.html"><span class="doc">U-Boot Standard Boot</span></a> for more information.</p>
+<div class="section" id="bootflow-scan">
+<h3>bootflow scan<a class="headerlink" href="#bootflow-scan" title="Permalink to this headline">¶</a></h3>
+<p>Scans for available bootflows, optionally booting the first valid one it finds.
+This operates in two modes:</p>
+<ul class="simple">
+<li><p>If no bootdev is selected (see <cite>bootdev select</cite>) it scans bootflows one
+by one, extracting all the bootdevs from each</p></li>
+<li><p>If a bootdev is selected, it just scans that one bootflow</p></li>
+</ul>
+<p>Flags are:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-a</span></kbd></dt>
+<dd><p>Collect all bootflows, even those that cannot be loaded. Normally if a file
+is not where it is expected, then the bootflow fails and so is dropped
+during the scan. With this option you can see why each bootflow would be
+dropped.</p>
+</dd>
+<dt><kbd><span class="option">-b</span></kbd></dt>
+<dd><p>Boot each valid bootflow as it is scanned. Typically only the first bootflow
+matters, since by then the system boots in the OS and U-Boot is no-longer
+running. <cite>bootflow scan -b</cite> is a quick way to boot the first available OS.
+A valid bootflow is one that made it all the way to the <cite>loaded</cite> state.</p>
+</dd>
+<dt><kbd><span class="option">-e</span></kbd></dt>
+<dd><p>Used with -l to also show errors for each bootflow. The shows detailed error
+information for each bootflow that failed to make it to the <cite>loaded</cite> state.</p>
+</dd>
+<dt><kbd><span class="option">-l</span></kbd></dt>
+<dd><p>List bootflows while scanning. This is helpful when you want to see what
+is happening during scanning. Use it with the <cite>-b</cite> flag to see which
+bootdev and bootflows are being tried.</p>
+</dd>
+<dt><kbd><span class="option">-G</span></kbd></dt>
+<dd><p>Skip global bootmeths when scanning. By default these are tried first, but
+this flag disables them.</p>
+</dd>
+<dt><kbd><span class="option">-H</span></kbd></dt>
+<dd><p>Don’t use bootdev hunters. By default these are used before each boot
+priority or label is tried, to see if more bootdevs can be discovered, but
+this flag disables that process.</p>
+</dd>
+</dl>
+<p>The optional argument specifies a particular bootdev to scan. This can either be
+the name of a bootdev or its sequence number (both shown with <cite>bootdev list</cite>).
+Alternatively a convenience label can be used, like <cite>mmc0</cite>, which is the type of
+device and an optional sequence number. Specifically, the label is the uclass of
+the bootdev’s parent followed by the sequence number of that parent. Sequence
+numbers are typically set by aliases, so if you have ‘mmc0’ in your devicetree
+alias section, then <cite>mmc0</cite> refers to the bootdev attached to that device.</p>
+</div>
+<div class="section" id="bootflow-list">
+<h3>bootflow list<a class="headerlink" href="#bootflow-list" title="Permalink to this headline">¶</a></h3>
+<p>Lists the previously scanned bootflows. You must use <cite>bootflow scan</cite> before this
+to see anything.</p>
+<p>If you scanned with -a and have bootflows with errors, -e can be used to show
+those errors.</p>
+<p>The list looks something like this:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 3%"/>
+<col style="width: 7%"/>
+<col style="width: 7%"/>
+<col style="width: 9%"/>
+<col style="width: 5%"/>
+<col style="width: 35%"/>
+<col style="width: 34%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Seq</p></th>
+<th class="head"><p>Method</p></th>
+<th class="head"><p>State</p></th>
+<th class="head"><p>Uclass</p></th>
+<th class="head"><p>Part</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Filename</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>distro</p></td>
+<td><p>ready</p></td>
+<td><p>mmc</p></td>
+<td><p>2</p></td>
+<td><p>mmc@7e202000.bootdev.part_2</p></td>
+<td><p>/boot/extlinux/extlinux.conf</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>pxe</p></td>
+<td><p>ready</p></td>
+<td><p>ethernet</p></td>
+<td><p>0</p></td>
+<td><p>smsc95xx_eth.bootdev.0</p></td>
+<td><p>rpi.pxe/extlinux/extlinux.conf</p></td>
+</tr>
+</tbody>
+</table>
+<p>The fields are as follows:</p>
+<dl class="simple">
+<dt>Seq:</dt><dd><p>Sequence number in the scan, used to reference the bootflow later</p>
+</dd>
+<dt>Method:</dt><dd><p>The boot method (bootmeth) used to find the bootflow. Several methods are
+included in U-Boot.</p>
+</dd>
+<dt>State:</dt><dd><p>Current state of the bootflow, indicating how far the bootdev got in
+obtaining a valid one. See <a class="reference internal" href="../../develop/bootstd.html#bootflowstates"><span class="std std-ref">Bootflow states</span></a> for a list of states.</p>
+</dd>
+<dt>Uclass:</dt><dd><p>Name of the media device’s Uclass. This indicates the type of the parent
+device (e.g. MMC, Ethernet).</p>
+</dd>
+<dt>Part:</dt><dd><p>Partition number being accesseed, numbered from 1. Normally a device will
+have a partition table with a small number of partitions. For devices
+without partition tables (e.g. network) this field is 0.</p>
+</dd>
+<dt>Name:</dt><dd><p>Name of the bootflow. This is generated from the bootdev appended with
+the partition information</p>
+</dd>
+<dt>Filename:</dt><dd><p>Name of the bootflow file. This indicates where the file is on the
+filesystem or network device.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="bootflow-select">
+<h3>bootflow select<a class="headerlink" href="#bootflow-select" title="Permalink to this headline">¶</a></h3>
+<p>Use this to select a particular bootflow. You can select it by the sequence
+number or name, as shown in <cite>bootflow list</cite>.</p>
+<p>Once a bootflow is selected, you can use <cite>bootflow info</cite> and <cite>bootflow boot</cite>.</p>
+<p>If no bootflow name or number is provided, then any existing bootflow is
+unselected.</p>
+</div>
+<div class="section" id="bootflow-info">
+<h3>bootflow info<a class="headerlink" href="#bootflow-info" title="Permalink to this headline">¶</a></h3>
+<p>This shows information on the current bootflow, with the format looking like
+this:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%"/>
+<col style="width: 78%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Name</p></td>
+<td><p>mmc@7e202000.bootdev.part_2</p></td>
+</tr>
+<tr class="row-even"><td><p>Device</p></td>
+<td><p>mmc@7e202000.bootdev</p></td>
+</tr>
+<tr class="row-odd"><td><p>Block dev</p></td>
+<td><p>mmc@7e202000.blk</p></td>
+</tr>
+<tr class="row-even"><td><p>Type</p></td>
+<td><p>distro</p></td>
+</tr>
+<tr class="row-odd"><td><p>Method:</p></td>
+<td><p>extlinux</p></td>
+</tr>
+<tr class="row-even"><td><p>State</p></td>
+<td><p>ready</p></td>
+</tr>
+<tr class="row-odd"><td><p>Partition</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Subdir</p></td>
+<td><p>(none)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Filename</p></td>
+<td><p>/extlinux/extlinux.conf</p></td>
+</tr>
+<tr class="row-even"><td><p>Buffer</p></td>
+<td><p>3db7ad48</p></td>
+</tr>
+<tr class="row-odd"><td><p>Size</p></td>
+<td><p>232 (562 bytes)</p></td>
+</tr>
+<tr class="row-even"><td><p>FDT:</p></td>
+<td><p>&lt;NULL&gt;</p></td>
+</tr>
+<tr class="row-odd"><td><p>Error</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+<p>Most of the information is the same as <cite>bootflow list</cite> above. The new fields
+are:</p>
+<dl class="simple">
+<dt>Device</dt><dd><p>Name of the bootdev</p>
+</dd>
+<dt>Block dev</dt><dd><p>Name of the block device, if any. Network devices don’t have a block device.</p>
+</dd>
+<dt>Subdir</dt><dd><p>Subdirectory used for retrieving files. For network bootdevs this is the
+directory of the ‘bootfile’ parameter passed from DHCP. All file retrievals
+when booting are relative to this.</p>
+</dd>
+<dt>Buffer</dt><dd><p>Buffer containing the bootflow file. You can use the <a class="reference internal" href="md.html"><span class="doc">md command</span></a> to look at
+it, or dump it with <cite>bootflow info -d</cite>.</p>
+</dd>
+<dt>Size</dt><dd><p>Size of the bootflow file</p>
+</dd>
+<dt>FDT:</dt><dd><p>Filename of the device tree, if supported. The EFI bootmeth uses this to
+remember the filename to load. If <cite>&lt;NULL&gt;</cite> then there is none.</p>
+</dd>
+<dt>Error</dt><dd><p>Error number returned from scanning for the bootflow. This is 0 if the
+bootflow is in the ‘loaded’ state, or a negative error value on error. You
+can look up Linux error codes to find the meaning of the number.</p>
+</dd>
+</dl>
+<p>Use the <cite>-d</cite> flag to dump out the contents of the bootfile file.</p>
+</div>
+<div class="section" id="bootflow-boot">
+<h3>bootflow boot<a class="headerlink" href="#bootflow-boot" title="Permalink to this headline">¶</a></h3>
+<p>This boots the current bootflow.</p>
+</div>
+<div class="section" id="bootflow-cmdline">
+<h3>bootflow cmdline<a class="headerlink" href="#bootflow-cmdline" title="Permalink to this headline">¶</a></h3>
+<p>Some bootmeths can obtain the OS command line since it is stored with the OS.
+In that case, you can use <cite>bootflow cmdline</cite> to adjust this. The command line
+is assumed to be in the format used by Linux, i.e. a space-separated set of
+parameters with optional values, e.g. “noinitrd console=/dev/tty0”.</p>
+<p>To change or add a parameter, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootflow cmdline set &lt;param&gt; &lt;value&gt;
+</pre></div>
+</div>
+<p>To clear a parameter value to empty you can use “” for the value, or use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootflow cmdline clear &lt;param&gt;
+</pre></div>
+</div>
+<p>To delete a parameter entirely, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootflow cmdline delete &lt;param&gt;
+</pre></div>
+</div>
+<p>Automatic parameters are available in a very few cases. You can use these to
+add parmeters where the value is known by U-Boot. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootflow cmdline auto earlycon
+bootflow cmdline auto console
+</pre></div>
+</div>
+<p>can be used to set the early console (or console) to a suitable value so that
+output appears on the serial port. This is only supported by the 16550 serial
+driver so far.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example"></a><div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Here is an example of scanning for bootflows, then listing them:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot&gt; bootflow scan -l
+Scanning for bootflows in all bootdevs
+Seq  Type         State   Uclass    Part  Name                      Filename
+---  -----------  ------  --------  ----  ------------------------  ----------------
+Scanning bootdev 'mmc@7e202000.bootdev':
+  0  distro       ready   mmc          2  mmc@7e202000.bootdev.p    /extlinux/extlinux.conf
+Scanning bootdev 'sdhci@7e300000.bootdev':
+Card did not respond to voltage select! : -110
+Scanning bootdev 'smsc95xx_eth.bootdev':
+Waiting for Ethernet connection... done.
+BOOTP broadcast 1
+DHCP client bound to address 192.168.4.30 (4 ms)
+Using smsc95xx_eth device
+TFTP from server 192.168.4.1; our IP address is 192.168.4.30
+Filename 'rpi.pxe/'.
+Load address: 0x200000
+Loading: *
+TFTP error: 'Is a directory' (0)
+Starting again
+
+missing environment variable: pxeuuid
+Retrieving file: rpi.pxe/pxelinux.cfg/01-b8-27-eb-a6-61-e1
+Waiting for Ethernet connection... done.
+Using smsc95xx_eth device
+TFTP from server 192.168.4.1; our IP address is 192.168.4.30
+Filename 'rpi.pxe/pxelinux.cfg/01-b8-27-eb-a6-61-e1'.
+Load address: 0x2500000
+Loading: ##################################################  566 Bytes
+     45.9 KiB/s
+done
+Bytes transferred = 566 (236 hex)
+  1  distro       ready   ethernet     0  smsc95xx_eth.bootdev.0 rpi.pxe/extlinux/extlinux.conf
+No more bootdevs
+---  -----------  ------  --------  ----  ------------------------  ----------------
+(2 bootflows, 2 valid)
+U-Boot&gt; bootflow l
+Showing all bootflows
+Seq  Type         State   Uclass    Part  Name                      Filename
+---  -----------  ------  --------  ----  ------------------------  ----------------
+  0  distro       ready   mmc          2  mmc@7e202000.bootdev.p    /extlinux/extlinux.conf
+  1  pxe          ready   ethernet     0  smsc95xx_eth.bootdev.0     rpi.pxe/extlinux/extlinux.conf
+---  -----------  ------  --------  ----  ------------------------  ----------------
+(2 bootflows, 2 valid)
+</pre></div>
+</div>
+<p>The second one is then selected by name (we could instead use <cite>bootflow sel 0</cite>),
+displayed and booted:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot&gt; bootflow info
+No bootflow selected
+U-Boot&gt; bootflow sel mmc@7e202000.bootdev.part_2
+U-Boot&gt; bootflow info
+Name:      mmc@7e202000.bootdev.part_2
+Device:    mmc@7e202000.bootdev
+Block dev: mmc@7e202000.blk
+Method:    distro
+State:     ready
+Partition: 2
+Subdir:    (none)
+Filename:  extlinux/extlinux.conf
+Buffer:    3db7ae88
+Size:      232 (562 bytes)
+OS:        Fedora-Workstation-armhfp-31-1.9 (5.3.7-301.fc31.armv7hl)
+Cmdline:   (none)
+Logo:      (none)
+FDT:       &lt;NULL&gt;
+Error:     0
+U-Boot&gt; bootflow boot
+** Booting bootflow 'smsc95xx_eth.bootdev.0'
+Ignoring unknown command: ui
+Ignoring malformed menu command:  autoboot
+Ignoring malformed menu command:  hidden
+Ignoring unknown command: totaltimeout
+1:  Fedora-Workstation-armhfp-31-1.9 (5.3.7-301.fc31.armv7hl)
+Retrieving file: rpi.pxe/initramfs-5.3.7-301.fc31.armv7hl.img
+get 2700000 rpi.pxe/initramfs-5.3.7-301.fc31.armv7hl.img
+Waiting for Ethernet connection... done.
+Using smsc95xx_eth device
+TFTP from server 192.168.4.1; our IP address is 192.168.4.30
+Filename 'rpi.pxe/initramfs-5.3.7-301.fc31.armv7hl.img'.
+Load address: 0x2700000
+Loading: ###################################T ###############  57.7 MiB
+     1.9 MiB/s
+done
+Bytes transferred = 60498594 (39b22a2 hex)
+Retrieving file: rpi.pxe//vmlinuz-5.3.7-301.fc31.armv7hl
+get 80000 rpi.pxe//vmlinuz-5.3.7-301.fc31.armv7hl
+Waiting for Ethernet connection... done.
+Using smsc95xx_eth device
+TFTP from server 192.168.4.1; our IP address is 192.168.4.30
+Filename 'rpi.pxe//vmlinuz-5.3.7-301.fc31.armv7hl'.
+Load address: 0x80000
+Loading: ##################################################  7.2 MiB
+     2.3 MiB/s
+done
+Bytes transferred = 7508480 (729200 hex)
+append: ro root=UUID=9732b35b-4cd5-458b-9b91-80f7047e0b8a rhgb quiet LANG=en_US.UTF-8 cma=192MB cma=256MB
+Retrieving file: rpi.pxe//dtb-5.3.7-301.fc31.armv7hl/bcm2837-rpi-3-b.dtb
+get 2600000 rpi.pxe//dtb-5.3.7-301.fc31.armv7hl/bcm2837-rpi-3-b.dtb
+Waiting for Ethernet connection... done.
+Using smsc95xx_eth device
+TFTP from server 192.168.4.1; our IP address is 192.168.4.30
+Filename 'rpi.pxe//dtb-5.3.7-301.fc31.armv7hl/bcm2837-rpi-3-b.dtb'.
+Load address: 0x2600000
+Loading: ##################################################  13.8 KiB
+     764.6 KiB/s
+done
+Bytes transferred = 14102 (3716 hex)
+Kernel image @ 0x080000 [ 0x000000 - 0x729200 ]
+## Flattened Device Tree blob at 02600000
+   Booting using the fdt blob at 0x2600000
+   Using Device Tree in place at 02600000, end 02606715
+
+Starting kernel ...
+
+[  OK  ] Started Show Plymouth Boot Screen.
+[  OK  ] Started Forward Password R…s to Plymouth Directory Watch.
+[  OK  ] Reached target Local Encrypted Volumes.
+[  OK  ] Reached target Paths.
+....
+</pre></div>
+</div>
+<p>Here we scan for bootflows and boot the first one found:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot&gt; bootflow scan -bl
+Scanning for bootflows in all bootdevs
+Seq  Method       State   Uclass    Part  Name                    Filename
+---  -----------  ------  --------  ----  ----------------------  ----------------
+Scanning bootdev 'mmc@7e202000.bootdev':
+  0  distro       ready   mmc          2  mmc@7e202000.bootdev.p  /extlinux/extlinux.conf
+** Booting bootflow 'mmc@7e202000.bootdev.part_2'
+Ignoring unknown command: ui
+Ignoring malformed menu command:  autoboot
+Ignoring malformed menu command:  hidden
+Ignoring unknown command: totaltimeout
+1:  Fedora-KDE-armhfp-31-1.9 (5.3.7-301.fc31.armv7hl)
+Retrieving file: /initramfs-5.3.7-301.fc31.armv7hl.img
+getfile 2700000 /initramfs-5.3.7-301.fc31.armv7hl.img
+Retrieving file: /vmlinuz-5.3.7-301.fc31.armv7hl
+getfile 80000 /vmlinuz-5.3.7-301.fc31.armv7hl
+append: ro root=UUID=b8781f09-e2dd-4cb8-979b-7df5eeaaabea rhgb LANG=en_US.UTF-8 cma=192MB console=tty0 console=ttyS1,115200
+Retrieving file: /dtb-5.3.7-301.fc31.armv7hl/bcm2837-rpi-3-b.dtb
+getfile 2600000 /dtb-5.3.7-301.fc31.armv7hl/bcm2837-rpi-3-b.dtb
+Kernel image @ 0x080000 [ 0x000000 - 0x729200 ]
+## Flattened Device Tree blob at 02600000
+   Booting using the fdt blob at 0x2600000
+   Using Device Tree in place at 02600000, end 02606715
+
+Starting kernel ...
+
+[    0.000000] Booting Linux on physical CPU 0x0
+</pre></div>
+</div>
+<p>Here is am example using the -e flag to see all errors:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot&gt; bootflow scan -a
+Card did not respond to voltage select! : -110
+Waiting for Ethernet connection... done.
+BOOTP broadcast 1
+DHCP client bound to address 192.168.4.30 (4 ms)
+Using smsc95xx_eth device
+TFTP from server 192.168.4.1; our IP address is 192.168.4.30
+Filename 'rpi.pxe/'.
+Load address: 0x200000
+Loading: *
+TFTP error: 'Is a directory' (0)
+Starting again
+
+missing environment variable: pxeuuid
+Retrieving file: rpi.pxe/pxelinux.cfg/01-b8-27-eb-a6-61-e1
+Waiting for Ethernet connection... done.
+Using smsc95xx_eth device
+TFTP from server 192.168.4.1; our IP address is 192.168.4.30
+Filename 'rpi.pxe/pxelinux.cfg/01-b8-27-eb-a6-61-e1'.
+Load address: 0x2500000
+Loading: ##################################################  566 Bytes
+     49.8 KiB/s
+done
+Bytes transferred = 566 (236 hex)
+U-Boot&gt; bootflow l -e
+Showing all bootflows
+Seq  Type         State   Uclass    Part  Name                   Filename
+---  -----------  ------  --------  ----  ---------------------  ----------------
+  0  distro       fs      mmc          1  mmc@7e202000.bootdev.p /extlinux/extlinux.conf
+     ** File not found, err=-2
+  1  distro       ready   mmc          2  mmc@7e202000.bootdev.p /extlinux/extlinux.conf
+  2  distro       fs      mmc          3  mmc@7e202000.bootdev.p /extlinux/extlinux.conf
+     ** File not found, err=-1
+  3  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  4  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  5  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  6  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  7  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  8  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  9  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  a  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  b  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  c  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  d  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  e  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+  f  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+ 10  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+ 11  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+ 12  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+ 13  distro       media   mmc          0  mmc@7e202000.bootdev.p &lt;NULL&gt;
+     ** No partition found, err=-2
+ 14  distro       ready   ethernet     0  smsc95xx_eth.bootdev.0 rpi.pxe/extlinux/extlinux.conf
+---  -----------  ------  --------  ----  ---------------------  ----------------
+(21 bootflows, 2 valid)
+U-Boot&gt;
+</pre></div>
+</div>
+<p>Here is an example of booting ChromeOS, adjusting the console beforehand. Note that
+the cmdline is word-wrapped here and some parts of the command line are elided:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; bootfl list
+Showing all bootflows
+Seq  Method       State   Uclass    Part  Name                      Filename
+---  -----------  ------  --------  ----  ------------------------  ----------------
+0  cros         ready   nvme         0  5.10.153-20434-g98da1eb2c &lt;NULL&gt;
+1  efi          ready   nvme         c  nvme#0.blk#1.bootdev.part efi/boot/bootia32.efi
+2  efi          ready   usb_mass_    2  usb_mass_storage.lun0.boo efi/boot/bootia32.efi
+---  -----------  ------  --------  ----  ------------------------  ----------------
+(3 bootflows, 3 valid)
+=&gt; bootfl sel 0
+=&gt; bootfl inf
+Name:      5.10.153-20434-g98da1eb2cf9d (chrome-bot@chromeos-release-builder-us-central1-b-x32-12-xijx) #1 SMP PREEMPT Tue Jan 24 19:38:23 PST 2023
+Device:    nvme#0.blk#1.bootdev
+Block dev: nvme#0.blk#1
+Method:    cros
+State:     ready
+Partition: 0
+Subdir:    (none)
+Filename:  &lt;NULL&gt;
+Buffer:    737a1400
+Size:      c47000 (12873728 bytes)
+OS:        ChromeOS
+Cmdline:   console= loglevel=7 init=/sbin/init cros_secure drm.trace=0x106
+    root=/dev/dm-0 rootwait ro dm_verity.error_behavior=3
+    dm_verity.max_bios=-1 dm_verity.dev_wait=1
+    dm="1 vroot none ro 1,0 6348800
+      verity payload=PARTUUID=799c935b-ae62-d143-8493-816fa936eef7/PARTNROFF=1
+      hashtree=PARTUUID=799c935b-ae62-d143-8493-816fa936eef7/PARTNROFF=1
+      hashstart=6348800 alg=sha256
+      root_hexdigest=78cc462cd45aecbcd49ca476587b4dee59aa1b00ba5ece58e2c29ec9acd914ab
+      salt=8dec4dc80a75dd834a9b3175c674405e15b16a253fdfe05c79394ae5fd76f66a"
+    noinitrd vt.global_cursor_default=0
+    kern_guid=799c935b-ae62-d143-8493-816fa936eef7 add_efi_memmap
+    noresume i915.modeset=1 ramoops.ecc=1 tpm_tis.force=0
+    intel_pmc_core.warn_on_s0ix_failures=1 i915.enable_guc=3 i915.enable_dc=4
+    xdomain=0 swiotlb=65536 intel_iommu=on i915.enable_psr=1
+    usb-storage.quirks=13fe:6500:u
+X86 setup: 742e3400
+Logo:      (none)
+FDT:       &lt;NULL&gt;
+Error:     0
+=&gt; bootflow cmdline auto earlycon
+=&gt; bootflow cmd auto console
+=&gt; print bootargs
+bootargs=console=ttyS0,115200n8 loglevel=7 ...
+    usb-storage.quirks=13fe:6500:u earlycon=uart8250,mmio32,0xfe03e000,115200n8
+=&gt; bootflow cmd del console
+=&gt; print bootargs
+bootargs=loglevel=7 ... earlycon=uart8250,mmio32,0xfe03e000,115200n8
+=&gt; bootfl boot
+** Booting bootflow '5.10.153-20434-g98da1eb2cf9d (chrome-bot@chromeos-release-builder-us-central1-b-x32-12-xijx) #1 SMP PREEMPT Tue Jan 24 19:38:23 PST 2023' with cros
+Kernel command line: "loglevel=7 ... earlycon=uart8250,mmio32,0xfe03e000,115200n8"
+
+Starting kernel ...
+
+[    0.000000] Linux version 5.10.153-20434-g98da1eb2cf9d (chrome-bot@chromeos-release-builder-us-central1-b-x32-12-xijx) (Chromium OS 15.0_pre465103_p20220825-r4 clang version 15.0.0 (/var/tmp/portage/sys-devel/llvm-15.0_pre465103_p20220825-r4/work/llvm-15.0_pre465103_p20220825/clang db1978b67431ca3462ad8935bf662c15750b8252), LLD 15.0.0) #1 SMP PREEMPT Tue Jan 24 19:38:23 PST 2023
+[    0.000000] Command line: loglevel=7 ... usb-storage.quirks=13fe:6500:u earlycon=uart8250,mmio32,0xfe03e000,115200n8
+[    0.000000] x86/split lock detection: warning about user-space split_locks
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Return value"></a><div class="section" id="return-value">
+<h2>Return value<a class="headerlink" href="#return-value" title="Permalink to this headline">¶</a></h2>
+<p>On success <cite>bootflow boot</cite> normally boots into the Operating System and does not
+return to U-Boot. If something about the U-Boot processing fails, then the
+return value $? is 1. If the boot succeeds but for some reason the Operating
+System returns, then $? is 0, indicating success.</p>
+<p>For other subcommands, the return value $? is always 0 (true).</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="bootefi.html" rel="prev" title="bootefi command"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="booti.html" rel="next" title="booti command">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

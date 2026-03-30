@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Remote Processor Framework — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="serial-howto.html" rel="next" title="How to port a serial driver to driver model"/>
+<link href="pmic-framework.html" rel="prev" title="PMIC framework based on Driver Model"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>Remote Processor Framework</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/remoteproc-framework.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Remote Processor Framework"></a><div class="section" id="remote-processor-framework">
+<h1>Remote Processor Framework<a class="headerlink" href="#remote-processor-framework" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This is an introduction to driver-model for Remote Processors found
+on various System on Chip(SoCs). The term remote processor is used to
+indicate that this is not the processor on which U-Boot is operating
+on, instead is yet another processing entity that may be controlled by
+the processor on which we are functional.</p>
+<p>The simplified model depends on a single UCLASS - UCLASS_REMOTEPROC</p>
+<dl class="simple">
+<dt>UCLASS_REMOTEPROC:</dt><dd><ul class="simple">
+<li><p>drivers/remoteproc/rproc-uclass.c</p></li>
+<li><p>include/remoteproc.h</p></li>
+</ul>
+</dd>
+<dt>Commands:</dt><dd><ul class="simple">
+<li><p>common/cmd_remoteproc.c</p></li>
+</ul>
+</dd>
+<dt>Configuration:</dt><dd><ul class="simple">
+<li><p>CONFIG_REMOTEPROC is selected by drivers as needed</p></li>
+<li><p>CONFIG_CMD_REMOTEPROC for the commands if required.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How does it work - The driver"></a><div class="section" id="how-does-it-work-the-driver">
+<h2>How does it work - The driver<a class="headerlink" href="#how-does-it-work-the-driver" title="Permalink to this headline">¶</a></h2>
+<p>Overall, the driver statemachine transitions are typically as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>        (entry)
+        +-------+
+    +---+ init  |
+    |   |       | &lt;---------------------+
+    |   +-------+                       |
+    |                                   |
+    |                                   |
+    |   +--------+                      |
+Load|   |  reset |                      |
+    |   |        | &lt;----------+         |
+    |   +--------+            |         |
+    |        |Load            |         |
+    |        |                |         |
+    |   +----v----+   reset   |         |
+    +-&gt; |         |    (opt)  |         |
+        |  Loaded +-----------+         |
+        |         |                     |
+        +----+----+                     |
+             | Start                    |
+         +---v-----+        (opt)       |
+      +-&gt;| Running |        Stop        |
+Ping  +- |         +--------------------+
+(opt)    +---------+
+</pre></div>
+</div>
+<p>(is_running does not change state)
+opt: Optional state transition implemented by driver.</p>
+<p>NOTE: It depends on the remote processor as to the exact behavior
+of the statemachine, remoteproc core does not intent to implement
+statemachine logic. Certain processors may allow start/stop without
+reloading the image in the middle, certain other processors may only
+allow us to start the processor(image from a EEPROM/OTP) etc.</p>
+<p>It is hence the responsibility of the driver to handle the requisite
+state transitions of the device as necessary.</p>
+<p>Basic design assumptions:</p>
+<p>Remote processor can operate on a certain firmware that maybe loaded
+and released from reset.</p>
+<p>The driver follows a standard UCLASS DM.</p>
+<p>in the bare minimum form:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">dm_rproc_ops</span><span class="w"> </span><span class="n">sandbox_testproc_ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandbox_testproc_load</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandbox_testproc_start</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice_id</span><span class="w"> </span><span class="n">sandbox_ids</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">{.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"sandbox,test-processor"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{}</span>
+<span class="p">};</span>
+
+<span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">sandbox_testproc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"sandbox_test_proc"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_match</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandbox_ids</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UCLASS_REMOTEPROC</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sandbox_testproc_ops</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">probe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandbox_testproc_probe</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>This allows for the device to be probed as part of the “init” command
+or invocation of ‘rproc_init()’ function as the system dependencies define.</p>
+<p>The driver is expected to maintain it’s own statemachine which is
+appropriate for the device it maintains. It must, at the very least
+provide a load and start function. We assume here that the device
+needs to be loaded and started, else, there is no real purpose of
+using the remoteproc framework.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Describing the device using platform data"></a><div class="section" id="describing-the-device-using-platform-data">
+<h2>Describing the device using platform data<a class="headerlink" href="#describing-the-device-using-platform-data" title="Permalink to this headline">¶</a></h2>
+<p><em>IMPORTANT</em> NOTE: THIS SUPPORT IS NOT MEANT FOR USE WITH NEWER PLATFORM
+SUPPORT. THIS IS ONLY FOR LEGACY DEVICES. THIS MODE OF INITIALIZATION
+<em>WILL</em> BE EVENTUALLY REMOVED ONCE ALL NECESSARY PLATFORMS HAVE MOVED
+TO DM/FDT.</p>
+<p>Considering that many platforms are yet to move to device-tree model,
+a simplified definition of a device is as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">dm_rproc_uclass_pdata</span><span class="w"> </span><span class="n">proc_3_test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"proc_3_legacy"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">mem_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RPROC_INTERNAL_MEMORY_MAPPED</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">driver_plat_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mydriver_data</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">U_BOOT_DRVINFO</span><span class="p">(</span><span class="n">proc_3_demo</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"sandbox_test_proc"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">proc_3_test</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>There can be additional data that may be desired depending on the
+remoteproc driver specific needs (for example: SoC integration
+details such as clock handle or something similar). See appropriate
+documentation for specific remoteproc driver for further details.
+These are passed via driver_plat_data.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Describing the device using device tree"></a><div class="section" id="describing-the-device-using-device-tree">
+<h2>Describing the device using device tree<a class="headerlink" href="#describing-the-device-using-device-tree" title="Permalink to this headline">¶</a></h2>
+<p>aliases usage is optional, but it is usually recommended to ensure the
+users have a consistent usage model for a platform.
+the compatible string used here is specific to the remoteproc driver involved.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="pmic-framework.html" rel="prev" title="PMIC framework based on Driver Model"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="serial-howto.html" rel="next" title="How to port a serial driver to driver model">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

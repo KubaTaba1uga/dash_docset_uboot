@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Network console — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="partitions.html" rel="next" title="Partitions"/>
+<link href="fit/overlay-fdt-boot.html" rel="prev" title="U-Boot FDT Overlay FIT usage"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Use U-Boot</a> »</li>
+<li>Network console</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/usage/netconsole.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Network console"></a><div class="section" id="network-console">
+<h1>Network console<a class="headerlink" href="#network-console" title="Permalink to this headline">¶</a></h1>
+<p>In U-Boot, we implemented the networked console via the standard
+“devices” mechanism, which means that you can switch between the
+serial and network input/output devices by adjusting the ‘stdin’ and
+‘stdout’ environment variables. To switch to the networked console,
+set either of these variables to “nc”. Input and output can be
+switched independently.</p>
+<p>The default buffer size can be overridden by setting
+CFG_NETCONSOLE_BUFFER_SIZE.</p>
+<p>We use an environment variable ‘ncip’ to set the IP address and the
+port of the destination. The format is &lt;ip_addr&gt;:&lt;port&gt;. If &lt;port&gt; is
+omitted, the value of 6666 is used. If the env var doesn’t exist, the
+broadcast address and port 6666 are used. If it is set to an IP
+address of 0 (or 0.0.0.0) then no messages are sent to the network.
+The source / listening port can be configured separately by setting
+the ‘ncinport’ environment variable and the destination port can be
+configured by setting the ‘ncoutport’ environment variable.</p>
+<p>For example, if your server IP is 192.168.1.1, you could use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; setenv nc 'setenv stdout nc;setenv stdin nc'
+=&gt; setenv ncip 192.168.1.1
+=&gt; saveenv
+=&gt; run nc
+</pre></div>
+</div>
+<p>On the host side, please use this script to access the console</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tools/netconsole<span class="w"> </span>&lt;ip&gt;<span class="w"> </span><span class="o">[</span>port<span class="o">]</span>
+</pre></div>
+</div>
+<p>The script uses netcat to talk to the board over UDP.  It requires you to
+specify the target IP address (or host name, assuming DNS is working). The
+script can be interrupted by pressing ^T (CTRL-T).</p>
+<p>Be aware that in some distributives (Fedora Core 5 at least)
+usage of nc has been changed and -l and -p options are considered
+as mutually exclusive. If nc complains about options provided,
+you can just remove the -p option from the script.</p>
+<p>It turns out that ‘netcat’ cannot be used to listen to broadcast
+packets. We developed our own tool ‘ncb’ (see tools directory) that
+listens to broadcast packets on a given port and dumps them to the
+standard output.  It will be built when compiling for a board which
+has CONFIG_NETCONSOLE defined.  If the netconsole script can find it
+in PATH or in the same directory, it will be used instead.</p>
+<p>For Linux, the network-based console needs special configuration.
+Minimally, the host IP address needs to be specified. This can be
+done either via the kernel command line, or by passing parameters
+while loading the netconsole.o module (when used in a loadable module
+configuration). Please refer to Documentation/networking/logging.txt
+file for the original Ingo Molnar’s documentation on how to pass
+parameters to the loadable module.</p>
+<p>The format of the kernel command line parameter (for the static
+configuration) is as follows</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">netconsole</span><span class="o">=[</span>src-port<span class="o">]</span>@<span class="o">[</span>src-ip<span class="o">]</span>/<span class="o">[</span>&lt;dev&gt;<span class="o">]</span>,<span class="o">[</span>tgt-port<span class="o">]</span>@&lt;tgt-ip&gt;/<span class="o">[</span>tgt-macaddr<span class="o">]</span>
+</pre></div>
+</div>
+<p>where</p>
+<dl class="simple">
+<dt>src-port</dt><dd><p>source for UDP packets (defaults to 6665)</p>
+</dd>
+<dt>src-ip</dt><dd><p>source IP to use (defaults to the interface’s address)</p>
+</dd>
+<dt>dev</dt><dd><p>network interface (defaults to eth0)</p>
+</dd>
+<dt>tgt-port</dt><dd><p>port for logging agent (defaults to 6666)</p>
+</dd>
+<dt>tgt-ip</dt><dd><p>IP address for logging agent (this is the required parameter)</p>
+</dd>
+<dt>tgt-macaddr</dt><dd><p>ethernet MAC address for logging agent (defaults to broadcast)</p>
+</dd>
+</dl>
+<p>Examples</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">netconsole</span><span class="o">=</span><span class="m">4444</span>@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
+<span class="nv">netconsole</span><span class="o">=</span>@/,@192.168.3.1/
+</pre></div>
+</div>
+<p>Please note that for the Linux networked console to work, the
+ethernet interface has to be up by the time the netconsole driver is
+initialized. This means that in case of static kernel configuration,
+the respective Ethernet interface has to be brought up using the “IP
+Autoconfiguration” kernel feature, which is usually done by defaults
+in the ELDK-NFS-based environment.</p>
+<p>To browse the Linux network console output, use the ‘netcat’ tool invoked
+as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nc<span class="w"> </span>-u<span class="w"> </span>-l<span class="w"> </span>-p<span class="w"> </span><span class="m">6666</span>
+</pre></div>
+</div>
+<p>Note that unlike the U-Boot implementation the Linux netconsole is
+unidirectional, i. e. you have console output only in Linux.</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="fit/overlay-fdt-boot.html" rel="prev" title="U-Boot FDT Overlay FIT usage"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="partitions.html" rel="next" title="Partitions">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logging API — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="nvmem.html" rel="next" title="NVMEM API"/>
+<link href="lmb.html" rel="prev" title="Logical memory blocks"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Logging API</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/logging.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logging API"></a><div class="section" id="logging-api">
+<h1>Logging API<a class="headerlink" href="#logging-api" title="Permalink to this headline">¶</a></h1>
+<dl class="c enum">
+<dt id="c.log_level_t">
+<em class="property">enum </em><code class="sig-name descname">log_level_t</code><a class="headerlink" href="#c.log_level_t" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Log levels supported, ranging from most to least important</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_EMERG</span></code></dt><dd><p>U-Boot is unstable</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_ALERT</span></code></dt><dd><p>Action must be taken immediately</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_CRIT</span></code></dt><dd><p>Critical conditions</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_ERR</span></code></dt><dd><p>Error that prevents something from working</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_WARNING</span></code></dt><dd><p>Warning may prevent optimal operation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_NOTICE</span></code></dt><dd><p>Normal but significant condition, printf()</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_INFO</span></code></dt><dd><p>General information message</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_DEBUG</span></code></dt><dd><p>Basic debug-level message</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_DEBUG_CONTENT</span></code></dt><dd><p>Debug message showing full message content</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_DEBUG_IO</span></code></dt><dd><p>Debug message showing hardware I/O access</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_COUNT</span></code></dt><dd><p>Total number of valid log levels</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_NONE</span></code></dt><dd><p>Used to indicate that there is no valid log level</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_LEVEL_MASK</span></code></dt><dd><p>Mask for valid log levels</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_FORCE_DEBUG</span></code></dt><dd><p>Mask to force output due to LOG_DEBUG</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_FIRST</span></code></dt><dd><p>The first, most-important log level</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_MAX</span></code></dt><dd><p>The last, least-important log level</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGL_CONT</span></code></dt><dd><p>Use same log level as in previous call</p>
+</dd>
+</dl>
+<dl class="c enum">
+<dt id="c.log_category_t">
+<em class="property">enum </em><code class="sig-name descname">log_category_t</code><a class="headerlink" href="#c.log_category_t" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Log categories supported.</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_FIRST</span></code></dt><dd><p>First log category</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_NONE</span></code></dt><dd><p>Default log category</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_ARCH</span></code></dt><dd><p>Related to arch-specific code</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_BOARD</span></code></dt><dd><p>Related to board-specific code</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_CORE</span></code></dt><dd><p>Related to core features (non-driver-model)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_DM</span></code></dt><dd><p>Core driver-model</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_DT</span></code></dt><dd><p>Device-tree</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_EFI</span></code></dt><dd><p>EFI implementation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_ALLOC</span></code></dt><dd><p>Memory allocation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_SANDBOX</span></code></dt><dd><p>Related to the sandbox board</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_BLOBLIST</span></code></dt><dd><p>Bloblist</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_DEVRES</span></code></dt><dd><p>Device resources (<code class="docutils literal notranslate"><span class="pre">devres_...</span></code> functions)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_ACPI</span></code></dt><dd><p>Advanced Configuration and Power Interface (ACPI)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_BOOT</span></code></dt><dd><p>Related to boot process / boot image processing</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_EVENT</span></code></dt><dd><p>Related to event and event handling</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_FS</span></code></dt><dd><p>Related to filesystems</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_EXPO</span></code></dt><dd><p>Related to expo handling</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_COUNT</span></code></dt><dd><p>Number of log categories</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_END</span></code></dt><dd><p>Sentinel value for lists of log categories</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGC_CONT</span></code></dt><dd><p>Use same category as in previous call</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Log categories between <code class="docutils literal notranslate"><span class="pre">LOGC_FIRST</span></code> and <code class="docutils literal notranslate"><span class="pre">LOGC_NONE</span></code> correspond to uclasses
+(i.e. <code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">uclass_id</span></code>), but there are also some more generic categories.</p>
+<p>Remember to update log_cat_name[] after adding a new category.</p>
+<dl class="c function">
+<dt id="c._log">
+int <code class="sig-name descname">_log</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.log_category_t" title="log_category_t">log_category_t</a> <em>cat</em>, <em class="property">enum</em> <a class="reference internal" href="#c.log_level_t" title="log_level_t">log_level_t</a> <em>level</em>, <em class="property">const</em> char *<em>file</em>, int <em>line</em>, <em class="property">const</em> char *<em>func</em>, <em class="property">const</em> char *<em>fmt</em>, ...<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/_log"></a><a class="headerlink" href="#c._log" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Internal function to emit a new log record</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_category_t</span> <span class="pre">cat</span></code></dt><dd><p>Category of log record (indicating which subsystem generated it)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_level_t</span> <span class="pre">level</span></code></dt><dd><p>Level of log record (indicating its severity)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*file</span></code></dt><dd><p>File name of file where log record was generated</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">line</span></code></dt><dd><p>Line number in file where log record was generated</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*func</span></code></dt><dd><p>Function where log record was generated</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*fmt</span></code></dt><dd><p>printf() format string for log record</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">...</span></code></dt><dd><p>Optional parameters, according to the format string <strong>fmt</strong></p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if log record was emitted, -ve on error</p>
+<dl class="c function">
+<dt id="c._log_buffer">
+int <code class="sig-name descname">_log_buffer</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.log_category_t" title="log_category_t">log_category_t</a> <em>cat</em>, <em class="property">enum</em> <a class="reference internal" href="#c.log_level_t" title="log_level_t">log_level_t</a> <em>level</em>, <em class="property">const</em> char *<em>file</em>, int <em>line</em>, <em class="property">const</em> char *<em>func</em>, ulong <em>addr</em>, <em class="property">const</em> void *<em>data</em>, uint <em>width</em>, uint <em>count</em>, uint <em>linelen</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/_log_buffer"></a><a class="headerlink" href="#c._log_buffer" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Internal function to print data buffer in hex and ascii form</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_category_t</span> <span class="pre">cat</span></code></dt><dd><p>Category of log record (indicating which subsystem generated it)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_level_t</span> <span class="pre">level</span></code></dt><dd><p>Level of log record (indicating its severity)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*file</span></code></dt><dd><p>File name of file where log record was generated</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">line</span></code></dt><dd><p>Line number in file where log record was generated</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*func</span></code></dt><dd><p>Function where log record was generated</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">addr</span></code></dt><dd><p>Starting address to display at start of line</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*data</span></code></dt><dd><p>pointer to data buffer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">width</span></code></dt><dd><p>data value width.  May be 1, 2, or 4.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">count</span></code></dt><dd><p>number of values to display</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">linelen</span></code></dt><dd><p>Number of values to print per line; specify 0 for default length</p>
+</dd>
+</dl>
+<dl class="c macro">
+<dt id="c.assert">
+<code class="sig-name descname">assert</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/assert"></a><a class="headerlink" href="#c.assert" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">(x)</span></code></p>
+<blockquote>
+<div><p>assert expression is true</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">x</span></code></dt><dd><p>expression to test</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>If the expression x evaluates to false and _DEBUG evaluates to true, a panic
+message is written and the system stalls. The value of _DEBUG is set to true
+if DEBUG is defined before including common.h.</p>
+<p>The expression x is always executed irrespective of the value of _DEBUG.</p>
+<dl class="c struct">
+<dt id="c.log_rec">
+<em class="property">struct </em><code class="sig-name descname">log_rec</code><a class="headerlink" href="#c.log_rec" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>a single log record</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct log_rec {
+  enum log_category_t cat;
+  enum log_level_t level;
+  u16 line;
+  u8 flags;
+  const char *file;
+  const char *func;
+  const char *msg;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">cat</span></code></dt><dd><p>Category, representing a uclass or part of U-Boot</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">level</span></code></dt><dd><p>Severity level, less severe is higher</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">line</span></code></dt><dd><p>Line number where the log record was generated</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Flags for log record (enum log_rec_flags)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">file</span></code></dt><dd><p>Name of file where the log record was generated (not allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">func</span></code></dt><dd><p>Function where the log record was generated (not allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">msg</span></code></dt><dd><p>Log message (allocated)</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Holds information about a single record in the log</p>
+<p>Members marked as ‘not allocated’ are stored as pointers and the caller is
+responsible for making sure that the data pointed to is not overwritten.
+Members marked as ‘allocated’ are allocated (e.g. via strdup()) by the log
+system.</p>
+<p>TODO(sjg**chromium.org**): Compress this struct down a bit to reduce space, e.g.
+a single u32 for cat, level, line and force_debug</p>
+<dl class="c struct">
+<dt id="c.log_driver">
+<em class="property">struct </em><code class="sig-name descname">log_driver</code><a class="headerlink" href="#c.log_driver" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>a driver which accepts and processes log records</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct log_driver {
+  const char *name;
+  int (*emit)(struct log_device *ldev, struct log_rec *rec);
+  unsigned short flags;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Name of driver</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">emit</span></code></dt><dd><p>emit a log record</p>
+<p>Called by the log system to pass a log record to a particular driver
+for processing. The filter is checked before calling this function.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Initial value for flags (use LOGDF_ENABLE to enable on start-up)</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.log_device">
+<em class="property">struct </em><code class="sig-name descname">log_device</code><a class="headerlink" href="#c.log_device" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>an instance of a log driver</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct log_device {
+  unsigned short next_filter_num;
+  unsigned short flags;
+  struct log_driver *drv;
+  struct list_head filter_head;
+  struct list_head sibling_node;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">next_filter_num</span></code></dt><dd><p>Sequence number of next filter filter added (0=no filters
+yet). This increments with each new filter on the device, but never
+decrements</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Flags for this filter (enum log_device_flags)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">drv</span></code></dt><dd><p>Pointer to driver for this device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">filter_head</span></code></dt><dd><p>List of filters for this device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">sibling_node</span></code></dt><dd><p>Next device in the list of all devices</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Since drivers are set up at build-time we need to have a separate device for
+the run-time aspects of drivers (currently just a list of filters to apply
+to records send to this device).</p>
+<dl class="c enum">
+<dt id="c.log_filter_flags">
+<em class="property">enum </em><code class="sig-name descname">log_filter_flags</code><a class="headerlink" href="#c.log_filter_flags" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Flags which modify a filter</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">LOGFF_HAS_CAT</span></code></dt><dd><p>Filter has a category list</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGFF_DENY</span></code></dt><dd><p>Filter denies matching messages</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOGFF_LEVEL_MIN</span></code></dt><dd><p>Filter’s level is a minimum, not a maximum</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.log_filter">
+<em class="property">struct </em><code class="sig-name descname">log_filter</code><a class="headerlink" href="#c.log_filter" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>criteria to filter out log messages</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct log_filter {
+  int filter_num;
+  int flags;
+  enum log_category_t cat_list[LOGF_MAX_CATEGORIES];
+  enum log_level_t level;
+  const char *file_list;
+  struct list_head sibling_node;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">filter_num</span></code></dt><dd><p>Sequence number of this filter.  This is returned when adding a
+new filter, and must be provided when removing a previously added
+filter.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Flags for this filter (<code class="docutils literal notranslate"><span class="pre">LOGFF_...</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cat_list</span></code></dt><dd><p>List of categories to allow (terminated by <code class="docutils literal notranslate"><span class="pre">LOGC_END</span></code>). If empty
+then all categories are permitted. Up to <code class="docutils literal notranslate"><span class="pre">LOGF_MAX_CATEGORIES</span></code> entries
+can be provided</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">level</span></code></dt><dd><p>Maximum (or minimum, if <code class="docutils literal notranslate"><span class="pre">LOGFF_MIN_LEVEL</span></code>) log level to allow</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">file_list</span></code></dt><dd><p>List of files to allow, separated by comma. If NULL then all
+files are permitted</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">sibling_node</span></code></dt><dd><p>Next filter in the list of filters for this log device</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>If a message matches all criteria, then it is allowed. If LOGFF_DENY is set,
+then it is denied instead.</p>
+<dl class="c function">
+<dt id="c.log_get_cat_name">
+<em class="property">const</em> char *<code class="sig-name descname">log_get_cat_name</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.log_category_t" title="log_category_t">log_category_t</a> <em>cat</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_get_cat_name"></a><a class="headerlink" href="#c.log_get_cat_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the name of a category</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_category_t</span> <span class="pre">cat</span></code></dt><dd><p>Category to look up</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<dl class="simple">
+<dt>category name (which may be a uclass driver name) if found, or</dt><dd><p>“&lt;invalid&gt;” if invalid, or “&lt;missing&gt;” if not found. All error
+responses begin with ‘&lt;’.</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.log_get_cat_by_name">
+<em class="property">enum</em> <a class="reference internal" href="#c.log_category_t" title="log_category_t">log_category_t</a> <code class="sig-name descname">log_get_cat_by_name</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_get_cat_by_name"></a><a class="headerlink" href="#c.log_get_cat_by_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Look up a category by name</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to look up</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>Category, or <code class="docutils literal notranslate"><span class="pre">LOGC_NONE</span></code> if not found</p>
+<dl class="c function">
+<dt id="c.log_get_level_name">
+<em class="property">const</em> char *<code class="sig-name descname">log_get_level_name</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.log_level_t" title="log_level_t">log_level_t</a> <em>level</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_get_level_name"></a><a class="headerlink" href="#c.log_get_level_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the name of a log level</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_level_t</span> <span class="pre">level</span></code></dt><dd><p>Log level to look up</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>Log level name (in ALL CAPS)</p>
+<dl class="c function">
+<dt id="c.log_get_level_by_name">
+<em class="property">enum</em> <a class="reference internal" href="#c.log_level_t" title="log_level_t">log_level_t</a> <code class="sig-name descname">log_get_level_by_name</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_get_level_by_name"></a><a class="headerlink" href="#c.log_get_level_by_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Look up a log level by name</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to look up</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>Log level, or <code class="docutils literal notranslate"><span class="pre">LOGL_NONE</span></code> if not found</p>
+<dl class="c function">
+<dt id="c.log_device_find_by_name">
+<em class="property">struct</em> <a class="reference internal" href="#c.log_device" title="log_device">log_device</a> *<code class="sig-name descname">log_device_find_by_name</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>drv_name</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_device_find_by_name"></a><a class="headerlink" href="#c.log_device_find_by_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Look up a log device by its driver’s name</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*drv_name</span></code></dt><dd><p>Name of the driver</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>the log device, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if not found</p>
+<dl class="c function">
+<dt id="c.log_has_cat">
+bool <code class="sig-name descname">log_has_cat</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.log_category_t" title="log_category_t">log_category_t</a> <em>cat_list</em>[], <em class="property">enum</em> <a class="reference internal" href="#c.log_category_t" title="log_category_t">log_category_t</a> <em>cat</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_has_cat"></a><a class="headerlink" href="#c.log_has_cat" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>check if a log category exists within a list</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_category_t</span> <span class="pre">cat_list[]</span></code></dt><dd><p>List of categories to check, at most <code class="docutils literal notranslate"><span class="pre">LOGF_MAX_CATEGORIES</span></code> entries
+long, terminated by <code class="docutils literal notranslate"><span class="pre">LC_END</span></code> if fewer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_category_t</span> <span class="pre">cat</span></code></dt><dd><p>Category to search for</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">true</span></code> if <strong>cat</strong> is in <strong>cat_list</strong>, else <code class="docutils literal notranslate"><span class="pre">false</span></code></p>
+<dl class="c function">
+<dt id="c.log_has_file">
+bool <code class="sig-name descname">log_has_file</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>file_list</em>, <em class="property">const</em> char *<em>file</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_has_file"></a><a class="headerlink" href="#c.log_has_file" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>check if a file is with a list</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*file_list</span></code></dt><dd><p>List of files to check, separated by comma</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*file</span></code></dt><dd><p>File to check for. This string is matched against the end of each
+file in the list, i.e. ignoring any preceding path. The list is
+intended to consist of relative pathnames, e.g. common/main.c,cmd/log.c</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">true</span></code> if <strong>file</strong> is in <strong>file_list</strong>, else <code class="docutils literal notranslate"><span class="pre">false</span></code></p>
+<dl class="c function">
+<dt id="c.log_add_filter_flags">
+int <code class="sig-name descname">log_add_filter_flags</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>drv_name</em>, <em class="property">enum</em> <a class="reference internal" href="#c.log_category_t" title="log_category_t">log_category_t</a> <em>cat_list</em>[], <em class="property">enum</em> <a class="reference internal" href="#c.log_level_t" title="log_level_t">log_level_t</a> <em>level</em>, <em class="property">const</em> char *<em>file_list</em>, int <em>flags</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_add_filter_flags"></a><a class="headerlink" href="#c.log_add_filter_flags" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Add a new filter to a log device, specifying flags</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*drv_name</span></code></dt><dd><p>Driver name to add the filter to (since each driver only has a
+single device)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_category_t</span> <span class="pre">cat_list[]</span></code></dt><dd><p>List of categories to allow (terminated by <code class="docutils literal notranslate"><span class="pre">LOGC_END</span></code>). If empty
+then all categories are permitted. Up to <code class="docutils literal notranslate"><span class="pre">LOGF_MAX_CATEGORIES</span></code> entries
+can be provided</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_level_t</span> <span class="pre">level</span></code></dt><dd><p>Maximum (or minimum, if <code class="docutils literal notranslate"><span class="pre">LOGFF_LEVEL_MIN</span></code>) log level to allow</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*file_list</span></code></dt><dd><p>List of files to allow, separated by comma. If NULL then all
+files are permitted</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">flags</span></code></dt><dd><p>Flags for this filter (<code class="docutils literal notranslate"><span class="pre">LOGFF_...</span></code>)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<blockquote>
+<div><p>the sequence number of the new filter (&gt;=0) if the filter was added, or a
+-ve value on error</p>
+</div></blockquote>
+<dl class="c function">
+<dt id="c.log_add_filter">
+int <code class="sig-name descname">log_add_filter</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>drv_name</em>, <em class="property">enum</em> <a class="reference internal" href="#c.log_category_t" title="log_category_t">log_category_t</a> <em>cat_list</em>[], <em class="property">enum</em> <a class="reference internal" href="#c.log_level_t" title="log_level_t">log_level_t</a> <em>max_level</em>, <em class="property">const</em> char *<em>file_list</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_add_filter"></a><a class="headerlink" href="#c.log_add_filter" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Add a new filter to a log device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*drv_name</span></code></dt><dd><p>Driver name to add the filter to (since each driver only has a
+single device)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_category_t</span> <span class="pre">cat_list[]</span></code></dt><dd><p>List of categories to allow (terminated by <code class="docutils literal notranslate"><span class="pre">LOGC_END</span></code>). If empty
+then all categories are permitted. Up to <code class="docutils literal notranslate"><span class="pre">LOGF_MAX_CATEGORIES</span></code> entries
+can be provided</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_level_t</span> <span class="pre">max_level</span></code></dt><dd><p>Maximum log level to allow</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*file_list</span></code></dt><dd><p>List of files to allow, separated by comma. If <code class="docutils literal notranslate"><span class="pre">NULL</span></code> then all
+files are permitted</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<blockquote>
+<div><p>the sequence number of the new filter (&gt;=0) if the filter was added, or a
+-ve value on error</p>
+</div></blockquote>
+<dl class="c function">
+<dt id="c.log_remove_filter">
+int <code class="sig-name descname">log_remove_filter</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>drv_name</em>, int <em>filter_num</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_remove_filter"></a><a class="headerlink" href="#c.log_remove_filter" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Remove a filter from a log device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*drv_name</span></code></dt><dd><p>Driver name to remove the filter from (since each driver only has
+a single device)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">filter_num</span></code></dt><dd><p>Filter number to remove (as returned by log_add_filter())</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<blockquote>
+<div><p>0 if the filter was removed, -<code class="docutils literal notranslate"><span class="pre">ENOENT</span></code> if either the driver or the filter
+number was not found</p>
+</div></blockquote>
+<dl class="c function">
+<dt id="c.log_device_set_enable">
+int <code class="sig-name descname">log_device_set_enable</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.log_driver" title="log_driver">log_driver</a> *<em>drv</em>, bool <em>enable</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_device_set_enable"></a><a class="headerlink" href="#c.log_device_set_enable" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Enable or disable a log device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">log_driver</span> <span class="pre">*drv</span></code></dt><dd><p>Driver of device to enable</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">enable</span></code></dt><dd><p>true to enable, false to disable</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Devices are referenced by their driver, so use LOG_GET_DRIVER(name) to pass
+the driver to this function. For example if the driver is declared with
+LOG_DRIVER(wibble) then pass LOG_GET_DRIVER(wibble) here.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if the driver was not found</p>
+<dl class="c function">
+<dt id="c.log_init">
+int <code class="sig-name descname">log_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_init"></a><a class="headerlink" href="#c.log_init" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set up the log system ready for use</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -<code class="docutils literal notranslate"><span class="pre">ENOMEM</span></code> if out of memory</p>
+<dl class="c function">
+<dt id="c.log_get_default_format">
+int <code class="sig-name descname">log_get_default_format</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/log_get_default_format"></a><a class="headerlink" href="#c.log_get_default_format" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get default log format</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The default log format is configurable via
+<code class="docutils literal notranslate"><span class="pre">CONFIG_LOGF_FILE</span></code>, <code class="docutils literal notranslate"><span class="pre">CONFIG_LOGF_LINE</span></code>, and <code class="docutils literal notranslate"><span class="pre">CONFIG_LOGF_FUNC</span></code>.</p>
+<p><strong>Return</strong></p>
+<p>default log format</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="lmb.html" rel="prev" title="Logical memory blocks"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="nvmem.html" rel="next" title="NVMEM API">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

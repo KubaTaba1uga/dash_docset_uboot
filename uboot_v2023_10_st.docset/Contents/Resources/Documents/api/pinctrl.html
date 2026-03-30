@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pinctrl and Pinmux — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="rng.html" rel="next" title="Random number generation"/>
+<link href="part.html" rel="prev" title="Partition API"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Pinctrl and Pinmux</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/pinctrl.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Pinctrl and Pinmux"></a><div class="section" id="pinctrl-and-pinmux">
+<h1>Pinctrl and Pinmux<a class="headerlink" href="#pinctrl-and-pinmux" title="Permalink to this headline">¶</a></h1>
+<dl class="c struct">
+<dt id="c.pinconf_param">
+<em class="property">struct </em><code class="sig-name descname">pinconf_param</code><a class="headerlink" href="#c.pinconf_param" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>pin config parameters</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct pinconf_param {
+  const char * const property;
+  unsigned int param;
+  u32 default_value;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">property</span></code></dt><dd><p>Property name in DT nodes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">param</span></code></dt><dd><p>ID for this config parameter</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">default_value</span></code></dt><dd><p>default value for this config parameter used in case
+no value is specified in DT nodes</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.pinctrl_ops">
+<em class="property">struct </em><code class="sig-name descname">pinctrl_ops</code><a class="headerlink" href="#c.pinctrl_ops" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>pin control operations, to be implemented by pin controller drivers.</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct pinctrl_ops {
+  int (*get_pins_count)(struct udevice *dev);
+  const char *(*get_pin_name)(struct udevice *dev, unsigned selector);
+  int (*get_groups_count)(struct udevice *dev);
+  const char *(*get_group_name)(struct udevice *dev, unsigned selector);
+  int (*get_functions_count)(struct udevice *dev);
+  const char *(*get_function_name)(struct udevice *dev, unsigned selector);
+  int (*pinmux_set)(struct udevice *dev, unsigned pin_selector, unsigned func_selector);
+  int (*pinmux_group_set)(struct udevice *dev, unsigned group_selector, unsigned func_selector);
+  int (*pinmux_property_set)(struct udevice *dev, u32 pinmux_group);
+  unsigned int pinconf_num_params;
+  const struct pinconf_param *pinconf_params;
+  int (*pinconf_set)(struct udevice *dev, unsigned pin_selector, unsigned param, unsigned argument);
+  int (*pinconf_group_set)(struct udevice *dev, unsigned group_selector, unsigned param, unsigned argument);
+  int (*set_state)(struct udevice *dev, struct udevice *config);
+  int (*set_state_simple)(struct udevice *dev, struct udevice *periph);
+  int (*request)(struct udevice *dev, int func, int flags);
+  int (*get_periph_id)(struct udevice *dev, struct udevice *periph);
+  int (*get_gpio_mux)(struct udevice *dev, int banknum, int index);
+  int (*get_pin_muxing)(struct udevice *dev, unsigned int selector, char *buf, int size);
+  int (*gpio_request_enable)(struct udevice *dev, unsigned int selector);
+  int (*gpio_disable_free)(struct udevice *dev, unsigned int selector);
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">get_pins_count</span></code></dt><dd><p>Get the number of selectable pins</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p>This function is necessary to parse the “pins” property in DTS.</p>
+<dl class="simple">
+<dt><strong>Return</strong>:</dt><dd><p>number of selectable named pins available in this driver</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_pin_name</span></code></dt><dd><p>Get the name of a pin</p>
+<p><strong>dev</strong>: Pinctrl device of the pin</p>
+<p><strong>selector</strong>: The pin selector</p>
+<p>This function is called by the core to figure out which pin it will
+do operations to. This function is necessary to parse the “pins”
+property in DTS.</p>
+<p><strong>Return</strong>: const pointer to the name of the pin</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_groups_count</span></code></dt><dd><p>Get the number of selectable groups</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p>This function is necessary to parse the “groups” property in DTS.</p>
+<dl class="simple">
+<dt><strong>Return</strong>:</dt><dd><p>number of selectable named groups available in the driver</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_group_name</span></code></dt><dd><p>Get the name of a group</p>
+<p><strong>dev</strong>: Pinctrl device of the group</p>
+<p><strong>selector</strong>: The group selector</p>
+<p>This function is called by the core to figure out which group it
+will do operations to. This function is necessary to parse the
+“groups” property in DTS.</p>
+<p><strong>Return</strong>: Pointer to the name of the group</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_functions_count</span></code></dt><dd><p>Get the number of selectable functions</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p>This function is necessary for pin-muxing.</p>
+<dl class="simple">
+<dt><strong>Return</strong>:</dt><dd><p>number of selectable named functions available in this driver</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_function_name</span></code></dt><dd><p>Get the name of a function</p>
+<p><strong>dev</strong>: Pinmux device of the function</p>
+<p><strong>selector</strong>: The function selector</p>
+<p>This function is called by the core to figure out which mux setting
+it will map a certain device to. This function is necessary for
+pin-muxing.</p>
+<dl class="simple">
+<dt><strong>Return</strong>:</dt><dd><p>Pointer to the function name of the muxing selector</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pinmux_set</span></code></dt><dd><p>Mux a pin to a function</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>pin_selector</strong>: The pin selector</p>
+<p><strong>func_selector</strong>: The func selector</p>
+<p>On simple controllers one of <strong>pin_selector</strong> or <strong>func_selector</strong> may be
+ignored. This function is necessary for pin-muxing against a single
+pin.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pinmux_group_set</span></code></dt><dd><p>Mux a group of pins to a function</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>group_selector</strong>: The group selector</p>
+<p><strong>func_selector</strong>: The func selector</p>
+<p>On simple controllers one of <strong>group_selector</strong> or <strong>func_selector</strong> may be
+ignored. This function is necessary for pin-muxing against a group of
+pins.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pinmux_property_set</span></code></dt><dd><p>Enable a pinmux group</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<dl class="simple">
+<dt><strong>pinmux_group</strong>: A u32 representing the pin identifier and mux</dt><dd><p>settings. The exact format of a pinmux group is left
+up to the driver.</p>
+</dd>
+</dl>
+<p>Mux a single pin to a single function based on a driver-specific
+pinmux group. This function is necessary for parsing the “pinmux”
+property in DTS, and for pin-muxing against a pinmux group.</p>
+<dl class="simple">
+<dt><strong>Return</strong>:</dt><dd><p>Pin selector for the muxed pin if OK, or negative error code on
+failure</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pinconf_num_params</span></code></dt><dd><p>Number of driver-specific parameters to be parsed from device
+trees. This member is necessary for pin configuration.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pinconf_params</span></code></dt><dd><p>List of driver-specific parameters to be parsed from the device
+tree. This member is necessary for pin configuration.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pinconf_set</span></code></dt><dd><p>Configure an individual pin with a parameter</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>pin_selector</strong>: The pin selector</p>
+<p><strong>param</strong>: An <a class="reference internal" href="#c.pin_config_param" title="pin_config_param"><code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">pin_config_param</span></code></a> from <strong>pinconf_params</strong></p>
+<dl class="simple">
+<dt><strong>argument</strong>: The argument to this param from the device tree, or</dt><dd><p><strong>pinconf_params.default_value</strong></p>
+</dd>
+</dl>
+<p>This function is necessary for pin configuration against a single
+pin.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pinconf_group_set</span></code></dt><dd><p>Configure all pins in a group with a parameter</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>pin_selector</strong>: The group selector</p>
+<dl class="simple">
+<dt><strong>param</strong>: A <a class="reference internal" href="#c.pin_config_param" title="pin_config_param"><code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">pin_config_param</span></code></a> from</dt><dd><p><strong>pinconf_params</strong></p>
+</dd>
+<dt><strong>argument</strong>: The argument to this param from the device tree, or</dt><dd><p><strong>pinconf_params.default_value</strong></p>
+</dd>
+</dl>
+<p>This function is necessary for pin configuration against a group of
+pins.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">set_state</span></code></dt><dd><p>Configure a pinctrl device</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>config</strong>: Pseudo device pointing a config node</p>
+<p>This function is required to be implemented by all pinctrl drivers.
+Drivers may set this member to pinctrl_generic_set_state(), which
+will call other functions in <a class="reference internal" href="#c.pinctrl_ops" title="pinctrl_ops"><code class="xref c c-type docutils literal notranslate"><span class="pre">struct</span> <span class="pre">pinctrl_ops</span></code></a> to parse
+<strong>config</strong>.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">set_state_simple</span></code></dt><dd><p>Configure a pinctrl device</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>config</strong>: Pseudo-device pointing a config node</p>
+<p>This function is usually a simpler version of set_state(). Only the
+first pinctrl device on the system is supported by this function.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">request</span></code></dt><dd><p>Request a particular pinctrl function</p>
+<p><strong>dev</strong>: Device to adjust (<code class="docutils literal notranslate"><span class="pre">UCLASS_PINCTRL</span></code>)</p>
+<p><strong>func</strong>: Function number (driver-specific)</p>
+<p>This activates the selected function.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_periph_id</span></code></dt><dd><p>Get the peripheral ID for a device</p>
+<p><strong>dev</strong>: Pinctrl device to use for decoding</p>
+<p><strong>periph</strong>: Device to check</p>
+<p>This generally looks at the peripheral’s device tree node to work
+out the peripheral ID. The return value is normally interpreted as
+<code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">periph_id</span></code>. so long as this is defined by the platform (which it
+should be).</p>
+<dl class="simple">
+<dt><strong>Return</strong>:</dt><dd><p>Peripheral ID of <strong>periph</strong>, or <code class="docutils literal notranslate"><span class="pre">-ENOENT</span></code> on error</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_gpio_mux</span></code></dt><dd><p>Get the mux value for a particular GPIO</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>banknum</strong>: GPIO bank number</p>
+<p><strong>index</strong>: GPIO index within the bank</p>
+<p>This allows the raw mux value for a GPIO to be obtained. It is
+useful for displaying the function being used by that GPIO, such
+as with the ‘gpio’ command. This function is internal to the GPIO
+subsystem and should not be used by generic code. Typically it is
+used by a GPIO driver with knowledge of the SoC pinctrl setup.</p>
+<dl class="simple">
+<dt><strong>Return</strong>:</dt><dd><p>Mux value (SoC-specific, e.g. 0 for input, 1 for output)</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_pin_muxing</span></code></dt><dd><p>Show pin muxing</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>selector</strong>: Pin selector</p>
+<p><strong>buf</strong>: Buffer to fill with pin muxing description</p>
+<p><strong>size</strong>: Size of <strong>buf</strong></p>
+<p>This allows to display the muxing of a given pin. It’s useful for
+debug purposes to know if a pin is configured as GPIO or as an
+alternate function and which one. Typically it is used by a PINCTRL
+driver with knowledge of the SoC pinctrl setup.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpio_request_enable</span></code></dt><dd><p>Request and enable GPIO on a certain pin.</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>selector</strong>: Pin selector</p>
+<p>Implement this only if you can mux every pin individually as GPIO.
+The affected GPIO range is passed along with an offset(pin number)
+into that specific GPIO range - function selectors and pin groups are
+orthogonal to this, the core will however make sure the pins do not
+collide.</p>
+<dl class="simple">
+<dt><strong>Return</strong>:</dt><dd><p>0 if OK, or negative error code on failure</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpio_disable_free</span></code></dt><dd><p>Free up GPIO muxing on a certain pin.</p>
+<p><strong>dev</strong>: Pinctrl device to use</p>
+<p><strong>selector</strong>: Pin selector</p>
+<p>This function is the reverse of <strong>gpio_request_enable</strong>.</p>
+<p><strong>Return</strong>: 0 if OK, or negative error code on failure</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>set_state() is the only mandatory operation. You can implement your pinctrl
+driver with its own <strong>set_state</strong>. In this case, the other callbacks are not
+required. Otherwise, generic pinctrl framework is also available; use
+pinctrl_generic_set_state for <strong>set_state</strong>, and implement other operations
+depending on your necessity.</p>
+<dl class="c enum">
+<dt id="c.pin_config_param">
+<em class="property">enum </em><code class="sig-name descname">pin_config_param</code><a class="headerlink" href="#c.pin_config_param" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Generic pin configuration parameters</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_BIAS_BUS_HOLD</span></code></dt><dd><p>The pin will be set to weakly latch so that it
+weakly drives the last value on a tristate bus, also known as a “bus
+holder”, “bus keeper” or “repeater”. This allows another device on the
+bus to change the value by driving the bus high or low and switching to
+tristate. The argument is ignored.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_BIAS_DISABLE</span></code></dt><dd><p>Disable any pin bias on the pin, a
+transition from say pull-up to pull-down implies that you disable
+pull-up in the process, this setting disables all biasing.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_BIAS_HIGH_IMPEDANCE</span></code></dt><dd><p>The pin will be set to a high impedance
+mode, also know as “third-state” (tristate) or “high-Z” or “floating”.
+On output pins this effectively disconnects the pin, which is useful
+if for example some other pin is going to drive the signal connected
+to it for a while. Pins used for input are usually always high
+impedance.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_BIAS_PULL_DOWN</span></code></dt><dd><p>The pin will be pulled down (usually with high
+impedance to GROUND). If the argument is != 0 pull-down is enabled,
+if it is 0, pull-down is total, i.e. the pin is connected to GROUND.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_BIAS_PULL_PIN_DEFAULT</span></code></dt><dd><p>The pin will be pulled up or down based
+on embedded knowledge of the controller hardware, like current mux
+function. The pull direction and possibly strength too will normally
+be decided completely inside the hardware block and not be readable
+from the kernel side.
+If the argument is != 0 pull up/down is enabled, if it is 0, the
+configuration is ignored. The proper way to disable it is to use
+<strong>PIN_CONFIG_BIAS_DISABLE</strong>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_BIAS_PULL_UP</span></code></dt><dd><p>The pin will be pulled up (usually with high
+impedance to VDD). If the argument is != 0 pull-up is enabled,
+if it is 0, pull-up is total, i.e. the pin is connected to VDD.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_DRIVE_OPEN_DRAIN</span></code></dt><dd><p>The pin will be driven with open drain (open
+collector) which means it is usually wired with other output ports
+which are then pulled up with an external resistor. Setting this
+config will enable open drain mode, the argument is ignored.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_DRIVE_OPEN_SOURCE</span></code></dt><dd><p>The pin will be driven with open source
+(open emitter). Setting this config will enable open source mode, the
+argument is ignored.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_DRIVE_PUSH_PULL</span></code></dt><dd><p>The pin will be driven actively high and
+low, this is the most typical case and is typically achieved with two
+active transistors on the output. Setting this config will enable
+push-pull mode, the argument is ignored.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_DRIVE_STRENGTH</span></code></dt><dd><p>The pin will sink or source at most the current
+passed as argument. The argument is in mA.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_DRIVE_STRENGTH_UA</span></code></dt><dd><p>The pin will sink or source at most the
+current passed as argument. The argument is in uA.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_INPUT_DEBOUNCE</span></code></dt><dd><p>This will configure the pin to debounce mode,
+which means it will wait for signals to settle when reading inputs. The
+argument gives the debounce time in usecs. Setting the
+argument to zero turns debouncing off.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_INPUT_ENABLE</span></code></dt><dd><p>Enable the pin’s input.  Note that this does not
+affect the pin’s ability to drive output.  1 enables input, 0 disables
+input.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_INPUT_SCHMITT</span></code></dt><dd><p>This will configure an input pin to run in
+schmitt-trigger mode. If the schmitt-trigger has adjustable hysteresis,
+the threshold value is given on a custom format as argument when
+setting pins to this mode.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_INPUT_SCHMITT_ENABLE</span></code></dt><dd><p>Control schmitt-trigger mode on the pin.
+If the argument != 0, schmitt-trigger mode is enabled. If it’s 0,
+schmitt-trigger mode is disabled.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_LOW_POWER_MODE</span></code></dt><dd><p>This will configure the pin for low power
+operation, if several modes of operation are supported these can be
+passed in the argument on a custom form, else just use argument 1
+to indicate low power mode, argument 0 turns low power mode off.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_OUTPUT_ENABLE</span></code></dt><dd><p>This will enable the pin’s output mode
+without driving a value there. For most platforms this reduces to
+enable the output buffers and then let the pin controller current
+configuration (eg. the currently selected mux function) drive values on
+the line. Use argument 1 to enable output mode, argument 0 to disable
+it.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_OUTPUT</span></code></dt><dd><p>This will configure the pin as an output and drive a
+value on the line. Use argument 1 to indicate high level, argument 0 to
+indicate low level. (Please see Documentation/driver-api/pinctl.rst,
+section “GPIO mode pitfalls” for a discussion around this parameter.)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_POWER_SOURCE</span></code></dt><dd><p>If the pin can select between different power
+supplies, the argument to this parameter (on a custom format) tells
+the driver which alternative power source to use.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_SLEEP_HARDWARE_STATE</span></code></dt><dd><p>Indicate this is sleep related state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_SLEW_RATE</span></code></dt><dd><p>If the pin can select slew rate, the argument to
+this parameter (on a custom format) tells the driver which alternative
+slew rate to use.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_SKEW_DELAY</span></code></dt><dd><p>If the pin has programmable skew rate (on inputs)
+or latch delay (on outputs) this parameter (in a custom format)
+specifies the clock skew or latch delay. It typically controls how
+many double inverters are put in front of the line.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_END</span></code></dt><dd><p>This is the last enumerator for pin configurations, if
+you need to pass in custom configurations to the pin controller, use
+PIN_CONFIG_END+1 as the base offset.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PIN_CONFIG_MAX</span></code></dt><dd><p>This is the maximum configuration value that can be
+presented using the packed format.</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.pinctrl_generic_set_state">
+int <code class="sig-name descname">pinctrl_generic_set_state</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>pctldev</em>, <em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>config</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_generic_set_state"></a><a class="headerlink" href="#c.pinctrl_generic_set_state" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Generic set_state operation</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*pctldev</span></code></dt><dd><p>Pinctrl device to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*config</span></code></dt><dd><p>Config device (pseudo device), pointing a config node in DTS</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Parse the DT node of <strong>config</strong> and its children and handle generic properties
+such as “pins”, “groups”, “functions”, and pin configuration parameters.</p>
+<p><strong>Return</strong></p>
+<p>0 on success, or negative error code on failure</p>
+<dl class="c function">
+<dt id="c.pinctrl_select_state">
+int <code class="sig-name descname">pinctrl_select_state</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">const</em> char *<em>statename</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_select_state"></a><a class="headerlink" href="#c.pinctrl_select_state" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set a device to a given state</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Peripheral device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*statename</span></code></dt><dd><p>State name, like “default”</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, or negative error code on failure</p>
+<dl class="c function">
+<dt id="c.pinctrl_request">
+int <code class="sig-name descname">pinctrl_request</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, int <em>func</em>, int <em>flags</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_request"></a><a class="headerlink" href="#c.pinctrl_request" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Request a particular pinctrl function</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Pinctrl device to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">func</span></code></dt><dd><p>Function number (driver-specific)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">flags</span></code></dt><dd><p>Flags (driver-specific)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, or negative error code on failure</p>
+<dl class="c function">
+<dt id="c.pinctrl_request_noflags">
+int <code class="sig-name descname">pinctrl_request_noflags</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, int <em>func</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_request_noflags"></a><a class="headerlink" href="#c.pinctrl_request_noflags" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Request a particular pinctrl function</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Pinctrl device to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">func</span></code></dt><dd><p>Function number (driver-specific)</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This is similar to pinctrl_request() but uses 0 for <strong>flags</strong>.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or negative error code on failure</p>
+<dl class="c function">
+<dt id="c.pinctrl_get_periph_id">
+int <code class="sig-name descname">pinctrl_get_periph_id</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>periph</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_get_periph_id"></a><a class="headerlink" href="#c.pinctrl_get_periph_id" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the peripheral ID for a device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Pinctrl device to use for decoding</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*periph</span></code></dt><dd><p>Device to check</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This generally looks at the peripheral’s device tree node to work out the
+peripheral ID. The return value is normally interpreted as enum periph_id.
+so long as this is defined by the platform (which it should be).</p>
+<p><strong>Return</strong></p>
+<p>Peripheral ID of <strong>periph</strong>, or -ENOENT on error</p>
+<dl class="c function">
+<dt id="c.pinctrl_get_gpio_mux">
+int <code class="sig-name descname">pinctrl_get_gpio_mux</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, int <em>banknum</em>, int <em>index</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_get_gpio_mux"></a><a class="headerlink" href="#c.pinctrl_get_gpio_mux" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get the mux value for a particular GPIO</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Pinctrl device to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">banknum</span></code></dt><dd><p>GPIO bank number</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">index</span></code></dt><dd><p>GPIO index within the bank</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This allows the raw mux value for a GPIO to be obtained. It is
+useful for displaying the function being used by that GPIO, such
+as with the ‘gpio’ command. This function is internal to the GPIO
+subsystem and should not be used by generic code. Typically it is
+used by a GPIO driver with knowledge of the SoC pinctrl setup.</p>
+<p><strong>Return</strong></p>
+<p>Mux value (SoC-specific, e.g. 0 for input, 1 for output)</p>
+<dl class="c function">
+<dt id="c.pinctrl_get_pin_muxing">
+int <code class="sig-name descname">pinctrl_get_pin_muxing</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, int <em>selector</em>, char *<em>buf</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_get_pin_muxing"></a><a class="headerlink" href="#c.pinctrl_get_pin_muxing" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Returns the muxing description</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Pinctrl device to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">selector</span></code></dt><dd><p>Pin index within pin-controller</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*buf</span></code></dt><dd><p>Pin’s muxing description</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Pin’s muxing description length</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This allows to display the muxing description of the given pin for
+debug purpose</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or negative error code on failure</p>
+<dl class="c function">
+<dt id="c.pinctrl_get_pins_count">
+int <code class="sig-name descname">pinctrl_get_pins_count</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_get_pins_count"></a><a class="headerlink" href="#c.pinctrl_get_pins_count" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Display pin-controller pins number</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Pinctrl device to use</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This allows to know the number of pins owned by a given pin-controller</p>
+<p><strong>Return</strong></p>
+<p>Number of pins if OK, or -ENOSYS when not supported</p>
+<dl class="c function">
+<dt id="c.pinctrl_get_pin_name">
+int <code class="sig-name descname">pinctrl_get_pin_name</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, int <em>selector</em>, char *<em>buf</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_get_pin_name"></a><a class="headerlink" href="#c.pinctrl_get_pin_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Returns the pin’s name</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Pinctrl device to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">selector</span></code></dt><dd><p>Pin index within pin-controller</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*buf</span></code></dt><dd><p>Buffer to fill with the name of the pin</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Size of <strong>buf</strong></p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This allows to display the pin’s name for debug purpose</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or negative error code on failure</p>
+<dl class="c function">
+<dt id="c.pinctrl_gpio_request">
+int <code class="sig-name descname">pinctrl_gpio_request</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, unsigned <em>offset</em>, <em class="property">const</em> char *<em>label</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_gpio_request"></a><a class="headerlink" href="#c.pinctrl_gpio_request" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Request a single pin to be used as GPIO</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>GPIO peripheral device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">offset</span></code></dt><dd><p>GPIO pin offset from the GPIO controller</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*label</span></code></dt><dd><p>GPIO label</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, or negative error code on failure</p>
+<dl class="c function">
+<dt id="c.pinctrl_gpio_free">
+int <code class="sig-name descname">pinctrl_gpio_free</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, unsigned <em>offset</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/pinctrl_gpio_free"></a><a class="headerlink" href="#c.pinctrl_gpio_free" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Free a single pin used as GPIO</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>GPIO peripheral device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">offset</span></code></dt><dd><p>GPIO pin offset from the GPIO controller</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, or negative error code on failure</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="part.html" rel="prev" title="Partition API"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="rng.html" rel="next" title="Random number generation">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

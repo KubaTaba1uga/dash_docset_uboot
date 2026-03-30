@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>System configuration — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="directories.html" rel="next" title="Directory hierarchy"/>
+<link href="sending_patches.html" rel="prev" title="Sending patches"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#general">General</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="board_best_practices.html">Best Practices for Board Ports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codingstyle.html">U-Boot Coding Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="designprinciples.html">U-Boot Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docstyle.html">Documentation Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patman.html">Patman patch manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="process.html">U-Boot Development Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_cycle.html">Release Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="security.html">Handling of security vulnerabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sending_patches.html">Sending patches</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">System configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-run-time-configuration-methods">Dynamic run time configuration methods.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#static-build-time-configuration-methods">Static build time configuration methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>System configuration</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/system_configuration.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/System configuration"></a><div class="section" id="system-configuration">
+<h1>System configuration<a class="headerlink" href="#system-configuration" title="Permalink to this headline">¶</a></h1>
+<p>There are a number of different aspects to configuring U-Boot to build and then
+run on a given platform or set of platforms. Broadly speaking, some aspects of
+the world can be configured at run time and others must be done at build time.
+In general run time configuration is preferred over build time configuration.
+But when making these decisions, we also need to consider if we’re talking about
+a feature that could be useful to virtually every platform or something specific
+to a single hardware platform. The resulting image size is also another
+important consideration. Finally, run time configuration has additional overhead
+both in terms of resource requirements and wall clock time. All of this means
+that care must be taken when writing new code to select the most appropriate
+configuration mechanism.</p>
+<p>When adding new features to U-Boot, be they a new subsystem or SoC support or
+new platform for an existing supported SoC, the preferred configuration order
+is:</p>
+<ol class="arabic simple">
+<li><p>Hardware based run time configuration. Examples of this include reading
+processor specific registers, or a set of board specific GPIOs or an EEPROM
+with a known format to it. These are the cases where we either cannot or
+should not be relying on device tree checks. We use this for cases such as
+optimized boot time or starting with a generic device tree and then enabling
+or disabling features as we boot.</p></li>
+<li><p>Making use of our Kconfig infrastructure and C preprocessor macros that have
+the prefix <code class="docutils literal notranslate"><span class="pre">CONFIG</span></code>. This is the primary method of build time
+configuration. This is generally the best fit for when we want to enable or
+disable some sort of feature, such as the SoC or network support. The
+<code class="docutils literal notranslate"><span class="pre">CONFIG</span></code> prefix for C preprocessor macros is strictly reserved for Kconfig
+usage only.</p></li>
+<li><p>Making use of the <a class="reference internal" href="devicetree/control.html"><span class="doc">device tree</span></a> to determine at
+run time how to configure a feature that we have enabled via Kconfig. For
+example, we would use Kconfig to enable an I2C chip driver, but use the device
+tree to know where the I2C chip resides in memory and other details we need
+in order to configure the bus.</p></li>
+<li><p>Making use of C header files directly and defining C preprocessor macros that
+have the <code class="docutils literal notranslate"><span class="pre">CFG</span></code> prefix. While the <code class="docutils literal notranslate"><span class="pre">CFG</span></code> prefix is reserved for this build
+time configuration mechanism, the usage is ad hoc. This is to be used when the
+previously mentioned mechanisms are not possible, or for legacy code that has
+not been converted.</p></li>
+</ol>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Dynamic run time configuration methods."></a><div class="section" id="dynamic-run-time-configuration-methods">
+<h2>Dynamic run time configuration methods.<a class="headerlink" href="#dynamic-run-time-configuration-methods" title="Permalink to this headline">¶</a></h2>
+<p>Details of hardware specific run time configuration methods are found within the
+documentation for a given processor family or board.</p>
+<p>Details of how to use run time configuration based on <a class="reference internal" href="driver-model/index.html"><span class="doc">driver model</span></a> are covered in that documentation section.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Static build time configuration methods"></a><div class="section" id="static-build-time-configuration-methods">
+<h2>Static build time configuration methods<a class="headerlink" href="#static-build-time-configuration-methods" title="Permalink to this headline">¶</a></h2>
+<p>There are two mechanisms used to control the build time configuration of U-Boot.
+One is utilizing Kconfig and <code class="docutils literal notranslate"><span class="pre">CONFIG</span></code> prefixed macros and the other is ad hoc
+usage of <code class="docutils literal notranslate"><span class="pre">CFG</span></code> prefixed macros. Both of these are used when it is either not
+possible or not practical to make a run time determination about some
+functionality of the hardware or a required software feature or similar. Each of
+these has their own places where they are better suited than the other for use.</p>
+<p>The <a class="reference external" href="https://www.kernel.org/doc/html/latest/kbuild/kconfig-language.html">Kconfig language</a> is well
+documented and used in a number of projects, including the Linux kernel. We
+implement this with the Kconfig files found throughout our sources. This
+mechanism is the preferred way of exposing new configuration options as there
+are a number of ways for both users and system integrators to manage and change
+these options. Some common examples here are to enable a specific command within
+U-Boot or even a whole subsystem such as NAND flash or network connectivity.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">CFG</span></code> mechanism is implemented directly as C preprocessor values or
+macros, depending on what they are in turn describing. While we have some
+functionality that is very reasonable to expose to the end user to enable or
+disable we have other places where we need to describe things such as register
+locations or values, memory map ranges and so on. When practical, we should be
+getting these values from the device tree. However, there are cases where this
+is either not practical due to when we need the information and may not have a
+device tree yet or due to legacy reasons code has not been rewritten.</p>
+<div class="section" id="when-to-use-each-mechanism">
+<h3>When to use each mechanism<a class="headerlink" href="#when-to-use-each-mechanism" title="Permalink to this headline">¶</a></h3>
+<p>While there are some cases where it should be fairly obvious where to use each
+mechanism, as for example a command would be done via Kconfig, a new I2C driver
+should use Kconfig and be configured via driver model and a header of values
+generated by an external tool should be <code class="docutils literal notranslate"><span class="pre">CFG</span></code>, there will be cases where it’s
+less clear and one needs to take care when implementing it. In general,
+configuration <em>options</em> should be done in Kconfig and configuration <em>settings</em>
+should be done in driver model or <code class="docutils literal notranslate"><span class="pre">CFG</span></code>. Let us discuss things to keep in mind
+when picking the appropriate mechanism.</p>
+<p>A thing to keep in mind is that we have a strong preference for using Kconfig as
+the primary build time configuration mechanism. Options expressed this way let
+us easily express dependencies and abstractions. In addition, given that many
+projects use this mechanism means it has a broad set of tooling and existing
+knowledge base.</p>
+<p>Consider the example of a SHA256 hardware acceleration engine. This would be a
+feature of the SoC and so something to not ask the user if it exists, but we
+would want to have our generic framework for such engines be optionally
+available and depend on knowing we have this engine on a given hardware
+platform. Expressing this should be done as a hidden Kconfig symbol that is
+<code class="docutils literal notranslate"><span class="pre">select</span></code>’ed by the SoC symbol which would in turn be <code class="docutils literal notranslate"><span class="pre">select</span></code>’ed by the
+board option, which is user visible. Hardware features that are either present
+or not present should be expressed in Kconfig and in a similar manner, features
+which will always have a constant value such as “this SoC always has 4 cores and
+4 threads per core” should be as well.</p>
+<p>This brings us to differentiating between a configuration <em>setting</em> versus a
+hardware feature. To build on the previous example, while we may know the number
+of cores and threads, it’s possible that within a given family of SoCs the base
+addresses of peripherals has changed, but the register offsets within have not.
+The preference in this case is to get our information from the device tree and
+perform run time configuration. However, this is not always practical and in
+those cases we instead rely on the <code class="docutils literal notranslate"><span class="pre">CFG</span></code> mechanism. While it would be possible
+to use Kconfig in this case, it would result in using calculated rather than
+constructed values, resulting in less clear code. Consider the example of a set
+of register values for a memory controller. Defining this as a series of logical
+ORs and shifts based on other defines is more clear than the Kconfig entry that
+sets the calculated value alone.</p>
+<p>When it has been determined that the practical solution is to utilize the
+<code class="docutils literal notranslate"><span class="pre">CFG</span></code> mechanism, the next decision is where to place these settings. It is
+strongly encouraged to place these in the architecture header files, if they are
+generic to a given SoC, or under the board directory if board specific. Placing
+them under the board.h file in the <em>include/configs/</em> directory should be seen
+as a last resort.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="sending_patches.html" rel="prev" title="Sending patches"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="directories.html" rel="next" title="Directory hierarchy">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

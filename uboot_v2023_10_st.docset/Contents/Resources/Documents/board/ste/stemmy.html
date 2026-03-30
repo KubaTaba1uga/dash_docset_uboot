@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ST-Ericsson U8500 Samsung “stemmy” board — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../tbs/index.html" rel="next" title="TBS"/>
+<link href="index.html" rel="prev" title="ST-Ericsson"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">ST-Ericsson</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ST-Ericsson U8500 Samsung “stemmy” board</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uart">UART</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">ST-Ericsson</a> »</li>
+<li>ST-Ericsson U8500 Samsung “stemmy” board</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/ste/stemmy.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/ST-Ericsson U8500 Samsung “stemmy” board"></a><div class="section" id="st-ericsson-u8500-samsung-stemmy-board">
+<h1>ST-Ericsson U8500 Samsung “stemmy” board<a class="headerlink" href="#st-ericsson-u8500-samsung-stemmy-board" title="Permalink to this headline">¶</a></h1>
+<p>The “stemmy” board supports Samsung smartphones released with
+the ST-Ericsson NovaThor U8500 SoC, e.g.</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 40%"/>
+<col style="width: 15%"/>
+<col style="width: 21%"/>
+<col style="width: 24%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Device</p></th>
+<th class="head"><p>Model</p></th>
+<th class="head"><p>Codename</p></th>
+<th class="head"><p>U-Boot</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Samsung Galaxy Ace 2</p></td>
+<td><p>GT-I8160</p></td>
+<td><p>codina</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">u-boot.bin</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy Amp</p></td>
+<td><p>SGH-I407</p></td>
+<td><p>kyle</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">u-boot.img</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy Beam</p></td>
+<td><p>GT-I8530</p></td>
+<td><p>gavini</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">u-boot.bin</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy Exhibit</p></td>
+<td><p>SGH-T599</p></td>
+<td><p>codina (TMO)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">u-boot.bin</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy S Advance</p></td>
+<td><p>GT-I9070</p></td>
+<td><p>janice</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">u-boot.bin</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung Galaxy S III mini</p></td>
+<td><p>GT-I8190</p></td>
+<td><p>golden</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">u-boot.img</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung Galaxy Xcover 2</p></td>
+<td><p>GT-S7710</p></td>
+<td><p>skomer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">u-boot.img</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>At the moment, U-Boot is intended to be chain-loaded from
+the original Samsung bootloader, not replacing it entirely.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installation"></a><div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>First, setup <code class="docutils literal notranslate"><span class="pre">CROSS_COMPILE</span></code> for ARMv7. Then, build U-Boot for <code class="docutils literal notranslate"><span class="pre">stemmy</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ export CROSS_COMPILE=arm-none-eabi-
+$ make stemmy_defconfig
+$ make
+</pre></div>
+</div>
+<p>This will build <code class="docutils literal notranslate"><span class="pre">u-boot.bin</span></code> in the configured output directory.</p>
+<p>For newer devices (check <code class="docutils literal notranslate"><span class="pre">u-boot.img</span></code> in the table above), the U-Boot binary
+has to be packed into an Android boot image. Devices with <code class="docutils literal notranslate"><span class="pre">u-boot.bin</span></code> boot
+the raw U-Boot binary from the boot partition. You can build the Android boot
+image with <code class="docutils literal notranslate"><span class="pre">mkbootimg</span></code>, e.g. from from <a class="reference external" href="https://android.googlesource.com/platform/system/core/+/refs/tags/android-7.1.2_r37/mkbootimg/mkbootimg">android-7.1.2_r37</a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ mkbootimg \
+  --kernel=u-boot.bin \
+  --base=0x00000000 \
+  --kernel_offset=0x00100000 \
+  --ramdisk_offset=0x02000000 \
+  --tags_offset=0x00000100 \
+  --output=u-boot.img
+</pre></div>
+</div>
+<p>To flash the U-Boot binary, enter the Samsung download mode
+(press Power + Home + Volume Down). Use <a class="reference external" href="https://gitlab.com/BenjaminDobell/Heimdall">Heimdall</a> to flash the U-Boot image to
+the Android boot partition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ heimdall flash --Kernel u-boot.(bin|img)
+</pre></div>
+</div>
+<p>If this is not working but there are messages like <code class="docutils literal notranslate"><span class="pre">Android</span> <span class="pre">recovery</span> <span class="pre">image</span></code> in
+the UART console, you can try flashing to the recovery partition instead:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ heimdall flash --Kernel2 u-boot.(bin|img)
+</pre></div>
+</div>
+<p>After a reboot the U-Boot prompt should appear via UART. Unless interrupted it
+automatically boots to USB Fastboot mode where Android boot images can be booted
+via <code class="docutils literal notranslate"><span class="pre">fastboot</span> <span class="pre">boot</span> <span class="pre">boot.img</span></code>. It is mainly intended to boot mainline Linux,
+but booting original Samsung Android boot images is also supported (e.g. for
+charging).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/UART"></a><div class="section" id="uart">
+<h2>UART<a class="headerlink" href="#uart" title="Permalink to this headline">¶</a></h2>
+<p>UART is available through the micro USB port, similar to the Carkit standard.
+With a ~619kOhm resistor between ID and GND, 1.8V RX/TX is available at D+/D-.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure to connect the UART cable <strong>before</strong> turning on the phone.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="ST-Ericsson"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../tbs/index.html" rel="next" title="TBS">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

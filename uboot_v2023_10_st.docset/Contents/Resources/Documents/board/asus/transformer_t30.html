@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>U-Boot for the ASUS Transformer device family — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../atmel/index.html" rel="next" title="Atmel"/>
+<link href="grouper_common.html" rel="prev" title="U-Boot for the ASUS/Google Nexus 7 (2012)"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">ASUS</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="grouper_common.html">U-Boot for the ASUS/Google Nexus 7 (2012)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">U-Boot for the ASUS Transformer device family</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-u-boot">Build U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pack-u-boot-into-repar-block">Pack U-Boot into repar-block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flash-repart-block-into-the-emmc">Flash repart-block into the eMMC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flash-repart-block-into-tf600t-spi-flash">Flash repart-block into TF600T SPI flash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot">Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#self-upgrading">Self Upgrading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">ASUS</a> »</li>
+<li>U-Boot for the ASUS Transformer device family</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/asus/transformer_t30.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot for the ASUS Transformer device family"></a><div class="section" id="u-boot-for-the-asus-transformer-device-family">
+<h1>U-Boot for the ASUS Transformer device family<a class="headerlink" href="#u-boot-for-the-asus-transformer-device-family" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">DISCLAMER!</span></code> Moving your ASUS Transformer to use U-Boot
+assumes replacement of the vendor ASUS bootloader. Vendor
+android firmwares will no longer be able to run on the device.
+This replacement IS reversible.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Quick Start"></a><div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Build U-Boot</p></li>
+<li><p>Pack U-Boot into repart-block</p></li>
+<li><p>Flash repart-block into the eMMC</p></li>
+<li><p>Flash repart-block into TF600T SPI flash</p></li>
+<li><p>Boot</p></li>
+<li><p>Self Upgrading</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build U-Boot"></a><div class="section" id="build-u-boot">
+<h2>Build U-Boot<a class="headerlink" href="#build-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>Device support is implemented by applying config fragment
+to a generic board defconfig. Valid fragments are <code class="docutils literal notranslate"><span class="pre">tf201.config</span></code>,
+<code class="docutils literal notranslate"><span class="pre">tf300t.config</span></code>, <code class="docutils literal notranslate"><span class="pre">tf300tg.config</span></code>, <code class="docutils literal notranslate"><span class="pre">tf300tl.config</span></code>,
+<code class="docutils literal notranslate"><span class="pre">tf700t.config</span></code>, <code class="docutils literal notranslate"><span class="pre">tf600t.config</span></code> and <code class="docutils literal notranslate"><span class="pre">p1801-t.config</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>arm-linux-gnueabi-
+$<span class="w"> </span>make<span class="w"> </span>transformer_t30_defconfig<span class="w"> </span>tf201.config<span class="w"> </span><span class="c1"># For TF201</span>
+$<span class="w"> </span>make
+</pre></div>
+</div>
+<p>After the build succeeds, you will obtain the final <code class="docutils literal notranslate"><span class="pre">u-boot-dtb-tegra.bin</span></code>
+image, ready for flashing (but check the next section for additional
+adjustments).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Pack U-Boot into repar-block"></a><div class="section" id="pack-u-boot-into-repar-block">
+<h2>Pack U-Boot into repar-block<a class="headerlink" href="#pack-u-boot-into-repar-block" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">DISCLAMER!</span></code> All questions related to re-crypt work should be asked
+in re-crypt repo issues. NOT HERE!</p>
+<p>re-crypt is a small script which packs <code class="docutils literal notranslate"><span class="pre">u-boot-dtb-tegra.bin</span></code> in
+form usable by device. This process is required only on the first
+installation or to recover the device in case of a failed update.
+You need to know your tablet’s individual SBK to continue.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/clamor-s/re-crypt.git
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>re-crypt<span class="w"> </span><span class="c1"># place your u-boot-dtb-regra.bin here</span>
+$<span class="w"> </span>./re-crypt.sh<span class="w"> </span>-d<span class="w"> </span>tf201<span class="w"> </span>-k<span class="w"> </span>deadbeefdeadc0dedeadd00dfee1dead
+</pre></div>
+</div>
+<p>Script will produce you a <cite>repart-block.bin</cite> ready to flash.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flash repart-block into the eMMC"></a><div class="section" id="flash-repart-block-into-the-emmc">
+<h2>Flash repart-block into the eMMC<a class="headerlink" href="#flash-repart-block-into-the-emmc" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">DISCLAMER!</span></code> All questions related to NvFlash should be asked
+in the proper place. NOT HERE! Flashing repart-block will erase
+all your eMMC, so make a backup before!</p>
+<p><code class="docutils literal notranslate"><span class="pre">repart-block.bin</span></code> contains BCT and bootloader in encrypted state
+in form which can just be written RAW at the start of eMMC.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wheelie<span class="w"> </span>--blob<span class="w"> </span>blob.bin
+$<span class="w"> </span>nvflash<span class="w"> </span>--resume<span class="w"> </span>--rawdevicewrite<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1024</span><span class="w"> </span>repart-block.bin
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flash repart-block into TF600T SPI flash"></a><div class="section" id="flash-repart-block-into-tf600t-spi-flash">
+<h2>Flash repart-block into TF600T SPI flash<a class="headerlink" href="#flash-repart-block-into-tf600t-spi-flash" title="Permalink to this headline">¶</a></h2>
+<p>Unlike other transformers TF600T uses separate 4 MB SPI flash which
+contains all data required for boot. It is flashed from within u-boot
+itself preloaded into RAM using fusee gelee. After creating your
+<code class="docutils literal notranslate"><span class="pre">repart-block.bin</span></code> you have to place it on a 1st partition of microSD
+card formated in fat. Then insert this microSD card into your tablet
+and boot it using fusee gelee and u-boot which was included into
+repart-block.bin, while booting you must hold volume down button.
+Process should take less then a minute, if everything goes correct,
+on microSD will appear <code class="docutils literal notranslate"><span class="pre">spi-flash-backup.bin</span></code> file, which is dump of
+your spi flash content and can be used to restore UEFI, do not loose it,
+tablet will power itself off.</p>
+<p>Self-updating of u-boot is performed by placing <code class="docutils literal notranslate"><span class="pre">u-boot-dtb-tegra.bin</span></code>
+on 1st partition of microSD, inserting it into tablet and booting with
+pressed volume down button.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot"></a><div class="section" id="boot">
+<h2>Boot<a class="headerlink" href="#boot" title="Permalink to this headline">¶</a></h2>
+<p>After flashing <code class="docutils literal notranslate"><span class="pre">repart-block.bin</span></code> the device should reboot and turn
+itself off. This is normal behavior if no boot configuration is
+found.</p>
+<p>To boot Linux, U-Boot will look for an <code class="docutils literal notranslate"><span class="pre">extlinux.conf</span></code> on MicroSD
+and then on eMMC. Additionally if Volume Down button is pressed
+while booting device will enter bootmenu. Bootmenu contains entries
+to mount MicroSD and eMMC as mass storage, fastboot, reboot, reboot
+RCM, poweroff, enter U-Boot console and update bootloader (check next
+chapter).</p>
+<p>Flashing <code class="docutils literal notranslate"><span class="pre">repart-block.bin</span></code> eliminates vendor restriction on eMMC
+and allows the user to use/partition it in any way the user desires.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Self Upgrading"></a><div class="section" id="self-upgrading">
+<h2>Self Upgrading<a class="headerlink" href="#self-upgrading" title="Permalink to this headline">¶</a></h2>
+<p>Place your <code class="docutils literal notranslate"><span class="pre">u-boot-dtb-tegra.bin</span></code> on the first partition of the
+MicroSD card and insert it into the tablet. Enter bootmenu, choose
+update bootloader option with Power button and U-Boot should update
+itself. Once the process is completed, U-Boot will ask to press any
+button to reboot.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="grouper_common.html" rel="prev" title="U-Boot for the ASUS/Google Nexus 7 (2012)"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../atmel/index.html" rel="next" title="Atmel">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

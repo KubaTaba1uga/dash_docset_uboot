@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Running U-Boot with Chromium OS verified boot — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="chainload.html" rel="next" title="Running U-Boot from coreboot on Chromebooks"/>
+<link href="overview.html" rel="prev" title="Chromium OS Support in U-Boot"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Chromium OS-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Chromium OS Support in U-Boot</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Running U-Boot with Chromium OS verified boot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sandbox">Sandbox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#samus">Samus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boot-flow">Boot flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#new-uclasses">New uclasses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commands">Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config-options">Config options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#device-tree-config">Device-tree config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#porting-to-other-hardware">Porting to other hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#u-boot-without-chromium-os-verified-boot">U-Boot without Chromium OS verified boot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chainload.html">Running U-Boot from coreboot on Chromebooks</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Chromium OS-specific doc</a> »</li>
+<li>Running U-Boot with Chromium OS verified boot</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/chromium/run_vboot.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running U-Boot with Chromium OS verified boot"></a><div class="section" id="running-u-boot-with-chromium-os-verified-boot">
+<h1>Running U-Boot with Chromium OS verified boot<a class="headerlink" href="#running-u-boot-with-chromium-os-verified-boot" title="Permalink to this headline">¶</a></h1>
+<p>Note: Once you use the source below you can obtain extra documentation with
+‘make htmldocs’. See the ‘Internal Documentation’ link, under
+‘Chromium OS-specific doc’.</p>
+<p>To obtain:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/sjg20/u-boot.git
+cd u-boot
+git checkout cros-2021.04
+
+cd ..
+git clone https://chromium.googlesource.com/chromiumos/platform/vboot_reference
+cd vboot_reference
+git checkout 45964294
+#  futility: updater: Correct output version for Snow
+</pre></div>
+</div>
+<p>To build for sandbox:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>UB=/tmp/b/chromeos_sandbox    # U-Boot build directory
+cd u-boot
+make O=$UB chromeos_sandbox_defconfig
+make O=$UB -j20 -s VBOOT_SOURCE=/path/to/vboot_reference \
+  MAKEFLAGS_VBOOT=DEBUG=1 QUIET=1
+</pre></div>
+</div>
+<p>Replace sandbox with another supported target.</p>
+<p>This produces $UB/image.bin which contains the firmware binaries in a SPI
+flash image.</p>
+<p>To run on sandbox:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CROS=~/cosarm
+IMG=$CROS/src/build/images/coral/latest/chromiumos_image.bin
+$UB/tpl/u-boot-tpl -d $UB/u-boot.dtb.out \
+  -L6 -c "host bind 0 $IMG; vboot go auto" \
+  -l -w -s state.dtb -r -n -m $UB/ram
+
+$UB/tpl/u-boot-tpl -d $UB/u-boot.dtb.out -L6 -l \
+  -c "host bind 0 $IMG; vboot go auto" -w -s $UB/state.dtb -r -n -m $UB/mem
+</pre></div>
+</div>
+<p>To run on other boards:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Install image.bin in the SPI flash of your device</p></li>
+<li><p>Boot your system</p></li>
+</ul>
+</div></blockquote>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox"></a><div class="section" id="sandbox">
+<h2>Sandbox<a class="headerlink" href="#sandbox" title="Permalink to this headline">¶</a></h2>
+<p>Most Chromium OS development with U-Boot is undertaken using sandbox. There is
+a sandbox target available (chromeos_sandbox) which allows running U-Boot on
+a Linux machine completion with emulations of the display, TPM, disk, etc.</p>
+<p>Running sandbox starts TPL, which contains the first phase of vboot, providing
+a device tree and binding a Chromium OS disk image for use to find kernels
+(any Chromium OS image will do). It also saves driver state between U-Boot
+phases into state.dtb and will automatically ensure that memory is shared
+between all phases. TPL will jump to SPL and then on to U-Boot proper.</p>
+<p>It is possible to run with debugging on, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gdb --args $UB/tpl/u-boot-tpl -d ....
+</pre></div>
+</div>
+<p>Breakpoints can be set in any U-Boot phase. Overall this is a good debugging
+environment for new verified-boot features.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Samus"></a><div class="section" id="samus">
+<h2>Samus<a class="headerlink" href="#samus" title="Permalink to this headline">¶</a></h2>
+<p>Basic support is available for samus, using the chromeos_samus target. If you
+have an em100, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo em100 -s -c W25Q128FW -d $UB/image.bin -t -r
+</pre></div>
+</div>
+<p>to write the image and then boot samus (Power-Refresh).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot flow"></a><div class="section" id="boot-flow">
+<h2>Boot flow<a class="headerlink" href="#boot-flow" title="Permalink to this headline">¶</a></h2>
+<p>Verified boot starts in TPL, which selects the A or B SPL, which in turn selects
+the A or B U-Boot. Then this jumps to the selected kernel. If anything goes
+wrong, the device reboots and the recovery SPL and U-Boot are used instead.</p>
+<p>More details are available here:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://www.chromium.org/chromium-os/chromiumos-design-docs/firmware-boot-and-recovery">https://www.chromium.org/chromium-os/chromiumos-design-docs/firmware-boot-and-recovery</a></p>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/New uclasses"></a><div class="section" id="new-uclasses">
+<h2>New uclasses<a class="headerlink" href="#new-uclasses" title="Permalink to this headline">¶</a></h2>
+<p>Several uclasses are provided in cros/:</p>
+<dl class="simple">
+<dt>UCLASS_CROS_AUX_FW</dt><dd><p>Chrome OS auxiliary firmware</p>
+</dd>
+<dt>UCLASS_CROS_FWSTORE</dt><dd><p>Chrome OS firmware storage</p>
+</dd>
+<dt>UCLASS_CROS_NVDATA</dt><dd><p>Chrome OS non-volatile data device</p>
+</dd>
+<dt>UCLASS_CROS_VBOOT_EC</dt><dd><p>Chrome OS vboot EC operations</p>
+</dd>
+<dt>UCLASS_CROS_VBOOT_FLAG</dt><dd><p>Chrome OS verified boot flag</p>
+</dd>
+</dl>
+<p>The existing UCLASS_CROS_EC is also used.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Commands"></a><div class="section" id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<p>A new ‘vboot’ command is provided to run particular vboot stages. The most
+useful command is ‘vboot go auto’, which continues where the last stage left
+off.</p>
+<p>Note that TPL and SPL do not supports commands as yet, so the vboot code is
+called directly from the SPL boot devices (BOOT_DEVICE_CROS_VBOOT). See
+cros_load_image_tpl() and cros_load_image_spl() which both call
+vboot_run_auto().</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Config options"></a><div class="section" id="config-options">
+<h2>Config options<a class="headerlink" href="#config-options" title="Permalink to this headline">¶</a></h2>
+<p>The main option is CONFIG_CHROMEOS, which enables a wide array of other options
+so that the required features are present.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Device-tree config"></a><div class="section" id="device-tree-config">
+<h2>Device-tree config<a class="headerlink" href="#device-tree-config" title="Permalink to this headline">¶</a></h2>
+<p>Various options are available which control the operation of verified boot.
+See cros/dts/bindings/config.txt for details. Most config is handled at run-
+time, although build-time config (with Kconfig) could also be added fairly
+easily.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Porting to other hardware"></a><div class="section" id="porting-to-other-hardware">
+<h2>Porting to other hardware<a class="headerlink" href="#porting-to-other-hardware" title="Permalink to this headline">¶</a></h2>
+<p>A basic port to samus (Chromebook Pixel 2015) is in a basic working state,
+using the chromeos_samus target. Patches will likely be forthcoming in early
+2019. Ports to an ARM board and coreboot (for x86 Chromebooks) are in the
+dreaming state.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Tests"></a><div class="section" id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p>Chromium OS firmware has a very limited set of tests. The tests that originally
+existed in U-Boot were not brought over to coreboot or depthcharge.</p>
+<p>The U-Boot tests (‘make check’) do operate, but at present there are no
+Chromium OS tests available. These will hopefully come together over time. Of
+course the above sandbox feature provides a sort of functional test and can
+detect problems that affect the flow or particular vboot features.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot without Chromium OS verified boot"></a><div class="section" id="u-boot-without-chromium-os-verified-boot">
+<h2>U-Boot without Chromium OS verified boot<a class="headerlink" href="#u-boot-without-chromium-os-verified-boot" title="Permalink to this headline">¶</a></h2>
+<p>The following script can be used to boot a Chrome OS image on coral. It is
+defined as the boot command in mainline:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Read the image header and obtain the address of the kernel
+# The offset 4f0 is defined by verified boot and may change for other
+# Chromebooks
+read mmc 2:2 100000 0 80; setexpr loader *001004f0;
+
+# Get the kernel size and calculate the number of blocks (0x200 bytes each)
+setexpr size *00100518; setexpr blocks $size / 200;
+
+# Read the full kernel and calculate the address of the setup block
+read mmc 2:2 100000 80 $blocks; setexpr setup $loader - 1000;
+
+# Locate the command line
+setexpr cmdline $loader - 2000;
+
+# Start the zboot process with the loaded kernel, setup block and cmdline
+zboot start 100000 0 0 0 $setup $cmdline;
+
+# Load the kernel, fix up the 'setup' block, dump information
+zboot load; zboot setup; zboot dump
+
+# Boot into Chrome OS
+zboot go
+</pre></div>
+</div>
+<p>7 October 2018</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="overview.html" rel="prev" title="Chromium OS Support in U-Boot"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="chainload.html" rel="next" title="Running U-Boot from coreboot on Chromebooks">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

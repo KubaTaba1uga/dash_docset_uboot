@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARM64 — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="arm64.ffa.html" rel="next" title="Arm FF-A Support"/>
+<link href="arc.html" rel="prev" title="ARC"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="arc.html">ARC</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ARM64</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html">RISC-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/index.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Architecture-specific doc</a> »</li>
+<li>ARM64</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/arch/arm64.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/ARM64"></a><div class="section" id="arm64">
+<h1>ARM64<a class="headerlink" href="#arm64" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Summary"></a><div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>The initial arm64 U-Boot port was developed before hardware was available,
+so the first supported platforms were the Foundation and Fast Model for ARMv8.
+These days U-Boot runs on a variety of 64-bit capable ARM hardware, from
+embedded development boards to servers.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Notes"></a><div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>U-Boot can run at any exception level it is entered in, it is
+recommened to enter it in EL3 if U-Boot takes some responsibilities of a
+classical firmware (like initial hardware setup, CPU errata workarounds
+or SMP bringup). U-Boot can be entered in EL2 when its main purpose is
+that of a boot loader. It can drop to lower exception levels before
+entering the OS. For ARMv8-R it is recommened to enter at S-EL1, as for this
+architecture there is no S-EL3.</p></li>
+<li><p>U-Boot for arm64 is compiled with AArch64-gcc. AArch64-gcc
+use rela relocation format, a tool(tools/relocate-rela) by Scott Wood
+is used to encode the initial addend of rela to u-boot.bin. After running,
+the U-Boot will be relocated to destination again.</p></li>
+<li><p>Earlier Linux kernel versions required the FDT to be placed at a
+2 MB boundary and within the same 512 MB section as the kernel image,
+resulting in fdt_high to be defined specially.
+Since kernel version 4.2 Linux is more relaxed about the DT location, so it
+can be placed anywhere in memory.
+Please reference linux/Documentation/arm64/booting.txt for detail.</p></li>
+<li><p>Spin-table is used to wake up secondary processors. One location
+(or per processor location) is defined to hold the kernel entry point
+for secondary processors. It must be ensured that the location is
+accessible and zero immediately after secondary processor
+enter slave_cpu branch execution in start.S. The location address
+is encoded in cpu node of DTS. Linux kernel store the entry point
+of secondary processors to it and send event to wakeup secondary
+processors.
+Please reference linux/Documentation/arm64/booting.txt for detail.</p></li>
+<li><p>Generic board is supported.</p></li>
+<li><p>CONFIG_ARM64 instead of CONFIG_ARMV8 is used to distinguish aarch64 and
+aarch32 specific codes.</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Contributors"></a><div class="section" id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Tom Rini            &lt;<a class="reference external" href="mailto:trini%40ti.com">trini<span>@</span>ti<span>.</span>com</a>&gt;</p></li>
+<li><p>Scott Wood          &lt;<a class="reference external" href="mailto:scottwood%40freescale.com">scottwood<span>@</span>freescale<span>.</span>com</a>&gt;</p></li>
+<li><p>York Sun            &lt;<a class="reference external" href="mailto:yorksun%40freescale.com">yorksun<span>@</span>freescale<span>.</span>com</a>&gt;</p></li>
+<li><p>Simon Glass         &lt;<a class="reference external" href="mailto:sjg%40chromium.org">sjg<span>@</span>chromium<span>.</span>org</a>&gt;</p></li>
+<li><p>Sharma Bhupesh      &lt;<a class="reference external" href="mailto:bhupesh.sharma%40freescale.com">bhupesh<span>.</span>sharma<span>@</span>freescale<span>.</span>com</a>&gt;</p></li>
+<li><p>Rob Herring         &lt;<a class="reference external" href="mailto:robherring2%40gmail.com">robherring2<span>@</span>gmail<span>.</span>com</a>&gt;</p></li>
+<li><p>Sergey Temerkhanov  &lt;<a class="reference external" href="mailto:s.temerkhanov%40gmail.com">s<span>.</span>temerkhanov<span>@</span>gmail<span>.</span>com</a>&gt;</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="arc.html" rel="prev" title="ARC"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="arm64.ffa.html" rel="next" title="Arm FF-A Support">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

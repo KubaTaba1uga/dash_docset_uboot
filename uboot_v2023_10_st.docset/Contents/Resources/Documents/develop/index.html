@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Develop U-Boot — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="board_best_practices.html" rel="next" title="Best Practices for Board Ports"/>
+<link href="../usage/os/vxworks.html" rel="prev" title="VxWorks"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Develop U-Boot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general">General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="board_best_practices.html">Best Practices for Board Ports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codingstyle.html">U-Boot Coding Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="designprinciples.html">U-Boot Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docstyle.html">Documentation Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patman.html">Patman patch manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="process.html">U-Boot Development Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_cycle.html">Release Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="security.html">Handling of security vulnerabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sending_patches.html">Sending patches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_configuration.html">System configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation">Implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="crash_dumps.html">Analyzing crash dumps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trace.html">Tracing in U-Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#packaging">Packaging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="package/index.html">Package U-Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="testing.html">Introduction to testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_testing.html">U-Boot pytest suite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests_writing.html">Writing Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests_sandbox.html">Sandbox tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#refactoring">Refactoring</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="checkpatch.html">Checkpatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coccinelle.html">Coccinelle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moveconfig.html">moveconfig - Migrating and querying CONFIG options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#code-quality">Code quality</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_cq.html">Python code quality</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li>Develop U-Boot</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Develop U-Boot"></a><div class="section" id="develop-u-boot">
+<h1>Develop U-Boot<a class="headerlink" href="#develop-u-boot" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/General"></a><div class="section" id="general">
+<h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="board_best_practices.html">Best Practices for Board Ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="codingstyle.html">U-Boot Coding Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="designprinciples.html">U-Boot Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docstyle.html">Documentation Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patman.html">Patman patch manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process.html">U-Boot Development Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_cycle.html">Release Cycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Handling of security vulnerabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sending_patches.html">Sending patches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system_configuration.html">System configuration</a></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Implementation"></a><div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debugging"></a><div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="crash_dumps.html">Analyzing crash dumps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trace.html">Tracing in U-Boot</a></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Packaging"></a><div class="section" id="packaging">
+<h2>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="package/index.html">Package U-Boot</a></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Testing"></a><div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Introduction to testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="py_testing.html">U-Boot pytest suite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests_writing.html">Writing Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests_sandbox.html">Sandbox tests</a></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Refactoring"></a><div class="section" id="refactoring">
+<h2>Refactoring<a class="headerlink" href="#refactoring" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="checkpatch.html">Checkpatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coccinelle.html">Coccinelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moveconfig.html">moveconfig - Migrating and querying CONFIG options</a></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Code quality"></a><div class="section" id="code-quality">
+<h2>Code quality<a class="headerlink" href="#code-quality" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="python_cq.html">Python code quality</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../usage/os/vxworks.html" rel="prev" title="VxWorks"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="board_best_practices.html" rel="next" title="Best Practices for Board Ports">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

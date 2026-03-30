@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pre-relocation device tree manipulation — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="fs_firmware_loader.html" rel="next" title="File System Firmware Loader"/>
+<link href="ethernet.html" rel="prev" title="Ethernet Driver Guide"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>Pre-relocation device tree manipulation</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/fdt-fixup.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Pre-relocation device tree manipulation"></a><div class="section" id="pre-relocation-device-tree-manipulation">
+<h1>Pre-relocation device tree manipulation<a class="headerlink" href="#pre-relocation-device-tree-manipulation" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Purpose"></a><div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<p>In certain markets, it is beneficial for manufacturers of embedded devices to
+offer certain ranges of products, where the functionality of the devices within
+one series either don’t differ greatly from another, or can be thought of as
+“extensions” of each other, where one device only differs from another in the
+addition of a small number of features (e.g. an additional output connector).</p>
+<p>To realize this in hardware, one method is to have a motherboard, and several
+possible daughter boards that can be attached to this mother board. Different
+daughter boards then either offer the slightly different functionality, or the
+addition of the daughter board to the device realizes the “extension” of
+functionality to the device described previously.</p>
+<p>For the software, we obviously want to reuse components for all these
+variations of the device. This means that the software somehow needs to cope
+with the situation that certain ICs may or may not be present on any given
+system, depending on which daughter boards are connected to the motherboard.</p>
+<p>In the Linux kernel, one possible solution to this problem is to employ the
+device tree overlay mechanism: There exists one “base” device tree, which
+features only the components guaranteed to exist in all varieties of the
+device. At the start of the kernel, the presence and type of the daughter
+boards is then detected, and the corresponding device tree overlays are applied
+to support the components on the daughter boards.</p>
+<p>Note that the components present on every variety of the board must, of course,
+provide a way to find out if and which daughter boards are installed for this
+mechanism to work.</p>
+<p>In the U-Boot boot loader, support for device tree overlays has recently been
+integrated, and is used on some boards to alter the device tree that is later
+passed to Linux. But since U-Boot’s driver model, which is device tree-based as
+well, is being used in more and more drivers, the same problem of altering the
+device tree starts cropping up in U-Boot itself as well.</p>
+<p>An additional problem with the device tree in U-Boot is that it is read-only,
+and the current mechanisms don’t allow easy manipulation of the device tree
+after the driver model has been initialized. While migrating to a live device
+tree (at least after the relocation) would greatly simplify the solution of
+this problem, it is a non-negligible task to implement it, an a interim
+solution is needed to address the problem at least in the medium-term.</p>
+<p>Hence, we propose a solution to this problem by offering a board-specific
+call-back function, which is passed a writeable pointer to the device tree.
+This function is called before the device tree is relocated, and specifically
+before the main U-Boot’s driver model is instantiated, hence the main U-Boot
+“sees” all modifications to the device tree made in this function. Furthermore,
+we have the pre-relocation driver model at our disposal at this stage, which
+means that we can query the hardware for the existence and variety of the
+components easily.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Implementation"></a><div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>To take advantage of the pre-relocation device tree manipulation mechanism,
+boards have to implement the function board_fix_fdt, which has the following
+signature:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">board_fix_fdt</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">rw_fdt_blob</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The passed-in void pointer is a writeable pointer to the device tree, which can
+be used to manipulate the device tree using e.g. functions from
+include/fdt_support.h. The return value should either be 0 in case of
+successful execution of the device tree manipulation or something else for a
+failure. Note that returning a non-null value from the function will
+unrecoverably halt the boot process, as with any function from init_sequence_f
+(in common/board_f.c).</p>
+<p>Furthermore, the Kconfig option OF_BOARD_FIXUP has to be set for the function
+to be called:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Device Tree Control
+-&gt; [*] Board-specific manipulation of Device Tree
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 100%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>WARNING: The actual manipulation of the device tree has
+to be the _last_ set of operations in board_fix_fdt!
+Since the pre-relocation driver model does not adapt to
+changes made to the device tree either, its references
+into the device tree will be invalid after manipulating
+it, and unpredictable behavior might occur when
+functions that rely on them are executed!</p></td>
+</tr>
+</tbody>
+</table>
+<p>Hence, the recommended layout of the board_fixup_fdt call-back function is the
+following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">board_fix_fdt</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">rw_fdt_blob</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="cm">/*</span>
+<span class="cm">         * Collect information about device's hardware and store</span>
+<span class="cm">         * them in e.g. local variables</span>
+<span class="cm">         */</span>
+
+<span class="w">        </span><span class="cm">/* Do device tree manipulation using the values previously collected */</span>
+
+<span class="w">        </span><span class="cm">/* Return 0 on successful manipulation and non-zero otherwise */</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If this convention is kept, both an “additive” approach, meaning that nodes for
+detected components are added to the device tree, as well as a “subtractive”
+approach, meaning that nodes for absent components are removed from the tree,
+as well as a combination of both approaches should work.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example"></a><div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>The controlcenterdc board (board/gdsys/a38x/controlcenterdc.c) features a
+board_fix_fdt function, in which six GPIO expanders (which might be present or
+not, since they are on daughter boards) on a I2C bus are queried for, and
+subsequently deactivated in the device tree if they are not present.</p>
+<p>Note that the dm_i2c_simple_probe function does not use the device tree, hence
+it is safe to call it after the tree has already been manipulated.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Work to be done"></a><div class="section" id="work-to-be-done">
+<h2>Work to be done<a class="headerlink" href="#work-to-be-done" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The application of device tree overlay should be possible in board_fixup_fdt,
+but has not been tested at this stage.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="ethernet.html" rel="prev" title="Ethernet Driver Guide"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="fs_firmware_loader.html" rel="next" title="File System Firmware Loader">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

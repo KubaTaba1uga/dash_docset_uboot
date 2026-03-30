@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Android Boot Image — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="fastboot-protocol.html" rel="next" title="FastBoot Version 0.4"/>
+<link href="bcb.html" rel="prev" title="Android Bootloader Control Block (BCB)"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Android-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ab.html">Android A/B updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html">Android Verified Boot 2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html">Android Bootloader Control Block (BCB)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Android Boot Image</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#booting">Booting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dtb-and-dtbo-blobs">DTB and DTBO blobs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-api-for-working-with-android-boot-image-format">C API for working with Android Boot Image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html">FastBoot Version 0.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html">Android Fastboot</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Android-specific doc</a> »</li>
+<li>Android Boot Image</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/android/boot-image.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Android Boot Image"></a><div class="section" id="android-boot-image">
+<h1>Android Boot Image<a class="headerlink" href="#android-boot-image" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Android Boot Image is used to boot Android OS. It usually contains kernel image
+(like <code class="docutils literal notranslate"><span class="pre">zImage</span></code> file) and ramdisk. Sometimes it can contain additional
+binaries. This image is built as a part of AOSP (called <code class="docutils literal notranslate"><span class="pre">boot.img</span></code>), and being
+flashed into <code class="docutils literal notranslate"><span class="pre">boot</span></code> partition on eMMC. Bootloader then reads that image from
+<code class="docutils literal notranslate"><span class="pre">boot</span></code> partition to RAM and boots the kernel from it. Kernel then starts
+<code class="docutils literal notranslate"><span class="pre">init</span></code> process from the ramdisk. It should be mentioned that recovery image
+(<code class="docutils literal notranslate"><span class="pre">recovery.img</span></code>) also has Android Boot Image format.</p>
+<p>Android Boot Image format is described at <a class="footnote-reference brackets" href="#id10" id="id1">1</a>. At the moment it can have one of
+next image headers:</p>
+<ul class="simple">
+<li><p>v0: it’s called <em>legacy</em> boot image header; used in devices launched before
+Android 9; contains kernel image, ramdisk and second stage bootloader
+(usually unused)</p></li>
+<li><p>v1: used in devices launched with Android 9; adds <code class="docutils literal notranslate"><span class="pre">recovery_dtbo</span></code> field,
+which should be used for non-A/B devices in <code class="docutils literal notranslate"><span class="pre">recovery.img</span></code> (see <a class="footnote-reference brackets" href="#id11" id="id2">2</a> for
+details)</p></li>
+<li><p>v2: used in devices launched with Android 10; adds <code class="docutils literal notranslate"><span class="pre">dtb</span></code> field, which
+references payload containing DTB blobs (either concatenated one after the
+other, or in Android DTBO image format)</p></li>
+<li><p>v3: used in devices launched with Android 11; adds <code class="docutils literal notranslate"><span class="pre">vendor_boot</span></code> partition
+and removes the second-stage bootloader and recovery image support. The new
+<code class="docutils literal notranslate"><span class="pre">vendor_boot</span></code> partition holds the device tree blob (DTB) and a vendor ramdisk.
+The generic ramdisk in <code class="docutils literal notranslate"><span class="pre">boot</span></code> partition is loaded immediately following
+the vendor ramdisk.</p></li>
+<li><p>v4: used in devices launched with Android 12; provides a boot signature in boot
+image header, supports multiple vendor ramdisk fragments in <code class="docutils literal notranslate"><span class="pre">vendor_boot</span></code>
+partition. This version also adds a bootconfig section at the end of the vendor
+boot image, this section contains boot configuration parameters known at build time
+(see <a class="footnote-reference brackets" href="#id18" id="id3">9</a> for details).</p></li>
+</ul>
+<p>v2, v1 and v0 formats are backward compatible.</p>
+<p>The Android Boot Image format is represented by
+<code class="xref c c-type docutils literal notranslate"><span class="pre">struct</span> <span class="pre">andr_image_data</span></code> in U-Boot, and can be seen in
+<code class="docutils literal notranslate"><span class="pre">include/android_image.h</span></code>. U-Boot supports booting Android Boot Image and also
+has associated command</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Booting"></a><div class="section" id="booting">
+<h2>Booting<a class="headerlink" href="#booting" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot is able to boot the Android OS from Android Boot Image using <code class="docutils literal notranslate"><span class="pre">bootm</span></code>
+command. In order to use Android Boot Image format support, next option should
+be enabled:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_ANDROID_BOOT_IMAGE=y
+</pre></div>
+</div>
+<p>Then one can use next <code class="docutils literal notranslate"><span class="pre">bootm</span></code> command call to run Android:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">=</span>&gt;<span class="w"> </span>bootm<span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span><span class="nv">$fdtaddr</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">$loadaddr</span></code> - address in RAM where boot image was loaded; <code class="docutils literal notranslate"><span class="pre">$fdtaddr</span></code> -
+address in RAM where DTB blob was loaded.</p>
+<p>And parameters are, correspondingly:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Where kernel image is located in RAM</p></li>
+<li><p>Where ramdisk is located in RAM (can be <code class="docutils literal notranslate"><span class="pre">"-"</span></code> if not applicable)</p></li>
+<li><p>Where DTB blob is located in RAM</p></li>
+</ol>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">bootm</span></code> command will figure out that image located in <code class="docutils literal notranslate"><span class="pre">$loadaddr</span></code> has
+Android Boot Image format, will parse that and boot the kernel from it,
+providing DTB blob to kernel (from 3rd parameter), passing info about ramdisk to
+kernel via DTB.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/DTB and DTBO blobs"></a><div class="section" id="dtb-and-dtbo-blobs">
+<h2>DTB and DTBO blobs<a class="headerlink" href="#dtb-and-dtbo-blobs" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">bootm</span></code> command can’t just use DTB blob from Android Boot Image (<code class="docutils literal notranslate"><span class="pre">dtb</span></code>
+field), because:</p>
+<ul class="simple">
+<li><p>there is no DTB area in Android Boot Image before v2</p></li>
+<li><p>there may be several DTB blobs in DTB area (e.g. for different SoCs)</p></li>
+<li><p>some DTBO blobs may have to be merged in DTB blobs before booting
+(e.g. for different boards)</p></li>
+</ul>
+<p>So user has to prepare DTB blob manually and provide it in a 3rd parameter
+of <code class="docutils literal notranslate"><span class="pre">bootm</span></code> command. Next commands can be used to do so:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">abootimg</span></code>: manipulates Anroid Boot Image, allows one to extract
+meta-information and payloads from it</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">adtimg</span></code>: manipulates Android DTB/DTBO image <a class="footnote-reference brackets" href="#id12" id="id4">3</a>, allows one to extract
+DTB/DTBO blobs from it</p></li>
+</ol>
+<p>In order to use those, please enable next config options:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_CMD_ABOOTIMG=y
+CONFIG_CMD_ADTIMG=y
+</pre></div>
+</div>
+<p>For example, let’s assume we have next Android partitions on eMMC:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">boot</span></code>: contains Android Boot Image v2 (including DTB blobs)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dtbo</span></code>: contains DTBO blobs</p></li>
+</ul>
+<p>Then next command sequence can be used to boot Android:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span>dev<span class="w"> </span><span class="m">1</span>
+
+<span class="w">   </span><span class="c1"># Read boot image to RAM (into $loadaddr)</span>
+<span class="o">=</span>&gt;<span class="w"> </span>part<span class="w"> </span>start<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span><span class="w"> </span>boot<span class="w"> </span><span class="nv">boot_start</span>
+<span class="o">=</span>&gt;<span class="w"> </span>part<span class="w"> </span>size<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span><span class="w"> </span>boot<span class="w"> </span><span class="nv">boot_size</span>
+<span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span><span class="nv">$boot_start</span><span class="w"> </span><span class="nv">$boot_size</span>
+
+<span class="w">   </span><span class="c1"># Read DTBO image to RAM (into $dtboaddr)</span>
+<span class="o">=</span>&gt;<span class="w"> </span>part<span class="w"> </span>start<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span><span class="w"> </span>dtbo<span class="w"> </span><span class="nv">dtbo_start</span>
+<span class="o">=</span>&gt;<span class="w"> </span>part<span class="w"> </span>size<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span><span class="w"> </span>dtbo<span class="w"> </span><span class="nv">dtbo_size</span>
+<span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="nv">$dtboaddr</span><span class="w"> </span><span class="nv">$dtbo_start</span><span class="w"> </span><span class="nv">$dtbo_size</span>
+
+<span class="w">   </span><span class="c1"># Copy required DTB blob (into $fdtaddr)</span>
+<span class="o">=</span>&gt;<span class="w"> </span>abootimg<span class="w"> </span>get<span class="w"> </span>dtb<span class="w"> </span>--index<span class="o">=</span><span class="m">0</span><span class="w"> </span>dtb0_start<span class="w"> </span><span class="nv">dtb0_size</span>
+<span class="o">=</span>&gt;<span class="w"> </span>cp.b<span class="w"> </span><span class="nv">$dtb0_start</span><span class="w"> </span><span class="nv">$fdtaddr</span><span class="w"> </span><span class="nv">$dtb0_size</span>
+
+<span class="w">   </span><span class="c1"># Merge required DTBO blobs into DTB blob</span>
+<span class="o">=</span>&gt;<span class="w"> </span>fdt<span class="w"> </span>addr<span class="w"> </span><span class="nv">$fdtaddr</span><span class="w"> </span><span class="nv">0x100000</span>
+<span class="o">=</span>&gt;<span class="w"> </span>adtimg<span class="w"> </span>addr<span class="w"> </span><span class="nv">$dtboaddr</span>
+<span class="o">=</span>&gt;<span class="w"> </span>adtimg<span class="w"> </span>get<span class="w"> </span>dt<span class="w"> </span>--index<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">$dtbo0_addr</span>
+<span class="o">=</span>&gt;<span class="w"> </span>fdt<span class="w"> </span>apply<span class="w"> </span><span class="nv">$dtbo0_addr</span>
+
+<span class="w">   </span><span class="c1"># Boot Android</span>
+<span class="o">=</span>&gt;<span class="w"> </span>bootm<span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span><span class="nv">$fdtaddr</span>
+</pre></div>
+</div>
+<p>This sequence should be used for Android 10 boot. Of course, the whole Android
+boot procedure includes much more actions, like:</p>
+<ul class="simple">
+<li><p>obtaining reboot reason from BCB (see <a class="footnote-reference brackets" href="#id13" id="id5">4</a>)</p></li>
+<li><p>implementing recovery boot</p></li>
+<li><p>implementing fastboot boot</p></li>
+<li><p>implementing A/B slotting (see <a class="footnote-reference brackets" href="#id14" id="id6">5</a>)</p></li>
+<li><p>implementing AVB2.0 (see <a class="footnote-reference brackets" href="#id15" id="id7">6</a>)</p></li>
+</ul>
+<p>But Android Boot Image booting is the most crucial part in Android boot scheme.</p>
+<p>All Android bootloader requirements documentation is available at <a class="footnote-reference brackets" href="#id16" id="id8">7</a>. Some
+overview on the whole Android 10 boot process can be found at <a class="footnote-reference brackets" href="#id17" id="id9">8</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/C API for working with Android Boot Image format"></a><div class="section" id="c-api-for-working-with-android-boot-image-format">
+<h2>C API for working with Android Boot Image format<a class="headerlink" href="#c-api-for-working-with-android-boot-image-format" title="Permalink to this headline">¶</a></h2>
+<dl class="c function">
+<dt id="c.android_image_get_kernel">
+int <code class="sig-name descname">android_image_get_kernel</code><span class="sig-paren">(</span><em class="property">const</em> void *<em>hdr</em>, <em class="property">const</em> void *<em>vendor_boot_img</em>, int <em>verify</em>, ulong *<em>os_data</em>, ulong *<em>os_len</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/android_image_get_kernel"></a><a class="headerlink" href="#c.android_image_get_kernel" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>processes kernel part of Android boot images</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*hdr</span></code></dt><dd><p>Pointer to boot image header, which is at the start
+of the image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*vendor_boot_img</span></code></dt><dd><p>Pointer to vendor boot image header, which is at the
+start of the image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">verify</span></code></dt><dd><p>Checksum verification flag. Currently unimplemented.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">*os_data</span></code></dt><dd><p>Pointer to a ulong variable, will hold os data start
+address.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">*os_len</span></code></dt><dd><p>Pointer to a ulong variable, will hold os data length.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function returns the os image’s start address and length. Also,
+it appends the kernel command line to the bootargs env variable.</p>
+<p><strong>Return</strong></p>
+<dl class="simple">
+<dt>Zero, os start address and length on success,</dt><dd><p>otherwise on failure.</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.android_image_get_dtbo">
+bool <code class="sig-name descname">android_image_get_dtbo</code><span class="sig-paren">(</span>ulong <em>hdr_addr</em>, ulong *<em>addr</em>, u32 *<em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/android_image_get_dtbo"></a><a class="headerlink" href="#c.android_image_get_dtbo" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get address and size of recovery DTBO image.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">hdr_addr</span></code></dt><dd><p>Boot image header address</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">*addr</span></code></dt><dd><p>If not NULL, will contain address of recovery DTBO image</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">u32</span> <span class="pre">*size</span></code></dt><dd><p>If not NULL, will contain size of recovery DTBO image</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Get the address and size of DTBO image in “Recovery DTBO” area of Android
+Boot Image in RAM. The format of this image is Android DTBO (see
+corresponding “DTB/DTBO Partitions” AOSP documentation for details). Once
+the address is obtained from this function, one can use ‘adtimg’ U-Boot
+command or android_dt_*() functions to extract desired DTBO blob.</p>
+<p>This DTBO (included in boot image) is only needed for non-A/B devices, and it
+only can be found in recovery image. On A/B devices we can always rely on
+“dtbo” partition. See “Including DTBO in Recovery for Non-A/B Devices” in
+AOSP documentation for details.</p>
+<p><strong>Return</strong></p>
+<p>true on success or false on error.</p>
+<dl class="c function">
+<dt id="c.android_image_get_dtb_img_addr">
+bool <code class="sig-name descname">android_image_get_dtb_img_addr</code><span class="sig-paren">(</span>ulong <em>hdr_addr</em>, ulong <em>vhdr_addr</em>, ulong *<em>addr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/android_image_get_dtb_img_addr"></a><a class="headerlink" href="#c.android_image_get_dtb_img_addr" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the address of DTB area in boot image.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">hdr_addr</span></code></dt><dd><p>Boot image header address</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">vhdr_addr</span></code></dt><dd><p>Vendor Boot image header address</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">*addr</span></code></dt><dd><p>Will contain the address of DTB area in boot image</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>true on success or false on fail.</p>
+<dl class="c function">
+<dt id="c.android_image_get_dtb_by_index">
+bool <code class="sig-name descname">android_image_get_dtb_by_index</code><span class="sig-paren">(</span>ulong <em>hdr_addr</em>, ulong <em>vendor_boot_img</em>, u32 <em>index</em>, ulong *<em>addr</em>, u32 *<em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/android_image_get_dtb_by_index"></a><a class="headerlink" href="#c.android_image_get_dtb_by_index" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get address and size of blob in DTB area.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">hdr_addr</span></code></dt><dd><p>Boot image header address</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">vendor_boot_img</span></code></dt><dd><p>Pointer to vendor boot image header, which is at the start of the image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">u32</span> <span class="pre">index</span></code></dt><dd><p>Index of desired DTB in DTB area (starting from 0)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">*addr</span></code></dt><dd><p>If not NULL, will contain address to specified DTB</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">u32</span> <span class="pre">*size</span></code></dt><dd><p>If not NULL, will contain size of specified DTB</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Get the address and size of DTB blob by its index in DTB area of Android
+Boot Image in RAM.</p>
+<p><strong>Return</strong></p>
+<p>true on success or false on error.</p>
+<dl class="c function">
+<dt id="c.android_print_contents">
+void <code class="sig-name descname">android_print_contents</code><span class="sig-paren">(</span><em class="property">const</em> <em class="property">struct</em> andr_boot_img_hdr_v0 *<em>hdr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/android_print_contents"></a><a class="headerlink" href="#c.android_print_contents" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>prints out the contents of the Android format image</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">struct</span> <span class="pre">andr_boot_img_hdr_v0</span> <span class="pre">*hdr</span></code></dt><dd><p>pointer to the Android format image header</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>android_print_contents() formats a multi line Android image contents
+description.
+The routine prints out Android image properties</p>
+<p><strong>Return</strong></p>
+<blockquote>
+<div><p>no returned results</p>
+</div></blockquote>
+<dl class="c function">
+<dt id="c.android_image_print_dtb_info">
+bool <code class="sig-name descname">android_image_print_dtb_info</code><span class="sig-paren">(</span><em class="property">const</em> <em class="property">struct</em> fdt_header *<em>fdt</em>, u32 <em>index</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/android_image_print_dtb_info"></a><a class="headerlink" href="#c.android_image_print_dtb_info" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Print info for one DTB blob in DTB area.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">struct</span> <span class="pre">fdt_header</span> <span class="pre">*fdt</span></code></dt><dd><p>DTB header</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">u32</span> <span class="pre">index</span></code></dt><dd><p>Number of DTB blob in DTB area.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>true on success or false on error.</p>
+<dl class="c function">
+<dt id="c.android_image_print_dtb_contents">
+bool <code class="sig-name descname">android_image_print_dtb_contents</code><span class="sig-paren">(</span>ulong <em>hdr_addr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/android_image_print_dtb_contents"></a><a class="headerlink" href="#c.android_image_print_dtb_contents" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Print info for DTB blobs in DTB area.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">hdr_addr</span></code></dt><dd><p>Boot image header address</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<dl class="simple">
+<dt>DTB payload in Android Boot Image v2+ can be in one of following formats:</dt><dd><ol class="arabic simple">
+<li><p>Concatenated DTB blobs</p></li>
+<li><p>Android DTBO format (see CONFIG_CMD_ADTIMG for details)</p></li>
+</ol>
+</dd>
+<dt>This function does next:</dt><dd><ol class="arabic simple">
+<li><p>Prints out the format used in DTB area</p></li>
+<li><p>Iterates over all DTB blobs in DTB area and prints out the info for
+each blob.</p></li>
+</ol>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>true on success or false on error.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/References"></a><div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://source.android.com/devices/bootloader/boot-image-header">https://source.android.com/devices/bootloader/boot-image-header</a></p>
+</dd>
+<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p><a class="reference external" href="https://source.android.com/devices/bootloader/recovery-image">https://source.android.com/devices/bootloader/recovery-image</a></p>
+</dd>
+<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p><a class="reference external" href="https://source.android.com/devices/architecture/dto/partitions">https://source.android.com/devices/architecture/dto/partitions</a></p>
+</dd>
+<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
+<dd><p><a class="reference internal" href="bcb.html"><span class="doc">Android Bootloader Control Block (BCB)</span></a></p>
+</dd>
+<dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id6">5</a></span></dt>
+<dd><p><a class="reference internal" href="ab.html"><span class="doc">Android A/B updates</span></a></p>
+</dd>
+<dt class="label" id="id15"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
+<dd><p><a class="reference internal" href="avb2.html"><span class="doc">Android Verified Boot 2.0</span></a></p>
+</dd>
+<dt class="label" id="id16"><span class="brackets"><a class="fn-backref" href="#id8">7</a></span></dt>
+<dd><p><a class="reference external" href="https://source.android.com/devices/bootloader">https://source.android.com/devices/bootloader</a></p>
+</dd>
+<dt class="label" id="id17"><span class="brackets"><a class="fn-backref" href="#id9">8</a></span></dt>
+<dd><p><a class="reference external" href="https://connect.linaro.org/resources/san19/san19-217/">https://connect.linaro.org/resources/san19/san19-217/</a></p>
+</dd>
+<dt class="label" id="id18"><span class="brackets"><a class="fn-backref" href="#id3">9</a></span></dt>
+<dd><p><a class="reference external" href="https://source.android.com/docs/core/architecture/bootloader/implementing-bootconfig">https://source.android.com/docs/core/architecture/bootloader/implementing-bootconfig</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="bcb.html" rel="prev" title="Android Bootloader Control Block (BCB)"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="fastboot-protocol.html" rel="next" title="FastBoot Version 0.4">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

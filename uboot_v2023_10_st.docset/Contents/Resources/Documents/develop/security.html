@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Handling of security vulnerabilities — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="sending_patches.html" rel="next" title="Sending patches"/>
+<link href="release_cycle.html" rel="prev" title="Release Cycle"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#general">General</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="board_best_practices.html">Best Practices for Board Ports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codingstyle.html">U-Boot Coding Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="designprinciples.html">U-Boot Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docstyle.html">Documentation Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patman.html">Patman patch manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="process.html">U-Boot Development Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_cycle.html">Release Cycle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Handling of security vulnerabilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#contact">Contact</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cve-assignment">CVE assignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-disclosure-agreements">Non-disclosure agreements</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sending_patches.html">Sending patches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_configuration.html">System configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Handling of security vulnerabilities</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/security.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Handling of security vulnerabilities"></a><div class="section" id="handling-of-security-vulnerabilities">
+<h1>Handling of security vulnerabilities<a class="headerlink" href="#handling-of-security-vulnerabilities" title="Permalink to this headline">¶</a></h1>
+<p>The U-Boot project takes security very seriously.  As such, we’d like to know
+when a security bug is found so that it can be fixed and disclosed as quickly
+as possible.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Contact"></a><div class="section" id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Permalink to this headline">¶</a></h2>
+<p>The preferred initial point of contact is to send email to
+<cite>u-boot@lists.denx.de</cite> and use <cite>scripts/get_maintainers.pl</cite> to also include any
+relevant custodians. In addition, Tom Rini should be contacted at
+<cite>trini@konsulko.com</cite>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/CVE assignment"></a><div class="section" id="cve-assignment">
+<h2>CVE assignment<a class="headerlink" href="#cve-assignment" title="Permalink to this headline">¶</a></h2>
+<p>The U-Boot project cannot directly assign CVEs, nor do we require them for
+reports or fixes, as this can needlessly complicate the process and may delay
+the bug handling. If a reporter wishes to have a CVE identifier assigned ahead
+of public disclosure, they will need to coordinate this on their own.  When
+such a CVE identifier is known before a patch is provided, it is desirable to
+mention it in the commit message if the reporter agrees.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Non-disclosure agreements"></a><div class="section" id="non-disclosure-agreements">
+<h2>Non-disclosure agreements<a class="headerlink" href="#non-disclosure-agreements" title="Permalink to this headline">¶</a></h2>
+<p>The U-Boot project is not a formal body and therefore unable to enter any
+non-disclosure agreements.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="release_cycle.html" rel="prev" title="Release Cycle"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="sending_patches.html" rel="next" title="Sending patches">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

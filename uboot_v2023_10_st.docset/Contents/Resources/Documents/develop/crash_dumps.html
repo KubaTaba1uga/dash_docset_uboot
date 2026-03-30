@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analyzing crash dumps — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="trace.html" rel="next" title="Tracing in U-Boot"/>
+<link href="version.html" rel="prev" title="Version information"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#debugging">Debugging</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Analyzing crash dumps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-crash-dump-voluntarily">Creating a crash dump voluntarily</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analyzing-the-code-location">Analyzing the code location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crashs-in-uefi-binaries">Crashs in UEFI binaries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#architecture-specific-details">Architecture specific details</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="trace.html">Tracing in U-Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Analyzing crash dumps</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/crash_dumps.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Analyzing crash dumps"></a><div class="section" id="analyzing-crash-dumps">
+<h1>Analyzing crash dumps<a class="headerlink" href="#analyzing-crash-dumps" title="Permalink to this headline">¶</a></h1>
+<p>When the CPU detects an instruction that it cannot execute it raises an
+interrupt. U-Boot then writes a crash dump. This chapter describes how such
+dump can be analyzed.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Creating a crash dump voluntarily"></a><div class="section" id="creating-a-crash-dump-voluntarily">
+<h2>Creating a crash dump voluntarily<a class="headerlink" href="#creating-a-crash-dump-voluntarily" title="Permalink to this headline">¶</a></h2>
+<p>For describing the analysis of a crash dump we need an example. U-Boot comes
+with a command <a class="reference internal" href="../usage/cmd/exception.html"><span class="doc">exception</span></a> that comes in handy
+here. The command is enabled by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_CMD_EXCEPTION=y
+</pre></div>
+</div>
+<p>The example output below was recorded when running qemu_arm64_defconfig on
+QEMU:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; exception undefined
+"Synchronous Abort" handler, esr 0x02000000
+elr: 00000000000101fc lr : 00000000000214ec (reloc)
+elr: 000000007ff291fc lr : 000000007ff3a4ec
+x0 : 000000007ffbd7f8 x1 : 0000000000000000
+x2 : 0000000000000001 x3 : 000000007eedce18
+x4 : 000000007ff291fc x5 : 000000007eedce50
+x6 : 0000000000000064 x7 : 000000007eedce10
+x8 : 0000000000000000 x9 : 0000000000000004
+x10: 6db6db6db6db6db7 x11: 000000000000000d
+x12: 0000000000000006 x13: 000000000001869f
+x14: 000000007edd7dc0 x15: 0000000000000002
+x16: 000000007ff291fc x17: 0000000000000000
+x18: 000000007eed8dc0 x19: 0000000000000000
+x20: 000000007ffbd7f8 x21: 0000000000000000
+x22: 000000007eedce10 x23: 0000000000000002
+x24: 000000007ffd4c80 x25: 0000000000000000
+x26: 0000000000000000 x27: 0000000000000000
+x28: 000000007eedce70 x29: 000000007edd7b40
+
+Code: b00003c0 912ad000 940029d6 17ffff52 (e7f7defb)
+Resetting CPU ...
+
+resetting ...
+</pre></div>
+</div>
+<p>The first line provides us with the type of interrupt that occurred.
+On ARMv8 a synchronous abort is an exception thrown when hitting an unallocated
+instruction. The exception syndrome register ESR register contains information
+describing the reason for the exception. Bit 25 set here indicates that a 32 bit
+instruction led to the exception.</p>
+<p>The second line provides the contents of the elr and the lr register after
+subtracting the relocation offset. - U-Boot relocates itself after being
+loaded. - The relocation offset can also be displayed using the bdinfo command.</p>
+<p>After the contents of the registers we get a line indicating the machine
+code of the instructions preceding the crash and in parentheses the instruction
+leading to the dump.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Analyzing the code location"></a><div class="section" id="analyzing-the-code-location">
+<h2>Analyzing the code location<a class="headerlink" href="#analyzing-the-code-location" title="Permalink to this headline">¶</a></h2>
+<p>We can convert the instructions in the line starting with ‘Code:’ into mnemonics
+using the objdump command. To make things easier scripts/decodecode is
+supplied:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$echo 'Code: b00003c0 912ad000 940029d6 17ffff52 (e7f7defb)' | \
+  CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 scripts/decodecode
+Code: b00003c0 912ad000 940029d6 17ffff52 (e7f7defb)
+All code
+========
+   0:   b00003c0     adrp   x0, 0x79000
+   4:   912ad000     add    x0, x0, #0xab4
+   8:   940029d6     bl     0xa760
+   c:   17ffff52     b      0xfffffffffffffd54
+  10:*  e7f7defb     .inst  0xe7f7defb ; undefined &lt;-- trapping instruction
+
+Code starting with the faulting instruction
+===========================================
+   0:   e7f7defb     .inst  0xe7f7defb ; undefined
+</pre></div>
+</div>
+<p>Now lets use the locations provided by the elr and lr registers after
+subtracting the relocation offset to find out where in the code the crash
+occurred and from where it was invoked.</p>
+<p>File u-boot.map contains the memory layout of the U-Boot binary. Here we find
+these lines:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.text.do_undefined
+               0x00000000000101fc        0xc cmd/built-in.o
+.text.exception_complete
+               0x0000000000010208       0x90 cmd/built-in.o
+...
+.text.cmd_process
+               0x00000000000213b8      0x164 common/built-in.o
+               0x00000000000213b8                cmd_process
+.text.cmd_process_error
+               0x000000000002151c       0x40 common/built-in.o
+               0x000000000002151c                cmd_process_error
+</pre></div>
+</div>
+<p>So the error occurred at the start of function do_undefined() and this
+function was invoked from somewhere inside function cmd_process().</p>
+<p>If we want to dive deeper, we can disassemble the U-Boot binary:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ aarch64-linux-gnu-objdump -S -D u-boot | less
+
+00000000000101fc &lt;do_undefined&gt;:
+{
+        /*
+         * 0xe7f...f.   is undefined in ARM mode
+         * 0xde..       is undefined in Thumb mode
+        */
+        asm volatile (".word 0xe7f7defb\n");
+   101fc:       e7f7defb        .inst   0xe7f7defb ; undefined
+        return CMD_RET_FAILURE;
+}
+10200:       52800020        mov     w0, #0x1        // #1
+10204:       d65f03c0        ret
+</pre></div>
+</div>
+<p>This example is based on the ARMv8 architecture but the same procedures can be
+used on other architectures as well.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Crashs in UEFI binaries"></a><div class="section" id="crashs-in-uefi-binaries">
+<h2>Crashs in UEFI binaries<a class="headerlink" href="#crashs-in-uefi-binaries" title="Permalink to this headline">¶</a></h2>
+<p>If UEFI images are loaded when a crash occurs, their load addresses are
+displayed. If the process counter points to an address in a loaded UEFI
+binary, the relative process counter position is indicated. Here is an
+example executed on the U-Boot sandbox:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; load host 0:1 $kernel_addr_r buggy.efi
+5632 bytes read in 0 ms
+=&gt; bootefi $kernel_addr_r
+Booting /buggy.efi
+Buggy world!
+
+Segmentation violation
+pc = 0x19fc264c, pc_reloc = 0xffffaa4688b1664c
+
+UEFI image [0x0000000019fc0000:0x0000000019fc6137] pc=0x264c '/buggy.efi'
+</pre></div>
+</div>
+<p>The crash occured in UEFI binary buggy.efi at relative position 0x264c.
+Disassembly may be used to find the actual source code location:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ x86_64-linux-gnu-objdump -S -D buggy_efi.so
+
+0000000000002640 &lt;memset&gt;:
+    2640:       f3 0f 1e fa             endbr64
+    2644:       48 89 f8                mov    %rdi,%rax
+    2647:       48 89 f9                mov    %rdi,%rcx
+    264a:       eb 0b                   jmp    2657 &lt;memset+0x17&gt;
+    264c:       40 88 31                mov    %sil,(%rcx)
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Architecture specific details"></a><div class="section" id="architecture-specific-details">
+<h2>Architecture specific details<a class="headerlink" href="#architecture-specific-details" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="armv8">
+<h3>ARMv8<a class="headerlink" href="#armv8" title="Permalink to this headline">¶</a></h3>
+<p>On the ARM 64-bit architecture CONFIG_ARMV8_SPL_EXCEPTION_VECTORS controls
+if the exception vector tables are set up in the Secondary Program Loader (SPL).
+Without initialization of the tables crash dumps cannot be shown. The feature is
+disabled by default on most boards to reduce the size of the SPL.</p>
+</div>
+<div class="section" id="risc-v">
+<h3>RISC-V<a class="headerlink" href="#risc-v" title="Permalink to this headline">¶</a></h3>
+<p>On the RISC-V architecture CONFIG_SHOW_REGS=y has to be specified to show
+all registers in crash dumps.</p>
+</div>
+<div class="section" id="sandbox">
+<h3>Sandbox<a class="headerlink" href="#sandbox" title="Permalink to this headline">¶</a></h3>
+<p>The sandbox U-Boot binary must be invoked with parameter <em>-S</em> to display crash
+dumps:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./u-boot<span class="w"> </span>-S<span class="w"> </span>-T
+</pre></div>
+</div>
+<p>Only with CONFIG_SANDBOX_CRASH_RESET=y the sandbox reboots after a crash.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="version.html" rel="prev" title="Version information"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="trace.html" rel="next" title="Tracing in U-Boot">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ROCKCHIP — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../samsung/index.html" rel="next" title="Samsung"/>
+<link href="index.html" rel="prev" title="Rockchip"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Rockchip</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ROCKCHIP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#about-this">About this</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rockchip-boards">Rockchip boards</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#building">Building</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashing">Flashing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#package-the-image-with-u-boot-tpl-spl">1. Package the image with U-Boot TPL/SPL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#package-the-image-with-rockchip-miniloader">2. Package the image with Rockchip miniloader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#package-the-rk3066-image-with-u-boot-tpl-spl-on-nand">3. Package the RK3066 image with U-Boot TPL/SPL on NAND</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#todo">TODO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Rockchip</a> »</li>
+<li>ROCKCHIP</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/rockchip/rockchip.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/ROCKCHIP"></a><div class="section" id="rockchip">
+<h1>ROCKCHIP<a class="headerlink" href="#rockchip" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/About this"></a><div class="section" id="about-this">
+<h2>About this<a class="headerlink" href="#about-this" title="Permalink to this headline">¶</a></h2>
+<p>This document describes the information about Rockchip supported boards
+and it’s usage steps.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Rockchip boards"></a><div class="section" id="rockchip-boards">
+<h2>Rockchip boards<a class="headerlink" href="#rockchip-boards" title="Permalink to this headline">¶</a></h2>
+<p>Rockchip is a SoC solutions provider for tablets &amp; PCs, streaming media
+TV boxes, AI audio &amp; vision, IoT hardware.</p>
+<p>A wide range of Rockchip SoCs with associated boards are supported in
+mainline U-Boot.</p>
+<p>List of mainline supported Rockchip boards:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>px30</dt><dd><ul>
+<li><p>Rockchip Evb-PX30 (evb-px30)</p></li>
+<li><p>Engicam PX30.Core C.TOUCH 2.0 (px30-core-ctouch2-px30)</p></li>
+<li><p>Engicam PX30.Core C.TOUCH 2.0 10.1 (px30-core-ctouch2-of10-px30)</p></li>
+<li><p>Engicam PX30.Core EDIMM2.2 Starter Kit (px30-core-edimm2.2-px30)</p></li>
+<li><p>Firefly Core-PX30-JD4 (firefly-px30)</p></li>
+<li><p>Theobroma Systems PX30-µQ7 SoM - Ringneck (ringneck-px30)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3036</dt><dd><ul>
+<li><p>Rockchip Evb-RK3036 (evb-rk3036)</p></li>
+<li><p>Kylin (kylin_rk3036)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3066</dt><dd><ul>
+<li><p>Rikomagic MK808 (mk808)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3128</dt><dd><ul>
+<li><p>Rockchip Evb-RK3128 (evb-rk3128)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3188</dt><dd><ul>
+<li><p>Radxa Rock (rock)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3229</dt><dd><ul>
+<li><p>Rockchip Evb-RK3229 (evb-rk3229)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3288</dt><dd><ul>
+<li><p>Rockchip Evb-RK3288 (evb-rk3288)</p></li>
+<li><p>Firefly-RK3288 (firefly-rk3288)</p></li>
+<li><p>MQmaker MiQi (miqi-rk3288)</p></li>
+<li><p>Phytec RK3288 PCM-947 (phycore-rk3288)</p></li>
+<li><p>PopMetal-RK3288 (popmetal-rk3288)</p></li>
+<li><p>Radxa Rock 2 Square (rock2)</p></li>
+<li><p>Tinker-RK3288 (tinker-rk3288)</p></li>
+<li><p>Google Jerry (chromebook_jerry)</p></li>
+<li><p>Google Mickey (chromebook_mickey)</p></li>
+<li><p>Google Minnie (chromebook_minnie)</p></li>
+<li><p>Google Speedy (chromebook_speedy)</p></li>
+<li><p>Amarula Vyasa-RK3288 (vyasa-rk3288)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3308</dt><dd><ul>
+<li><p>Rockchip Evb-RK3308 (evb-rk3308)</p></li>
+<li><p>Roc-cc-RK3308 (roc-cc-rk3308)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3326</dt><dd><ul>
+<li><p>ODROID-GO Advance (odroid-go2)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3328</dt><dd><ul>
+<li><p>Rockchip Evb-RK3328 (evb-rk3328)</p></li>
+<li><p>Pine64 Rock64 (rock64-rk3328)</p></li>
+<li><p>Firefly-RK3328 (roc-cc-rk3328)</p></li>
+<li><p>Radxa Rockpi E (rock-pi-e-rk3328)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3368</dt><dd><ul>
+<li><p>GeekBox (geekbox)</p></li>
+<li><p>PX5 EVB (evb-px5)</p></li>
+<li><p>Rockchip Sheep (sheep-rk3368)</p></li>
+<li><p>Theobroma Systems RK3368-uQ7 SoM - Lion (lion-rk3368)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3399</dt><dd><ul>
+<li><p>96boards RK3399 Ficus (ficus-rk3399)</p></li>
+<li><p>96boards Rock960 (rock960-rk3399)</p></li>
+<li><p>Firefly-RK3399 (firefly_rk3399)</p></li>
+<li><p>Firefly ROC-RK3399-PC</p></li>
+<li><p>FriendlyElec NanoPC-T4 (nanopc-t4-rk3399)</p></li>
+<li><p>FriendlyElec NanoPi M4 (nanopi-m4-rk3399)</p></li>
+<li><p>FriendlyElec NanoPi M4B (nanopi-m4b-rk3399)</p></li>
+<li><p>FriendlyARM NanoPi NEO4 (nanopi-neo4-rk3399)</p></li>
+<li><p>Google Bob (chromebook_bob)</p></li>
+<li><p>Google Kevin (chromebook_kevin)</p></li>
+<li><p>Khadas Edge (khadas-edge-rk3399)</p></li>
+<li><p>Khadas Edge-Captain (khadas-edge-captain-rk3399)</p></li>
+<li><p>Khadas Edge-V (hadas-edge-v-rk3399)</p></li>
+<li><p>Orange Pi RK3399 (orangepi-rk3399)</p></li>
+<li><p>Pine64 RockPro64 (rockpro64-rk3399)</p></li>
+<li><p>Radxa ROCK 4C+ (rock-4c-plus-rk3399)</p></li>
+<li><p>Radxa ROCK 4SE (rock-4se-rk3399)</p></li>
+<li><p>Radxa ROCK Pi 4A/B/A+/B+ (rock-pi-4-rk3399)</p></li>
+<li><p>Radxa ROCK Pi 4C (rock-pi-4c-rk3399)</p></li>
+<li><p>Rockchip Evb-RK3399 (evb_rk3399)</p></li>
+<li><p>Theobroma Systems RK3399-Q7 SoM - Puma (puma_rk3399)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3566</dt><dd><ul>
+<li><p>Anbernic RGxx3 (anbernic-rgxx3-rk3566)</p></li>
+<li><p>Pine64 Quartz64-A Board (quartz64-a-rk3566)</p></li>
+<li><p>Pine64 Quartz64-B Board (quartz64-b-rk3566)</p></li>
+<li><p>Pine64 SOQuartz on Blade (soquartz-blade-rk3566)</p></li>
+<li><p>Pine64 SOQuartz on CM4-IO (soquartz-cm4-rk3566)</p></li>
+<li><p>Pine64 SOQuartz on Model A (soquartz-model-a-rk3566)</p></li>
+<li><p>Radxa CM3 IO Board (radxa-cm3-io-rk3566)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3568</dt><dd><ul>
+<li><p>Rockchip Evb-RK3568 (evb-rk3568)</p></li>
+<li><p>EmbedFire LubanCat 2 (lubancat-2-rk3568)</p></li>
+<li><p>FriendlyElec NanoPi R5C (nanopi-r5c-rk3568)</p></li>
+<li><p>FriendlyElec NanoPi R5S (nanopi-r5s-rk3568)</p></li>
+<li><p>Hardkernel ODROID-M1 (odroid-m1-rk3568)</p></li>
+<li><p>Radxa E25 Carrier Board (radxa-e25-rk3568)</p></li>
+<li><p>Radxa ROCK 3 Model A (rock-3a-rk3568)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rk3588</dt><dd><ul>
+<li><p>Rockchip EVB (evb-rk3588)</p></li>
+<li><p>Edgeble Neural Compute Module 6A SoM - Neu6a (neu6a-io-rk3588)</p></li>
+<li><p>Edgeble Neural Compute Module 6B SoM - Neu6b (neu6b-io-rk3588)</p></li>
+<li><p>Radxa ROCK 5A (rock5a-rk3588s)</p></li>
+<li><p>Radxa ROCK 5B (rock5b-rk3588)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rv1108</dt><dd><ul>
+<li><p>Rockchip Evb-rv1108 (evb-rv1108)</p></li>
+<li><p>Elgin-R1 (elgin-rv1108)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rv1126</dt><dd><ul>
+<li><p>Edgeble Neural Compute Module 2 SoM - Neu2/Neu2k (neu2-io-r1126)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building"></a><div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tf-a">
+<h3>TF-A<a class="headerlink" href="#tf-a" title="Permalink to this headline">¶</a></h3>
+<p>TF-A is required when building ARM64 Rockchip SoCs images.</p>
+<p>To build TF-A:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/ARM-software/arm-trusted-firmware.git
+<span class="nb">cd</span><span class="w"> </span>arm-trusted-firmware
+make<span class="w"> </span>realclean
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span><span class="nv">PLAT</span><span class="o">=</span>rk3399
+<span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+<p>Specify the PLAT= with desired Rockchip platform to build TF-A for.</p>
+</div>
+<div class="section" id="u-boot">
+<h3>U-Boot<a class="headerlink" href="#u-boot" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://source.denx.de/u-boot/u-boot.git
+<span class="nb">cd</span><span class="w"> </span>u-boot
+</pre></div>
+</div>
+<p>To build px30 boards:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">BL31</span><span class="o">=</span>../arm-trusted-firmware/build/px30/release/bl31/bl31.elf
+make<span class="w"> </span>evb-px30_defconfig
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-
+</pre></div>
+</div>
+<p>To build rk3066 boards:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>mk808_defconfig
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>arm-linux-gnueabihf-
+</pre></div>
+</div>
+<p>To build rk3288 boards:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>evb-rk3288_defconfig
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>arm-linux-gnueabihf-
+</pre></div>
+</div>
+<p>To build rk3328 boards:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">BL31</span><span class="o">=</span>../arm-trusted-firmware/build/rk3328/release/bl31/bl31.elf
+make<span class="w"> </span>evb-rk3328_defconfig
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-
+</pre></div>
+</div>
+<p>To build rk3368 boards:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">BL31</span><span class="o">=</span>../arm-trusted-firmware/build/rk3368/release/bl31/bl31.elf
+make<span class="w"> </span>evb-px5_defconfig
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-
+</pre></div>
+</div>
+<p>To build rk3399 boards:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">BL31</span><span class="o">=</span>../arm-trusted-firmware/build/rk3399/release/bl31/bl31.elf
+make<span class="w"> </span>evb-rk3399_defconfig
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-
+</pre></div>
+</div>
+<p>To build rk3568 boards:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">BL31</span><span class="o">=</span>../arm-trusted-firmware/build/rk3568/release/bl31/bl31.elf
+<span class="o">[</span>or<span class="o">]</span><span class="nb">export</span><span class="w"> </span><span class="nv">BL31</span><span class="o">=</span>../rkbin/bin/rk35/rk3568_bl31_v1.34.elf
+<span class="nb">export</span><span class="w"> </span><span class="nv">ROCKCHIP_TPL</span><span class="o">=</span>../rkbin/bin/rk35/rk3568_ddr_1560MHz_v1.13.bin
+make<span class="w"> </span>evb-rk3568_defconfig
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-
+</pre></div>
+</div>
+<p>To build rk3588 boards:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">BL31</span><span class="o">=</span>../rkbin/bin/rk35/rk3588_bl31_v1.33.elf
+<span class="nb">export</span><span class="w"> </span><span class="nv">ROCKCHIP_TPL</span><span class="o">=</span>../rkbin/bin/rk35/rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.09.bin
+make<span class="w"> </span>evb-rk3588_defconfig
+make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flashing"></a><div class="section" id="flashing">
+<h2>Flashing<a class="headerlink" href="#flashing" title="Permalink to this headline">¶</a></h2>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/1. Package the image with U-Boot TPL/SPL"></a><div class="section" id="package-the-image-with-u-boot-tpl-spl">
+<h2>1. Package the image with U-Boot TPL/SPL<a class="headerlink" href="#package-the-image-with-u-boot-tpl-spl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sd-card">
+<h3>SD Card<a class="headerlink" href="#sd-card" title="Permalink to this headline">¶</a></h3>
+<p>All Rockchip platforms (except rk3128 which doesn’t use SPL) are now
+supporting a single boot image using binman.</p>
+<p>To write an image that boots from a SD card (assumed to be /dev/sda):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>u-boot-rockchip.bin<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sda<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">64</span>
+sync
+</pre></div>
+</div>
+</div>
+<div class="section" id="emmc">
+<h3>eMMC<a class="headerlink" href="#emmc" title="Permalink to this headline">¶</a></h3>
+<p>eMMC flash would probe on mmc0 in most of the Rockchip platforms.</p>
+<p>Create GPT partition layout as defined in $partitions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mmc<span class="w"> </span>dev<span class="w"> </span><span class="m">0</span>
+gpt<span class="w"> </span>write<span class="w"> </span>mmc<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nv">$partitions</span>
+</pre></div>
+</div>
+<p>Connect the USB-OTG cable between the host and a target device.</p>
+<p>Launch fastboot on the target with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>fastboot<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+<p>Upon a successful gadget connection the host shows the USB device with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsusb
+<span class="c1"># Bus 001 Device 020: ID 2207:330c Fuzhou Rockchip Electronics Company RK3399 in Mask ROM mode</span>
+</pre></div>
+</div>
+<p>Program the flash with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>fastboot<span class="w"> </span>-i<span class="w"> </span>0x2207<span class="w"> </span>flash<span class="w"> </span>loader1<span class="w"> </span>idbloader.img
+sudo<span class="w"> </span>fastboot<span class="w"> </span>-i<span class="w"> </span>0x2207<span class="w"> </span>flash<span class="w"> </span>loader2<span class="w"> </span>u-boot.itb
+</pre></div>
+</div>
+<p>Note:</p>
+<p>For Rockchip 32-bit platforms the U-Boot proper image
+is u-boot-dtb.img</p>
+</div>
+<div class="section" id="spi">
+<h3>SPI<a class="headerlink" href="#spi" title="Permalink to this headline">¶</a></h3>
+<p>Write u-boot-rockchip-spi.bin to offset 0 of SPI flash.</p>
+<p>Copy u-boot-rockchip-spi.bin into SD card and boot from SD:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sf<span class="w"> </span>probe
+load<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span>:1<span class="w"> </span><span class="nv">$kernel_addr_r</span><span class="w"> </span>u-boot-rockchip-spi.bin
+sf<span class="w"> </span>update<span class="w"> </span><span class="nv">$fileaddr</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nv">$filesize</span>
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/2. Package the image with Rockchip miniloader"></a><div class="section" id="package-the-image-with-rockchip-miniloader">
+<h2>2. Package the image with Rockchip miniloader<a class="headerlink" href="#package-the-image-with-rockchip-miniloader" title="Permalink to this headline">¶</a></h2>
+<p>Image package with Rockchip miniloader requires rkbin [1].</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>..
+git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/rockchip-linux/rkbin
+</pre></div>
+</div>
+<p>Create idbloader.img:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>u-boot
+./tools/mkimage<span class="w"> </span>-n<span class="w"> </span>px30<span class="w"> </span>-T<span class="w"> </span>rksd<span class="w"> </span>-d<span class="w"> </span>../rkbin/bin/rk33/px30_ddr_333MHz_v1.16.bin<span class="w"> </span>idbloader.img
+cat<span class="w"> </span>../rkbin/bin/rk33/px30_miniloader_v1.31.bin<span class="w"> </span>&gt;&gt;<span class="w"> </span>idbloader.img
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>idbloader.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sda<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">64</span>
+</pre></div>
+</div>
+<p>Create trust.img:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../rkbin
+./tools/trust_merger<span class="w"> </span>RKTRUST/PX30TRUST.ini
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>trust.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sda<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">24576</span>
+</pre></div>
+</div>
+<p>Create uboot.img [2]:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../u-boot
+../rkbin/tools/loaderimage<span class="w"> </span>--pack<span class="w"> </span>--uboot<span class="w"> </span>u-boot-dtb.bin<span class="w"> </span>uboot.img<span class="w"> </span>0x200000
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>uboot.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sda<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">16384</span>
+</pre></div>
+</div>
+<p>Note:</p>
+<ol class="arabic simple">
+<li><p>rkbin binaries are regularly updated, so it would be recommended to use the latest version.</p></li>
+<li><p>0x200000 is a load address and is an option for some platforms.</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/3. Package the RK3066 image with U-Boot TPL/SPL on NAND"></a><div class="section" id="package-the-rk3066-image-with-u-boot-tpl-spl-on-nand">
+<h2>3. Package the RK3066 image with U-Boot TPL/SPL on NAND<a class="headerlink" href="#package-the-rk3066-image-with-u-boot-tpl-spl-on-nand" title="Permalink to this headline">¶</a></h2>
+<p>Unlike later SoC models the rk3066 BootROM doesn’t have SDMMC support.
+If all other boot options fail then it enters into a BootROM mode on the USB OTG port.
+This method loads TPL/SPL on NAND with U-Boot and kernel on SD card.</p>
+<div class="section" id="id1">
+<h3>SD Card<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>U-Boot expects a GPT partition map and a boot directory structure with files on the SD card.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Partition Map for MMC device 0  --   Partition Type: EFI
+Part     Start LBA         End LBA           Name
+1        0x00000040        0x00001f7f        "loader1"
+2        0x00004000        0x00005fff        "loader2"
+3        0x00006000        0x00007fff        "trust"
+4        0x00008000        0x0003ffff        "boot"
+5        0x00040000        0x00ed7fde        "rootfs"
+</pre></div>
+</div>
+<p>Make sure boot and esp flag are set for the boot partition.
+Loader1 partition is not used by RK3066.</p>
+<p>Boot partition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>extlinux
+  extlinux.conf
+
+zImage
+rk3066a-mk808.dtb
+</pre></div>
+</div>
+<p>To write a U-Boot image to the SD card (assumed to be /dev/sda):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>u-boot-dtb.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sda<span class="w"> </span><span class="nv">seek</span><span class="o">=</span><span class="m">16384</span>
+sync
+</pre></div>
+</div>
+</div>
+<div class="section" id="nand">
+<h3>NAND<a class="headerlink" href="#nand" title="Permalink to this headline">¶</a></h3>
+<p>Bring device in BootROM mode:</p>
+<p>If bricked and no BootROM mode shows up then connect pin 8 and 9 of the NAND flash
+with a needle while reconnecting to the USB OTG port to a PC.</p>
+<p>Show connected devices with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsusb
+<span class="c1"># Bus 001 Device 004: ID 2207:300a Fuzhou Rockchip Electronics Company RK3066 in Mask ROM mode</span>
+</pre></div>
+</div>
+<p>Create NAND image:</p>
+<p>Size of SPL and TPL must be aligned to 2kb.</p>
+<p>Program with commands in a bash script ./flash.sh:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">printf</span><span class="w"> </span><span class="s2">"RK30"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>dd<span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc<span class="w"> </span><span class="nv">bs</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">of</span><span class="o">=</span>u-boot-tpl.bin
+truncate<span class="w"> </span>-s<span class="w"> </span>%2048<span class="w"> </span>u-boot-tpl.bin
+truncate<span class="w"> </span>-s<span class="w"> </span>%2048<span class="w"> </span>u-boot-spl.bin
+../tools/boot_merger<span class="w"> </span>--verbose<span class="w"> </span>config-flash.ini
+../tools/upgrade_tool<span class="w"> </span>ul<span class="w"> </span>./RK30xxLoader_uboot.bin
+</pre></div>
+</div>
+<p>config-flash.ini:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[CHIP_NAME]
+NAME=RK30
+[VERSION]
+MAJOR=2
+MINOR=21
+[CODE471_OPTION]
+NUM=1
+Path1=30_LPDDR2_300MHz_DD.bin
+[CODE472_OPTION]
+NUM=1
+Path1=rk30usbplug.bin
+[LOADER_OPTION]
+NUM=2
+LOADER1=FlashData
+LOADER2=FlashBoot
+FlashData=u-boot-tpl.bin
+FlashBoot=u-boot-spl.bin
+[OUTPUT]
+PATH=RK30xxLoader_uboot.bin
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/TODO"></a><div class="section" id="todo">
+<h2>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Add Rockchip idbloader image building</p></li>
+<li><p>Add Rockchip TPL image building</p></li>
+<li><p>Document SPI flash boot</p></li>
+<li><p>Add missing SoC’s with it boards list</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Rockchip"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../samsung/index.html" rel="next" title="Samsung">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blob Lists - bloblist — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="bootstd.html" rel="next" title="U-Boot Standard Boot"/>
+<link href="directories.html" rel="prev" title="Directory hierarchy"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Blob Lists - bloblist</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#passing-state-through-the-boot-process">Passing state through the boot process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blobs">Blobs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blob-tags">Blob tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#single-structure">Single structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#placing-the-bloblist">Placing the bloblist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finishing-the-bloblist">Finishing the bloblist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#future-work">Future work</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-documentation">API documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Blob Lists - bloblist</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/bloblist.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Blob Lists - bloblist"></a><div class="section" id="blob-lists-bloblist">
+<h1>Blob Lists - bloblist<a class="headerlink" href="#blob-lists-bloblist" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>A bloblist provides a way to store collections of binary information (blobs) in
+a central structure. Each record of information is assigned a tag so that its
+owner can find it and update it. Each record is generally described by a C
+structure defined by the code that owns it.</p>
+<p>For the design goals of bloblist, please see the comments at the top of the
+<cite>bloblist.h</cite> header file.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Passing state through the boot process"></a><div class="section" id="passing-state-through-the-boot-process">
+<h2>Passing state through the boot process<a class="headerlink" href="#passing-state-through-the-boot-process" title="Permalink to this headline">¶</a></h2>
+<p>The bloblist is created when the first U-Boot component runs (often SPL,
+sometimes TPL). It is passed through to each successive part of the boot and
+can be accessed as needed. This provides a way to transfer state from one part
+to the next. For example, TPL may determine that a watchdog reset occurred by
+reading an SoC register. Reading the register may reset the value, so that it
+cannot be read a second time. So TPL can store that in a bloblist record which
+can be passed through to SPL and U-Boot proper, which can print a message
+indicating that something went wrong and the watchdog fired.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Blobs"></a><div class="section" id="blobs">
+<h2>Blobs<a class="headerlink" href="#blobs" title="Permalink to this headline">¶</a></h2>
+<p>While each blob in the bloblist can be of any length, bloblists are designed to
+hold small amounts of data, typically a few KB at most. It is not possible to
+change the length of a blob once it has been written. Each blob is normally
+created from a C structure which can be used to access its fields.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Blob tags"></a><div class="section" id="blob-tags">
+<h2>Blob tags<a class="headerlink" href="#blob-tags" title="Permalink to this headline">¶</a></h2>
+<p>Each blob has a tag which is a 32-bit number. This uniquely identifies the
+owner of the blob. Blob tags are listed in enum blob_tag_t and are named
+with a <cite>BLOBT_</cite> prefix.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Single structure"></a><div class="section" id="single-structure">
+<h2>Single structure<a class="headerlink" href="#single-structure" title="Permalink to this headline">¶</a></h2>
+<p>There is normally only one bloblist in U-Boot. Since a bloblist can store
+multiple blobs it does not seem useful to allow multiple bloblists. Of course
+there could be reasons for this, such as needing to spread the blobs around in
+different memory areas due to fragmented memory, but it is simpler to just have
+a single bloblist.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/API"></a><div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<p>Bloblist provides a fairly simple API which allows blobs to be created and
+found. All access is via the blob’s tag. Blob records are zeroed when added.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Placing the bloblist"></a><div class="section" id="placing-the-bloblist">
+<h2>Placing the bloblist<a class="headerlink" href="#placing-the-bloblist" title="Permalink to this headline">¶</a></h2>
+<p>The bloblist is typically positioned at a fixed address by TPL, or SPL. This
+is controlled by <cite>CONFIG_BLOBLIST_ADDR</cite>. But in some cases it is preferable to
+allocate the bloblist in the malloc() space. Use the <cite>CONFIG_BLOBLIST_ALLOC</cite>
+option to enable this.</p>
+<p>The bloblist is automatically relocated as part of U-Boot relocation. Sometimes
+it is useful to expand the bloblist in U-Boot proper, since it may want to add
+information for use by Linux. Note that this does not mean that Linux needs to
+know anything about the bloblist format, just that it is convenient to use
+bloblist to place things contiguously in memory. Set
+<cite>CONFIG_BLOBLIST_SIZE_RELOC</cite> to define the expanded size, if needed.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Finishing the bloblist"></a><div class="section" id="finishing-the-bloblist">
+<h2>Finishing the bloblist<a class="headerlink" href="#finishing-the-bloblist" title="Permalink to this headline">¶</a></h2>
+<p>When a part of U-Boot is about to jump to the next part, it can ‘finish’ the
+bloblist in preparation for the next stage. This involves adding a checksum so
+that the next stage can make sure that the data arrived safely. While the
+bloblist is in use, changes can be made which will affect the checksum, so it
+is easier to calculate the checksum at the end after all changes are made.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Future work"></a><div class="section" id="future-work">
+<h2>Future work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
+<p>Bootstage has a mechanism to ‘stash’ its records for passing to the next part.
+This should move to using bloblist, to avoid having its own mechanism for
+passing information between U-Boot parts.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/API documentation"></a><div class="section" id="api-documentation">
+<h2>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="c struct">
+<dt id="c.bloblist_hdr">
+<em class="property">struct </em><code class="sig-name descname">bloblist_hdr</code><a class="headerlink" href="#c.bloblist_hdr" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>header for the bloblist</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct bloblist_hdr {
+  u32 magic;
+  u32 version;
+  u32 hdr_size;
+  u32 flags;
+  u32 size;
+  u32 alloced;
+  u32 spare;
+  u32 chksum;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">magic</span></code></dt><dd><p>BLOBLIST_MAGIC</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">version</span></code></dt><dd><p>BLOBLIST_VERSION</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">hdr_size</span></code></dt><dd><p>Size of this header, normally sizeof(struct bloblist_hdr). The
+first bloblist_rec starts at this offset from the start of the header</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Space for BLOBLISTF… flags (none yet)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size</span></code></dt><dd><p>Total size of the bloblist (non-zero if valid) including this header.
+The bloblist extends for this many bytes from the start of this header.
+When adding new records, the bloblist can grow up to this size.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">alloced</span></code></dt><dd><p>Total size allocated so far for this bloblist. This starts out as
+sizeof(bloblist_hdr) since we need at least that much space to store a
+valid bloblist</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">spare</span></code></dt><dd><p>Spare space (for future use)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">chksum</span></code></dt><dd><p>CRC32 for the entire bloblist allocated area. Since any of the
+blobs can be altered after being created, this checksum is only valid
+when the bloblist is finalised before jumping to the next stage of boot.
+Note that chksum is last to make it easier to exclude it from the
+checksum calculation.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This is stored at the start of the bloblist which is always on a 16-byte
+boundary. Records follow this header. The bloblist normally stays in the
+same place in memory as SPL and U-Boot execute, but it can be safely moved
+around.</p>
+<p>None of the bloblist headers themselves contain pointers but it is possible
+to put pointers inside a bloblist record if desired. This is not encouraged,
+since it can make part of the bloblist inaccessible if the pointer is
+no-longer valid. It is better to just store all the data inside a bloblist
+record.</p>
+<p>Each bloblist record is aligned to a 16-byte boundary and follows immediately
+from the last.</p>
+<dl class="c struct">
+<dt id="c.bloblist_rec">
+<em class="property">struct </em><code class="sig-name descname">bloblist_rec</code><a class="headerlink" href="#c.bloblist_rec" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>record for the bloblist</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct bloblist_rec {
+  u32 tag;
+  u32 hdr_size;
+  u32 size;
+  u32 spare;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">tag</span></code></dt><dd><p>Tag indicating what the record contains</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">hdr_size</span></code></dt><dd><p>Size of this header, normally sizeof(struct bloblist_rec). The
+record’s data starts at this offset from the start of the record</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size</span></code></dt><dd><p>Size of record in bytes, excluding the header size. This does not
+need to be aligned (e.g. 3 is OK).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">spare</span></code></dt><dd><p>Spare space for other things</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The bloblist contains a number of records each consisting of this record
+structure followed by the data contained. Each records is 16-byte aligned.</p>
+<p><strong>NOTE</strong></p>
+<p>Only exported for testing purposes. Do not use this struct.</p>
+<dl class="c function">
+<dt id="c.bloblist_check_magic">
+void *<code class="sig-name descname">bloblist_check_magic</code><span class="sig-paren">(</span>ulong <em>addr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_check_magic"></a><a class="headerlink" href="#c.bloblist_check_magic" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>return a bloblist if the magic matches</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">addr</span></code></dt><dd><p>Address to check</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>pointer to bloblist, if the magic matches, else NULL</p>
+<dl class="c function">
+<dt id="c.bloblist_find">
+void *<code class="sig-name descname">bloblist_find</code><span class="sig-paren">(</span>uint <em>tag</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_find"></a><a class="headerlink" href="#c.bloblist_find" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Find a blob</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">tag</span></code></dt><dd><p>Tag to search for (enum bloblist_tag_t)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Expected size of the blob, or 0 for any size</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Searches the bloblist and returns the blob with the matching tag</p>
+<p><strong>Return</strong></p>
+<p>pointer to blob if found, or NULL if not found, or a blob was found
+but it is the wrong size</p>
+<dl class="c function">
+<dt id="c.bloblist_add">
+void *<code class="sig-name descname">bloblist_add</code><span class="sig-paren">(</span>uint <em>tag</em>, int <em>size</em>, int <em>align</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_add"></a><a class="headerlink" href="#c.bloblist_add" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Add a new blob</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">tag</span></code></dt><dd><p>Tag to add (enum bloblist_tag_t)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Size of the blob</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">align</span></code></dt><dd><p>Alignment of the blob (in bytes), 0 for default</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Add a new blob to the bloblist</p>
+<p>This should only be called if you konw there is no existing blob for a
+particular tag. It is typically safe to call in the first phase of U-Boot
+(e.g. TPL or SPL). After that, bloblist_ensure() should be used instead.</p>
+<p><strong>Return</strong></p>
+<p>pointer to the newly added block, or NULL if there is not enough
+space for the blob</p>
+<dl class="c function">
+<dt id="c.bloblist_ensure_size">
+int <code class="sig-name descname">bloblist_ensure_size</code><span class="sig-paren">(</span>uint <em>tag</em>, int <em>size</em>, int <em>align</em>, void **<em>blobp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_ensure_size"></a><a class="headerlink" href="#c.bloblist_ensure_size" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Find or add a blob</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">tag</span></code></dt><dd><p>Tag to add (enum bloblist_tag_t)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Size of the blob</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">align</span></code></dt><dd><p>Alignment of the blob (in bytes), 0 for default</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">**blobp</span></code></dt><dd><p>Returns a pointer to blob on success</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Find an existing blob, or add a new one if not found</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOSPC if it is missing and could not be added due to lack
+of space, or -ESPIPE it exists but has the wrong size</p>
+<dl class="c function">
+<dt id="c.bloblist_ensure">
+void *<code class="sig-name descname">bloblist_ensure</code><span class="sig-paren">(</span>uint <em>tag</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_ensure"></a><a class="headerlink" href="#c.bloblist_ensure" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Find or add a blob</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">tag</span></code></dt><dd><p>Tag to add (enum bloblist_tag_t)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Size of the blob</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Find an existing blob, or add a new one if not found</p>
+<p><strong>Return</strong></p>
+<p>pointer to blob, or NULL if it is missing and could not be added due
+to lack of space, or it exists but has the wrong size</p>
+<dl class="c function">
+<dt id="c.bloblist_ensure_size_ret">
+int <code class="sig-name descname">bloblist_ensure_size_ret</code><span class="sig-paren">(</span>uint <em>tag</em>, int *<em>sizep</em>, void **<em>blobp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_ensure_size_ret"></a><a class="headerlink" href="#c.bloblist_ensure_size_ret" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Find or add a blob</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">tag</span></code></dt><dd><p>Tag to add (enum bloblist_tag_t)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">*sizep</span></code></dt><dd><p>Size of the blob to create; returns size of actual blob</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">**blobp</span></code></dt><dd><p>Returns a pointer to blob on success</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Find an existing blob, or add a new one if not found</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOSPC if it is missing and could not be added due to lack
+of space</p>
+<dl class="c function">
+<dt id="c.bloblist_resize">
+int <code class="sig-name descname">bloblist_resize</code><span class="sig-paren">(</span>uint <em>tag</em>, int <em>new_size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_resize"></a><a class="headerlink" href="#c.bloblist_resize" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>resize a blob</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">tag</span></code></dt><dd><p>Tag to add (enum bloblist_tag_t)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">new_size</span></code></dt><dd><p>New size of the blob (&gt;0 to expand, &lt;0 to contract)</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Any blobs above this one are relocated up or down. The resized blob remains
+in the same place.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOSPC if the bloblist does not have enough space, -ENOENT
+if the tag is not found</p>
+<dl class="c function">
+<dt id="c.bloblist_new">
+int <code class="sig-name descname">bloblist_new</code><span class="sig-paren">(</span>ulong <em>addr</em>, uint <em>size</em>, uint <em>flags</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_new"></a><a class="headerlink" href="#c.bloblist_new" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Create a new, empty bloblist of a given size</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">addr</span></code></dt><dd><p>Address of bloblist</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">size</span></code></dt><dd><p>Initial size for bloblist</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">flags</span></code></dt><dd><p>Flags to use for bloblist</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -EFAULT if addr is not aligned correctly, -ENOSPC is the
+area is not large enough</p>
+<dl class="c function">
+<dt id="c.bloblist_check">
+int <code class="sig-name descname">bloblist_check</code><span class="sig-paren">(</span>ulong <em>addr</em>, uint <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_check"></a><a class="headerlink" href="#c.bloblist_check" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Check if a bloblist exists</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">addr</span></code></dt><dd><p>Address of bloblist</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">size</span></code></dt><dd><p>Expected size of blobsize, or 0 to detect the size</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if the magic number doesn’t match (indicating that
+there problem is no bloblist at the given address), -EPROTONOSUPPORT
+if the version does not match, -EIO if the checksum does not match,
+-EFBIG if the expected size does not match the detected size, -ENOSPC
+if the size is not large enough to hold the headers</p>
+<dl class="c function">
+<dt id="c.bloblist_finish">
+int <code class="sig-name descname">bloblist_finish</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_finish"></a><a class="headerlink" href="#c.bloblist_finish" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set up the bloblist for the next U-Boot part</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This sets the correct checksum for the bloblist. This ensures that the
+bloblist will be detected correctly by the next phase of U-Boot.</p>
+<p><strong>Return</strong></p>
+<p>0</p>
+<dl class="c function">
+<dt id="c.bloblist_get_stats">
+void <code class="sig-name descname">bloblist_get_stats</code><span class="sig-paren">(</span>ulong *<em>basep</em>, ulong *<em>sizep</em>, ulong *<em>allocedp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_get_stats"></a><a class="headerlink" href="#c.bloblist_get_stats" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get information about the bloblist</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">*basep</span></code></dt><dd><p>Returns base address of bloblist</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">*sizep</span></code></dt><dd><p>Returns the number of bytes used in the bloblist</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">*allocedp</span></code></dt><dd><p>Returns the total space allocated to the bloblist</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This returns useful information about the bloblist</p>
+<dl class="c function">
+<dt id="c.bloblist_get_base">
+ulong <code class="sig-name descname">bloblist_get_base</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_get_base"></a><a class="headerlink" href="#c.bloblist_get_base" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the base address of the bloblist</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>base address of bloblist</p>
+<dl class="c function">
+<dt id="c.bloblist_get_size">
+ulong <code class="sig-name descname">bloblist_get_size</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_get_size"></a><a class="headerlink" href="#c.bloblist_get_size" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the size of the bloblist</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>the size in bytes</p>
+<dl class="c function">
+<dt id="c.bloblist_show_stats">
+void <code class="sig-name descname">bloblist_show_stats</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_show_stats"></a><a class="headerlink" href="#c.bloblist_show_stats" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Show information about the bloblist</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This shows useful information about the bloblist on the console</p>
+<dl class="c function">
+<dt id="c.bloblist_show_list">
+void <code class="sig-name descname">bloblist_show_list</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_show_list"></a><a class="headerlink" href="#c.bloblist_show_list" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Show a list of blobs in the bloblist</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This shows a list of blobs, showing their address, size and tag.</p>
+<dl class="c function">
+<dt id="c.bloblist_tag_name">
+<em class="property">const</em> char *<code class="sig-name descname">bloblist_tag_name</code><span class="sig-paren">(</span><em class="property">enum</em> bloblist_tag_t <em>tag</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_tag_name"></a><a class="headerlink" href="#c.bloblist_tag_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the name for a tag</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">bloblist_tag_t</span> <span class="pre">tag</span></code></dt><dd><p>Tag to check</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>name of tag, or “invalid” if an invalid tag is provided</p>
+<dl class="c function">
+<dt id="c.bloblist_reloc">
+void <code class="sig-name descname">bloblist_reloc</code><span class="sig-paren">(</span>void *<em>to</em>, uint <em>to_size</em>, void *<em>from</em>, uint <em>from_size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_reloc"></a><a class="headerlink" href="#c.bloblist_reloc" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Relocate the bloblist and optionally resize it</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*to</span></code></dt><dd><p>Pointer to new bloblist location (must not overlap old location)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">to_size</span></code></dt><dd><p>New size for bloblist (must be larger than from_size)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*from</span></code></dt><dd><p>Pointer to bloblist to relocate</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">from_size</span></code></dt><dd><p>Size of bloblist to relocate</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.bloblist_init">
+int <code class="sig-name descname">bloblist_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/bloblist_init"></a><a class="headerlink" href="#c.bloblist_init" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Init the bloblist system with a single bloblist</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This locates and sets up the blocklist for use.</p>
+<p>If CONFIG_BLOBLIST_FIXED is selected, it uses CONFIG_BLOBLIST_ADDR and
+CONFIG_BLOBLIST_SIZE to set up a bloblist for use by U-Boot.</p>
+<p>If CONFIG_BLOBLIST_ALLOC is selected, it allocates memory for a bloblist of
+size CONFIG_BLOBLIST_SIZE.</p>
+<p>If CONFIG_BLOBLIST_PASSAGE is selected, it uses the bloblist in the incoming
+standard passage. The size is detected automatically so CONFIG_BLOBLIST_SIZE
+can be 0.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<p>Simon Glass
+<a class="reference external" href="mailto:sjg%40chromium.org">sjg<span>@</span>chromium<span>.</span>org</a>
+12-Aug-2018</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="directories.html" rel="prev" title="Directory hierarchy"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="bootstd.html" rel="next" title="U-Boot Standard Boot">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

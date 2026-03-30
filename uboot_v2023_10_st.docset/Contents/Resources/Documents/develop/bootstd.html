@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>U-Boot Standard Boot — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="ci_testing.html" rel="next" title="Continuous Integration testing"/>
+<link href="bloblist.html" rel="prev" title="Blob Lists - bloblist"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">U-Boot Standard Boot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootflow">Bootflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootdev">Bootdev</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootmeth">Bootmeth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot-process">Boot process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#controlling-ordering">Controlling ordering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootdev-uclass">Bootdev uclass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootdev-drivers">Bootdev drivers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device-hierarchy">Device hierarchy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-bootstd-device">The bootstd device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automatic-devices">Automatic devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-devicetree">Using devicetree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available-bootmeth-drivers">Available bootmeth drivers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#command-interface">Command interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootflow-states">Bootflow states</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#theory-of-operation">Theory of operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootflow-internals">Bootflow internals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#future">Future</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#to-do">To do</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>U-Boot Standard Boot</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/bootstd.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Standard Boot"></a><div class="section" id="u-boot-standard-boot">
+<h1>U-Boot Standard Boot<a class="headerlink" href="#u-boot-standard-boot" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Standard boot provides a built-in way for U-Boot to automatically boot
+an Operating System without custom scripting and other customisation. It
+introduces the following concepts:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>bootdev  - a device which can hold or access a distro (e.g. MMC, Ethernet)</p></li>
+<li><p>bootmeth - a method to scan a bootdev to find bootflows (e.g. distro boot)</p></li>
+<li><p>bootflow - a description of how to boot (provided by the distro)</p></li>
+</ul>
+</div></blockquote>
+<p>For Linux, the distro (Linux distribution, e.g. Debian, Fedora) is responsible
+for creating a bootflow for each kernel combination that it wants to offer.
+These bootflows are stored on media so they can be discovered by U-Boot. This
+feature is typically called <cite>distro boot</cite> (see <a class="reference internal" href="distro.html"><span class="doc">Generic Distro Configuration Concept</span></a>) because it is
+a way for distributions to boot on any hardware.</p>
+<p>Traditionally U-Boot has relied on scripts to implement this feature. See
+<a class="reference external" href="https://github.com/u-boot/u-boot/blob/master/include/config_distro_bootcmd.h">distro_bootcmd</a> for details. This is done because U-Boot has no native support
+for scanning devices. While the scripts work remarkably well, they can be hard
+to understand and extend, and the feature does not include tests. They are also
+making it difficult to move away from ad-hoc CONFIGs, since they are implemented
+using the environment and a lot of #defines.</p>
+<p>Standard boot is a generalisation of distro boot. It provides a more built-in
+way to boot with U-Boot. The feature is extensible to different Operating
+Systems (such as Chromium OS) and devices (beyond just block and network
+devices). It supports EFI boot and EFI bootmgr too.</p>
+<p>Finally, standard boot supports the operation of <a class="reference internal" href="vbe.html"><span class="doc">Verified Boot for Embedded (VBE)</span></a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bootflow"></a><div class="section" id="bootflow">
+<h2>Bootflow<a class="headerlink" href="#bootflow" title="Permalink to this headline">¶</a></h2>
+<p>A bootflow is a file that describes how to boot a distro. Conceptually there can
+be different formats for that file but at present U-Boot only supports the
+<a class="reference external" href="http://www.freedesktop.org/wiki/Specifications/BootLoaderSpec/">BootLoaderSpec</a> format. which looks something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>menu autoboot Welcome to Fedora-Workstation-armhfp-31-1.9. Automatic boot in # second{,s}. Press a key for options.
+menu title Fedora-Workstation-armhfp-31-1.9 Boot Options.
+menu hidden
+
+label Fedora-Workstation-armhfp-31-1.9 (5.3.7-301.fc31.armv7hl)
+    kernel /vmlinuz-5.3.7-301.fc31.armv7hl
+    append ro root=UUID=9732b35b-4cd5-458b-9b91-80f7047e0b8a rhgb quiet LANG=en_US.UTF-8 cma=192MB cma=256MB
+    fdtdir /dtb-5.3.7-301.fc31.armv7hl/
+    initrd /initramfs-5.3.7-301.fc31.armv7hl.img
+</pre></div>
+</div>
+<p>As you can see it specifies a kernel, a ramdisk (initrd) and a directory from
+which to load devicetree files. The details are described in <a class="reference external" href="https://github.com/u-boot/u-boot/blob/master/include/config_distro_bootcmd.h">distro_bootcmd</a>.</p>
+<p>The bootflow is provided by the distro. It is not part of U-Boot. U-Boot’s job
+is simply to interpret the file and carry out the instructions. This allows
+distros to boot on essentially any device supported by U-Boot.</p>
+<p>Typically the first available bootflow is selected and booted. If that fails,
+then the next one is tried.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bootdev"></a><div class="section" id="bootdev">
+<h2>Bootdev<a class="headerlink" href="#bootdev" title="Permalink to this headline">¶</a></h2>
+<p>Where does U-Boot find the media that holds the operating systems? That is the
+job of bootdev. A bootdev is simply a layer on top of a media device (such as
+MMC, NVMe). The bootdev accesses the device, including partitions and
+filesystems that might contain things related to an operating system.</p>
+<p>For example, an MMC bootdev provides access to the individual partitions on the
+MMC device. It scans through these to find filesystems with the boot flag set,
+then provides a list of these for consideration.</p>
+<p>Some bootdevs are not visible until a bus is enumerated, e.g. flash sticks
+attached via USB. To deal with this, each bootdev has an associated ‘hunter’
+which can hunt for bootdevs of a particular uclass type. For example, the SCSI
+bootdev scans the SCSI bus looking for devices, creating a bootdev for each
+Logical Unit Number (LUN) that it finds.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bootmeth"></a><div class="section" id="bootmeth">
+<h2>Bootmeth<a class="headerlink" href="#bootmeth" title="Permalink to this headline">¶</a></h2>
+<p>Once the list of filesystems is provided, how does U-Boot find the bootflow
+files in these filesystems. That is the job of bootmeth. Each boot method has
+its own way of doing this.</p>
+<p>For example, the distro bootmeth simply looks through the provided filesystem
+for a file called <cite>extlinux/extlinux.conf</cite>. This files constitutes a bootflow.
+If the distro bootmeth is used on multiple partitions it may produce multiple
+bootflows.</p>
+<p>Note: it is possible to have a bootmeth that uses a partition or a whole device
+directly, but it is more common to use a filesystem.</p>
+<p>Note that some bootmeths are ‘global’, meaning that they select the bootdev
+themselves. Examples include VBE and EFI boot manager. In this case, they
+provide a <cite>read_bootflow()</cite> method which checks whatever bootdevs it likes, then
+returns the bootflow, if found. Some of these bootmeths may be very slow, if
+they scan a lot of devices.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot process"></a><div class="section" id="boot-process">
+<h2>Boot process<a class="headerlink" href="#boot-process" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot tries to use the ‘lazy init’ approach whereever possible and distro boot
+is no exception. The algorithm is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>while (get next bootdev)
+   while (get next bootmeth)
+       while (get next bootflow)
+           try to boot it
+</pre></div>
+</div>
+<p>So U-Boot works its way through the bootdevs, trying each bootmeth in turn to
+obtain bootflows, until it either boots or exhausts the available options.</p>
+<p>Instead of 500 lines of #defines and a 4KB boot script, all that is needed is
+the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootflow scan -lb
+</pre></div>
+</div>
+<p>which scans for available bootflows, optionally listing each find it finds (-l)
+and trying to boot it (-b).</p>
+<p>When global bootmeths are available, these are typically checked before the
+above bootdev scanning.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Controlling ordering"></a><div class="section" id="controlling-ordering">
+<h2>Controlling ordering<a class="headerlink" href="#controlling-ordering" title="Permalink to this headline">¶</a></h2>
+<p>By default, faster bootdevs (or those which are assumed to be faster) are used
+first, since they are more likely to be able to boot the device quickly.</p>
+<p>Several options are available to control the ordering of boot scanning:</p>
+<div class="section" id="boot-targets">
+<h3>boot_targets<a class="headerlink" href="#boot-targets" title="Permalink to this headline">¶</a></h3>
+<p>This environment variable can be used to control the list of bootdevs searched
+and their ordering, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>setenv boot_targets "mmc0 mmc1 usb pxe"
+</pre></div>
+</div>
+<p>Entries may be removed or re-ordered in this list to affect the boot order. If
+the variable is empty, the default ordering is used, based on the priority of
+bootdevs and their sequence numbers.</p>
+</div>
+<div class="section" id="bootmeths">
+<h3>bootmeths<a class="headerlink" href="#bootmeths" title="Permalink to this headline">¶</a></h3>
+<p>By default bootmeths are checked in name order. Use <cite>bootmeth list</cite> to see the
+ordering. Note that the <cite>extlinux</cite> and <cite>script</cite> bootmeth is first, to preserve the behaviour
+used by the old distro scripts.</p>
+<p>This environment variable can be used to control the list of bootmeths used and
+their ordering for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>setenv bootmeths "extlinux efi"
+</pre></div>
+</div>
+<p>Entries may be removed or re-ordered in this list to affect the order the
+bootmeths are tried on each bootdev. If the variable is empty, the default
+ordering is used, based on the bootmeth sequence numbers, which can be
+controlled by aliases.</p>
+<p>The <a class="reference internal" href="../usage/cmd/bootmeth.html#bootmeth-command"><span class="std std-ref">bootmeth command</span></a> (<cite>bootmeth order</cite>) operates in
+the same way as setting this variable.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bootdev uclass"></a><div class="section" id="bootdev-uclass">
+<h2>Bootdev uclass<a class="headerlink" href="#bootdev-uclass" title="Permalink to this headline">¶</a></h2>
+<p>The bootdev uclass provides an simple API call to obtain a bootflows from a
+device:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>int bootdev_get_bootflow(struct udevice *dev, struct bootflow_iter *iter,
+                         struct bootflow *bflow);
+</pre></div>
+</div>
+<p>This takes a iterator which indicates the bootdev, partition and bootmeth to
+use. It returns a bootflow. This is the core of the bootdev implementation. The
+bootdev drivers that implement this differ depending on the media they are
+reading from, but each is responsible for returning a valid bootflow if
+available.</p>
+<p>A helper called <cite>bootdev_find_in_blk()</cite> makes it fairly easy to implement this
+function for each media device uclass, in a few lines of code. For many types
+ot bootdevs, the <cite>get_bootflow</cite> member can be NULL, indicating that the default
+handler is used. This is called <cite>default_get_bootflow()</cite> and it only works with
+block devices.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bootdev drivers"></a><div class="section" id="bootdev-drivers">
+<h2>Bootdev drivers<a class="headerlink" href="#bootdev-drivers" title="Permalink to this headline">¶</a></h2>
+<p>A bootdev driver is typically fairly simple. Here is one for mmc:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static int mmc_bootdev_bind(struct udevice *dev)
+{
+    struct bootdev_uc_plat *ucp = dev_get_uclass_plat(dev);
+
+    ucp-&gt;prio = BOOTDEVP_2_INTERNAL_FAST;
+
+    return 0;
+}
+
+struct bootdev_ops mmc_bootdev_ops = {
+};
+
+static const struct udevice_id mmc_bootdev_ids[] = {
+    { .compatible = "u-boot,bootdev-mmc" },
+    { }
+};
+
+U_BOOT_DRIVER(mmc_bootdev) = {
+    .name        = "mmc_bootdev",
+    .id        = UCLASS_BOOTDEV,
+    .ops        = &amp;mmc_bootdev_ops,
+    .bind        = mmc_bootdev_bind,
+    .of_match    = mmc_bootdev_ids,
+};
+</pre></div>
+</div>
+<p>You may notice that the <cite>get_bootflow</cite> memory is not provided, so is NULL. This
+means that <cite>default_get_bootflow()</cite> is used. This simply obtains the
+block device and calls a bootdev helper function to do the rest. The
+implementation of <cite>bootdev_find_in_blk()</cite> checks the partition table, and
+attempts to read a file from a filesystem on the partition number given by the
+<cite>@iter-&gt;part</cite> parameter. If there are any bootable partitions in the table,
+then only bootable partitions are considered.</p>
+<p>Each bootdev has a priority, which indicates the order in which it is used,
+if <cite>boot_targets</cite> is not used. Faster bootdevs are used first, since they are
+more likely to be able to boot the device quickly.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Environment Variables"></a><div class="section" id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h2>
+<p>Various environment variables are used by standard boot. These allow the board
+to control where things are placed when booting the OS. You should ensure that
+your boards sets values for these.</p>
+<dl class="simple">
+<dt>fdtfile</dt><dd><p>Name of the flattened device tree (FDT) file to load, e.g.
+“rockchip/rk3399-rockpro64.dtb”</p>
+</dd>
+<dt>fdtaddr_addr_r</dt><dd><p>Address at which to load the FDT, e.g. 0x01f00000</p>
+</dd>
+<dt>fdtoverlay_addr_r (needed if overlays are used)</dt><dd><p>Address at which to load the overlay for the FDT, e.g. 0x02000000</p>
+</dd>
+<dt>kernel_addr_r</dt><dd><p>Address at which to load the kernel, e.g. 0x02080000</p>
+</dd>
+<dt>kernel_comp_addr_r</dt><dd><p>Address to which to decompress the kernel, e.g. 0x08000000</p>
+</dd>
+<dt>kernel_comp_size</dt><dd><p>Size of available space for decompressed kernel, e.g. 0x2000000</p>
+</dd>
+<dt>pxefile_addr_r</dt><dd><p>Address at which to load the PXE file, e.g. 0x00600000</p>
+</dd>
+<dt>ramdisk_addr_r</dt><dd><p>Address at which to load the ramdisk, e.g. 0x06000000</p>
+</dd>
+<dt>scriptaddr</dt><dd><p>Address at which to load the U-Boot script, e.g. 0x00500000</p>
+</dd>
+<dt>script_offset_f</dt><dd><p>SPI flash offset from which to load the U-Boot script, e.g. 0xffe000</p>
+</dd>
+<dt>script_size_f</dt><dd><p>Size of the script to load, e.g. 0x2000</p>
+</dd>
+</dl>
+<p>Some variables are set by script bootmeth:</p>
+<dl class="simple">
+<dt>devtype</dt><dd><p>Device type being used for boot, e.g. mmc</p>
+</dd>
+<dt>devnum</dt><dd><p>Device number being used for boot, e.g. 1</p>
+</dd>
+<dt>distro_bootpart</dt><dd><p>Partition being used for boot, e.g. 2</p>
+</dd>
+<dt>prefix</dt><dd><p>Directory containing the script</p>
+</dd>
+<dt>mmc_bootdev</dt><dd><p>Device number being used for boot (e.g. 1). This is only used by MMC on
+sunxi boards.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Device hierarchy"></a><div class="section" id="device-hierarchy">
+<h2>Device hierarchy<a class="headerlink" href="#device-hierarchy" title="Permalink to this headline">¶</a></h2>
+<p>A bootdev device is a child of the media device. In this example, you can see
+that the bootdev is a sibling of the block device and both are children of
+media device:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mmc           0  [ + ]   bcm2835-sdhost        |   |-- mmc@7e202000
+blk           0  [ + ]   mmc_blk               |   |   |-- mmc@7e202000.blk
+bootdev       0  [   ]   mmc_bootdev           |   |   `-- mmc@7e202000.bootdev
+mmc           1  [ + ]   sdhci-bcm2835         |   |-- sdhci@7e300000
+blk           1  [   ]   mmc_blk               |   |   |-- sdhci@7e300000.blk
+bootdev       1  [   ]   mmc_bootdev           |   |   `-- sdhci@7e300000.bootdev
+</pre></div>
+</div>
+<p>The bootdev device is typically created automatically in the media uclass’
+<cite>post_bind()</cite> method by calling <cite>bootdev_setup_for_dev()</cite> or
+<cite>bootdev_setup_for_sibling_blk()</cite>. The code typically something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* dev is the Ethernet device */
+ret = bootdev_setup_for_dev(dev, "eth_bootdev");
+if (ret)
+    return log_msg_ret("bootdev", ret);
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* blk is the block device (child of MMC device)
+ret = bootdev_setup_for_sibling_blk(blk, "mmc_bootdev");
+if (ret)
+    return log_msg_ret("bootdev", ret);
+</pre></div>
+</div>
+<p>Here, <cite>eth_bootdev</cite> is the name of the Ethernet bootdev driver and <cite>dev</cite>
+is the ethernet device. This function is safe to call even if standard boot is
+not enabled, since it does nothing in that case. It can be added to all uclasses
+which implement suitable media.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/The bootstd device"></a><div class="section" id="the-bootstd-device">
+<h2>The bootstd device<a class="headerlink" href="#the-bootstd-device" title="Permalink to this headline">¶</a></h2>
+<p>Standard boot requires a single instance of the bootstd device to make things
+work. This includes global information about the state of standard boot. See
+<cite>struct bootstd_priv</cite> for this structure, accessed with <cite>bootstd_get_priv()</cite>.</p>
+<p>Within the devicetree, if you add bootmeth devices, they should be children of
+the bootstd device. See <cite>arch/sandbox/dts/test.dts</cite> for an example of this.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Automatic devices"></a><a class="dashAnchor" name="//apple_ref/cpp/Section/Automatic devices"></a><div class="section" id="automatic-devices">
+<span id="id1"></span><h2>Automatic devices<a class="headerlink" href="#automatic-devices" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to define all the required devices in the devicetree manually,
+but it is not necessary. The bootstd uclass includes a <cite>dm_scan_other()</cite>
+function which creates the bootstd device if not found. If no bootmeth devices
+are found at all, it creates one for each available bootmeth driver.</p>
+<p>If your devicetree has any bootmeth device it must have all of them that you
+want to use, since no bootmeth devices will be created automatically in that
+case.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Using devicetree"></a><div class="section" id="using-devicetree">
+<h2>Using devicetree<a class="headerlink" href="#using-devicetree" title="Permalink to this headline">¶</a></h2>
+<p>If a bootdev is complicated or needs configuration information, it can be
+added to the devicetree as a child of the media device. For example, imagine a
+bootdev which reads a bootflow from SPI flash. The devicetree fragment might
+look like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spi@0 {
+    flash@0 {
+        reg = &lt;0&gt;;
+        compatible = "spansion,m25p16", "jedec,spi-nor";
+        spi-max-frequency = &lt;40000000&gt;;
+
+        bootdev {
+            compatible = "u-boot,sf-bootdev";
+            offset = &lt;0x2000&gt;;
+            size = &lt;0x1000&gt;;
+        };
+    };
+};
+</pre></div>
+</div>
+<p>The <cite>sf-bootdev</cite> driver can implement a way to read from the SPI flash, using
+the offset and size provided, and return that bootflow file back to the caller.
+When distro boot wants to read the kernel it calls distro_getfile() which must
+provide a way to read from the SPI flash. See <cite>distro_boot()</cite> at <a class="reference external" href="https://github.com/u-boot/u-boot/blob/master/boot/distro.c">distro_boot</a>
+for more details.</p>
+<p>Of course this is all internal to U-Boot. All the distro sees is another way
+to boot.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration"></a><div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>Standard boot is enabled with <cite>CONFIG_BOOTSTD</cite>. Each bootmeth has its own CONFIG
+option also. For example, <cite>CONFIG_BOOTMETH_EXTLINUX</cite> enables support for
+booting from a disk using an <cite>extlinux.conf</cite> file.</p>
+<p>To enable all feature sof standard boot, use <cite>CONFIG_BOOTSTD_FULL</cite>. This
+includes the full set of commands, more error messages when things go wrong and
+bootmeth ordering with the bootmeths environment variable.</p>
+<p>You should probably also enable <cite>CONFIG_BOOTSTD_DEFAULTS</cite>, which provides
+several filesystem and network features (if <cite>CONFIG_NET</cite> is enabled) so that
+a good selection of boot options is available.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Available bootmeth drivers"></a><div class="section" id="available-bootmeth-drivers">
+<h2>Available bootmeth drivers<a class="headerlink" href="#available-bootmeth-drivers" title="Permalink to this headline">¶</a></h2>
+<p>Bootmeth drivers are provided for:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>extlinux / syslinux boot from a disk</p></li>
+<li><p>extlinux boot from a network (PXE)</p></li>
+<li><p>U-Boot scripts from disk, network or SPI flash</p></li>
+<li><p>EFI boot using bootefi from disk</p></li>
+<li><p>VBE</p></li>
+<li><p>EFI boot using boot manager</p></li>
+</ul>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Command interface"></a><div class="section" id="command-interface">
+<h2>Command interface<a class="headerlink" href="#command-interface" title="Permalink to this headline">¶</a></h2>
+<p>Three commands are available:</p>
+<dl class="simple">
+<dt><cite>bootdev</cite></dt><dd><p>Allows listing of available bootdevs, selecting a particular one and
+getting information about it. See <a class="reference internal" href="../usage/cmd/bootdev.html"><span class="doc">bootdev command</span></a></p>
+</dd>
+<dt><cite>bootflow</cite></dt><dd><p>Allows scanning one or more bootdevs for bootflows, listing available
+bootflows, selecting one, obtaining information about it and booting it.
+See <a class="reference internal" href="../usage/cmd/bootflow.html"><span class="doc">bootflow command</span></a></p>
+</dd>
+<dt><cite>bootmeth</cite></dt><dd><p>Allow listing of available bootmethds and setting the order in which they
+are tried. See <a class="reference internal" href="../usage/cmd/bootmeth.html"><span class="doc">bootmeth command</span></a></p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bootflow states"></a><div class="section" id="bootflow-states">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bootflow states"></a><span id="bootflowstates"></span><h2>Bootflow states<a class="headerlink" href="#bootflow-states" title="Permalink to this headline">¶</a></h2>
+<p>Here is a list of states that a bootflow can be in:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%"/>
+<col style="width: 91%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>State</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>base</p></td>
+<td><p>Starting-out state, indicates that no media/partition was found. For an
+SD card socket it may indicate that the card is not inserted.</p></td>
+</tr>
+<tr class="row-odd"><td><p>media</p></td>
+<td><p>Media was found (e.g. SD card is inserted) but no partition information
+was found. It might lack a partition table or have a read error.</p></td>
+</tr>
+<tr class="row-even"><td><p>part</p></td>
+<td><p>Partition was found but a filesystem could not be read. This could be
+because the partition does not hold a filesystem or the filesystem is
+very corrupted.</p></td>
+</tr>
+<tr class="row-odd"><td><p>fs</p></td>
+<td><p>Filesystem was found but the file could not be read. It could be
+missing or in the wrong subdirectory.</p></td>
+</tr>
+<tr class="row-even"><td><p>file</p></td>
+<td><p>File was found and its size detected, but it could not be read. This
+could indicate filesystem corruption.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ready</p></td>
+<td><p>File was loaded and is ready for use. In this state the bootflow is
+ready to be booted.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Theory of operation"></a><div class="section" id="theory-of-operation">
+<h2>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this headline">¶</a></h2>
+<p>This describes how standard boot progresses through to booting an operating
+system.</p>
+<p>To start. all the necessary devices must be bound, including bootstd, which
+provides the top-level <cite>struct bootstd_priv</cite> containing optional configuration
+information. The bootstd device is also holds the various lists used while
+scanning. This step is normally handled automatically by driver model, as
+described in <a class="reference internal" href="#automatic-devices">Automatic Devices</a>.</p>
+<p>Bootdevs are also required, to provide access to the media to use. These are not
+useful by themselves: bootmeths are needed to provide the means of scanning
+those bootdevs. So, all up, we need a single bootstd device, one or more bootdev
+devices and one or more bootmeth devices.</p>
+<p>Once these are ready, typically a <cite>bootflow scan</cite> command is issued. This kicks
+of the iteration process, which involves hunting for bootdevs and looking
+through the bootdevs and their partitions one by one to find bootflows.</p>
+<p>Iteration is kicked off using <cite>bootflow_scan_first()</cite>.</p>
+<p>The iterator is set up with <cite>bootflow_iter_init()</cite>. This simply creates an
+empty one with the given flags. Flags are used to control whether each
+iteration is displayed, whether to return iterations even if they did not result
+in a valid bootflow, whether to iterate through just a single bootdev, etc.</p>
+<p>Then the iterator is set up to according to the parameters given:</p>
+<ul class="simple">
+<li><p>When <cite>dev</cite> is provided, then a single bootdev is scanned. In this case,
+<cite>BOOTFLOWIF_SKIP_GLOBAL</cite> and <cite>BOOTFLOWIF_SINGLE_DEV</cite> are set. No hunters are
+used in this case</p></li>
+<li><p>Otherwise, when <cite>label</cite> is provided, then a single label or named bootdev is
+scanned. In this case <cite>BOOTFLOWIF_SKIP_GLOBAL</cite> is set and there are three
+options (with an effect on the <cite>iter_incr()</cite> function described later):</p>
+<ul>
+<li><p>If <cite>label</cite> indicates a numeric bootdev number (e.g. “2”) then
+<cite>BOOTFLOW_METHF_SINGLE_DEV</cite> is set. In this case, moving to the next bootdev
+simple stops, since there is only one. No hunters are used.</p></li>
+<li><p>If <cite>label</cite> indicates a particular media device (e.g. “mmc1”) then
+<cite>BOOTFLOWIF_SINGLE_MEDIA</cite> is set. In this case, moving to the next bootdev
+processes just the children of the media device. Hunters are used, in this
+example just the “mmc” hunter.</p></li>
+<li><p>If <cite>label</cite> indicates a media uclass (e.g. “mmc”) then
+<cite>BOOTFLOWIF_SINGLE_UCLASS</cite> is set. In this case, all bootdevs in that uclass
+are used. Hunters are used, in this example just the “mmc” hunter</p></li>
+</ul>
+</li>
+<li><p>Otherwise, none of the above flags is set and iteration is set up to work
+through <cite>boot_targets</cite> environment variable (or <cite>bootdev-order</cite> device tree
+property) in order, running the relevant hunter first. In this case
+<cite>cur_label</cite> is used to indicate the label being processed. If there is no list
+of labels, then all bootdevs are processed in order of priority, running the
+hunters as it goes.</p></li>
+</ul>
+<p>With the above it is therefore possible to iterate in a variety of ways.</p>
+<p>No attempt is made to determine the ordering of bootdevs, since this cannot be
+known in advance if we are using the hunters. Any hunter might discover a new
+bootdev and disturb the original ordering.</p>
+<p>Next, the ordering of bootmeths is determined, by <cite>bootmeth_setup_iter_order()</cite>.
+By default the ordering is again by sequence number, i.e. the <cite>/aliases</cite> node,
+or failing that the order in the devicetree. But the <cite>bootmeth order</cite> command
+or <cite>bootmeths</cite> environment variable can be used to set up an ordering. If that
+has been done, the ordering is in <cite>struct bootstd_priv</cite>, so that ordering is
+simply copied into the iterator. Either way, the <cite>method_order</cite> array it set up,
+along with <cite>num_methods</cite>.</p>
+<p>Note that global bootmeths are always put at the end of the ordering. If any are
+present, <cite>cur_method</cite> is set to the first one, so that global bootmeths are done
+first. Once all have been used, these bootmeths are dropped from the iteration.
+When there are no global bootmeths, <cite>cur_method</cite> is set to 0.</p>
+<p>At this point the iterator is ready to use, with the first bootmeth selected.
+Most of the other fields are 0. This means that the current partition
+is 0, which is taken to mean the whole device, since partition numbers start at
+1. It also means that <cite>max_part</cite> is 0, i.e. the maximum partition number we know
+about is 0, meaning that, as far as we know, there is no partition table on this
+bootdev.</p>
+<p>With the iterator ready, <cite>bootflow_scan_first()</cite> checks whether the current
+settings produce a valid bootflow. This is handled by <cite>bootflow_check()</cite>, which
+either returns 0 (if it got something) or an error if not (more on that later).
+If the <cite>BOOTFLOWIF_ALL</cite> iterator flag is set, even errors are returned as
+incomplete bootflows, but normally an error results in moving onto the next
+iteration.</p>
+<p>Note that <cite>bootflow_check()</cite> handles global bootmeths explicitly, by calling
+<cite>bootmeth_get_bootflow()</cite> on each one. The <cite>doing_global</cite> flag indicates when
+the iterator is in that state.</p>
+<p>The <cite>bootflow_scan_next()</cite> function handles moving onto the next iteration and
+checking it. In fact it sits in a loop doing that repeatedly until it finds
+something it wants to return.</p>
+<p>The actual ‘moving on’ part is implemented in <cite>iter_incr()</cite>. This is a fairly
+simple function. It increments the first counter. If that hits its maximum, it
+sets it to zero and increments the second counter. You can think of all the
+counters together as a number with three digits which increment in order, with
+the least-sigificant digit on the right, counting like this:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 36%"/>
+<col style="width: 32%"/>
+<col style="width: 32%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>bootdev</p></th>
+<th class="head"><p>part</p></th>
+<th class="head"><p>method</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>…</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The maximum value for <cite>method</cite> is <cite>num_methods - 1</cite> so when it exceeds that, it
+goes back to 0 and the next <cite>part</cite> is considered. The maximum value for that is
+<cite>max_part</cite>, which is initially zero for all bootdevs. If we find a partition
+table on that bootdev, <cite>max_part</cite> can be updated during the iteration to a
+higher value - see <cite>bootdev_find_in_blk()</cite> for that, described later. If that
+exceeds its maximum, then the next bootdev is used. In this way, iter_incr()
+works its way through all possibilities, moving forward one each time it is
+called.</p>
+<p>Note that global bootmeths introduce a subtlety into the above description.
+When <cite>doing_global</cite> is true, the iteration takes place only among the bootmeths,
+i.e. the last column above. The global bootmeths are at the end of the list.
+Assuming that they are entries 3 and 4 in the list, the iteration then looks
+like this:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 13%"/>
+<col style="width: 11%"/>
+<col style="width: 11%"/>
+<col style="width: 64%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>bootdev</p></th>
+<th class="head"><p>part</p></th>
+<th class="head"><p>method</p></th>
+<th class="head"><p>notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>3</p></td>
+<td><p>doing_global = true, method_count = 5</p></td>
+</tr>
+<tr class="row-odd"><td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>4</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>doing_global = false, method_count = 3</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>…</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The changeover of the value of <cite>doing_global</cite> from true to false is handled in
+<cite>iter_incr()</cite> as well.</p>
+<p>Note that the value in the <cite>bootdev</cite> column above is not actually stored - it is
+just for illustration. In practice, <cite>iter_incr()</cite> uses the flags to determine
+whether to move to the next bootdev in the uclass, the next child of the media
+device, the next label, or the next priority level, depending on the flag
+settings (see <cite>BOOTFLOW_METHF_SINGLE_DEV</cite>, etc. above).</p>
+<p>There is no expectation that iteration will actually finish. Quite often a
+valid bootflow is found early on. With <cite>bootflow scan -b</cite>, that causes the
+bootflow to be immediately booted. Assuming it is successful, the iteration never
+completes.</p>
+<p>Also note that the iterator hold the <strong>current</strong> combination being considered.
+So when <cite>iter_incr()</cite> is called, it increments to the next one and returns it,
+the new <strong>current</strong> combination.</p>
+<p>Note also the <cite>err</cite> field in <cite>struct bootflow_iter</cite>. This is normally 0 and has
+thus has no effect on <cite>iter_inc()</cite>. But if it is non-zero, signalling an error,
+it indicates to the iterator what it should do when called. It can force moving
+to the next partition, or bootdev, for example. The special values
+<cite>BF_NO_MORE_PARTS</cite> and <cite>BF_NO_MORE_DEVICES</cite> handle this. When <cite>iter_incr</cite> sees
+<cite>BF_NO_MORE_PARTS</cite> it knows that it should immediately move to the next bootdev.
+When it sees <cite>BF_NO_MORE_DEVICES</cite> it knows that there is nothing more it can do
+so it should immediately return. The caller of <cite>iter_incr()</cite> is responsible for
+updating the <cite>err</cite> field, based on the return value it sees.</p>
+<p>The above describes the iteration process at a high level. It is basically a
+very simple increment function with a checker called <cite>bootflow_check()</cite> that
+checks the result of each iteration generated, to determine whether it can
+produce a bootflow.</p>
+<p>So what happens inside of <cite>bootflow_check()</cite>? It simply calls the uclass
+method <cite>bootdev_get_bootflow()</cite> to ask the bootdev to return a bootflow. It
+passes the iterator to the bootdev method, so that function knows what we are
+talking about. At first, the bootflow is set up in the state <cite>BOOTFLOWST_BASE</cite>,
+with just the <cite>method</cite> and <cite>dev</cite> intiialised. But the bootdev may fill in more,
+e.g. updating the state, depending on what it finds. For global bootmeths the
+<cite>bootmeth_get_bootflow()</cite> function is called instead of
+<cite>bootdev_get_bootflow()</cite>.</p>
+<p>Based on what the bootdev or bootmeth responds with, <cite>bootflow_check()</cite> either
+returns a valid bootflow, or a partial one with an error. A partial bootflow
+is one that has some fields set up, but did not reach the <cite>BOOTFLOWST_READY</cite>
+state. As noted before, if the <cite>BOOTFLOWIF_ALL</cite> iterator flag is set, then all
+bootflows are returned, even partial ones. This can help with debugging.</p>
+<p>So at this point you can see that total control over whether a bootflow can
+be generated from a particular iteration, or not, rests with the bootdev (or
+global bootmeth). Each one can adopt its own approach.</p>
+<p>Going down a level, what does the bootdev do in its <cite>get_bootflow()</cite> method?
+Let us consider the MMC bootdev. In that case the call to
+<cite>bootdev_get_bootflow()</cite> ends up in <cite>default_get_bootflow()</cite>. It locates the
+parent device of the bootdev, i.e. the <cite>UCLASS_MMC</cite> device itself, then finds
+the block device associated with it. It then calls the helper function
+<cite>bootdev_find_in_blk()</cite> to do all the work. This is common with just about any
+bootdev that is based on a media device.</p>
+<p>The <cite>bootdev_find_in_blk()</cite> helper is implemented in the bootdev uclass. It
+names the bootflow and copies the partition number in from the iterator. Then it
+calls the bootmeth device to check if it can support this device. This is
+important since some bootmeths only work with network devices, for example. If
+that check fails, it stops.</p>
+<p>Assuming the bootmeth is happy, or at least indicates that it is willing to try
+(by returning 0 from its <cite>check()</cite> method), the next step is to try the
+partition. If that works it tries to detect a file system. If that works then it
+calls the bootmeth device once more, this time to read the bootflow.</p>
+<p>Note: At present a filesystem is needed for the bootmeth to be called on block
+devices, simply because we don’t have any examples where this is not the case.
+This feature can be added as needed. Note that sandbox is a special case, since
+in that case the host filesystem can be accessed even though the block device
+is NULL.</p>
+<p>If we take the example of the <cite>bootmeth_extlinux</cite> driver, this call ends up at
+<cite>extlinux_read_bootflow()</cite>. It has the filesystem ready, so tries various
+filenames to try to find the <cite>extlinux.conf</cite> file, reading it if possible. If
+all goes well the bootflow ends up in the <cite>BOOTFLOWST_READY</cite> state.</p>
+<p>At this point, we fall back from the bootmeth driver, to
+<cite>bootdev_find_in_blk()</cite>, then back to <cite>default_get_bootflow()</cite>, then to
+<cite>bootdev_get_bootflow()</cite>, then to <cite>bootflow_check()</cite> and finally to its caller,
+either <cite>bootflow_scan_first()</cite> or <cite>bootflow_scan_next()</cite>. In either case,
+the bootflow is returned as the result of this iteration, assuming it made it to
+the  <cite>BOOTFLOWST_READY</cite> state.</p>
+<p>That is the basic operation of scanning for bootflows. The process of booting a
+bootflow is handled by the bootmeth driver for that bootflow. In the case of
+extlinux boot, this parses and processes the <cite>extlinux.conf</cite> file that was read.
+See <cite>extlinux_boot()</cite> for how that works. The processing may involve reading
+additional files, which is handled by the <cite>read_file()</cite> method, which is
+<cite>extlinux_read_file()</cite> in this case. All bootmethds should support reading
+files, since the bootflow is typically only the basic instructions and does not
+include the operating system itself, ramdisk, device tree, etc.</p>
+<p>The vast majority of the bootstd code is concerned with iterating through
+partitions on bootdevs and using bootmethds to find bootflows.</p>
+<p>How about bootdevs which are not block devices? They are handled by the same
+methods as above, but with a different implementation. For example, the bootmeth
+for PXE boot (over a network) uses <cite>tftp</cite> to read files rather than <cite>fs_read()</cite>.
+But other than that it is very similar.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Tests"></a><div class="section" id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p>Tests are located in <cite>test/boot</cite> and cover the core functionality as well as
+the commands. All tests use sandbox so can be run on a standard Linux computer
+and in U-Boot’s CI.</p>
+<p>For testing, a DOS-formatted disk image is used with a FAT partition on it and
+a second unused partition. This is created in <cite>setup_bootflow_image()</cite>, with a
+canned one from the source tree used if it cannot be created (e.g. in CI).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bootflow internals"></a><div class="section" id="bootflow-internals">
+<h2>Bootflow internals<a class="headerlink" href="#bootflow-internals" title="Permalink to this headline">¶</a></h2>
+<p>The bootstd device holds a linked list of scanned bootflows as well as the
+currently selected bootdev and bootflow (for use by commands). This is in
+<cite>struct bootstd_priv</cite>.</p>
+<p>Each bootdev device has its own <cite>struct bootdev_uc_plat</cite> which holds a
+list of scanned bootflows just for that device.</p>
+<p>The bootflow itself is documented in <a class="reference external" href="https://github.com/u-boot/u-boot/blob/master/include/bootflow.h">bootflow_h</a>. It includes various bits of
+information about the bootflow and a buffer to hold the file.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Future"></a><div class="section" id="future">
+<h2>Future<a class="headerlink" href="#future" title="Permalink to this headline">¶</a></h2>
+<p>Apart from the to-do items below, different types of bootflow files may be
+implemented in future, e.g. Chromium OS support which is currently only
+available as a script in chromebook_coral.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/To do"></a><div class="section" id="to-do">
+<h2>To do<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h2>
+<p>Some things that need to be done to completely replace the distro-boot scripts:</p>
+<ul class="simple">
+<li><p>add bootdev drivers for dhcp, sata, scsi, ide, virtio</p></li>
+<li><p>PXE boot for EFI</p></li>
+<li><p>support for loading U-Boot scripts</p></li>
+</ul>
+<p>Other ideas:</p>
+<ul class="simple">
+<li><p><cite>bootflow prep</cite> to load everything preparing for boot, so that <cite>bootflow boot</cite>
+can just do the boot.</p></li>
+<li><p>automatically load kernel, FDT, etc. to suitable addresses so the board does
+not need to specify things like <cite>pxefile_addr_r</cite></p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="bloblist.html" rel="prev" title="Blob Lists - bloblist"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="ci_testing.html" rel="next" title="Continuous Integration testing">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

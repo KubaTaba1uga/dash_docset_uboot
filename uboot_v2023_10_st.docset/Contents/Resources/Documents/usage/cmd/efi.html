@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>efi command — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="eficonfig.html" rel="next" title="eficonfig command"/>
+<link href="echo.html" rel="prev" title="echo command"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acpi.html">acpi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="addrmap.html">addrmap command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="armffa.html">armffa command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="askenv.html">askenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base.html">base command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bdinfo.html">bdinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bind.html">bind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blkcache.html">blkcache command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootd.html">bootd command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootdev.html">bootdev command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootefi.html">bootefi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootflow.html">bootflow command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="booti.html">booti command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootm.html">bootm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmenu.html">bootmenu command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootmeth.html">bootmeth command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html">button command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootz.html">bootz command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cat.html">cat command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cbsysinfo.html">cbsysinfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cedit.html">cedit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cls.html">cls command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmp.html">cmp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coninfo.html">coninfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conitrace.html">conitrace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cp.html">cp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">cyclic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dm.html">dm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ebtupdate.html">ebtupdate command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="echo.html">echo command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">efi command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="eficonfig.html">eficonfig command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="env.html">env command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">event command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exception.html">exception command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extension.html">extension command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exit.html">exit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="false.html">false command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatinfo.html">fatinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatload.html">fatload command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fdt.html">fdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="font.html">font command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="for.html">for command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fwu_mdata.html">fwu_mdata_read command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">gpio command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpt.html">gpt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host.html">host command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxtract.html">imxtract command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load.html">load command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadb.html">loadb command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadm.html">loadm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads.html">loads command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadx.html">loadx command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loady.html">loady command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mbr.html">mbr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="md.html">md command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mmc.html">mmc command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtest.html">mtest command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtrr.html">mtrr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="panic.html">panic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part.html">part command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pause.html">pause command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pinmux.html">pinmux command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printenv.html">printenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pstore.html">pstore command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qfw.html">qfw command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="read.html">read and write commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">reset command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rng.html">rng command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saves.html">saves command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sbi.html">sbi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sf.html">sf command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scp03.html">scp03 command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="seama.html">seama command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setexpr.html">setexpr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="size.html">size command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep.html">sleep command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sound.html">sound command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source.html">source command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sm.html">sm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temperature.html">temperature command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftpput.html">tftpput command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trace.html">trace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="true.html">true command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ums.html">ums command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unbind.html">unbind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ut.html">ut command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdt.html">wdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wget.html">wget command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="write.html">write command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xxd.html">xxd command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li>efi command</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/cmd/efi.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/efi command"></a><div class="section" id="efi-command">
+<h1>efi command<a class="headerlink" href="#efi-command" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Synopsis"></a><div class="section" id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>efi mem [all]
+efi tables
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Description"></a><div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The <em>efi</em> command provides information about the EFI environment U-Boot is
+running in, when it is started from EFI.</p>
+<p>When running as an EFI app, this command queries EFI boot services for the
+information. When running as an EFI payload, EFI boot services have been
+stopped, so it uses the information collected by the boot stub before that
+happened.</p>
+<div class="section" id="efi-mem">
+<h3>efi mem<a class="headerlink" href="#efi-mem" title="Permalink to this headline">¶</a></h3>
+<p>This shows the EFI memory map, sorted in order of physical address.</p>
+<p>This is normally a very large table. To help reduce the amount of detritus,
+boot-time memory is normally merged with conventional memory. Use the ‘all’
+argument to show everything.</p>
+<p>The fields are as follows:</p>
+<dl class="simple">
+<dt>#</dt><dd><p>Entry number (sequentially from 0)</p>
+</dd>
+<dt>Type</dt><dd><p>Memory type. EFI has a large number of memory types. The type is shown in
+the format &lt;n&gt;:&lt;name&gt; where in is the format number in hex and &lt;name&gt; is the
+name.</p>
+</dd>
+<dt>Physical</dt><dd><p>Physical address</p>
+</dd>
+<dt>Virtual</dt><dd><p>Virtual address</p>
+</dd>
+<dt>Size</dt><dd><p>Size of memory area in bytes</p>
+</dd>
+<dt>Attributes</dt><dd><p>Shows a code for memory attributes. The key for this is shown below the
+table.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="efi-tables">
+<h3>efi tables<a class="headerlink" href="#efi-tables" title="Permalink to this headline">¶</a></h3>
+<p>This shows a list of the EFI tables provided in the system table. These use
+GUIDs so it is not possible in general to show the name of a table. But some
+effort is made to provide a useful table, where the GUID is known by U-Boot.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example"></a><div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; efi mem
+EFI table at 0, memory map 000000001ad38b60, size 1260, key a79, version 1, descr. size 0x30
+ #  Type              Physical     Virtual        Size  Attributes
+ 0  7:conv          0000000000  0000000000  00000a0000  f
+    &lt;gap&gt;           00000a0000              0000060000
+ 1  7:conv          0000100000  0000000000  0000700000  f
+ 2  a:acpi_nvs      0000800000  0000000000  0000008000  f
+ 3  7:conv          0000808000  0000000000  0000008000  f
+ 4  a:acpi_nvs      0000810000  0000000000  00000f0000  f
+ 5  7:conv          0000900000  0000000000  001efef000  f
+ 6  6:rt_data       001f8ef000  0000000000  0000100000  rf
+ 7  5:rt_code       001f9ef000  0000000000  0000100000  rf
+ 8  0:reserved      001faef000  0000000000  0000080000  f
+ 9  9:acpi_reclaim  001fb6f000  0000000000  0000010000  f
+10  a:acpi_nvs      001fb7f000  0000000000  0000080000  f
+11  7:conv          001fbff000  0000000000  0000359000  f
+12  6:rt_data       001ff58000  0000000000  0000020000  rf
+13  a:acpi_nvs      001ff78000  0000000000  0000088000  f
+    &lt;gap&gt;           0020000000              0090000000
+14  0:reserved      00b0000000  0000000000  0010000000  1
+
+Attributes key:
+ f: uncached, write-coalescing, write-through, write-back
+rf: uncached, write-coalescing, write-through, write-back, needs runtime mapping
+ 1: uncached
+*Some areas are merged (use 'all' to see)
+
+
+=&gt; efi mem  all
+EFI table at 0, memory map 000000001ad38bb0, size 1260, key a79, version 1, descr. size 0x30
+ #  Type              Physical     Virtual        Size  Attributes
+ 0  3:bs_code       0000000000  0000000000  0000001000  f
+ 1  7:conv          0000001000  0000000000  000009f000  f
+    &lt;gap&gt;           00000a0000              0000060000
+ 2  7:conv          0000100000  0000000000  0000700000  f
+ 3  a:acpi_nvs      0000800000  0000000000  0000008000  f
+ 4  7:conv          0000808000  0000000000  0000008000  f
+ 5  a:acpi_nvs      0000810000  0000000000  00000f0000  f
+ 6  4:bs_data       0000900000  0000000000  0000c00000  f
+ 7  7:conv          0001500000  0000000000  000aa36000  f
+ 8  2:loader_data   000bf36000  0000000000  0010000000  f
+ 9  4:bs_data       001bf36000  0000000000  0000020000  f
+10  7:conv          001bf56000  0000000000  00021e1000  f
+11  1:loader_code   001e137000  0000000000  00000c4000  f
+12  7:conv          001e1fb000  0000000000  000009b000  f
+13  1:loader_code   001e296000  0000000000  00000e2000  f
+14  7:conv          001e378000  0000000000  000005b000  f
+15  4:bs_data       001e3d3000  0000000000  000001e000  f
+16  7:conv          001e3f1000  0000000000  0000016000  f
+17  4:bs_data       001e407000  0000000000  0000016000  f
+18  2:loader_data   001e41d000  0000000000  0000002000  f
+19  4:bs_data       001e41f000  0000000000  0000828000  f
+20  3:bs_code       001ec47000  0000000000  0000045000  f
+21  4:bs_data       001ec8c000  0000000000  0000001000  f
+22  3:bs_code       001ec8d000  0000000000  000000e000  f
+23  4:bs_data       001ec9b000  0000000000  0000001000  f
+24  3:bs_code       001ec9c000  0000000000  000002c000  f
+25  4:bs_data       001ecc8000  0000000000  0000001000  f
+26  3:bs_code       001ecc9000  0000000000  000000c000  f
+27  4:bs_data       001ecd5000  0000000000  0000006000  f
+28  3:bs_code       001ecdb000  0000000000  0000014000  f
+29  4:bs_data       001ecef000  0000000000  0000001000  f
+30  3:bs_code       001ecf0000  0000000000  000005b000  f
+31  4:bs_data       001ed4b000  0000000000  000000b000  f
+32  3:bs_code       001ed56000  0000000000  0000024000  f
+33  4:bs_data       001ed7a000  0000000000  0000006000  f
+34  3:bs_code       001ed80000  0000000000  0000010000  f
+35  4:bs_data       001ed90000  0000000000  0000002000  f
+36  3:bs_code       001ed92000  0000000000  0000025000  f
+37  4:bs_data       001edb7000  0000000000  0000003000  f
+38  3:bs_code       001edba000  0000000000  0000011000  f
+39  4:bs_data       001edcb000  0000000000  0000008000  f
+40  3:bs_code       001edd3000  0000000000  000002d000  f
+41  4:bs_data       001ee00000  0000000000  0000201000  f
+42  3:bs_code       001f001000  0000000000  0000024000  f
+43  4:bs_data       001f025000  0000000000  0000002000  f
+44  3:bs_code       001f027000  0000000000  0000009000  f
+45  4:bs_data       001f030000  0000000000  0000005000  f
+46  3:bs_code       001f035000  0000000000  000002f000  f
+47  4:bs_data       001f064000  0000000000  0000001000  f
+48  3:bs_code       001f065000  0000000000  0000005000  f
+49  4:bs_data       001f06a000  0000000000  0000005000  f
+50  3:bs_code       001f06f000  0000000000  0000007000  f
+51  4:bs_data       001f076000  0000000000  0000007000  f
+52  3:bs_code       001f07d000  0000000000  000000d000  f
+53  4:bs_data       001f08a000  0000000000  0000001000  f
+54  3:bs_code       001f08b000  0000000000  0000006000  f
+55  4:bs_data       001f091000  0000000000  0000004000  f
+56  3:bs_code       001f095000  0000000000  000000d000  f
+57  4:bs_data       001f0a2000  0000000000  0000003000  f
+58  3:bs_code       001f0a5000  0000000000  0000026000  f
+59  4:bs_data       001f0cb000  0000000000  0000005000  f
+60  3:bs_code       001f0d0000  0000000000  0000019000  f
+61  4:bs_data       001f0e9000  0000000000  0000004000  f
+62  3:bs_code       001f0ed000  0000000000  0000024000  f
+63  4:bs_data       001f111000  0000000000  0000008000  f
+64  3:bs_code       001f119000  0000000000  000000b000  f
+65  4:bs_data       001f124000  0000000000  0000001000  f
+66  3:bs_code       001f125000  0000000000  0000002000  f
+67  4:bs_data       001f127000  0000000000  0000002000  f
+68  3:bs_code       001f129000  0000000000  0000009000  f
+69  4:bs_data       001f132000  0000000000  0000003000  f
+70  3:bs_code       001f135000  0000000000  0000005000  f
+71  4:bs_data       001f13a000  0000000000  0000003000  f
+72  3:bs_code       001f13d000  0000000000  0000005000  f
+73  4:bs_data       001f142000  0000000000  0000003000  f
+74  3:bs_code       001f145000  0000000000  0000011000  f
+75  4:bs_data       001f156000  0000000000  000000b000  f
+76  3:bs_code       001f161000  0000000000  0000009000  f
+77  4:bs_data       001f16a000  0000000000  0000400000  f
+78  3:bs_code       001f56a000  0000000000  0000006000  f
+79  4:bs_data       001f570000  0000000000  0000001000  f
+80  3:bs_code       001f571000  0000000000  0000001000  f
+81  4:bs_data       001f572000  0000000000  0000002000  f
+82  3:bs_code       001f574000  0000000000  0000017000  f
+83  4:bs_data       001f58b000  0000000000  0000364000  f
+84  6:rt_data       001f8ef000  0000000000  0000100000  rf
+85  5:rt_code       001f9ef000  0000000000  0000100000  rf
+86  0:reserved      001faef000  0000000000  0000080000  f
+87  9:acpi_reclaim  001fb6f000  0000000000  0000010000  f
+88  a:acpi_nvs      001fb7f000  0000000000  0000080000  f
+89  4:bs_data       001fbff000  0000000000  0000201000  f
+90  7:conv          001fe00000  0000000000  00000e8000  f
+91  4:bs_data       001fee8000  0000000000  0000020000  f
+92  3:bs_code       001ff08000  0000000000  0000026000  f
+93  4:bs_data       001ff2e000  0000000000  0000009000  f
+94  3:bs_code       001ff37000  0000000000  0000021000  f
+95  6:rt_data       001ff58000  0000000000  0000020000  rf
+96  a:acpi_nvs      001ff78000  0000000000  0000088000  f
+    &lt;gap&gt;           0020000000              0090000000
+97  0:reserved      00b0000000  0000000000  0010000000  1
+
+Attributes key:
+ f: uncached, write-coalescing, write-through, write-back
+rf: uncached, write-coalescing, write-through, write-back, needs runtime mapping
+ 1: uncached
+
+
+=&gt; efi tables
+000000001f8edf98  ee4e5898-3914-4259-9d6e-dc7bd79403cf  EFI_LZMA_COMPRESSED
+000000001ff2ace0  05ad34ba-6f02-4214-952e-4da0398e2bb9  EFI_DXE_SERVICES
+000000001f8ea018  7739f24c-93d7-11d4-9a3a-0090273fc14d  EFI_HOB_LIST
+000000001ff2bac0  4c19049f-4137-4dd3-9c10-8b97a83ffdfa  EFI_MEMORY_TYPE
+000000001ff2cb10  49152e77-1ada-4764-b7a2-7afefed95e8b  (unknown)
+000000001f9ac018  060cc026-4c0d-4dda-8f41-595fef00a502  EFI_MEM_STATUS_CODE_REC
+000000001f9ab000  eb9d2d31-2d88-11d3-9a16-0090273fc14d  SMBIOS table
+000000001fb7e000  eb9d2d30-2d88-11d3-9a16-0090273fc14d  EFI_GUID_EFI_ACPI1
+000000001fb7e014  8868e871-e4f1-11d3-bc22-0080c73c8881  ACPI table
+000000001e654018  dcfa911d-26eb-469f-a220-38b7dc461220  (unknown)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="echo.html" rel="prev" title="echo command"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="eficonfig.html" rel="next" title="eficonfig command">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

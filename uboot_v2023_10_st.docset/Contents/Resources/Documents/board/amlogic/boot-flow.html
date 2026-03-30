@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Amlogic SoC Boot Flow — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="pre-generated-fip.html" rel="next" title="Pre-Generated FIP File Repo"/>
+<link href="index.html" rel="prev" title="Amlogic"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Amlogic</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#hardware-support-matrix">Hardware Support Matrix</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#boot-documentation">Boot Documentation</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Amlogic SoC Boot Flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pre-generated-fip.html">Pre-Generated FIP File Repo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#board-documentation">Board Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Amlogic</a> »</li>
+<li>Amlogic SoC Boot Flow</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/amlogic/boot-flow.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Amlogic SoC Boot Flow"></a><div class="section" id="amlogic-soc-boot-flow">
+<h1>Amlogic SoC Boot Flow<a class="headerlink" href="#amlogic-soc-boot-flow" title="Permalink to this headline">¶</a></h1>
+<p>Amlogic SoCs follow a pre-defined boot sequence stored in SoC ROM code. The possible boot
+sequences of the different SoC families are:</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/GX* &amp; AXG Family"></a><div class="section" id="gx-axg-family">
+<h2>GX* &amp; AXG Family<a class="headerlink" href="#gx-axg-family" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%"/>
+<col style="width: 29%"/>
+<col style="width: 14%"/>
+<col style="width: 14%"/>
+<col style="width: 14%"/>
+<col style="width: 14%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+<th class="head"><p>5</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>S905
+S905D
+S905L
+S905W
+S905X
+S905Y
+S912</p></td>
+<td><p>POC=0: SPI NOR</p></td>
+<td><p>eMMC</p></td>
+<td><p>NAND</p></td>
+<td><p>SD</p></td>
+<td><p>USB</p></td>
+</tr>
+<tr class="row-odd"><td><p>S805X
+A113D
+A113X</p></td>
+<td><p>POC=0: SPI NOR</p></td>
+<td><p>eMMC</p></td>
+<td><p>NAND</p></td>
+<td><p>USB</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>POC pin: <cite>NAND_CLE</cite></p>
+<p>Some boards provide a button to force USB boot by disabling the eMMC clock signal and
+allowing the eMMC step to be bypassed. Others have removable eMMC modules; removing an
+eMMC module and SD card will allow boot from USB.</p>
+<p>An exception is the Libre Computer AML-S805X-XX (LaFrite) board which has no SD card
+slot and boots from SPI. Booting a LaFrite board from USB requires either:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Erasing the first sectors of SPI NOR flash</p></li>
+<li><p>Inserting an HDMI boot plug forcing boot over USB</p></li>
+</ul>
+</div></blockquote>
+<p>The VIM1 and initial VIM2 boards provide a test point on the eMMC signals to block the
+storage from answering, allowing boot to continue with the next boot step.</p>
+<p>USB boot uses the first USB interface. On some boards this port is only available on a
+USB-A type connector and requires a special Type-A to Type-A cable to communicate with
+the BootROM.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/G12* &amp; SM1 Family"></a><div class="section" id="g12-sm1-family">
+<h2>G12* &amp; SM1 Family<a class="headerlink" href="#g12-sm1-family" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 10%"/>
+<col style="width: 10%"/>
+<col style="width: 18%"/>
+<col style="width: 18%"/>
+<col style="width: 18%"/>
+<col style="width: 0%"/>
+<col style="width: 15%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>POC0</p></th>
+<th class="head"><p>POC1</p></th>
+<th class="head"><p>POC2</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head" colspan="2"><p>4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>USB</p></td>
+<td><p>SPI-NOR</p></td>
+<td colspan="3"><p>NAND/eMMC  | SD</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>USB</p></td>
+<td><p>NAND/eMMC</p></td>
+<td colspan="3"><p>SD         | -</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>SPI-NOR</p></td>
+<td><p>NAND/eMMC</p></td>
+<td><p>SD</p></td>
+<td colspan="2"><p>USB</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>SPI-NAND</p></td>
+<td><p>NAND/eMMC</p></td>
+<td><p>USB</p></td>
+<td colspan="2"><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>USB</p></td>
+<td><p>SPI-NOR</p></td>
+<td><p>NAND/eMMC</p></td>
+<td colspan="2"><p>SD</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>USB</p></td>
+<td><p>NAND/eMMC</p></td>
+<td><p>SD</p></td>
+<td colspan="2"><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>SPI-NOR</p></td>
+<td><p>NAND/eMMC</p></td>
+<td><p>SD</p></td>
+<td colspan="2"><p>USB</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>NAND/eMMC</p></td>
+<td><p>SD</p></td>
+<td><p>USB</p></td>
+<td colspan="2"><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The last option (1/1/1) is the normal default seen on production devices:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>POC0 pin: <cite>BOOT_4</cite> (0 and all other 1 means SPI NAND boot first)</p></li>
+<li><p>POC1 pin: <cite>BOOT_5</cite> (0 and all other 1 means USB Device boot first</p></li>
+<li><p>POC2 pin: <cite>BOOT_6</cite> (0 and all other 1 means SPI NOR boot first)</p></li>
+</ul>
+</div></blockquote>
+<p>Most boards provide a button to force USB BOOT which lowers <cite>BOOT_5</cite> to 0. Some boards
+provide a test point on eMMC or SPI NOR clock signals to block storage from answering
+and allowing boot to continue from the next boot step.</p>
+<p>The Khadas VIM3/3L boards embed a microcontroller which sets POC signals according to
+its configuration or a specific key press sequence to either boot from SPI NOR or eMMC
+then SD card, or boot as a USB device.</p>
+<p>The Odroid N2/N2+ has a hardware switch to select between SPI NOR or eMMC boot. The
+Odroid HC4 has a button to disable SPI-NOR allowing boot from SD card.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot Modes"></a><div class="section" id="boot-modes">
+<h2>Boot Modes<a class="headerlink" href="#boot-modes" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>SD</p></li>
+</ul>
+</div></blockquote>
+<p>The BootROM fetches the first SD card sectors in one sequence then checks the content of
+the data. It expects to find the FIP binary in sector 1, 512 bytes offset from the start.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>eMMC</p></li>
+</ul>
+</div></blockquote>
+<p>The BootROM fetches the first sectors of the main partition in one sequence then checks
+the content of the data. On GXL and newer boards it expects to find the FIP binary in
+sector 1, 512 bytes offset from the start. If not found it checks the boot0 partition,
+then the boot1 partition. On GXBB it expects to find the FIP binary at an offset that
+conflicts with MBR partition tables, but this has been worked around (thus avoiding the
+need for a partition scheme that relocates the MBR). For a more detailed explanation
+please see: <a class="reference external" href="https://github.com/LibreELEC/amlogic-boot-fip/pull/8">https://github.com/LibreELEC/amlogic-boot-fip/pull/8</a></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>SPI-NOR</p></li>
+</ul>
+</div></blockquote>
+<p>The BootROM fetches the first SPI NOR sectors in one sequence then checks the content of
+the data. It expects to find the FIP binary in sector 1, 512 bytes offset from the start.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>NAND &amp; SPI-NAND</p></li>
+</ul>
+</div></blockquote>
+<p>These modes are rarely used in open platforms and no details are available.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>USB</p></li>
+</ul>
+</div></blockquote>
+<p>The BootROM supports a custom USB protocol and sets the USB Gadget interface to use the
+USB ID 1b8e:c003. The Amlogic <cite>update</cite> utility uses this protocol. It is also supported
+in the Amlogic vendor U-Boot sources.</p>
+<p>The <cite>pyamlboot</cite> utility <a class="reference external" href="https://github.com/superna9999/pyamlboot">https://github.com/superna9999/pyamlboot</a> is open-source and also
+implements the USB protocol. It can load U-Boot into memory to start the SoC without the
+storage being attached, or to recover the device from a failed/incorrect image flash.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/HDMI Recovery Dongle"></a><div class="section" id="hdmi-recovery-dongle">
+<h2>HDMI Recovery Dongle<a class="headerlink" href="#hdmi-recovery-dongle" title="Permalink to this headline">¶</a></h2>
+<p>The BootROM also reads 8 bytes at address I2C 0x52 offset 0xf8 (248) on the HDMI DDC bus
+during startup. The content <cite>boot@USB</cite> forces USB boot. The content <cite>boot@SDC</cite> forces SD
+card boot. The content <cite>boot@SPI</cite> forces SPI-NOT boot. If an SD card or USB device does
+not enumerate the BootROM continues with the normal boot sequence.</p>
+<p>HDMI boot dongles can be created by connecting a 256bytes EEPROM set to answer on address
+0x52, with <cite>boot@USB</cite> or <cite>boot@SDC</cite> or <cite>boot@SPI</cite> programmed at offset 0xf8 (248).</p>
+<p>If the SoC is booted with USB Device forced at first step, it will retain the forced boot
+order on warm reboot. Only cold reboot (removing power) will reset the boot order.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Amlogic"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="pre-generated-fip.html" rel="next" title="Pre-Generated FIP File Repo">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

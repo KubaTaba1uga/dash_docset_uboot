@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Android Verified Boot 2.0 — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="bcb.html" rel="next" title="Android Bootloader Control Block (BCB)"/>
+<link href="ab.html" rel="prev" title="Android A/B updates"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Android-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ab.html">Android A/B updates</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Android Verified Boot 2.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#avb-using-op-tee-optional">AVB using OP-TEE (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#avb-2-0-u-boot-shell-commands">AVB 2.0 U-Boot shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#partitions-tampering-example">Partitions tampering (example)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-on-your-board">Enable on your board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html">Android Bootloader Control Block (BCB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html">Android Boot Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html">FastBoot Version 0.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html">Android Fastboot</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Android-specific doc</a> »</li>
+<li>Android Verified Boot 2.0</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/android/avb2.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Android Verified Boot 2.0"></a><div class="section" id="android-verified-boot-2-0">
+<h1>Android Verified Boot 2.0<a class="headerlink" href="#android-verified-boot-2-0" title="Permalink to this headline">¶</a></h1>
+<p>This file contains information about the current support of Android Verified
+Boot 2.0 in U-Boot.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Verified Boot establishes a chain of trust from the bootloader to system images:</p>
+<ul class="simple">
+<li><p>Provides integrity checking for:</p>
+<ul>
+<li><p>Android Boot image: Linux kernel + ramdisk. RAW hashing of the whole
+partition is done and the hash is compared with the one stored in
+the VBMeta image</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">system</span></code>/<code class="docutils literal notranslate"><span class="pre">vendor</span></code> partitions: verifying root hash of dm-verity hashtrees</p></li>
+</ul>
+</li>
+<li><p>Provides capabilities for rollback protection</p></li>
+</ul>
+<p>Integrity of the bootloader (U-Boot BLOB and environment) is out of scope.</p>
+<p>For additional details check <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
+<div class="section" id="avb-using-op-tee-optional">
+<h3>AVB using OP-TEE (optional)<a class="headerlink" href="#avb-using-op-tee-optional" title="Permalink to this headline">¶</a></h3>
+<p>If AVB is configured to use OP-TEE (see <a class="reference internal" href="#enable-on-your-board">Enable on your board</a>) rollback
+indexes and device lock state are stored in RPMB. The RPMB partition is managed
+by OP-TEE (see <a class="footnote-reference brackets" href="#id4" id="id2">2</a> for details) which is a secure OS leveraging ARM
+TrustZone.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/AVB 2.0 U-Boot shell commands"></a><div class="section" id="avb-2-0-u-boot-shell-commands">
+<h2>AVB 2.0 U-Boot shell commands<a class="headerlink" href="#avb-2-0-u-boot-shell-commands" title="Permalink to this headline">¶</a></h2>
+<p>Provides CLI interface to invoke AVB 2.0 verification + misc. commands for
+different testing purposes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>avb init &lt;dev&gt; - initialize avb 2.0 for &lt;dev&gt;
+avb verify - run verification process using hash data from vbmeta structure
+avb read_rb &lt;num&gt; - read rollback index at location &lt;num&gt;
+avb write_rb &lt;num&gt; &lt;rb&gt; - write rollback index &lt;rb&gt; to &lt;num&gt;
+avb is_unlocked - returns unlock status of the device
+avb get_uuid &lt;partname&gt; - read and print uuid of partition &lt;partname&gt;
+avb read_part &lt;partname&gt; &lt;offset&gt; &lt;num&gt; &lt;addr&gt; - read &lt;num&gt; bytes from
+partition &lt;partname&gt; to buffer &lt;addr&gt;
+avb write_part &lt;partname&gt; &lt;offset&gt; &lt;num&gt; &lt;addr&gt; - write &lt;num&gt; bytes to
+&lt;partname&gt; by &lt;offset&gt; using data from &lt;addr&gt;
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Partitions tampering (example)"></a><div class="section" id="partitions-tampering-example">
+<h2>Partitions tampering (example)<a class="headerlink" href="#partitions-tampering-example" title="Permalink to this headline">¶</a></h2>
+<p>Boot or system/vendor (dm-verity metadata section) is tampered:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; avb init 1
+=&gt; avb verify
+avb_slot_verify.c:175: ERROR: boot: Hash of data does not match digest in
+descriptor.
+Slot verification result: ERROR_IO
+</pre></div>
+</div>
+<p>Vbmeta partition is tampered:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; avb init 1
+=&gt; avb verify
+avb_vbmeta_image.c:206: ERROR: Hash does not match!
+avb_slot_verify.c:388: ERROR: vbmeta: Error verifying vbmeta image:
+HASH_MISMATCH
+Slot verification result: ERROR_IO
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enable on your board"></a><div class="section" id="enable-on-your-board">
+<h2>Enable on your board<a class="headerlink" href="#enable-on-your-board" title="Permalink to this headline">¶</a></h2>
+<p>The following options must be enabled:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_LIBAVB=y
+CONFIG_AVB_VERIFY=y
+CONFIG_CMD_AVB=y
+</pre></div>
+</div>
+<p>In addtion optionally if storing rollback indexes in RPMB with help of
+OP-TEE:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_TEE=y
+CONFIG_OPTEE=y
+CONFIG_OPTEE_TA_AVB=y
+CONFIG_SUPPORT_EMMC_RPMB=y
+</pre></div>
+</div>
+<p>Then add <code class="docutils literal notranslate"><span class="pre">avb</span> <span class="pre">verify</span></code> invocation to your android boot sequence of commands,
+e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; avb_verify=avb init $mmcdev; avb verify;
+=&gt; if run avb_verify; then                       \
+        echo AVB verification OK. Continue boot; \
+        set bootargs $bootargs $avb_bootargs;    \
+   else                                          \
+        echo AVB verification failed;            \
+        exit;                                    \
+   fi;                                           \
+
+=&gt; emmc_android_boot=                                   \
+       echo Trying to boot Android from eMMC ...;       \
+       ...                                              \
+       run avb_verify;                                  \
+       mmc read ${fdtaddr} ${fdt_start} ${fdt_size};    \
+       mmc read ${loadaddr} ${boot_start} ${boot_size}; \
+            bootm $loadaddr $loadaddr $fdtaddr;         \
+</pre></div>
+</div>
+<p>If partitions you want to verify are slotted (have A/B suffixes), then current
+slot suffix should be passed to <code class="docutils literal notranslate"><span class="pre">avb</span> <span class="pre">verify</span></code> sub-command, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; avb verify _a
+</pre></div>
+</div>
+<p>To switch on automatic generation of vbmeta partition in AOSP build, add these
+lines to device configuration mk file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>BOARD_AVB_ENABLE := true
+BOARD_AVB_ALGORITHM := SHA512_RSA4096
+BOARD_BOOTIMAGE_PARTITION_SIZE := &lt;boot partition size&gt;
+</pre></div>
+</div>
+<p>After flashing U-Boot don’t forget to update environment and write new
+partition table:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; env default -f -a
+=&gt; setenv partitions $partitions_android
+=&gt; env save
+=&gt; gpt write mmc 1 $partitions_android
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/References"></a><div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://android.googlesource.com/platform/external/avb/+/master/README.md">https://android.googlesource.com/platform/external/avb/+/master/README.md</a></p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p><a class="reference external" href="https://www.op-tee.org/">https://www.op-tee.org/</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="ab.html" rel="prev" title="Android A/B updates"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="bcb.html" rel="next" title="Android Bootloader Control Block (BCB)">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

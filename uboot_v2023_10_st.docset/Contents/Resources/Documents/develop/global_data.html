@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global data — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="logging.html" rel="next" title="Logging in U-Boot"/>
+<link href="event.html" rel="prev" title="Events"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Global data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#register-pointing-to-global-data">Register pointing to global data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#global-data-structure">Global data structure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Global data</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/global_data.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Global data"></a><div class="section" id="global-data">
+<h1>Global data<a class="headerlink" href="#global-data" title="Permalink to this headline">¶</a></h1>
+<p>Globally required fields are held in the global data structure. A pointer to the
+structure is available as symbol gd. The symbol is made available by the macro
+%DECLARE_GLOBAL_DATA_PTR.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Register pointing to global data"></a><div class="section" id="register-pointing-to-global-data">
+<h2>Register pointing to global data<a class="headerlink" href="#register-pointing-to-global-data" title="Permalink to this headline">¶</a></h2>
+<p>On most architectures the global data pointer is stored in a register.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55%"/>
+<col style="width: 45%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>ARC</p></td>
+<td><p>r25</p></td>
+</tr>
+<tr class="row-even"><td><p>ARM 32bit</p></td>
+<td><p>r9</p></td>
+</tr>
+<tr class="row-odd"><td><p>ARM 64bit</p></td>
+<td><p>x18</p></td>
+</tr>
+<tr class="row-even"><td><p>M68000</p></td>
+<td><p>d7</p></td>
+</tr>
+<tr class="row-odd"><td><p>MicroBlaze</p></td>
+<td><p>r31</p></td>
+</tr>
+<tr class="row-even"><td><p>Nios II</p></td>
+<td><p>gp</p></td>
+</tr>
+<tr class="row-odd"><td><p>PowerPC</p></td>
+<td><p>r2</p></td>
+</tr>
+<tr class="row-even"><td><p>RISC-V</p></td>
+<td><p>gp (x3)</p></td>
+</tr>
+<tr class="row-odd"><td><p>SuperH</p></td>
+<td><p>r13</p></td>
+</tr>
+<tr class="row-even"><td><p>x86 32bit</p></td>
+<td><p>fs</p></td>
+</tr>
+</tbody>
+</table>
+<p>The sandbox, x86_64, and Xtensa are notable exceptions.</p>
+<p>Current implementation uses a register for the GD pointer because this results
+in smaller code. However, using plain global data for the GD pointer would be
+possible too (and simpler, as it does not require the reservation of a specific
+register for it), but the resulting code is bigger.</p>
+<p>Clang for ARM does not support assigning a global register. When using Clang
+gd is defined as an inline function using assembly code. This adds a few bytes
+to the code size.</p>
+<p>Binaries called by U-Boot are not aware of the register usage and will not
+conserve gd. UEFI binaries call the API provided by U-Boot and may return to
+U-Boot. The value of gd has to be saved every time U-Boot is left and restored
+whenever U-Boot is reentered. This is also relevant for the implementation of
+function tracing. For setting the value of gd function set_gd() can be used.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Global data structure"></a><div class="section" id="global-data-structure">
+<h2>Global data structure<a class="headerlink" href="#global-data-structure" title="Permalink to this headline">¶</a></h2>
+<dl class="c struct">
+<dt id="c.global_data">
+<em class="property">struct </em><code class="sig-name descname">global_data</code><a class="headerlink" href="#c.global_data" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>global data structure</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct global_data {
+  struct bd_info *bd;
+  unsigned long flags;
+  unsigned int baudrate;
+  unsigned long cpu_clk;
+  unsigned long bus_clk;
+  unsigned long pci_clk;
+  unsigned long mem_clk;
+#if CONFIG_IS_ENABLED(VIDEO);
+  unsigned long fb_base;
+#endif;
+#if defined(CONFIG_POST);
+  unsigned long post_log_word;
+  unsigned long post_log_res;
+  unsigned long post_init_f_time;
+#endif;
+#ifdef CONFIG_BOARD_TYPES;
+  unsigned long board_type;
+#endif;
+  unsigned long have_console;
+#if CONFIG_IS_ENABLED(PRE_CONSOLE_BUFFER);
+  long precon_buf_idx;
+#endif;
+  unsigned long env_addr;
+  unsigned long env_valid;
+  unsigned long env_has_init;
+  int env_load_prio;
+  unsigned long ram_base;
+  phys_addr_t ram_top;
+  unsigned long relocaddr;
+  phys_size_t ram_size;
+  unsigned long mon_len;
+  unsigned long irq_sp;
+  unsigned long start_addr_sp;
+  unsigned long reloc_off;
+  struct global_data *new_gd;
+#ifdef CONFIG_DM;
+  struct udevice *dm_root;
+  struct udevice *dm_root_f;
+  struct list_head uclass_root_s;
+  struct list_head *uclass_root;
+# if CONFIG_IS_ENABLED(OF_PLATDATA_DRIVER_RT);
+  struct driver_rt *dm_driver_rt;
+# endif;
+#if CONFIG_IS_ENABLED(OF_PLATDATA_RT);
+  struct udevice_rt *dm_udevice_rt;
+  void *dm_priv_base;
+# endif;
+#endif;
+#ifdef CONFIG_TIMER;
+  struct udevice *timer;
+#endif;
+  const void *fdt_blob;
+  void *new_fdt;
+  unsigned long fdt_size;
+  enum fdt_source_t fdt_src;
+#if CONFIG_IS_ENABLED(OF_LIVE);
+  struct device_node *of_root;
+#endif;
+#if CONFIG_IS_ENABLED(MULTI_DTB_FIT);
+  const void *multi_dtb_fit;
+#endif;
+  struct jt_funcs *jt;
+  char env_buf[32];
+#ifdef CONFIG_TRACE;
+  void *trace_buff;
+#endif;
+#if CONFIG_IS_ENABLED(SYS_I2C_LEGACY);
+  int cur_i2c_bus;
+#endif;
+  unsigned int timebase_h;
+  unsigned int timebase_l;
+#if CONFIG_IS_ENABLED(CMD_BDINFO_EXTRA);
+  unsigned long malloc_start;
+#endif;
+#if CONFIG_VAL(SYS_MALLOC_F_LEN);
+  unsigned long malloc_base;
+  unsigned long malloc_limit;
+  unsigned long malloc_ptr;
+#endif;
+#ifdef CONFIG_PCI;
+  struct pci_controller *hose;
+  phys_addr_t pci_ram_top;
+#endif;
+#ifdef CONFIG_PCI_BOOTDELAY;
+  int pcidelay_done;
+#endif;
+  struct udevice *cur_serial_dev;
+  struct arch_global_data arch;
+#ifdef CONFIG_CONSOLE_RECORD;
+  struct membuff console_out;
+  struct membuff console_in;
+#endif;
+#if CONFIG_IS_ENABLED(VIDEO);
+  ulong video_top;
+  ulong video_bottom;
+#endif;
+#ifdef CONFIG_BOOTSTAGE;
+  struct bootstage_data *bootstage;
+  struct bootstage_data *new_bootstage;
+#endif;
+#ifdef CONFIG_LOG;
+  int log_drop_count;
+  int default_log_level;
+  struct list_head log_head;
+  int log_fmt;
+  bool processing_msg;
+  int logc_prev;
+  int logl_prev;
+  bool log_cont;
+#endif;
+#if CONFIG_IS_ENABLED(BLOBLIST);
+  struct bloblist_hdr *bloblist;
+  struct bloblist_hdr *new_bloblist;
+#endif;
+#if CONFIG_IS_ENABLED(HANDOFF);
+  struct spl_handoff *spl_handoff;
+#endif;
+#if defined(CONFIG_TRANSLATION_OFFSET);
+  fdt_addr_t translation_offset;
+#endif;
+#ifdef CONFIG_ACPI;
+  struct acpi_ctx *acpi_ctx;
+  ulong acpi_start;
+#endif;
+#if CONFIG_IS_ENABLED(GENERATE_SMBIOS_TABLE);
+  char *smbios_version;
+#endif;
+#if CONFIG_IS_ENABLED(EVENT);
+  struct event_state event_state;
+#endif;
+#ifdef CONFIG_CYCLIC;
+  struct hlist_head cyclic_list;
+#endif;
+  struct list_head dmtag_list;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">bd</span></code></dt><dd><p>board information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>global data flags</p>
+<p>See <a class="reference internal" href="#c.gd_flags" title="gd_flags"><code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">gd_flags</span></code></a></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">baudrate</span></code></dt><dd><p>baud rate of the serial interface</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cpu_clk</span></code></dt><dd><p>CPU clock rate in Hz</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bus_clk</span></code></dt><dd><p>platform clock rate in Hz</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pci_clk</span></code></dt><dd><p>PCI clock rate in Hz</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mem_clk</span></code></dt><dd><p>memory clock rate in Hz</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">fb_base</span></code></dt><dd><p>base address of frame buffer memory</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">post_log_word</span></code></dt><dd><p>active POST tests</p>
+<p><strong>post_log_word</strong> is a bit mask defining which POST tests are recorded
+(see constants POST_*).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">post_log_res</span></code></dt><dd><p>POST results</p>
+<p><strong>post_log_res</strong> is a bit mask with the POST results. A bit with value 1
+indicates successful execution.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">post_init_f_time</span></code></dt><dd><p>time in ms when post_init_f() started</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">board_type</span></code></dt><dd><p>board type</p>
+<p>If a U-Boot configuration supports multiple board types, the actual
+board type may be stored in this field.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">have_console</span></code></dt><dd><p>console is available</p>
+<p>A value of 1 indicates that serial_init() was called and a console
+is available.
+A value of 0 indicates that console input and output drivers shall
+not be called.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">precon_buf_idx</span></code></dt><dd><p>pre-console buffer index</p>
+<p><strong>precon_buf_idx</strong> indicates the current position of the
+buffer used to collect output before the console becomes
+available. When negative, the pre-console buffer is
+temporarily disabled (used when the pre-console buffer is
+being written out, to prevent adding its contents to
+itself).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">env_addr</span></code></dt><dd><p>address of environment structure</p>
+<p><strong>env_addr</strong> contains the address of the structure holding the
+environment variables.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">env_valid</span></code></dt><dd><p>environment is valid</p>
+<p>See <code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">env_valid</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">env_has_init</span></code></dt><dd><p>bit mask indicating environment locations</p>
+<p><code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">env_location</span></code> defines which bit relates to which location</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">env_load_prio</span></code></dt><dd><p>priority of the loaded environment</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ram_base</span></code></dt><dd><p>base address of RAM used by U-Boot</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ram_top</span></code></dt><dd><p>top address of RAM used by U-Boot</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">relocaddr</span></code></dt><dd><p>start address of U-Boot in RAM</p>
+<p>After relocation this field indicates the address to which U-Boot
+has been relocated. It can be displayed using the bdinfo command.
+Its value is needed to display the source code when debugging with
+GDB using the ‘add-symbol-file u-boot &lt;relocaddr&gt;’ command.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ram_size</span></code></dt><dd><p>RAM size in bytes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mon_len</span></code></dt><dd><p>monitor length in bytes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">irq_sp</span></code></dt><dd><p>IRQ stack pointer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">start_addr_sp</span></code></dt><dd><p>initial stack pointer address</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">reloc_off</span></code></dt><dd><p>relocation offset</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">new_gd</span></code></dt><dd><p>pointer to relocated global data</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dm_root</span></code></dt><dd><p>root instance for Driver Model</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dm_root_f</span></code></dt><dd><p>pre-relocation root instance</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uclass_root_s</span></code></dt><dd><p>head of core tree when uclasses are not in read-only memory.</p>
+<p>When uclasses are in read-only memory, <strong>uclass_root_s</strong> is not used and
+<strong>uclass_root</strong> points to the root node generated by dtoc.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uclass_root</span></code></dt><dd><p>pointer to head of core tree, if uclasses are in read-only memory and
+cannot be adjusted to use <strong>uclass_root</strong> as a list head.</p>
+<p>When not in read-only memory, <strong>uclass_root_s</strong> is used to hold the
+uclass root, and <strong>uclass_root</strong> points to the address of
+<strong>uclass_root_s</strong>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dm_driver_rt</span></code></dt><dd><p>Dynamic info about the driver</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dm_udevice_rt</span></code></dt><dd><p>Dynamic info about the udevice</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dm_priv_base</span></code></dt><dd><p>Base address of the priv/plat region used when
+udevices and uclasses are in read-only memory. This is NULL if not
+used</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">timer</span></code></dt><dd><p>timer instance for Driver Model</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">fdt_blob</span></code></dt><dd><p>U-Boot’s own device tree, NULL if none</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">new_fdt</span></code></dt><dd><p>relocated device tree</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">fdt_size</span></code></dt><dd><p>space reserved for relocated device space</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">fdt_src</span></code></dt><dd><p>Source of FDT</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">of_root</span></code></dt><dd><p>root node of the live tree</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">multi_dtb_fit</span></code></dt><dd><p>pointer to uncompressed multi-dtb FIT image</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">jt</span></code></dt><dd><p>jump table</p>
+<p>The jump table contains pointers to exported functions. A pointer to
+the jump table is passed to standalone applications.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">env_buf</span></code></dt><dd><p>buffer for env_get() before reloc</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">trace_buff</span></code></dt><dd><p>trace buffer</p>
+<p>When tracing function in U-Boot this field points to the buffer
+recording the function calls.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cur_i2c_bus</span></code></dt><dd><p>currently used I2C bus</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">timebase_h</span></code></dt><dd><p>high 32 bits of timer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">timebase_l</span></code></dt><dd><p>low 32 bits of timer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">malloc_start</span></code></dt><dd><p>start of malloc() region</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">malloc_base</span></code></dt><dd><p>base address of early malloc()</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">malloc_limit</span></code></dt><dd><p>limit address of early malloc()</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">malloc_ptr</span></code></dt><dd><p>current address of early malloc()</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">hose</span></code></dt><dd><p>PCI hose for early use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pci_ram_top</span></code></dt><dd><p>top of region accessible to PCI</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pcidelay_done</span></code></dt><dd><p>delay time before scanning of PIC hose expired</p>
+<p>If CONFIG_PCI_BOOTDELAY=y, pci_hose_scan() waits for the number of
+milliseconds defined by environment variable pcidelay before
+scanning. Once this delay has expired the flag <strong>pcidelay_done</strong>
+is set to 1.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cur_serial_dev</span></code></dt><dd><p>current serial device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">arch</span></code></dt><dd><p>architecture-specific data</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">console_out</span></code></dt><dd><p>output buffer for console recording</p>
+<p>This buffer is used to collect output during console recording.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">console_in</span></code></dt><dd><p>input buffer for console recording</p>
+<p>If console recording is activated, this buffer can be used to
+emulate input.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">video_top</span></code></dt><dd><p>top of video frame buffer area</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">video_bottom</span></code></dt><dd><p>bottom of video frame buffer area</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bootstage</span></code></dt><dd><p>boot stage information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">new_bootstage</span></code></dt><dd><p>relocated boot stage information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">log_drop_count</span></code></dt><dd><p>number of dropped log messages</p>
+<p>This counter is incremented for each log message which can not
+be processed because logging is not yet available as signaled by
+flag <code class="docutils literal notranslate"><span class="pre">GD_FLG_LOG_READY</span></code> in <strong>flags</strong>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">default_log_level</span></code></dt><dd><p>default logging level</p>
+<p>For logging devices without filters <strong>default_log_level</strong> defines the
+logging level, cf. <a class="reference internal" href="../api/logging.html#c.log_level_t" title="log_level_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_level_t</span></code></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">log_head</span></code></dt><dd><p>list of logging devices</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">log_fmt</span></code></dt><dd><p>bit mask for logging format</p>
+<p>The <strong>log_fmt</strong> bit mask selects the fields to be shown in log messages.
+<code class="xref c c-type docutils literal notranslate"><span class="pre">enum</span> <span class="pre">log_fmt</span></code> defines the bits of the bit mask.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">processing_msg</span></code></dt><dd><p>a log message is being processed</p>
+<p>This flag is used to suppress the creation of additional messages
+while another message is being processed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">logc_prev</span></code></dt><dd><p>logging category of previous message</p>
+<p>This value is used as logging category for continuation messages.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">logl_prev</span></code></dt><dd><p>logging level of the previous message</p>
+<p>This value is used as logging level for continuation messages.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">log_cont</span></code></dt><dd><p>Previous log line did not finished wtih n</p>
+<p>This allows for chained log messages on the same line</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bloblist</span></code></dt><dd><p>blob list information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">new_bloblist</span></code></dt><dd><p>relocated blob list information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">spl_handoff</span></code></dt><dd><p>SPL hand-off information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">translation_offset</span></code></dt><dd><p>optional translation offset</p>
+<p>See CONFIG_TRANSLATION_OFFSET.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">acpi_ctx</span></code></dt><dd><p>ACPI context pointer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">acpi_start</span></code></dt><dd><p>Start address of ACPI tables</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">smbios_version</span></code></dt><dd><p>Points to SMBIOS type 0 version</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">event_state</span></code></dt><dd><p>Points to the current state of events</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cyclic_list</span></code></dt><dd><p>list of registered cyclic functions</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dmtag_list</span></code></dt><dd><p>List of DM tags</p>
+</dd>
+</dl>
+<dl class="c macro">
+<dt id="c.gd_board_type">
+<code class="sig-name descname">gd_board_type</code><a class="dashAnchor" name="//apple_ref/cpp/Macro/gd_board_type"></a><a class="headerlink" href="#c.gd_board_type" title="Permalink to this definition">¶</a><br/></dt>
+<dd></dd></dl>
+<p><code class="docutils literal notranslate"><span class="pre">gd_board_type</span> <span class="pre">()</span></code></p>
+<blockquote>
+<div><p>retrieve board type</p>
+</div></blockquote>
+<p><strong>Parameters</strong></p>
+<p><strong>Return</strong></p>
+<p>global board type</p>
+<dl class="c enum">
+<dt id="c.gd_flags">
+<em class="property">enum </em><code class="sig-name descname">gd_flags</code><a class="headerlink" href="#c.gd_flags" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>global data flags</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_RELOC</span></code></dt><dd><p>code was relocated to RAM</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_DEVINIT</span></code></dt><dd><p>devices have been initialized</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_SILENT</span></code></dt><dd><p>silent mode</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_POSTFAIL</span></code></dt><dd><p>critical POST test failed</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_POSTSTOP</span></code></dt><dd><p>POST sequence aborted</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_LOGINIT</span></code></dt><dd><p>log Buffer has been initialized</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_DISABLE_CONSOLE</span></code></dt><dd><p>disable console (in &amp; out)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_ENV_READY</span></code></dt><dd><p>environment imported into hash table</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_SERIAL_READY</span></code></dt><dd><p>pre-relocation serial console ready</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_FULL_MALLOC_INIT</span></code></dt><dd><p>full malloc() is ready</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_SPL_INIT</span></code></dt><dd><p>spl_init() has been called</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_SKIP_RELOC</span></code></dt><dd><p>don’t relocate</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_RECORD</span></code></dt><dd><p>record console</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_RECORD_OVF</span></code></dt><dd><p>record console overflow</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_ENV_DEFAULT</span></code></dt><dd><p>default variable flag</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_SPL_EARLY_INIT</span></code></dt><dd><p>early SPL initialization is done</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_LOG_READY</span></code></dt><dd><p>log system is ready for use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_CYCLIC_RUNNING</span></code></dt><dd><p>cyclic_run is in progress</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_SKIP_LL_INIT</span></code></dt><dd><p>don’t perform low-level initialization</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_SMP_READY</span></code></dt><dd><p>SMP initialization is complete</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_FDT_CHANGED</span></code></dt><dd><p>Device tree change has been detected by tests</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GD_FLG_OF_TAG_MIGRATE</span></code></dt><dd><p>Device tree has old u-boot,dm- tags</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>See field flags of <a class="reference internal" href="#c.global_data" title="global_data"><code class="xref c c-type docutils literal notranslate"><span class="pre">struct</span> <span class="pre">global_data</span></code></a>.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="event.html" rel="prev" title="Events"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="logging.html" rel="next" title="Logging in U-Boot">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

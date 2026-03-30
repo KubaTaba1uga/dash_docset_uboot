@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Compiled-in Device Tree / Platform Data — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="pci-info.html" rel="next" title="PCI with Driver Model"/>
+<link href="nvmxip.html" rel="prev" title="NVM XIP Block Storage Emulation Driver"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>Compiled-in Device Tree / Platform Data</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/of-plat.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Compiled-in Device Tree / Platform Data"></a><div class="section" id="compiled-in-device-tree-platform-data">
+<h1>Compiled-in Device Tree / Platform Data<a class="headerlink" href="#compiled-in-device-tree-platform-data" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Device tree is the standard configuration method in U-Boot. It is used to
+define what devices are in the system and provide configuration information
+to these devices.</p>
+<p>The overhead of adding devicetree access to U-Boot is fairly modest,
+approximately 3KB on Thumb 2 (plus the size of the DT itself). This means
+that in most cases it is best to use devicetree for configuration.</p>
+<p>However there are some very constrained environments where U-Boot needs to
+work. These include SPL with severe memory limitations. For example, some
+SoCs require a 16KB SPL image which must include a full MMC stack. In this
+case the overhead of devicetree access may be too great.</p>
+<p>It is possible to create platform data manually by defining C structures
+for it, and reference that data in a <cite>U_BOOT_DRVINFO()</cite> declaration. This
+bypasses the use of devicetree completely, effectively creating a parallel
+configuration mechanism. But it is an available option for SPL.</p>
+<p>As an alternative, the ‘of-platdata’ feature is provided. This converts the
+devicetree contents into C code which can be compiled into the SPL binary.
+This saves the 3KB of code overhead and perhaps a few hundred more bytes due
+to more efficient storage of the data.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How it works"></a><div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>The feature is enabled by CONFIG OF_PLATDATA. This is only available in
+SPL/TPL and should be tested with:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#if CONFIG_IS_ENABLED(OF_PLATDATA)</span>
+</pre></div>
+</div>
+<p>A tool called ‘dtoc’ converts a devicetree file either into a set of
+struct declarations, one for each compatible node, and a set of
+<cite>U_BOOT_DRVINFO()</cite> declarations along with the actual platform data for each
+device. As an example, consider this MMC node:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sdmmc: dwmmc@ff0c0000 {
+        compatible = "rockchip,rk3288-dw-mshc";
+        clock-freq-min-max = &lt;400000 150000000&gt;;
+        clocks = &lt;&amp;cru HCLK_SDMMC&gt;, &lt;&amp;cru SCLK_SDMMC&gt;,
+                 &lt;&amp;cru SCLK_SDMMC_DRV&gt;, &lt;&amp;cru SCLK_SDMMC_SAMPLE&gt;;
+        clock-names = "biu", "ciu", "ciu_drv", "ciu_sample";
+        fifo-depth = &lt;0x100&gt;;
+        interrupts = &lt;GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH&gt;;
+        reg = &lt;0xff0c0000 0x4000&gt;;
+        bus-width = &lt;4&gt;;
+        cap-mmc-highspeed;
+        cap-sd-highspeed;
+        card-detect-delay = &lt;200&gt;;
+        disable-wp;
+        num-slots = &lt;1&gt;;
+        pinctrl-names = "default";
+        pinctrl-0 = &lt;&amp;sdmmc_clk&gt;, &lt;&amp;sdmmc_cmd&gt;, &lt;&amp;sdmmc_cd&gt;, &lt;&amp;sdmmc_bus4&gt;;
+            vmmc-supply = &lt;&amp;vcc_sd&gt;;
+            status = "okay";
+            bootph-all;
+    };
+</pre></div>
+</div>
+<p>Some of these properties are dropped by U-Boot under control of the
+CONFIG_OF_SPL_REMOVE_PROPS option. The rest are processed. This will produce
+the following C struct declaration:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">dtd_rockchip_rk3288_dw_mshc</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">fdt32_t</span><span class="w">         </span><span class="n">bus_width</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w">            </span><span class="n">cap_mmc_highspeed</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w">            </span><span class="n">cap_sd_highspeed</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fdt32_t</span><span class="w">         </span><span class="n">card_detect_delay</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fdt32_t</span><span class="w">         </span><span class="n">clock_freq_min_max</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">phandle_1_arg</span><span class="w"> </span><span class="n">clocks</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w">            </span><span class="n">disable_wp</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fdt32_t</span><span class="w">         </span><span class="n">fifo_depth</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fdt32_t</span><span class="w">         </span><span class="n">interrupts</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="w">        </span><span class="n">fdt32_t</span><span class="w">         </span><span class="n">num_slots</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fdt32_t</span><span class="w">         </span><span class="n">reg</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">        </span><span class="n">fdt32_t</span><span class="w">         </span><span class="n">vmmc_supply</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>and the following device declarations:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Node /clock-controller@ff760000 index 0 */</span>
+<span class="p">...</span>
+
+<span class="cm">/* Node /dwmmc@ff0c0000 index 2 */</span>
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">dtd_rockchip_rk3288_dw_mshc</span><span class="w"> </span><span class="n">dtv_dwmmc_at_ff0c0000</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">fifo_depth</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="mh">0x100</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">cap_sd_highspeed</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">interrupts</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x20</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4</span><span class="p">},</span>
+<span class="w">        </span><span class="p">.</span><span class="n">clock_freq_min_max</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0x61a80</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8f0d180</span><span class="p">},</span>
+<span class="w">        </span><span class="p">.</span><span class="n">vmmc_supply</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="mh">0xb</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">num_slots</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mh">0x1</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">clocks</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">456</span><span class="p">},</span>
+<span class="w">                                   </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">68</span><span class="p">},</span>
+<span class="w">                                   </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">114</span><span class="p">},</span>
+<span class="w">                                   </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">118</span><span class="p">}},</span>
+<span class="w">        </span><span class="p">.</span><span class="n">cap_mmc_highspeed</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">disable_wp</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">bus_width</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mh">0x4</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">u_boot_dm_pre_reloc</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">reg</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mh">0xff0c0000</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4000</span><span class="p">},</span>
+<span class="w">        </span><span class="p">.</span><span class="n">card_detect_delay</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mh">0xc8</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="n">U_BOOT_DRVINFO</span><span class="p">(</span><span class="n">dwmmc_at_ff0c0000</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s">"rockchip_rk3288_dw_mshc"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">plat</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dtv_dwmmc_at_ff0c0000</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">plat_size</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">dtv_dwmmc_at_ff0c0000</span><span class="p">),</span>
+<span class="w">        </span><span class="p">.</span><span class="n">parent_idx</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The device is then instantiated at run-time and the platform data can be
+accessed using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">dtd_rockchip_rk3288_dw_mshc</span><span class="w"> </span><span class="o">*</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_plat</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This avoids the code overhead of converting the devicetree data to
+platform data in the driver. The <cite>of_to_plat()</cite> method should
+therefore do nothing in such a driver.</p>
+<p>Note that for the platform data to be matched with a driver, the ‘name’
+property of the <cite>U_BOOT_DRVINFO()</cite> declaration has to match a driver declared
+via <cite>U_BOOT_DRIVER()</cite>. This effectively means that a <cite>U_BOOT_DRIVER()</cite> with a
+‘name’ corresponding to the devicetree ‘compatible’ string (after converting
+it to a valid name for C) is needed, so a dedicated driver is required for
+each ‘compatible’ string.</p>
+<p>In order to make this a bit more flexible, the <cite>DM_DRIVER_ALIAS()</cite> macro can be
+used to declare an alias for a driver name, typically a ‘compatible’ string.
+This macro produces no code, but is used by dtoc tool. It must be located in the
+same file as its associated driver, ideally just after it.</p>
+<p>The parent_idx is the index of the parent <cite>driver_info</cite> structure within its
+linker list (instantiated by the <cite>U_BOOT_DRVINFO()</cite> macro). This is used to
+support <cite>dev_get_parent()</cite>.</p>
+<p>During the build process dtoc parses both <cite>U_BOOT_DRIVER()</cite> and
+<cite>DM_DRIVER_ALIAS()</cite> to build a list of valid driver names and driver aliases.
+If the ‘compatible’ string used for a device does not not match a valid driver
+name, it will be checked against the list of driver aliases in order to get the
+right driver name to use. If in this step there is no match found a warning is
+issued to avoid run-time failures.</p>
+<p>Where a node has multiple compatible strings, dtoc generates a <cite>#define</cite> to
+make them equivalent, e.g.:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define dtd_rockchip_rk3299_dw_mshc dtd_rockchip_rk3288_dw_mshc</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Converting of-platdata to a useful form"></a><div class="section" id="converting-of-platdata-to-a-useful-form">
+<h2>Converting of-platdata to a useful form<a class="headerlink" href="#converting-of-platdata-to-a-useful-form" title="Permalink to this headline">¶</a></h2>
+<p>Of course it would be possible to use the of-platdata directly in your driver
+whenever configuration information is required. However this means that the
+driver will not be able to support devicetree, since the of-platdata
+structure is not available when devicetree is used. It would make no sense
+to use this structure if devicetree were available, since the structure has
+all the limitations metioned in caveats below.</p>
+<p>Therefore it is recommended that the of-platdata structure should be used
+only in the <cite>probe()</cite> method of your driver. It cannot be used in the
+<cite>of_to_plat()</cite> method since this is not called when platform data is
+already present.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to structure your driver"></a><div class="section" id="how-to-structure-your-driver">
+<h2>How to structure your driver<a class="headerlink" href="#how-to-structure-your-driver" title="Permalink to this headline">¶</a></h2>
+<p>Drivers should always support devicetree as an option. The of-platdata
+feature is intended as a add-on to existing drivers.</p>
+<p>Your driver should convert the plat struct in its <cite>probe()</cite> method. The
+existing devicetree decoding logic should be kept in the
+<cite>of_to_plat()</cite> method and wrapped with <cite>#if</cite>.</p>
+<p>For example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;dt-structs.h&gt;</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">mmc_plat</span><span class="w"> </span><span class="p">{</span>
+<span class="cp">#if CONFIG_IS_ENABLED(OF_PLATDATA)</span>
+<span class="w">        </span><span class="cm">/* Put this first since driver model will copy the data here */</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">dtd_mmc</span><span class="w"> </span><span class="n">dtplat</span><span class="p">;</span>
+<span class="cp">#endif</span>
+<span class="w">        </span><span class="cm">/*</span>
+<span class="cm">         * Other fields can go here, to be filled in by decoding from</span>
+<span class="cm">         * the devicetree (or the C structures when of-platdata is used).</span>
+<span class="cm">         */</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">fifo_depth</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">mmc_of_to_plat</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">CONFIG_IS_ENABLED</span><span class="p">(</span><span class="n">OF_REAL</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="cm">/* Decode the devicetree data */</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">mmc_plat</span><span class="w"> </span><span class="o">*</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_plat</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">blob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gd</span><span class="o">-&gt;</span><span class="n">fdt_blob</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_of_offset</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">fifo_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fdtdec_get_int</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="s">"fifo-depth"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">mmc_probe</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">mmc_plat</span><span class="w"> </span><span class="o">*</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_plat</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="cp">#if CONFIG_IS_ENABLED(OF_PLATDATA)</span>
+<span class="w">        </span><span class="cm">/* Decode the of-platdata from the C structures */</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">dtd_mmc</span><span class="w"> </span><span class="o">*</span><span class="n">dtplat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">dtplat</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">fifo_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtplat</span><span class="o">-&gt;</span><span class="n">fifo_depth</span><span class="p">;</span>
+<span class="cp">#endif</span>
+<span class="w">        </span><span class="cm">/* Set up the device from the plat data */</span>
+<span class="w">        </span><span class="n">writel</span><span class="p">(</span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">fifo_depth</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice_id</span><span class="w"> </span><span class="n">mmc_ids</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"vendor,mmc"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">mmc_drv</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s">"mmc_drv"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="n">UCLASS_MMC</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_match</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">mmc_ids</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_to_plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mmc_of_to_plat</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">probe</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="n">mmc_probe</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">priv_auto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mmc_priv</span><span class="p">),</span>
+<span class="w">        </span><span class="p">.</span><span class="n">plat_auto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mmc_plat</span><span class="p">),</span>
+<span class="p">};</span>
+
+<span class="n">DM_DRIVER_ALIAS</span><span class="p">(</span><span class="n">mmc_drv</span><span class="p">,</span><span class="w"> </span><span class="n">vendor_mmc</span><span class="p">)</span><span class="w"> </span><span class="cm">/* matches compatible string */</span>
+</pre></div>
+</div>
+<p>Note that <cite>struct mmc_plat</cite> is defined in the C file, not in a header. This
+is to avoid needing to include dt-structs.h in a header file. The idea is to
+keep the use of each of-platdata struct to the smallest possible code area.
+There is just one driver C file for each struct, that can convert from the
+of-platdata struct to the standard one used by the driver.</p>
+<p>In the case where SPL_OF_PLATDATA is enabled, <cite>plat_auto</cite> is
+still used to allocate space for the platform data. This is different from
+the normal behaviour and is triggered by the use of of-platdata (strictly
+speaking it is a non-zero <cite>plat_size</cite> which triggers this).</p>
+<p>The of-platdata struct contents is copied from the C structure data to the
+start of the newly allocated area. In the case where devicetree is used,
+the platform data is allocated, and starts zeroed. In this case the
+<cite>of_to_plat()</cite> method should still set up the platform data (and the
+of-platdata struct will not be present).</p>
+<p>SPL must use either of-platdata or devicetree. Drivers cannot use both at
+the same time, but they must support devicetree. Supporting of-platdata is
+optional.</p>
+<p>The devicetree becomes inaccessible when CONFIG_SPL_OF_PLATDATA is enabled,
+since the devicetree access code is not compiled in. A corollary is that
+a board can only move to using of-platdata if all the drivers it uses support
+it. There would be little point in having some drivers require the device
+tree data, since then libfdt would still be needed for those drivers and
+there would be no code-size benefit.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build-time instantiation"></a><div class="section" id="build-time-instantiation">
+<h2>Build-time instantiation<a class="headerlink" href="#build-time-instantiation" title="Permalink to this headline">¶</a></h2>
+<p>Even with of-platdata there is a fair amount of code required in driver model.
+It is possible to have U-Boot handle the instantiation of devices at build-time,
+so avoiding the need for the <cite>device_bind()</cite> code and some parts of
+<cite>device_probe()</cite>.</p>
+<p>The feature is enabled by CONFIG_OF_PLATDATA_INST.</p>
+<p>Here is an example device, as generated by dtoc:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*
+ * Node /serial index 6
+ * driver sandbox_serial parent root_driver
+*/
+
+#include &lt;asm/serial.h&gt;
+struct sandbox_serial_plat __attribute__ ((section (".priv_data")))
+   _sandbox_serial_plat_serial = {
+   .dtplat = {
+      .sandbox_text_colour   = "cyan",
+   },
+};
+#include &lt;asm/serial.h&gt;
+u8 _sandbox_serial_priv_serial[sizeof(struct sandbox_serial_priv)]
+   __attribute__ ((section (".priv_data")));
+#include &lt;serial.h&gt;
+u8 _sandbox_serial_uc_priv_serial[sizeof(struct serial_dev_priv)]
+   __attribute__ ((section (".priv_data")));
+
+DM_DEVICE_INST(serial) = {
+   .driver     = DM_DRIVER_REF(sandbox_serial),
+   .name       = "sandbox_serial",
+   .plat_      = &amp;_sandbox_serial_plat_serial,
+   .priv_      = _sandbox_serial_priv_serial,
+   .uclass     = DM_UCLASS_REF(serial),
+   .uclass_priv_ = _sandbox_serial_uc_priv_serial,
+   .uclass_node   = {
+      .prev = &amp;DM_UCLASS_REF(serial)-&gt;dev_head,
+      .next = &amp;DM_UCLASS_REF(serial)-&gt;dev_head,
+   },
+   .child_head   = {
+      .prev = &amp;DM_DEVICE_REF(serial)-&gt;child_head,
+      .next = &amp;DM_DEVICE_REF(serial)-&gt;child_head,
+   },
+   .sibling_node   = {
+      .prev = &amp;DM_DEVICE_REF(i2c_at_0)-&gt;sibling_node,
+      .next = &amp;DM_DEVICE_REF(spl_test)-&gt;sibling_node,
+   },
+   .seq_ = 0,
+};
+</pre></div>
+</div>
+<p>Here is part of the driver, for reference:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static const struct udevice_id sandbox_serial_ids[] = {
+   { .compatible = "sandbox,serial" },
+   { }
+};
+
+U_BOOT_DRIVER(sandbox_serial) = {
+   .name   = "sandbox_serial",
+   .id   = UCLASS_SERIAL,
+   .of_match    = sandbox_serial_ids,
+   .of_to_plat  = sandbox_serial_of_to_plat,
+   .plat_auto   = sizeof(struct sandbox_serial_plat),
+   .priv_auto   = sizeof(struct sandbox_serial_priv),
+   .probe = sandbox_serial_probe,
+   .remove = sandbox_serial_remove,
+   .ops   = &amp;sandbox_serial_ops,
+   .flags = DM_FLAG_PRE_RELOC,
+};
+</pre></div>
+</div>
+<p>The <cite>DM_DEVICE_INST()</cite> macro declares a struct udevice so you can see that the
+members are from that struct. The private data is declared immediately above,
+as <cite>_sandbox_serial_priv_serial</cite>, so there is no need for run-time memory
+allocation. The #include lines are generated as well, since dtoc searches the
+U-Boot source code for the definition of <cite>struct sandbox_serial_priv</cite> and adds
+the relevant header so that the code will compile without errors.</p>
+<p>The <cite>plat_</cite> member is set to the dtv data which is declared immediately above
+the device. This is similar to how it would look without of-platdata-inst, but
+node that the <cite>dtplat</cite> member inside is part of the wider
+<cite>_sandbox_serial_plat_serial</cite> struct. This is because the driver declares its
+own platform data, and the part generated by dtoc can only be a portion of it.
+The <cite>dtplat</cite> part is always first in the struct. If the device has no
+<cite>.plat_auto</cite> field, then a simple dtv struct can be used as with this example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static struct dtd_sandbox_clk dtv_clk_sbox = {
+   .assigned_clock_rates   = 0x141,
+   .assigned_clocks   = {0x7, 0x3},
+};
+
+#include &lt;asm/clk.h&gt;
+u8 _sandbox_clk_priv_clk_sbox[sizeof(struct sandbox_clk_priv)]
+   __attribute__ ((section (".priv_data")));
+
+DM_DEVICE_INST(clk_sbox) = {
+   .driver    = DM_DRIVER_REF(sandbox_clk),
+   .name      = "sandbox_clk",
+   .plat_     = &amp;dtv_clk_sbox,
+</pre></div>
+</div>
+<p>Here is part of the driver, for reference:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static const struct udevice_id sandbox_clk_ids[] = {
+   { .compatible = "sandbox,clk" },
+   { }
+};
+
+U_BOOT_DRIVER(sandbox_clk) = {
+   .name       = "sandbox_clk",
+   .id         = UCLASS_CLK,
+   .of_match   = sandbox_clk_ids,
+   .ops        = &amp;sandbox_clk_ops,
+   .probe      = sandbox_clk_probe,
+   .priv_auto  = sizeof(struct sandbox_clk_priv),
+};
+</pre></div>
+</div>
+<p>You can see that <cite>dtv_clk_sbox</cite> just has the devicetree contents and there is
+no need for the <cite>dtplat</cite> separation, since the driver has no platform data of
+its own, besides that provided by the devicetree (i.e. no <cite>.plat_auto</cite> field).</p>
+<p>The doubly linked lists are handled by explicitly declaring the value of each
+node, as you can see with the <cite>.prev</cite> and <cite>.next</cite> values in the example above.
+Since dtoc knows the order of devices it can link them into the appropriate
+lists correctly.</p>
+<p>One of the features of driver model is the ability for a uclass to have a
+small amount of private data for each device in that uclass. This is used to
+provide a generic data structure that the uclass can use for all devices, thus
+allowing generic features to be implemented in common code. An example is I2C,
+which stores the bus speed there.</p>
+<p>Similarly, parent devices can have data associated with each of their children.
+This is used to provide information common to all children of a particular bus.
+For an I2C bus, this is used to store the I2C address of each child on the bus.</p>
+<p>This is all handled automatically by dtoc:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;asm/i2c.h&gt;
+u8 _sandbox_i2c_priv_i2c_at_0[sizeof(struct sandbox_i2c_priv)]
+   __attribute__ ((section (".priv_data")));
+#include &lt;i2c.h&gt;
+u8 _sandbox_i2c_uc_priv_i2c_at_0[sizeof(struct dm_i2c_bus)]
+   __attribute__ ((section (".priv_data")));
+
+DM_DEVICE_INST(i2c_at_0) = {
+   .driver      = DM_DRIVER_REF(sandbox_i2c),
+   .name      = "sandbox_i2c",
+   .plat_   = &amp;dtv_i2c_at_0,
+   .priv_      = _sandbox_i2c_priv_i2c_at_0,
+   .uclass   = DM_UCLASS_REF(i2c),
+   .uclass_priv_ = _sandbox_i2c_uc_priv_i2c_at_0,
+  ...
+</pre></div>
+</div>
+<p>Part of driver, for reference:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static const struct udevice_id sandbox_i2c_ids[] = {
+   { .compatible = "sandbox,i2c" },
+   { }
+};
+
+U_BOOT_DRIVER(sandbox_i2c) = {
+   .name   = "sandbox_i2c",
+   .id   = UCLASS_I2C,
+   .of_match = sandbox_i2c_ids,
+   .ops   = &amp;sandbox_i2c_ops,
+   .priv_auto   = sizeof(struct sandbox_i2c_priv),
+};
+</pre></div>
+</div>
+<p>Part of I2C uclass, for reference:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>UCLASS_DRIVER(i2c) = {
+   .id         = UCLASS_I2C,
+   .name       = "i2c",
+   .flags      = DM_UC_FLAG_SEQ_ALIAS,
+   .post_bind  = i2c_post_bind,
+   .pre_probe  = i2c_pre_probe,
+   .post_probe = i2c_post_probe,
+   .per_device_auto   = sizeof(struct dm_i2c_bus),
+   .per_child_plat_auto   = sizeof(struct dm_i2c_chip),
+   .child_post_bind = i2c_child_post_bind,
+};
+</pre></div>
+</div>
+<p>Here, <cite>_sandbox_i2c_uc_priv_i2c_at_0</cite> is required by the uclass but is declared
+in the device, as required by driver model. The required header file is included
+so that the code will compile without errors. A similar mechanism is used for
+child devices, but is not shown by this example.</p>
+<p>It would not be that useful to avoid binding devices but still need to allocate
+uclasses at runtime. So dtoc generates uclass instances as well:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct list_head uclass_head = {
+   .prev = &amp;DM_UCLASS_REF(serial)-&gt;sibling_node,
+   .next = &amp;DM_UCLASS_REF(clk)-&gt;sibling_node,
+};
+
+DM_UCLASS_INST(clk) = {
+   .uc_drv      = DM_UCLASS_DRIVER_REF(clk),
+   .sibling_node   = {
+      .prev = &amp;uclass_head,
+      .next = &amp;DM_UCLASS_REF(i2c)-&gt;sibling_node,
+   },
+   .dev_head   = {
+      .prev = &amp;DM_DEVICE_REF(clk_sbox)-&gt;uclass_node,
+      .next = &amp;DM_DEVICE_REF(clk_fixed)-&gt;uclass_node,
+   },
+};
+</pre></div>
+</div>
+<p>At the top is the list head. Driver model uses this on start-up, instead of
+creating its own.</p>
+<p>Below that are a set of <cite>DM_UCLASS_INST()</cite> macros, each declaring a
+<cite>struct uclass</cite>. The doubly linked lists work as for devices.</p>
+<p>All private data is placed into a <cite>.priv_data</cite> section so that it is contiguous
+in the resulting output binary.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Indexes"></a><div class="section" id="indexes">
+<h2>Indexes<a class="headerlink" href="#indexes" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot stores drivers, devices and many other things in linker_list structures.
+These are sorted by name, so dtoc knows the order that they will appear when
+the linker runs. Each driver_info / udevice is referenced by its index in the
+linker_list array, called ‘idx’ in the code.</p>
+<p>When CONFIG_OF_PLATDATA_INST is enabled, idx is the udevice index, otherwise it
+is the driver_info index. In either case, indexes are used to reference devices
+using device_get_by_ofplat_idx(). This allows phandles to work as expected.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Phases"></a><div class="section" id="phases">
+<h2>Phases<a class="headerlink" href="#phases" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot operates in several phases, typically TPL, SPL and U-Boot proper.
+The latter does not use dtoc.</p>
+<p>In some rare cases different drivers are used for two phases. For example,
+in TPL it may not be necessary to use the full PCI subsystem, so a simple
+driver can be used instead.</p>
+<p>This works in the build system simply by compiling in one driver or the
+other (e.g. PCI driver + uclass for SPL; simple_bus for TPL). But dtoc has
+no way of knowing which code is compiled in for which phase, since it does
+not inspect Makefiles or dependency graphs.</p>
+<p>So to make this work for dtoc, we need to be able to explicitly mark
+drivers with their phase. This is done by adding a macro to the driver:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* code in tpl.c only compiled into TPL */
+U_BOOT_DRIVER(pci_x86) = {
+   .name   = "pci_x86",
+   .id   = UCLASS_SIMPLE_BUS,
+   .of_match = of_match_ptr(tpl_fake_pci_ids),
+   DM_PHASE(tpl)
+};
+
+
+/* code in pci_x86.c compiled into SPL and U-Boot proper */
+U_BOOT_DRIVER(pci_x86) = {
+   .name   = "pci_x86",
+   .id   = UCLASS_PCI,
+   .of_match = pci_x86_ids,
+   .ops   = &amp;pci_x86_ops,
+};
+</pre></div>
+</div>
+<p>Notice that the second driver has the same name but no DM_PHASE(), so it will be
+used for SPL and U-Boot.</p>
+<p>Note also that this only affects the code generated by dtoc. You still need to
+make sure that only the required driver is build into each phase.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Header files"></a><div class="section" id="header-files">
+<h2>Header files<a class="headerlink" href="#header-files" title="Permalink to this headline">¶</a></h2>
+<p>With OF_PLATDATA_INST, dtoc must include the correct header file in the
+generated code for any structs that are used, so that the code will compile.
+For example, if <cite>struct ns16550_plat</cite> is used, the code must include the
+<cite>ns16550.h</cite> header file.</p>
+<p>Typically dtoc can detect the header file needed for a driver by looking
+for the structs that it uses. For example, if a driver as a <cite>.priv_auto</cite>
+that uses <cite>struct ns16550_plat</cite>, then dtoc can search header files for the
+definition of that struct and use the file.</p>
+<p>In some cases, enums are used in drivers, typically with the <cite>.data</cite> field
+of <cite>struct udevice_id</cite>. Since dtoc does not support searching for these,
+you must use the <cite>DM_HDR()</cite> macro to tell dtoc which header to use. This works
+as a macro included in the driver definition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static const struct udevice_id apl_syscon_ids[] = {
+   { .compatible = "intel,apl-punit", .data = X86_SYSCON_PUNIT },
+   { }
+};
+
+U_BOOT_DRIVER(intel_apl_punit) = {
+   .name       = "intel_apl_punit",
+   .id         = UCLASS_SYSCON,
+   .of_match   = apl_syscon_ids,
+   .probe      = apl_punit_probe,
+   DM_HEADER(&lt;asm/cpu.h&gt;)    /* for X86_SYSCON_PUNIT */
+};
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Problems"></a><div class="section" id="problems">
+<h2>Problems<a class="headerlink" href="#problems" title="Permalink to this headline">¶</a></h2>
+<p>This section shows some common problems and how to fix them.</p>
+<div class="section" id="driver-not-found">
+<h3>Driver not found<a class="headerlink" href="#driver-not-found" title="Permalink to this headline">¶</a></h3>
+<p>In some cases you will you see something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>WARNING: the driver rockchip_rk3188_grf was not found in the driver list
+</pre></div>
+</div>
+<p>The driver list is a list of drivers, each with a name. The name is in the
+U_BOOT_DRIVER() declaration, repeated twice, one in brackets and once as the
+.name member. For example, in the following declaration the driver name is
+<cite>rockchip_rk3188_grf</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U_BOOT_DRIVER(rockchip_rk3188_grf) = {
+     .name = "rockchip_rk3188_grf",
+     .id = UCLASS_SYSCON,
+     .of_match = rk3188_syscon_ids + 1,
+     .bind = rk3188_syscon_bind_of_plat,
+};
+</pre></div>
+</div>
+<p>The first name U_BOOT_DRIVER(xx) is used to create a linker symbol so that the
+driver can be accessed at build-time without any overhead. The second one
+(.name = “xx”) is used at runtime when something wants to print out the driver
+name.</p>
+<p>The dtoc tool expects to be able to find a driver for each compatible string in
+the devicetree. For example, if the devicetree has:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>grf: grf@20008000 {
+   compatible = "rockchip,rk3188-grf", "syscon";
+   reg = &lt;0x20008000 0x200&gt;;
+   bootph-pre-ram;
+};
+</pre></div>
+</div>
+<p>then dtoc looks at the first compatible string (“rockchip,rk3188-grf”),
+converts that to a C identifier (rockchip_rk3188_grf) and then looks for that.</p>
+</div>
+<div class="section" id="missing-compatible-or-missing-id">
+<h3>Missing .compatible or Missing .id<a class="headerlink" href="#missing-compatible-or-missing-id" title="Permalink to this headline">¶</a></h3>
+<p>Various things can cause dtoc to fail to find the driver and it tries to
+warn about these. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rockchip_rk3188_uart: Missing .compatible in drivers/serial/serial_rockchip.c
+                 : WARNING: the driver rockchip_rk3188_uart was not found in the driver list
+</pre></div>
+</div>
+<p>Without a compatible string a driver cannot be used by dtoc, even if the
+compatible string is not actually needed at runtime.</p>
+<p>If the problem is simply that there are multiple compatible strings, the
+DM_DRIVER_ALIAS() macro can be used to tell dtoc about this and avoid a problem.</p>
+<p>Checks are also made to confirm that the referenced driver has a .compatible
+member and a .id member. The first provides the array of compatible strings and
+the second provides the uclass ID.</p>
+</div>
+<div class="section" id="missing-parent">
+<h3>Missing parent<a class="headerlink" href="#missing-parent" title="Permalink to this headline">¶</a></h3>
+<p>When a device is used, its parent must be present as well. If you see an error
+like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Node '/i2c@0/emul/emul0' requires parent node '/i2c@0/emul' but it is not in
+   the valid list
+</pre></div>
+</div>
+<p>it indicates that you are using a node whose parent is not present in the
+devicetree. In this example, if you look at the device tree output
+(e.g. fdtdump tpl/u-boot-tpl.dtb in your build directory), you may see something
+like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>emul {
+    emul0 {
+        compatible = "sandbox,i2c-rtc-emul";
+        #emul-cells = &lt;0x00000000&gt;;
+        phandle = &lt;0x00000003&gt;;
+    };
+};
+</pre></div>
+</div>
+<p>In this example, ‘emul0’ exists but its parent ‘emul’ has no properties. These
+have been dropped by fdtgrep in an effort to reduce the devicetree size. This
+indicates that the two nodes have different phase settings. Looking at the
+source .dts:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>i2c_emul: emul {
+   bootph-pre-ram;
+   reg = &lt;0xff&gt;;
+   compatible = "sandbox,i2c-emul-parent";
+   emul0: emul0 {
+      bootph-all;
+      compatible = "sandbox,i2c-rtc-emul";
+      #emul-cells = &lt;0&gt;;
+   };
+};
+</pre></div>
+</div>
+<p>you can see that the child node ‘emul0’ usees ‘bootph-all’, indicating
+that the node is present in all SPL builds, but its parent uses
+‘bootph-pre-ram’ indicating it is only present in SPL, not TPL. For a TPL
+build, this will fail with the above message. The fix is to change ‘emul0’ to
+use the same ‘bootph-pre-ram’ condition, so that it is not present in TPL,
+like its parent.</p>
+</div>
+<div class="section" id="link-errors-undefined-reference">
+<h3>Link errors / undefined reference<a class="headerlink" href="#link-errors-undefined-reference" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes dtoc does not find the problem for you, but something is wrong and
+you get a link error, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>:(__u_boot_list_2_udevice_2_spl_test5+0x0): undefined reference to
+   `_u_boot_list_2_driver_2_sandbox_spl_test'
+/usr/bin/ld: dts/dt-uclass.o:(__u_boot_list_2_uclass_2_misc+0x8):
+     undefined reference to `_u_boot_list_2_uclass_driver_2_misc'
+</pre></div>
+</div>
+<p>The first one indicates that the device cannot find its driver. This means that
+there is a driver ‘sandbox_spl_test’ but it is not compiled into the build.
+Check your Kconfig settings to make sure it is. If you don’t want that in the
+build, adjust your phase settings, e.g. by using ‘bootph-pre-ram’ in the node
+to exclude it from the TPL build:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spl-test5 {
+        bootph-pre-sram;
+        compatible = "sandbox,spl-test";
+        stringarray = "tpl";
+};
+</pre></div>
+</div>
+<p>We can drop the ‘bootph-pre-sram’ line so this node won’t appear in the TPL
+devicetree and thus the driver won’t be needed.</p>
+<p>The second error above indicates that the MISC uclass is needed by the driver
+(since it is in the MISC uclass) but that uclass is not compiled in the build.
+The fix above would fix this error too. But if you do want this uclass in the
+build, check your Kconfig settings to make sure the uclass is being built
+(CONFIG_MISC in this case).</p>
+<p>Another error that can crop up is something like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spl/dts/dt-device.c:257:38: error: invalid application of ‘sizeof’ to
+      incomplete type ‘struct sandbox_irq_priv’
+   257 | u8 _sandbox_irq_priv_irq_sbox[sizeof(struct sandbox_irq_priv)]
+       |                                      ^~~~~~
+</pre></div>
+</div>
+<p>This indicates that <cite>struct sandbox_irq_priv</cite> is not defined anywhere. The
+solution is to add a DM_HEADER() line, as below, so this is included in the
+dt-device.c file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U_BOOT_DRIVER(sandbox_irq) = {
+   .name             = "sandbox_irq",
+   .id               = UCLASS_IRQ,
+   .of_match = sandbox_irq_ids,
+   .ops              = &amp;sandbox_irq_ops,
+   .priv_auto        = sizeof(struct sandbox_irq_priv),
+   DM_HEADER(&lt;asm/irq.h&gt;)
+};
+</pre></div>
+</div>
+<p>Note that there is no dependency checking on the above, so U-Boot will not
+regenerate the dt-device.c file when you update the source file (here,
+<cite>irq_sandbox.c</cite>). You need to run <cite>make mrproper</cite> first to get a fresh build.</p>
+<p>Another error that can crop up is something like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spl/dts/dt-device.c:257:38: error: invalid application of ‘sizeof’ to
+      incomplete type ‘struct sandbox_irq_priv’
+   257 | u8 _sandbox_irq_priv_irq_sbox[sizeof(struct sandbox_irq_priv)]
+       |                                      ^~~~~~
+</pre></div>
+</div>
+<p>This indicates that <cite>struct sandbox_irq_priv</cite> is not defined anywhere. The
+solution is to add a DM_HEADER() line, as below, so this is included in the
+dt-device.c file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U_BOOT_DRIVER(sandbox_irq) = {
+   .name             = "sandbox_irq",
+   .id               = UCLASS_IRQ,
+   .of_match = sandbox_irq_ids,
+   .ops              = &amp;sandbox_irq_ops,
+   .priv_auto        = sizeof(struct sandbox_irq_priv),
+   DM_HEADER(&lt;asm/irq.h&gt;)
+};
+</pre></div>
+</div>
+<p>Note that there is no dependency checking on the above, so U-Boot will not
+regenerate the dt-device.c file when you update the source file (here,
+<cite>irq_sandbox.c</cite>). You need to run <cite>make mrproper</cite> first to get a fresh build.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Caveats"></a><div class="section" id="caveats">
+<h2>Caveats<a class="headerlink" href="#caveats" title="Permalink to this headline">¶</a></h2>
+<p>There are various complications with this feature which mean it should only
+be used when strictly necessary, i.e. in SPL with limited memory. Notable
+caveats include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Device tree does not describe data types. But the C code must define a
+type for each property. These are guessed using heuristics which
+are wrong in several fairly common cases. For example an 8-byte value
+is considered to be a 2-item integer array, and is byte-swapped. A
+boolean value that is not present means ‘false’, but cannot be
+included in the structures since there is generally no mention of it
+in the devicetree file.</p></li>
+<li><p>Naming of nodes and properties is automatic. This means that they follow
+the naming in the devicetree, which may result in C identifiers that
+look a bit strange.</p></li>
+<li><p>It is not possible to find a value given a property name. Code must use
+the associated C member variable directly in the code. This makes
+the code less robust in the face of devicetree changes. To avoid having
+a second struct with similar members and names you need to explicitly
+declare it as an alias with <cite>DM_DRIVER_ALIAS()</cite>.</p></li>
+<li><p>The platform data is provided to drivers as a C structure. The driver
+must use the same structure to access the data. Since a driver
+normally also supports devicetree it must use <cite>#ifdef</cite> to separate
+out this code, since the structures are only available in SPL. This could
+be fixed fairly easily by making the structs available outside SPL, so
+that <cite>IS_ENABLED()</cite> could be used.</p></li>
+<li><p>With CONFIG_OF_PLATDATA_INST all binding happens at build-time, meaning
+that (by default) it is not possible to call <cite>device_bind()</cite> from C code.
+This means that all devices must have an associated devicetree node and
+compatible string. For example if a GPIO device currently creates child
+devices in its <cite>bind()</cite> method, it will not work with
+CONFIG_OF_PLATDATA_INST. Arguably this is bad practice anyway and the
+devicetree binding should be updated to declare compatible strings for
+the child devices. It is possible to disable OF_PLATDATA_NO_BIND but this
+is not recommended since it increases code size.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Internals"></a><div class="section" id="internals">
+<h2>Internals<a class="headerlink" href="#internals" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="generated-files">
+<h3>Generated files<a class="headerlink" href="#generated-files" title="Permalink to this headline">¶</a></h3>
+<p>When enabled, dtoc generates the following five files:</p>
+<dl class="simple">
+<dt>include/generated/dt-decl.h (OF_PLATDATA_INST only)</dt><dd><p>Contains declarations for all drivers, devices and uclasses. This allows
+any <cite>struct udevice</cite>, <cite>struct driver</cite> or <cite>struct uclass</cite> to be located by its
+name</p>
+</dd>
+<dt>include/generated/dt-structs-gen.h</dt><dd><p>Contains the struct definitions for the devicetree nodes that are used. This
+is the same as without OF_PLATDATA_INST</p>
+</dd>
+<dt>spl/dts/dt-plat.c (only with !OF_PLATDATA_INST)</dt><dd><p>Contains the <cite>U_BOOT_DRVINFO()</cite> declarations that U-Boot uses to bind devices
+at start-up. See above for an example</p>
+</dd>
+<dt>spl/dts/dt-device.c (only with OF_PLATDATA_INST)</dt><dd><p>Contains <cite>DM_DEVICE_INST()</cite> declarations for each device that can be used at
+run-time. These are declared in the file along with any private/platform data
+that they use. Every device has an idx, as above. Since each device must be
+part of a double-linked list, the nodes are declared in the code as well.</p>
+</dd>
+<dt>spl/dts/dt-uclass.c (only with OF_PLATDATA_INST)</dt><dd><p>Contains <cite>DM_UCLASS_INST()</cite> declarations for each uclass that can be used at
+run-time. These are declared in the file along with any private data
+associated with the uclass itself (the <cite>.priv_auto</cite> member). Since each
+uclass must be part of a double-linked list, the nodes are declared in the
+code as well.</p>
+</dd>
+</dl>
+<p>The dt-structs.h file includes the generated file
+<cite>(include/generated/dt-structs.h</cite>) if CONFIG_SPL_OF_PLATDATA is enabled.
+Otherwise (such as in U-Boot proper) these structs are not available. This
+prevents them being used inadvertently. All usage must be bracketed with
+<cite>#if CONFIG_IS_ENABLED(OF_PLATDATA)</cite>.</p>
+<p>The dt-plat.c file contains the device declarations and is is built in
+spl/dt-plat.c.</p>
+</div>
+<div class="section" id="config-options">
+<h3>CONFIG options<a class="headerlink" href="#config-options" title="Permalink to this headline">¶</a></h3>
+<p>Several CONFIG options are used to control the behaviour of of-platdata, all
+available for both SPL and TPL:</p>
+<dl class="simple">
+<dt>OF_PLATDATA</dt><dd><p>This is the main option which enables the of-platdata feature</p>
+</dd>
+<dt>OF_PLATDATA_PARENT</dt><dd><p>This allows <cite>device_get_parent()</cite> to work. Without this, all devices exist as
+direct children of the root node. This option is highly desirable (if not
+always absolutely essential) for buses such as I2C.</p>
+</dd>
+<dt>OF_PLATDATA_INST</dt><dd><p>This controls the instantiation of devices at build time. With it disabled,
+only <cite>U_BOOT_DRVINFO()</cite> records are created, with U-Boot handling the binding
+in <cite>device_bind()</cite> on start-up. With it enabled, only <cite>DM_DEVICE_INST()</cite> and
+<cite>DM_UCLASS_INST()</cite> records are created, and <cite>device_bind()</cite> is not needed at
+runtime.</p>
+</dd>
+<dt>OF_PLATDATA_NO_BIND</dt><dd><p>This controls whether <cite>device_bind()</cite> is supported. It is enabled by default
+with OF_PLATDATA_INST since code-size reduction is really the main point of
+the feature. It can be disabled if needed but is not likely to be supported
+in the long term.</p>
+</dd>
+<dt>OF_PLATDATA_DRIVER_RT</dt><dd><p>This controls whether the <cite>struct driver_rt</cite> records are used by U-Boot.
+Normally when a device is bound, U-Boot stores the device pointer in one of
+these records. There is one for every <cite>struct driver_info</cite> in the system,
+i.e. one for every device that is bound from those records. It provides a
+way to locate a device in the code and is used by
+<cite>device_get_by_ofplat_idx()</cite>. This option is always enabled with of-platdata,
+provided OF_PLATDATA_INST is not. In that case the records are useless since
+we don’t have any <cite>struct driver_info</cite> records.</p>
+</dd>
+<dt>OF_PLATDATA_RT</dt><dd><p>This controls whether the <cite>struct udevice_rt</cite> records are used by U-Boot.
+It moves the updatable fields from <cite>struct udevice</cite> (currently only <cite>flags</cite>)
+into a separate structure, allowing the records to be kept in read-only
+memory. It is generally enabled if OF_PLATDATA_INST is enabled. This option
+also controls whether the private data is used in situ, or first copied into
+an allocated region. Again this is to allow the private data declared by
+dtoc-generated code to be in read-only memory. Note that access to private
+data must be done via accessor functions, such as <cite>dev_get_priv()</cite>, so that
+the relocation is handled.</p>
+</dd>
+<dt>READ_ONLY</dt><dd><p>This indicates that the data generated by dtoc should not be modified. Only
+a few fields actually do get changed in U-Boot, such as device flags. This
+option causes those to move into an allocated space (see OF_PLATDATA_RT).
+Also, since updating doubly linked lists is generally impossible when some of
+the nodes cannot be updated, OF_PLATDATA_NO_BIND is enabled.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="data-structures">
+<h3>Data structures<a class="headerlink" href="#data-structures" title="Permalink to this headline">¶</a></h3>
+<p>A few extra data structures are used with of-platdata:</p>
+<dl class="simple">
+<dt><cite>struct udevice_rt</cite></dt><dd><p>Run-time information for devices. When OF_PLATDATA_RT is enabled, this holds
+the flags for each device, so that <cite>struct udevice</cite> can remain unchanged by
+U-Boot, and potentially reside in read-only memory. Access to flags is then
+via functions like <cite>dev_get_flags()</cite> and <cite>dev_or_flags()</cite>. This data
+structure is allocated on start-up, where the private data is also copied.
+All flags values start at 0 and any changes are handled by <cite>dev_or_flags()</cite>
+and <cite>dev_bic_flags()</cite>. It would be more correct for the flags to be set to
+<cite>DM_FLAG_BOUND</cite>, or perhaps <cite>DM_FLAG_BOUND | DM_FLAG_ALLOC_PDATA</cite>, but since
+there is no code to bind/unbind devices and no code to allocate/free
+private data / platform data, it doesn’t matter.</p>
+</dd>
+<dt><cite>struct driver_rt</cite></dt><dd><p>Run-time information for <cite>struct driver_info</cite> records. When
+OF_PLATDATA_DRIVER_RT is enabled, this holds a pointer to the device
+created by each record. This is needed so that is it possible to locate a
+device from C code. Specifically, the code can use <cite>DM_DRVINFO_GET(name)</cite> to
+get a reference to a particular <cite>struct driver_info</cite>, with <cite>name</cite> being the
+name of the devicetree node. This is very convenient. It is also fast, since
+no    searching or string comparison is needed. This data structure is
+allocated    on start-up, filled out by <cite>device_bind()</cite> and used by
+<cite>device_get_by_ofplat_idx()</cite>.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="other-changes">
+<h3>Other changes<a class="headerlink" href="#other-changes" title="Permalink to this headline">¶</a></h3>
+<p>Some other changes are made with of-platdata:</p>
+<dl class="simple">
+<dt>Accessor functions</dt><dd><p>Accessing private / platform data via functions such as <cite>dev_get_priv()</cite> has
+always been encouraged. With OF_PLATDATA_RT this is essential, since the
+<cite>priv_</cite> and <cite>plat_</cite>  (etc.) values point to the data generated by dtoc, not
+the read-write copy that is sometimes made on start-up. Changing the
+private / platform data  pointers has always been discouraged (the API is
+marked internal) but with OF_PLATDATA_RT this is not currently supported in
+general, since it assumes that all such pointers point to the relocated data.
+Note also that the renaming of struct members to have a trailing underscore
+was partly done to make people aware that they should not be accessed
+directly.</p>
+</dd>
+<dt><cite>gd-&gt;uclass_root_s</cite></dt><dd><p>Normally U-Boot sets up the head of the uclass list here and makes
+<cite>gd-&gt;uclass_root</cite> point to it. With OF_PLATDATA_INST, dtoc generates a
+declaration of <cite>uclass_head</cite> in <cite>dt-uclass.c</cite> since it needs to link the
+head node into the list. In that case, <cite>gd-&gt;uclass_root_s</cite> is not used and
+U-Boot just makes <cite>gd-&gt;uclass_root</cite> point to <cite>uclass_head</cite>.</p>
+</dd>
+<dt><cite>gd-&gt;dm_driver_rt</cite></dt><dd><p>This holds a pointer to a list of <cite>struct driver_rt</cite> records, one for each
+<cite>struct driver_info</cite>. The list is in alphabetical order by the name used
+in <cite>U_BOOT_DRVINFO(name)</cite> and indexed by idx, with the first record having
+an index of 0. It is only used if OF_PLATDATA_INST is not enabled. This is
+accessed via macros so that it can be used inside IS_ENABLED(), rather than
+requiring #ifdefs in the C code when it is not present.</p>
+</dd>
+<dt><cite>gd-&gt;dm_udevice_rt</cite></dt><dd><p>This holds a pointer to a list of <cite>struct udevice_rt</cite> records, one for each
+<cite>struct udevice</cite>. The list is in alphabetical order by the name used
+in <cite>DM_DEVICE_INST(name)</cite> (a C version of the devicetree node) and indexed by
+idx, with the first record having an index of 0. It is only used if
+OF_PLATDATA_INST is enabled. This is accessed via macros so that it can be
+used inside <cite>IS_ENABLED()</cite>, rather than requiring #ifdefs in the C code when
+it is not present.</p>
+</dd>
+<dt><cite>gd-&gt;dm_priv_base</cite></dt><dd><p>When OF_PLATDATA_RT is enabled, the private/platform data for each device is
+copied into an allocated region by U-Boot on start-up. This points to that
+region. All calls to accessor functions (e.g. <cite>dev_get_priv()</cite>) then
+translate from the pointer provided by the caller (assumed to lie between
+<cite>__priv_data_start</cite> and <cite>__priv_data_end</cite>) to the new allocated region. This
+member is accessed via macros so that it can be used inside IS_ENABLED(),
+rather than required #ifdefs in the C code when it is not present.</p>
+</dd>
+<dt><cite>struct udevice-&gt;flags_</cite></dt><dd><p>When OF_PLATDATA_RT is enabled, device flags are no-longer part of
+<cite>struct udevice</cite>, but are instead kept in <cite>struct udevice_rt</cite>, as described
+above. Flags are accessed via functions, such as <cite>dev_get_flags()</cite> and
+<cite>dev_or_flags()</cite>.</p>
+</dd>
+<dt><cite>struct udevice-&gt;node_</cite></dt><dd><p>When OF_PLATDATA is enabled, there is no devicetree at runtime, so no need
+for this field. It is removed, just to save space.</p>
+</dd>
+<dt><cite>DM_PHASE</cite></dt><dd><p>This macro is used to indicate which phase of U-Boot a driver is intended
+for. See above for details.</p>
+</dd>
+<dt><cite>DM_HDR</cite></dt><dd><p>This macro is used to indicate which header file dtoc should use to allow
+a driver declaration to compile correctly. See above for details.</p>
+</dd>
+<dt><cite>device_get_by_ofplat_idx()</cite></dt><dd><p>There used to be a function called <cite>device_get_by_driver_info()</cite> which
+looked up a <cite>struct driver_info</cite> pointer and returned the <cite>struct udevice</cite>
+that was created from it. It was only available for use with of-platdata.
+This has been removed in favour of <cite>device_get_by_ofplat_idx()</cite> which uses
+<cite>idx</cite>, the index of the <cite>struct driver_info</cite> or <cite>struct udevice</cite> in the
+linker_list. Similarly, the <cite>struct phandle_0_arg</cite> (etc.) structs have been
+updated to use this index instead of a pointer to <cite>struct driver_info</cite>.</p>
+</dd>
+<dt><cite>DM_DRVINFO_GET</cite></dt><dd><p>This has been removed since we now use indexes to obtain a driver from
+<cite>struct phandle_0_arg</cite> and the like.</p>
+</dd>
+<dt>Two-pass binding</dt><dd><p>The original of-platdata tried to order <cite>U_BOOT_DRVINFO()</cite> in the generated
+files so as to have parents declared ahead of children. This was convenient
+as it avoided any special code in U-Boot. With OF_PLATDATA_INST this does
+not work as the idx value relies on using alphabetical order for everything,
+so that dtoc and U-Boot’s linker_lists agree on the idx value. Devices are
+then bound in order of idx, having no regard to parent/child relationships.
+For this reason, device binding now hapens in multiple passes, with parents
+being bound before their children. This is important so that children can
+find their parents in the bind() method if needed.</p>
+</dd>
+<dt>Root device</dt><dd><p>The root device is generally bound by U-Boot but with OF_PLATDATA_INST it
+cannot be, since binding needs to be done at build time. So in this case
+dtoc sets up a root device using <cite>DM_DEVICE_INST()</cite> in <cite>dt-device.c</cite> and
+U-Boot makes use of that. When OF_PLATDATA_INST is not enabled, U-Boot
+generally ignores the root node and does not create a <cite>U_BOOT_DRVINFO()</cite>
+record for it. This means that the idx numbers used by <cite>struct driver_info</cite>
+(when OF_PLATDATA_INST is disabled) and the idx numbers used by
+<cite>struct udevice</cite> (when OF_PLATDATA_INST is enabled) differ, since one has a
+root node and the other does not. This does not actually matter, since only
+one of them is actually used for any particular build, but it is worth
+keeping in mind if comparing index values and switching OF_PLATDATA_INST on
+and off.</p>
+</dd>
+<dt><cite>__priv_data_start</cite> and <cite>__priv_data_end</cite></dt><dd><p>The private/platform data declared by dtoc is all collected together in
+a linker section and these symbols mark the start and end of it. This allows
+U-Boot to relocate the area to a new location if needed (with
+OF_PLATDATA_RT)</p>
+</dd>
+<dt><cite>dm_priv_to_rw()</cite></dt><dd><p>This function converts a private- or platform-data pointer value generated by
+dtoc into one that can be used by U-Boot. It is a NOP unless OF_PLATDATA_RT
+is enabled, in which case it translates the address to the relocated
+region. See above for more information.</p>
+</dd>
+</dl>
+<p>The dm_populate_phandle_data() function that was previous needed has now been
+removed, since dtoc can address the drivers directly from dt-plat.c and does
+not need to fix up things at runtime.</p>
+<p>The pylibfdt Python module is used to access the devicetree.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Credits"></a><div class="section" id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h2>
+<p>This is an implementation of an idea by Tom Rini &lt;<a class="reference external" href="mailto:trini%40konsulko.com">trini<span>@</span>konsulko<span>.</span>com</a>&gt;.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Future work"></a><div class="section" id="future-work">
+<h2>Future work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Consider programmatically reading binding files instead of devicetree
+contents</p></li>
+<li><p>Allow IS_ENABLED() to be used in the C code instead of #if</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="nvmxip.html" rel="prev" title="NVM XIP Block Storage Emulation Driver"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="pci-info.html" rel="next" title="PCI with Driver Model">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

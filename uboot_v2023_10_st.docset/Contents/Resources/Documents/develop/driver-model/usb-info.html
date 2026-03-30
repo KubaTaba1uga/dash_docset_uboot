@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>How USB works with driver model — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="virtio.html" rel="next" title="VirtIO Support"/>
+<link href="spi-howto.html" rel="prev" title="How to port a SPI driver to driver model"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>How USB works with driver model</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/usb-info.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How USB works with driver model"></a><div class="section" id="how-usb-works-with-driver-model">
+<h1>How USB works with driver model<a class="headerlink" href="#how-usb-works-with-driver-model" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Driver model USB support makes use of existing features but changes how
+drivers are found. This document provides some information intended to help
+understand how things work with USB in U-Boot when driver model is enabled.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enabling driver model for USB"></a><div class="section" id="enabling-driver-model-for-usb">
+<h2>Enabling driver model for USB<a class="headerlink" href="#enabling-driver-model-for-usb" title="Permalink to this headline">¶</a></h2>
+<p>A new CONFIG_DM_USB option is provided to enable driver model for USB. This
+causes the USB uclass to be included, and drops the equivalent code in
+usb.c. In particular the usb_init() function is then implemented by the
+uclass.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Support for EHCI and XHCI"></a><div class="section" id="support-for-ehci-and-xhci">
+<h2>Support for EHCI and XHCI<a class="headerlink" href="#support-for-ehci-and-xhci" title="Permalink to this headline">¶</a></h2>
+<p>So far OHCI is not supported. Both EHCI and XHCI drivers should be declared
+as drivers in the USB uclass. For example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice_id</span><span class="w"> </span><span class="n">ehci_usb_ids</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"nvidia,tegra20-ehci"</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">USB_CTLR_T20</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"nvidia,tegra30-ehci"</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">USB_CTLR_T30</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"nvidia,tegra114-ehci"</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">USB_CTLR_T114</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">usb_ehci</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">"ehci_tegra"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">UCLASS_USB</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_match</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ehci_usb_ids</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_to_plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ehci_usb_of_to_plat</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">probe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tegra_ehci_usb_probe</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">remove</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tegra_ehci_usb_remove</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">ops</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ehci_usb_ops</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">plat_auto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">usb_plat</span><span class="p">),</span>
+<span class="w">        </span><span class="p">.</span><span class="n">priv_auto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">fdt_usb</span><span class="p">),</span>
+<span class="w">        </span><span class="p">.</span><span class="n">flags</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">DM_FLAG_ALLOC_PRIV_DMA</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Here ehci_usb_ids is used to list the controllers that the driver supports.
+Each has its own data value. Controllers must be in the UCLASS_USB uclass.</p>
+<p>The of_to_plat() method allows the controller driver to grab any
+necessary settings from the device tree.</p>
+<p>The ops here are ehci_usb_ops. All EHCI drivers will use these same ops in
+most cases, since they are all EHCI-compatible. For EHCI there are also some
+special operations that can be overridden when calling ehci_register().</p>
+<p>The driver can use priv_auto to set the size of its private data.
+This can hold run-time information needed by the driver for operation. It
+exists when the device is probed (not when it is bound) and is removed when
+the driver is removed.</p>
+<p>Note that usb_plat is currently only used to deal with setting up a bus
+in USB device mode (OTG operation). It can be omitted if that is not
+supported.</p>
+<p>The driver’s probe() method should do the basic controller init and then
+call ehci_register() to register itself as an EHCI device. It should call
+ehci_deregister() in the remove() method. Registering a new EHCI device
+does not by itself cause the bus to be scanned.</p>
+<p>The old ehci_hcd_init() function is no-longer used. Nor is it necessary to
+set up the USB controllers from board init code. When ‘usb start’ is used,
+each controller will be probed and its bus scanned.</p>
+<p>XHCI works in a similar way.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Data structures"></a><div class="section" id="data-structures">
+<h2>Data structures<a class="headerlink" href="#data-structures" title="Permalink to this headline">¶</a></h2>
+<p>The following primary data structures are in use:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>struct usb_device:</dt><dd><p>This holds information about a device on the bus. All devices have
+this structure, even the root hub. The controller itself does not
+have this structure. You can access it for a device ‘dev’ with
+dev_get_parent_priv(dev). It matches the old structure except that the
+parent and child information is not present (since driver model
+handles that). Once the device is set up, you can find the device
+descriptor and current configuration descriptor in this structure.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>struct usb_plat:</dt><dd><p>This holds platform data for a controller. So far this is only used
+as a work-around for controllers which can act as USB devices in OTG
+mode, since the gadget framework does not use driver model.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>struct usb_dev_plat:</dt><dd><p>This holds platform data for a device. You can access it for a
+device ‘dev’ with dev_get_parent_plat(dev). It holds the device
+address and speed - anything that can be determined before the device
+driver is actually set up. When probing the bus this structure is
+used to provide essential information to the device driver.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>struct usb_bus_priv:</dt><dd><p>This is private information for each controller, maintained by the
+controller uclass. It is mostly used to keep track of the next
+device address to use.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Of these, only struct usb_device was used prior to driver model.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/USB buses"></a><div class="section" id="usb-buses">
+<h2>USB buses<a class="headerlink" href="#usb-buses" title="Permalink to this headline">¶</a></h2>
+<p>Given a controller, you know the bus - it is the one attached to the
+controller. Each controller handles exactly one bus. Every controller has a
+root hub attached to it. This hub, which is itself a USB device, can provide
+one or more ‘ports’ to which additional devices can be attached. It is
+possible to power up a hub and find out which of its ports have devices
+attached.</p>
+<p>Devices are given addresses starting at 1. The root hub is always address 1,
+and from there the devices are numbered in sequence. The USB uclass takes
+care of this numbering automatically during enumeration.</p>
+<p>USB devices are enumerated by finding a device on a particular hub, and
+setting its address to the next available address. The USB bus stretches out
+in a tree structure, potentially with multiple hubs each with several ports
+and perhaps other hubs. Some hubs will have their own power since otherwise
+the 5V 500mA power supplied by the controller will not be sufficient to run
+very many devices.</p>
+<p>Enumeration in U-Boot takes a long time since devices are probed one at a
+time, and each is given sufficient time to wake up and announce itself. The
+timeouts are set for the slowest device.</p>
+<p>Up to 127 devices can be on each bus. USB has four bus speeds: low
+(1.5Mbps), full (12Mbps), high (480Mbps) which is only available with USB2
+and newer (EHCI), and super (5Gbps) which is only available with USB3 and
+newer (XHCI). If you connect a super-speed device to a high-speed hub, you
+will only get high-speed.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/USB operations"></a><div class="section" id="usb-operations">
+<h2>USB operations<a class="headerlink" href="#usb-operations" title="Permalink to this headline">¶</a></h2>
+<p>As before driver model, messages can be sent using submit_bulk_msg() and the
+like. These are now implemented by the USB uclass and route through the
+controller drivers. Note that messages are not sent to the driver of the
+device itself - i.e. they don’t pass down the stack to the controller.
+U-Boot simply finds the controller to which the device is attached, and sends
+the message there with an appropriate ‘pipe’ value so it can be addressed
+properly. Having said that, the USB device which should receive the message
+is passed in to the driver methods, for use by sandbox. This design decision
+is open for review and the code impact of changing it is small since the
+methods are typically implemented by the EHCI and XHCI stacks.</p>
+<p>Controller drivers (in UCLASS_USB) themselves provide methods for sending
+each message type. For XHCI an additional alloc_device() method is provided
+since XHCI needs to allocate a device context before it can even read the
+device’s descriptor.</p>
+<p>These methods use a ‘pipe’ which is a collection of bit fields used to
+describe the type of message, direction of transfer and the intended
+recipient (device number).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/USB Devices"></a><div class="section" id="usb-devices">
+<h2>USB Devices<a class="headerlink" href="#usb-devices" title="Permalink to this headline">¶</a></h2>
+<p>USB devices are found using a simple algorithm which works through the
+available hubs in a depth-first search. Devices can be in any uclass, but
+are attached to a parent hub (or controller in the case of the root hub) and
+so have parent data attached to them (this is struct usb_device).</p>
+<p>By the time the device’s probe() method is called, it is enumerated and is
+ready to talk to the host.</p>
+<p>The enumeration process needs to work out which driver to attach to each USB
+device. It does this by examining the device class, interface class, vendor
+ID, product ID, etc. See struct usb_driver_entry for how drivers are matched
+with USB devices - you can use the USB_DEVICE() macro to declare a USB
+driver. For example, usb_storage.c defines a USB_DEVICE() to handle storage
+devices, and it will be used for all USB devices which match.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Technical details on enumeration flow"></a><div class="section" id="technical-details-on-enumeration-flow">
+<h2>Technical details on enumeration flow<a class="headerlink" href="#technical-details-on-enumeration-flow" title="Permalink to this headline">¶</a></h2>
+<p>It is useful to understand precisely how a USB bus is enumerating to avoid
+confusion when dealing with USB devices.</p>
+<p>Device initialisation happens roughly like this:</p>
+<ul class="simple">
+<li><p>At some point the ‘usb start’ command is run</p></li>
+<li><p>This calls usb_init() which works through each controller in turn</p></li>
+<li><p>The controller is probed(). This does no enumeration.</p></li>
+<li><p>Then usb_scan_bus() is called. This calls usb_scan_device() to scan the
+(only) device that is attached to the controller - a root hub</p></li>
+<li><p>usb_scan_device() sets up a fake struct usb_device and calls
+usb_setup_device(), passing the port number to be scanned, in this case
+port 0</p></li>
+<li><p>usb_setup_device() first calls usb_prepare_device() to set the device
+address, then usb_select_config() to select the first configuration</p></li>
+<li><p>at this point the device is enumerated but we do not have a real struct
+udevice for it. But we do have the descriptor in struct usb_device so we can
+use this to figure out what driver to use</p></li>
+<li><p>back in usb_scan_device(), we call usb_find_child() to try to find an
+existing device which matches the one we just found on the bus. This can
+happen if the device is mentioned in the device tree, or if we previously
+scanned the bus and so the device was created before</p></li>
+<li><p>if usb_find_child() does not find an existing device, we call
+usb_find_and_bind_driver() which tries to bind one</p></li>
+<li><p>usb_find_and_bind_driver() searches all available USB drivers (declared
+with USB_DEVICE()). If it finds a match it binds that driver to create a
+new device.</p></li>
+<li><p>If it does not, it binds a generic driver. A generic driver is good enough
+to allow access to the device (sending it packets, etc.) but all
+functionality will need to be implemented outside the driver model.</p></li>
+<li><p>in any case, when usb_find_child() and/or usb_find_and_bind_driver() are
+done, we have a device with the correct uclass. At this point we want to
+probe the device</p></li>
+<li><p>first we store basic information about the new device (address, port,
+speed) in its parent platform data. We cannot store it its private data
+since that will not exist until the device is probed.</p></li>
+<li><p>then we call device_probe() which probes the device</p></li>
+<li><p>the first probe step is actually the USB controller’s (or USB hubs’s)
+child_pre_probe() method. This gets called before anything else and is
+intended to set up a child device ready to be used with its parent bus. For
+USB this calls usb_child_pre_probe() which grabs the information that was
+stored in the parent platform data and stores it in the parent private data
+(which is struct usb_device, a real one this time). It then calls
+usb_select_config() again to make sure that everything about the device is
+set up</p></li>
+<li><p>note that we have called usb_select_config() twice. This is inefficient
+but the alternative is to store additional information in the platform data.
+The time taken is minimal and this way is simpler</p></li>
+<li><p>at this point the device is set up and ready for use so far as the USB
+subsystem is concerned</p></li>
+<li><p>the device’s probe() method is then called. It can send messages and do
+whatever else it wants to make the device work.</p></li>
+</ul>
+<p>Note that the first device is always a root hub, and this must be scanned to
+find any devices. The above steps will have created a hub (UCLASS_USB_HUB),
+given it address 1 and set the configuration.</p>
+<p>For hubs, the hub uclass has a post_probe() method. This means that after
+any hub is probed, the uclass gets to do some processing. In this case
+usb_hub_post_probe() is called, and the following steps take place:</p>
+<ul class="simple">
+<li><p>usb_hub_post_probe() calls usb_hub_scan() to scan the hub, which in turn
+calls usb_hub_configure()</p></li>
+<li><p>hub power is enabled</p></li>
+<li><p>we loop through each port on the hub, performing the same steps for each</p></li>
+<li><p>first, check if there is a device present. This happens in
+usb_hub_port_connect_change(). If so, then usb_scan_device() is called to
+scan the device, passing the appropriate port number.</p></li>
+<li><p>you will recognise usb_scan_device() from the steps above. It sets up the
+device ready for use. If it is a hub, it will scan that hub before it
+continues here (recursively, depth-first)</p></li>
+<li><p>once all hub ports are scanned in this way, the hub is ready for use and
+all of its downstream devices also</p></li>
+<li><p>additional controllers are scanned in the same way</p></li>
+</ul>
+<p>The above method has some nice properties:</p>
+<ul class="simple">
+<li><p>the bus enumeration happens by virtue of driver model’s natural device flow</p></li>
+<li><p>most logic is in the USB controller and hub uclasses; the actual device
+drivers do not need to know they are on a USB bus, at least so far as
+enumeration goes</p></li>
+<li><p>hub scanning happens automatically after a hub is probed</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Hubs"></a><div class="section" id="hubs">
+<h2>Hubs<a class="headerlink" href="#hubs" title="Permalink to this headline">¶</a></h2>
+<p>USB hubs are scanned as in the section above. While hubs have their own
+uclass, they share some common elements with controllers:</p>
+<ul class="simple">
+<li><p>they both attach private data to their children (struct usb_device,
+accessible for a child with dev_get_parent_priv(child))</p></li>
+<li><p>they both use usb_child_pre_probe() to set up their children as proper USB
+devices</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example - Mass Storage"></a><div class="section" id="example-mass-storage">
+<h2>Example - Mass Storage<a class="headerlink" href="#example-mass-storage" title="Permalink to this headline">¶</a></h2>
+<p>As an example of a USB device driver, see usb_storage.c. It uses its own
+uclass and declares itself as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">usb_mass_storage</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">"usb_mass_storage"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">UCLASS_MASS_STORAGE</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_match</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usb_mass_storage_ids</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">probe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usb_mass_storage_probe</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">usb_device_id</span><span class="w"> </span><span class="n">mass_storage_id_table</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">match_flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">USB_DEVICE_ID_MATCH_INT_CLASS</span><span class="p">,</span>
+<span class="w">          </span><span class="p">.</span><span class="n">bInterfaceClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">USB_CLASS_MASS_STORAGE</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">     </span><span class="cm">/* Terminating entry */</span>
+<span class="p">};</span>
+
+<span class="n">USB_DEVICE</span><span class="p">(</span><span class="n">usb_mass_storage</span><span class="p">,</span><span class="w"> </span><span class="n">mass_storage_id_table</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The USB_DEVICE() macro attaches the given table of matching information to
+the given driver. Note that the driver is declared in U_BOOT_DRIVER() as
+‘usb_mass_storage’ and this must match the first parameter of USB_DEVICE.</p>
+<p>When usb_find_and_bind_driver() is called on a USB device with the
+bInterfaceClass value of USB_CLASS_MASS_STORAGE, it will automatically find
+this driver and use it.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Counter-example: USB Ethernet"></a><div class="section" id="counter-example-usb-ethernet">
+<h2>Counter-example: USB Ethernet<a class="headerlink" href="#counter-example-usb-ethernet" title="Permalink to this headline">¶</a></h2>
+<p>As an example of the old way of doing things, see usb_ether.c. When the bus
+is scanned, all Ethernet devices will be created as generic USB devices (in
+uclass UCLASS_USB_DEV_GENERIC). Then, when the scan is completed,
+usb_host_eth_scan() will be called. This looks through all the devices on
+each bus and manually figures out which are Ethernet devices in the ways of
+yore.</p>
+<p>In fact, usb_ether should be moved to driver model. Each USB Ethernet driver
+(e.g drivers/usb/eth/asix.c) should include a USB_DEVICE() declaration, so
+that it will be found as part of normal USB enumeration. Then, instead of a
+generic USB driver, a real (driver-model-aware) driver will be used. Since
+Ethernet now supports driver model, this should be fairly easy to achieve,
+and then usb_ether.c and the usb_host_eth_scan() will melt away.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox"></a><div class="section" id="sandbox">
+<h2>Sandbox<a class="headerlink" href="#sandbox" title="Permalink to this headline">¶</a></h2>
+<p>All driver model uclasses must have tests and USB is no exception. To
+achieve this, a sandbox USB controller is provided. This can make use of
+emulation drivers which pretend to be USB devices. Emulations are provided
+for a hub and a flash stick. These are enough to create a pretend USB bus
+(defined by the sandbox device tree sandbox.dts) which can be scanned and
+used.</p>
+<p>Tests in test/dm/usb.c make use of this feature. It allows much of the USB
+stack to be tested without real hardware being needed.</p>
+<p>Here is an example device tree fragment:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>usb@1 {
+        compatible = "sandbox,usb";
+        hub {
+                compatible = "usb-hub";
+                usb,device-class = &lt;USB_CLASS_HUB&gt;;
+                hub-emul {
+                        compatible = "sandbox,usb-hub";
+                        #address-cells = &lt;1&gt;;
+                        #size-cells = &lt;0&gt;;
+                        flash-stick {
+                                reg = &lt;0&gt;;
+                                compatible = "sandbox,usb-flash";
+                                sandbox,filepath = "flash.bin";
+                        };
+                };
+        };
+};
+</pre></div>
+</div>
+<p>This defines a single controller, containing a root hub (which is required).
+The hub is emulated by a hub emulator, and the emulated hub has a single
+flash stick to emulate on one of its ports.</p>
+<p>When ‘usb start’ is used, the following ‘dm tree’ output will be available:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>usb         [ + ]    `-- usb@1
+usb_hub     [ + ]        `-- hub
+usb_emul    [ + ]            |-- hub-emul
+usb_emul    [ + ]            |   `-- flash-stick
+usb_mass_st [ + ]            `-- usb_mass_storage
+</pre></div>
+</div>
+<p>This may look confusing. Most of it mirrors the device tree, but the
+‘usb_mass_storage’ device is not in the device tree. This is created by
+usb_find_and_bind_driver() based on the USB_DRIVER in usb_storage.c. While
+‘flash-stick’ is the emulation device, ‘usb_mass_storage’ is the real U-Boot
+USB device driver that talks to it.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Future work"></a><div class="section" id="future-work">
+<h2>Future work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
+<p>It is pretty uncommon to have a large USB bus with lots of hubs on an
+embedded system. In fact anything other than a root hub is uncommon. Still
+it would be possible to speed up enumeration in two ways:</p>
+<ul class="simple">
+<li><p>breadth-first search would allow devices to be reset and probed in
+parallel to some extent</p></li>
+<li><p>enumeration could be lazy, in the sense that we could enumerate just the
+root hub at first, then only progress to the next ‘level’ when a device is
+used that we cannot find. This could be made easier if the devices were
+statically declared in the device tree (which is acceptable for production
+boards where the same, known, things are on each bus).</p></li>
+</ul>
+<p>But in common cases the current algorithm is sufficient.</p>
+<p>Other things that need doing:
+- Convert usb_ether to use driver model as described above
+- Test that keyboards work (and convert to driver model)
+- Move the USB gadget framework to driver model
+- Implement OHCI in driver model
+- Implement USB PHYs in driver model
+- Work out a clever way to provide lazy init for USB devices</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="spi-howto.html" rel="prev" title="How to port a SPI driver to driver model"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="virtio.html" rel="next" title="VirtIO Support">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

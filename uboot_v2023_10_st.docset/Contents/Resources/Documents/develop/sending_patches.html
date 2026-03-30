@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sending patches — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="system_configuration.html" rel="next" title="System configuration"/>
+<link href="security.html" rel="prev" title="Handling of security vulnerabilities"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#general">General</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="board_best_practices.html">Best Practices for Board Ports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codingstyle.html">U-Boot Coding Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="designprinciples.html">U-Boot Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docstyle.html">Documentation Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patman.html">Patman patch manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="process.html">U-Boot Development Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_cycle.html">Release Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="security.html">Handling of security vulnerabilities</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Sending patches</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-patman">Using patman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-patch-submission-rules">General Patch Submission Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#attributing-code-copyrights-signing">Attributing Code, Copyrights, Signing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#commit-message-conventions">Commit message conventions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sending-updated-patch-versions">Sending updated patch versions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#notes">Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#patch-tracking">Patch Tracking</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="system_configuration.html">System configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Sending patches</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/sending_patches.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sending patches"></a><div class="section" id="sending-patches">
+<h1>Sending patches<a class="headerlink" href="#sending-patches" title="Permalink to this headline">¶</a></h1>
+<p><em>Before you begin</em> to implement any new ideas or concepts it is always a good
+idea to present your plans on the <a class="reference external" href="https://lists.denx.de/listinfo/u-boot">U-Boot mailing list</a>. U-Boot supports a huge amount of
+very different systems, and it is often impossible for the individual developer
+to oversee the consequences of a specific change to all architectures.
+Discussing concepts early can help you to avoid spending effort on code which,
+when submitted as a patch, might be rejected and/or will need lots of rework
+because it does not fit for some reason. Early peer review is an important
+resource - use it. Being familiar with the <a class="reference internal" href="process.html"><span class="doc">U-Boot Development Process</span></a> is also important.</p>
+<p>A good introduction how to prepare for submitting patches can be found in the
+LWN article <a class="reference external" href="http://lwn.net/Articles/139918/">How to Get Your Change Into the Linux Kernel</a> as the same rules apply to U-Boot, too.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Using patman"></a><div class="section" id="using-patman">
+<h2>Using patman<a class="headerlink" href="#using-patman" title="Permalink to this headline">¶</a></h2>
+<p>You can use a tool called patman to prepare, check and send patches. It creates
+change logs, cover letters and patch notes. It also simplifies the process of
+sending multiple versions of a series.</p>
+<p>See more details at <a class="reference internal" href="patman.html"><span class="doc">Patman patch manager</span></a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/General Patch Submission Rules"></a><div class="section" id="general-patch-submission-rules">
+<h2>General Patch Submission Rules<a class="headerlink" href="#general-patch-submission-rules" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>All patches must be sent to the <a class="reference external" href="https://lists.denx.de/listinfo/u-boot">u-boot@lists.denx.de</a> mailing list.</p></li>
+<li><p>If your patch affects the code maintained by one of the <a class="reference internal" href="process.html#custodians"><span class="std std-ref">Custodians</span></a>, CC
+them when emailing your patch. The easiest way to make sure you don’t forget
+this even when you resubmit the patch later is to add a <code class="docutils literal notranslate"><span class="pre">Cc:</span> <span class="pre">name</span>
+<span class="pre">&lt;address&gt;</span></code> line after your <code class="docutils literal notranslate"><span class="pre">Signed-off-by:</span></code> line (see the example below).</p></li>
+<li><p>Take a look at the commit logs of the files you are modifying. Authors of
+past commits might have input to your change, so also CC them if you think
+they may have feedback.</p></li>
+<li><p>Patches should always contain exactly one complete logical change, i.e.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Changes that contain different, unrelated modifications shall be submitted
+as <em>separate</em> patches, one patch per changeset.</p></li>
+<li><p>If one logical set of modifications affects or creates several files, all
+these changes shall be submitted in a <em>single</em> patch.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Non-functional changes, i.e. whitespace and reformatting changes, should be
+done in separate patches marked as <code class="docutils literal notranslate"><span class="pre">cosmetic</span></code>. This separation of functional
+and cosmetic changes greatly facilitates the review process.</p></li>
+<li><p>Some comments on running <a class="reference internal" href="checkpatch.html"><span class="doc">checkpatch.pl</span></a>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Checkpatch is a tool that can help you find some style problems, but is
+imperfect, and the things it complains about are of varying importance.
+So use common sense in interpreting the results.</p></li>
+<li><p>Warnings that clearly only make sense in the Linux kernel can be ignored.
+This includes <code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">#include</span> <span class="pre">&lt;linux/$file&gt;</span> <span class="pre">instead</span> <span class="pre">of</span> <span class="pre">&lt;asm/$file&gt;</span></code> for
+example.</p></li>
+<li><p>If you encounter warnings for existing code, not modified by your patch,
+consider submitting a separate, cosmetic-only patch – clearly described
+as such – that <em>precedes</em> your substantive patch.</p></li>
+<li><p>For minor modifications (e.g. changed arguments of a function call),
+adhere to the present coding style of the module. Relating checkpatch
+warnings can be ignored in this case. A respective note in the commit or
+cover letter why they are ignored is desired.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Send your patches as plain text messages: no HTML, no MIME, no links, no
+compression, no attachments. Just plain text. The best way the generate
+patches is by using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">format-patch</span></code> command. Please use the
+<code class="docutils literal notranslate"><span class="pre">master</span></code> branch of the mainline U-Boot git repository
+(<code class="docutils literal notranslate"><span class="pre">https://source.denx.de/u-boot/u-boot.git</span></code>) as reference, unless (usually
+late in a release cycle) there has been an announcement to use the <code class="docutils literal notranslate"><span class="pre">next</span></code>
+branch of this repository instead.</p></li>
+<li><p>Make sure that your mailer does not mangle the patch by automatic changes
+like wrapping of longer lines etc.
+The best way to send patches is by not using your regular mail tool, but by
+using either <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">send-email</span></code> or the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">imap-send</span></code> command instead.
+If you believe you need to use a mailing list for testing (instead of any
+regular mail address you own), we have a special test list for such purposes.
+It would be best to subscribe to the list for the duration of your tests to
+avoid repeated moderation - see <a class="reference external" href="https://lists.denx.de/listinfo/test">https://lists.denx.de/listinfo/test</a></p></li>
+<li><p>Choose a meaningful Subject: - keep in mind that the Subject will also be
+visible as headline of your commit message. Make sure the subject does not
+exceed 60 characters or so.</p></li>
+<li><p>The start of the subject should be a meaningful tag (arm:, ppc:, tegra:,
+net:, ext2:, etc)</p></li>
+<li><p>Include the string “PATCH” in the Subject: line of your message, e. g.
+“[PATCH] Add support for feature X”. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">format-patch</span></code> should automatically
+do this.</p></li>
+<li><p>If you are sending a patch series composed of multiple patches, make sure
+their titles clearly state the patch order and total number of patches (<code class="docutils literal notranslate"><span class="pre">git</span>
+<span class="pre">format-patch</span> <span class="pre">-n</span></code>). Also, often times an introductory email describing what
+the patchset does is useful (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">format-patch</span> <span class="pre">-n</span> <span class="pre">--cover-letter</span></code>). As an
+example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[PATCH 0/3] Add support for new SuperCPU2000
+   (This email does not contain a patch, just a description)
+[PATCH 1/3] Add core support for SuperCPU2000
+[PATCH 2/3] Add support for SuperCPU2000's on-chip I2C controller
+[PATCH 3/3] Add support for SuperCPU2000's on-chip UART
+</pre></div>
+</div>
+</li>
+<li><p>In the message body, include a description of your changes.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>For bug fixes: a description of the bug and how your patch fixes this bug.
+Please try to include a way of demonstrating that the patch actually fixes
+something.</p></li>
+<li><p>For new features: a description of the feature and your implementation.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Additional comments which you don’t want included in U-Boot’s history can be
+included below the first “—” in the message body.</p></li>
+<li><p>If your description gets too long, that’s a strong indication that you should
+split up your patch.</p></li>
+<li><p>Remember that there is a size limit of 100 kB on the mailing list. In most
+cases, you did something wrong if your patch exceeds this limit. Think again
+if you should not split it into separate logical parts.</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Attributing Code, Copyrights, Signing"></a><div class="section" id="attributing-code-copyrights-signing">
+<h2>Attributing Code, Copyrights, Signing<a class="headerlink" href="#attributing-code-copyrights-signing" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Sign your changes, i. e. add a <em>Signed-off-by:</em> line to the message body.
+This can be automated by using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-s</span></code>. Please see the
+<a class="reference internal" href="process.html#dco"><span class="std std-ref">Developer Certificate of Origin</span></a> section for more details here.</p></li>
+<li><p>If you change or add <em>significant</em> parts to a file, then please make sure to
+add your copyright to that file, for example like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(C) Copyright 2010  Joe Hacker &lt;jh@hackers.paradise.com&gt;
+
+       Please do *not* include a detailed description of your
+       changes. We use the *git* commit messages for this purpose.
+</pre></div>
+</div>
+</li>
+<li><p>If you add new files, please always make sure that these contain your
+copyright note and a GPLv2+ SPDX-License-Identifier, for example like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(C) Copyright 2010  Joe Hacker &lt;jh@hackers.paradise.com&gt;
+
+SPDX-License-Identifier:&lt;TAB&gt;GPL-2.0+
+</pre></div>
+</div>
+</li>
+<li><p>If you are copying or adapting code from other projects, like the Linux
+kernel, or BusyBox, or similar, please make sure to state clearly where you
+copied the code from, and provide terse but precise information which exact
+version or even commit ID was used. Follow the ideas of this note from the
+Linux “SubmittingPatches” document:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Special note to back-porters: It seems to be a common and useful practice
+to insert an indication of the origin of a patch at the top of the commit
+message (just after the subject line) to facilitate tracking. For instance,
+here's what we see in 2.6-stable :
+
+      Date:  Tue May 13 19:10:30 2008 +0000
+
+               SCSI: libiscsi regression in 2.6.25: fix nop timer handling
+
+               commit 4cf1043593db6a337f10e006c23c69e5fc93e722 upstream
+
+And here's what appears in 2.4 :
+
+      Date:  Tue May 13 22:12:27 2008 +0200
+
+               wireless, airo: waitbusy() won't delay
+
+               [backport of 2.6 commit b7acbdfbd1f277c1eb23f344f899cfa4cd0bf36a]
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Whatever the format, this information provides a valuable help to people
+tracking your trees, and to people trying to trouble-shoot bugs in your
+tree.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Commit message conventions"></a><div class="section" id="commit-message-conventions">
+<h2>Commit message conventions<a class="headerlink" href="#commit-message-conventions" title="Permalink to this headline">¶</a></h2>
+<p>Please adhere to the following conventions when writing your commit
+log messages.</p>
+<ul class="simple">
+<li><p>The first line of the log message is the summary line. Keep this less than 70
+characters long.</p></li>
+<li><p>Don’t use periods to end the summary line (e.g., don’t do “Add support for
+X.”)</p></li>
+<li><p>Use the present tense in your summary line (e.g., “Add support for X” rather
+than “Added support for X”). Furthermore, use the present tense in your log
+message to describe what the patch is doing. This isn’t a strict rule – it’s
+OK to use the past tense for describing things that were happening in the old
+code for example.</p></li>
+<li><p>Use the imperative tense in your summary line (e.g., “Add support for X”
+rather than “Adds support for X”). In general, you can think of the summary
+line as “this commit is meant to ‘Add support for X’”</p></li>
+<li><p>If applicable, prefix the summary line with a word describing what area of
+code is being affected followed by a colon. This is a standard adopted by
+both U-Boot and Linux. For example, if your change affects all mpc85xx
+boards, prefix your summary line with “mpc85xx:”. If your change affects the
+PCI common code, prefix your summary line with “pci:”. The best thing to do
+is look at the “git log &lt;file&gt;” output to see what others have done so you
+don’t break conventions.</p></li>
+<li><p>Insert a blank line after the summary line</p></li>
+<li><p>For bug fixes, it’s good practice to briefly describe how things behaved
+before this commit</p></li>
+<li><p>Put a detailed description after the summary and blank line. If the summary
+line is sufficient to describe the change (e.g. it is a trivial spelling
+correction or whitespace update), you can omit the blank line and detailed
+description.</p></li>
+<li><p>End your log message with S.O.B. (Signed-off-by) line. This is done
+automatically when you use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-s</span></code>. Please see the
+<a class="reference internal" href="process.html#dco"><span class="std std-ref">Developer Certificate of Origin</span></a> section for more details here.</p></li>
+<li><p>Keep EVERY line under 72 characters. That is, your message should be
+line-wrapped with line-feeds. However, don’t get carried away and wrap it too
+short either since this also looks funny.</p></li>
+<li><p>Detail level: The audience of the commit log message that you should cater to
+is those familiar with the underlying source code you are modifying, but who
+are _not_ familiar with the patch you are submitting. They should be able to
+determine what is being changed and why. Avoid excessive low-level detail.
+Before submitting, re-read your commit log message with this audience in mind
+and adjust as needed.</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sending updated patch versions"></a><div class="section" id="sending-updated-patch-versions">
+<h2>Sending updated patch versions<a class="headerlink" href="#sending-updated-patch-versions" title="Permalink to this headline">¶</a></h2>
+<p>It is pretty normal that the first version of a patch you are submitting does
+not get accepted as is, and that you are asked to submit another, improved
+version.</p>
+<p>When re-posting such a new version of your patch(es), please always make sure
+to observe the following rules.</p>
+<ul>
+<li><p>Make an appropriate note that this is a re-submission in the subject line,
+e.g. “[PATCH v2] Add support for feature X”. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">format-patch</span>
+<span class="pre">--subject-prefix="PATCH</span> <span class="pre">v2"</span></code> can be used in this case (see the example
+below).</p></li>
+<li><p>Please make sure to keep a “change log”, i.e. a description of what you have
+changed compared to previous versions of this patch. This change log should
+be added below the “—” line in the patch, which starts the “comment
+section”, i.e. which contains text that does not get included into the
+actual commit message.
+Note: it is <em>not</em> sufficient to provide a change log in some cover letter
+that gets sent as a separate message with the patch series. The reason is
+that such cover letters are not as easily reviewed in our <a class="reference external" href="http://patchwork.ozlabs.org/project/uboot/list/">patchwork queue</a> so they are not helpful
+to any reviewers using this tool. Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>From: Joe Hacker &lt;jh@hackers.paradise.com&gt;
+Date: Thu, 1 Jan 2222 12:21:22 +0200
+Subject: [PATCH 1/2 v3] FOO: add timewarp-support
+
+This patch adds timewarp-support for the FOO family of processors.
+
+adapted for the current kernel structures.
+
+Signed-off-by: Joe Hacker &lt;jh@hackers.paradise.com&gt;
+Cc: Tom Maintainer &lt;tm@u-boot.custodians.org&gt;
+---
+Changes for v2:
+- Coding Style cleanup
+- fixed miscalculation of time-space discontinuities
+Changes for v3:
+- fixed compiler warnings observed with GCC-17.3.5
+- worked around integer overflow in warp driver
+
+ arch/foo/cpu/spacetime.c |   8 +
+ drivers/warp/Kconfig     |   7 +
+ drivers/warp/Makefile    |  42 +++
+ drivers/warp/warp-core.c | 255 +++++++++++++++++++++++++
+</pre></div>
+</div>
+</li>
+<li><p>Make sure that your mailer adds or keeps correct <code class="docutils literal notranslate"><span class="pre">In-reply-to:</span></code> and
+<code class="docutils literal notranslate"><span class="pre">References:</span></code> headers, so threading of messages is working and everybody
+can see that the new message refers to some older posting of the same topic.</p></li>
+</ul>
+<p>Uncommented and un-threaded repostings are extremely annoying and
+time-consuming, as we have to try to remember if anything similar has been
+posted before, look up the old threads, and then manually compare if anything
+has been changed, or what.</p>
+<p>If you have problems with your e-mail client, for example because it mangles
+white space or wraps long lines, then please read this article about <a class="reference external" href="http://kerneltrap.org/Linux/Email_Clients_and_Patches">Email
+Clients and Patches</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Notes"></a><div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>U-Boot is Free Software that can redistributed and/or modified under the
+terms of the <a class="reference external" href="http://www.fsf.org/licensing/licenses/gpl.html">GNU General Public License</a> (GPL). Currently (August
+2022) version 2 of the GPL applies. Please see <a class="reference download internal" download="" href="../_downloads/f533888f69f58531d77191c6d8c02dda/README"><code class="xref download docutils literal notranslate"><span class="pre">Licensing</span></code></a> for details. To allow that later versions of U-Boot
+may be released under a later version of the GPL, all new code that gets
+added to U-Boot shall use a “GPL-2.0+” SPDX-License-Identifier.</p></li>
+<li><p>All code must follow the <a class="reference internal" href="codingstyle.html"><span class="doc">U-Boot Coding Style</span></a> requirements.</p></li>
+<li><p>Before sending the patch, you <em>must</em> run some form of local testing.
+Submitting a patch that does not build or function correctly is a mistake. For
+non-trivial patches, either building a number of platforms locally or making
+use of <a class="reference internal" href="ci_testing.html"><span class="doc">Continuous Integration testing</span></a> is strongly encouraged in order to avoid problems
+that can be found when attempting to merge the patch.</p></li>
+<li><p>If you modify existing code, make sure that your new code does not add to
+the memory footprint of the code. Remember: Small is beautiful! When adding
+new features follow the guidelines laid out in <a class="reference internal" href="system_configuration.html"><span class="doc">System configuration</span></a>.</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Patch Tracking"></a><div class="section" id="patch-tracking">
+<h2>Patch Tracking<a class="headerlink" href="#patch-tracking" title="Permalink to this headline">¶</a></h2>
+<p>Like some other projects, U-Boot uses <a class="reference external" href="http://patchwork.ozlabs.org/">Patchwork</a>
+to track the state of patches. This is one of the reasons why it is mandatory
+to submit all patches to the U-Boot mailing list - only then they will be
+picked up by patchwork.</p>
+<p>At <a class="reference external" href="http://patchwork.ozlabs.org/project/uboot/list/">http://patchwork.ozlabs.org/project/uboot/list/</a> you can find the list of
+open U-Boot patches. By using the “Filters” link (Note: requires JavaScript)
+you can also select other views, for example, to include old patches that have,
+for example, already been applied or rejected.</p>
+<p>Note that Patchwork automatically tracks and collects a number of git tags from
+follow-up mails, so it is usually better to apply a patch through the Patchwork
+commandline interface than just manually applying it from a posting on the
+mailing list (in which case you have to do all the tracking and adding of git
+tags yourself). This also obviates the need of a developer to resubmit a patch
+only in order to collect these tags.</p>
+<p>A Custodian has additional privileges and can:</p>
+<ul>
+<li><p><strong>Delegate</strong> a patch</p></li>
+<li><p><strong>Change the state</strong> of a patch. The following states exist:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>New</p></li>
+<li><p>Under Review</p></li>
+<li><p>Accepted</p></li>
+<li><p>Rejected</p></li>
+<li><p>RFC</p></li>
+<li><p>Not Applicable</p></li>
+<li><p>Changes Requested</p></li>
+<li><p>Awaiting Upstream</p></li>
+<li><p>Superseeded</p></li>
+<li><p>Deferred</p></li>
+<li><p>Archived</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="section" id="patchwork-work-flow">
+<h3>Patchwork work-flow<a class="headerlink" href="#patchwork-work-flow" title="Permalink to this headline">¶</a></h3>
+<p>The following are a “rule of thumb” as to how the states are used in patchwork
+today. Not all states are used by all custodians.</p>
+<ul class="simple">
+<li><p>New: Patch has been submitted to the list, and none of the maintainers has
+changed it’s state since.</p></li>
+<li><p>Under Review: A custodian is reviewing the patch currently.</p></li>
+<li><p>Accepted: When a patch has been applied to a custodian repository that gets
+used for pulling from into upstream, they are put into “accepted” state.</p></li>
+<li><p>Rejected: Rejected means we just don’t want to do what the patch does.</p></li>
+<li><p>RFC: The patch is not intended to be applied to any of the mainline
+repositories, but merely for discussing or testing some idea or new feature.</p></li>
+<li><p>Not Applicable: The patch either was not intended to be applied, as it was
+a debugging or discussion aide that patchwork picked up, or was cross-posted
+to our list but intended for another project entirely.</p></li>
+<li><p>Changes Requested: The patch looks mostly OK, but requires some rework before
+it will be accepted for mainline.</p></li>
+<li><p>Awaiting Upstream: A custodian may have applied this to the <code class="docutils literal notranslate"><span class="pre">next</span></code> branch
+and has not merged yet to master, or has queued the patch up to be submitted
+to be merged, but has not yet.</p></li>
+<li><p>Superseeded: Patches are marked as ‘superseeded’ when the poster submits a
+new version of these patches.</p></li>
+<li><p>Deferred: Deferred usually means the patch depends on something else that
+isn’t upstream, such as patches that only apply against some specific other
+repository. This is also used when a patch has been in patchwork for over a
+year and it is unlikely to be applied as-is.</p></li>
+<li><p>Archived: Archiving puts the patch away somewhere where it doesn’t appear in
+the normal pages and needs extra effort to get to.</p></li>
+</ul>
+</div>
+<div class="section" id="apply-patches">
+<h3>Apply patches<a class="headerlink" href="#apply-patches" title="Permalink to this headline">¶</a></h3>
+<p>To apply a patch from the <a class="reference external" href="http://patchwork.ozlabs.org/project/uboot/list/">patchwork queue</a> using <code class="docutils literal notranslate"><span class="pre">git</span></code>, download the
+mbox file and apply it using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git am file
+</pre></div>
+</div>
+<p>The <a class="reference external" href="http://wiki.openembedded.net/">openembedded wiki</a> also provides a script
+named <a class="reference external" href="http://cgit.openembedded.org/cgit.cgi/openembedded/tree/contrib/patchwork/pw-am.sh">pw-am.sh</a>
+which can be used to fetch an ‘mbox’ patch from patchwork and git am it:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>usage: pw-am.sh &lt;number&gt;
+example: 'pw-am.sh 71002' will get and apply the patch from http://patchwork.ozlabs.org/patch/71002/
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-the-state-of-patches">
+<h3>Update the state of patches<a class="headerlink" href="#update-the-state-of-patches" title="Permalink to this headline">¶</a></h3>
+<p>You have to register to be able to update the state of patches. You can use the
+Web interface, <cite>pwclient</cite>, or <cite>pwparser</cite>.</p>
+</div>
+<div class="section" id="pwclient">
+<h3>pwclient<a class="headerlink" href="#pwclient" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>pwclient</cite> command line tool can be used for example to retrieve patches,
+search the queue or update the state.</p>
+<p>All necessary information for <cite>pwclient</cite> is linked from the bottom of
+<a class="reference external" href="http://patchwork.ozlabs.org/project/uboot/">http://patchwork.ozlabs.org/project/uboot/</a></p>
+<p>Use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pwclient help
+</pre></div>
+</div>
+<p>for an overview on how to use it.</p>
+</div>
+<div class="section" id="pwparser">
+<h3>pwparser<a class="headerlink" href="#pwparser" title="Permalink to this headline">¶</a></h3>
+<p>See <a class="reference external" href="http://www.mail-archive.com/patchwork@lists.ozlabs.org/msg00057.html">http://www.mail-archive.com/patchwork@lists.ozlabs.org/msg00057.html</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="security.html" rel="prev" title="Handling of security vulnerabilities"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="system_configuration.html" rel="next" title="System configuration">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

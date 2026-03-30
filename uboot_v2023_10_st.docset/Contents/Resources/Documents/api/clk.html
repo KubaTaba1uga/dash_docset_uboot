@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clock API — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="dfu.html" rel="next" title="Device firmware update"/>
+<link href="index.html" rel="prev" title="U-Boot API documentation"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Clock API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#client-api">Client API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#driver-api">Driver API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Clock API</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/clk.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Clock API"></a><div class="section" id="clock-api">
+<h1>Clock API<a class="headerlink" href="#clock-api" title="Permalink to this headline">¶</a></h1>
+<p>A clock is a hardware signal that oscillates autonomously at a specific
+frequency and duty cycle. Most hardware modules require one or more clock
+signal to drive their operation. Clock signals are typically generated
+externally to the HW module consuming them, by an entity this API calls a
+clock provider. This API provides a standard means for drivers to enable and
+disable clocks, and to set the rate at which they oscillate.</p>
+<p>A driver that implements UCLASS_CLK is a clock provider. A provider will
+often implement multiple separate clocks, since the hardware it manages
+often has this capability. clk-uclass.h describes the interface which
+clock providers must implement.</p>
+<p>Clock consumers/clients are the HW modules driven by the clock signals. This
+header file describes the API used by drivers for those HW modules.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Client API"></a><div class="section" id="client-api">
+<h2>Client API<a class="headerlink" href="#client-api" title="Permalink to this headline">¶</a></h2>
+<dl class="c struct">
+<dt id="c.clk">
+<em class="property">struct </em><code class="sig-name descname">clk</code><a class="headerlink" href="#c.clk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>A handle to (allowing control of) a single clock.</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct clk {
+  struct udevice *dev;
+  long long rate;
+  u32 flags;
+  int enable_count;
+  unsigned long id;
+  unsigned long data;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">dev</span></code></dt><dd><p>The device which implements the clock signal.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rate</span></code></dt><dd><p>The clock rate (in HZ).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Flags used across common clock structure (e.g. <code class="docutils literal notranslate"><span class="pre">CLK_</span></code>)
+Clock IP blocks specific flags (i.e. mux, div, gate, etc) are defined
+in struct’s for those devices (e.g. <code class="xref c c-type docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk_mux</span></code>).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enable_count</span></code></dt><dd><p>The number of times this clock has been enabled.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">id</span></code></dt><dd><p>The clock signal ID within the provider.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">data</span></code></dt><dd><p>An optional data field for scenarios where a single integer ID is not
+sufficient. If used, it can be populated through an .of_xlate op and
+processed during the various clock ops.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Clients provide storage for clock handles. The content of the structure is
+managed solely by the clock API and clock drivers. A clock struct is
+initialized by “get”ing the clock struct. The clock struct is passed to all
+other clock APIs to identify which clock signal to operate upon.</p>
+<p>Should additional information to identify and configure any clock signal
+for any provider be required in the future, the struct could be expanded to
+either (a) add more fields to allow clock providers to store additional
+information, or (b) replace the id field with an opaque pointer, which the
+provider would dynamically allocated during its .of_xlate op, and process
+during is .request op. This may require the addition of an extra op to clean
+up the allocation.</p>
+<dl class="c struct">
+<dt id="c.clk_bulk">
+<em class="property">struct </em><code class="sig-name descname">clk_bulk</code><a class="headerlink" href="#c.clk_bulk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>A handle to (allowing control of) a bulk of clocks.</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct clk_bulk {
+  struct clk *clks;
+  unsigned int count;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">clks</span></code></dt><dd><p>An array of clock handles.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">count</span></code></dt><dd><p>The number of clock handles in the clks array.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Clients provide storage for the clock bulk. The content of the structure is
+managed solely by the clock API. A clock bulk struct is
+initialized by “get”ing the clock bulk struct.
+The clock bulk struct is passed to all other bulk clock APIs to apply
+the API to all the clock in the bulk struct.</p>
+<dl class="c function">
+<dt id="c.clk_get_by_phandle">
+int <code class="sig-name descname">clk_get_by_phandle</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">const</em> <em class="property">struct</em> phandle_1_arg *<em>cells</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_get_by_phandle" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_by_phandle"></a><a class="headerlink" href="#c.clk_get_by_phandle" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get a clock by its phandle information (of-platadata)</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device containing the phandle</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">struct</span> <span class="pre">phandle_1_arg</span> <span class="pre">*cells</span></code></dt><dd><p>Phandle info</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to a clock struct to initialise</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function is used when of-platdata is enabled.</p>
+<p>This looks up a clock using the phandle info. With dtoc, each phandle in the
+‘clocks’ property is transformed into an idx representing the device.
+For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clocks = &lt;&amp;dpll_mpu_ck 23&gt;;
+</pre></div>
+</div>
+<p>might result in:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.clocks = {1, {23}},},
+</pre></div>
+</div>
+<p>indicating that the clock is udevice idx 1 in dt-plat.c with an argument of
+23. This function can return a valid clock given the above information. In
+this example it would return a clock containing the ‘dpll_mpu_ck’ device and
+the clock ID 23.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.clk_get_by_index">
+int <code class="sig-name descname">clk_get_by_index</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, int <em>index</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_get_by_index" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_by_index"></a><a class="headerlink" href="#c.clk_get_by_index" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get/request a clock by integer index.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>The client device.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">index</span></code></dt><dd><p>The index of the clock to request, within the client’s list of
+clocks.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to a clock struct to initialize.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This looks up and requests a clock. The index is relative to the client
+device; each device is assumed to have n clocks associated with it somehow,
+and this function finds and requests one of them. The mapping of client
+device clock indices to provider clocks may be via device-tree properties,
+board-provided mapping tables, or some other mechanism.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.clk_get_by_index_nodev">
+int <code class="sig-name descname">clk_get_by_index_nodev</code><span class="sig-paren">(</span>ofnode <em>node</em>, int <em>index</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_get_by_index_nodev" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_by_index_nodev"></a><a class="headerlink" href="#c.clk_get_by_index_nodev" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get/request a clock by integer index without a device.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ofnode</span> <span class="pre">node</span></code></dt><dd><p>The client ofnode.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">index</span></code></dt><dd><p>The index of the clock to request, within the client’s list of
+clocks.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to a clock struct to initialize.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.clk_get_bulk">
+int <code class="sig-name descname">clk_get_bulk</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_bulk" title="clk_bulk">clk_bulk</a> *<em>bulk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_bulk"></a><a class="headerlink" href="#c.clk_get_bulk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get/request all clocks of a device.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>The client device.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk_bulk</span> <span class="pre">*bulk</span></code></dt><dd><p>A pointer to a clock bulk struct to initialize.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This looks up and requests all clocks of the client device; each device is
+assumed to have n clocks associated with it somehow, and this function finds
+and requests all of them in a separate structure. The mapping of client
+device clock indices to provider clocks may be via device-tree properties,
+board-provided mapping tables, or some other mechanism.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.clk_get_by_name">
+int <code class="sig-name descname">clk_get_by_name</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">const</em> char *<em>name</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_get_by_name" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_by_name"></a><a class="headerlink" href="#c.clk_get_by_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get/request a clock by name.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>The client device.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>The name of the clock to request, within the client’s list of
+clocks, or NULL to request the first clock in the list.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to a clock struct to initialize.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This looks up and requests a clock. The name is relative to the client
+device; each device is assumed to have n clocks associated with it somehow,
+and this function finds and requests one of them. The mapping of client
+device clock names to provider clocks may be via device-tree properties,
+board-provided mapping tables, or some other mechanism.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.clk_get_by_name_nodev">
+int <code class="sig-name descname">clk_get_by_name_nodev</code><span class="sig-paren">(</span>ofnode <em>node</em>, <em class="property">const</em> char *<em>name</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_get_by_name_nodev" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_by_name_nodev"></a><a class="headerlink" href="#c.clk_get_by_name_nodev" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get/request a clock by name without a device.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ofnode</span> <span class="pre">node</span></code></dt><dd><p>The client ofnode.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>The name of the clock to request, within the client’s list of
+clocks, or NULL to request the first clock in the list.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to a clock struct to initialize.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.devm_clk_get">
+<em class="property">struct</em> <a class="reference internal" href="#c.clk" title="clk">clk</a> *<code class="sig-name descname">devm_clk_get</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">const</em> char *<em>id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/devm_clk_get"></a><a class="headerlink" href="#c.devm_clk_get" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>lookup and obtain a managed reference to a clock producer.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>device for clock “consumer”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*id</span></code></dt><dd><p>clock consumer ID</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The implementation uses <strong>dev</strong> and <strong>id</strong> to determine the clock consumer, and
+thereby the clock producer. (IOW, <strong>id</strong> may be identical strings, but clk_get
+may return different clock producers depending on <strong>dev</strong>.)</p>
+<p>Drivers must assume that the clock source is not enabled.</p>
+<p>The clock will automatically be freed when the device is unbound
+from the bus.</p>
+<p><strong>Return</strong></p>
+<p>a struct clk corresponding to the clock producer, or
+valid IS_ERR() condition containing errno</p>
+<dl class="c function">
+<dt id="c.devm_clk_get_optional">
+<em class="property">struct</em> <a class="reference internal" href="#c.clk" title="clk">clk</a> *<code class="sig-name descname">devm_clk_get_optional</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">const</em> char *<em>id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/devm_clk_get_optional"></a><a class="headerlink" href="#c.devm_clk_get_optional" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>lookup and obtain a managed reference to an optional clock producer.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>device for clock “consumer”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*id</span></code></dt><dd><p>clock consumer ID</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Behaves the same as devm_clk_get() except where there is no clock producer.
+In this case, instead of returning -<code class="docutils literal notranslate"><span class="pre">ENOENT</span></code>, the function returns NULL.</p>
+<dl class="c function">
+<dt id="c.clk_release_all">
+int <code class="sig-name descname">clk_release_all</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_release_all" title="clk">clk</a> *<em>clk</em>, int <em>count</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_release_all"></a><a class="headerlink" href="#c.clk_release_all" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Disable (turn off)/Free an array of previously requested clocks.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct array that was previously successfully
+requested by clk_request/get_by_*().</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">count</span></code></dt><dd><p>Number of clock contained in the array</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>For each clock contained in the clock array, this function will check if
+clock has been previously requested and then will disable and free it.</p>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.devm_clk_put">
+void <code class="sig-name descname">devm_clk_put</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">struct</em> <a class="reference internal" href="#c.devm_clk_put" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/devm_clk_put"></a><a class="headerlink" href="#c.devm_clk_put" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>“free” a managed clock source</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>device used to acquire the clock</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>clock source acquired with devm_clk_get()</p>
+</dd>
+</dl>
+<p><strong>Note</strong></p>
+<p>drivers must ensure that all clk_enable calls made on this
+clock source are balanced by clk_disable calls prior to calling
+this function.</p>
+<p><strong>Description</strong></p>
+<p>clk_put should not be called from within interrupt context.</p>
+<dl class="c function">
+<dt id="c.clk_get_by_name_optional">
+int <code class="sig-name descname">clk_get_by_name_optional</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">const</em> char *<em>name</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_get_by_name_optional" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_by_name_optional"></a><a class="headerlink" href="#c.clk_get_by_name_optional" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get/request a optional clock by name.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>The client device.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>The name of the clock to request, within the client’s list of
+clocks.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to a clock struct to initialize.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Behaves the same as clk_get_by_name(), except when there is no clock
+provider. In the latter case, return 0.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.clk_get_by_name_nodev_optional">
+int <code class="sig-name descname">clk_get_by_name_nodev_optional</code><span class="sig-paren">(</span>ofnode <em>node</em>, <em class="property">const</em> char *<em>name</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_get_by_name_nodev_optional" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_by_name_nodev_optional"></a><a class="headerlink" href="#c.clk_get_by_name_nodev_optional" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get/request an optinonal clock by name without a device.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ofnode</span> <span class="pre">node</span></code></dt><dd><p>The client ofnode.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>The name of the clock to request, within the client’s list of
+clocks.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to a clock struct to initialize.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Behaves the same as clk_get_by_name_nodev() except where there is
+no clock producer, in this case, skip the error number -<code class="docutils literal notranslate"><span class="pre">ENODATA</span></code>, and
+the function returns 0.</p>
+<dl class="c enum">
+<dt id="c.clk_defaults_stage">
+<em class="property">enum </em><code class="sig-name descname">clk_defaults_stage</code><a class="headerlink" href="#c.clk_defaults_stage" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>What stage clk_set_defaults() is called at</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">CLK_DEFAULTS_PRE</span></code></dt><dd><p>Called before probe. Setting of defaults for clocks owned
+by this clock driver will be defered until after probing.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CLK_DEFAULTS_POST</span></code></dt><dd><p>Called after probe. Only defaults for clocks owned by
+this clock driver will be set.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CLK_DEFAULTS_POST_FORCE</span></code></dt><dd><p>Called after probe, and always set defaults, even
+before relocation. Usually, defaults are not set
+pre-relocation to avoid setting them twice (when
+the device is probed again post-relocation). This
+may incur a performance cost as device tree
+properties must be parsed for a second time.
+However, when not using SPL, pre-relocation may be
+the only time we can set defaults for some clocks
+(such as those used for the RAM we will relocate
+into).</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.clk_set_defaults">
+int <code class="sig-name descname">clk_set_defaults</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">enum</em> <a class="reference internal" href="#c.clk_defaults_stage" title="clk_defaults_stage">clk_defaults_stage</a> <em>stage</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_set_defaults"></a><a class="headerlink" href="#c.clk_set_defaults" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Process <code class="docutils literal notranslate"><span class="pre">assigned-{clocks/clock-parents/clock-rates}</span></code> properties to configure clocks</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>A device to process (the ofnode associated with this device
+will be processed).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">clk_defaults_stage</span> <span class="pre">stage</span></code></dt><dd><p>The stage of the probing process this function is called during.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_release_bulk">
+int <code class="sig-name descname">clk_release_bulk</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_bulk" title="clk_bulk">clk_bulk</a> *<em>bulk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_release_bulk"></a><a class="headerlink" href="#c.clk_release_bulk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Disable (turn off)/Free an array of previously requested clocks in a clock bulk struct.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk_bulk</span> <span class="pre">*bulk</span></code></dt><dd><p>A clock bulk struct that was previously successfully
+requested by clk_get_bulk().</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>For each clock contained in the clock bulk struct, this function will check
+if clock has been previously requested and then will disable and free it.</p>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_request">
+int <code class="sig-name descname">clk_request</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_request" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_request"></a><a class="headerlink" href="#c.clk_request" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Request a clock by provider-specific ID.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>The clock provider device.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to a clock struct to initialize. The caller must
+have already initialized any field in this struct which the
+clock provider uses to identify the clock.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This requests a clock using a provider-specific ID. Generally, this function
+should not be used, since clk_get_by_index/name() provide an interface that
+better separates clients from intimate knowledge of clock providers.
+However, this function may be useful in core SoC-specific code.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.clk_free">
+void <code class="sig-name descname">clk_free</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_free" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_free"></a><a class="headerlink" href="#c.clk_free" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Free a previously requested clock.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Free resources allocated by clk_request() (or any clk_get_* function).</p>
+<dl class="c function">
+<dt id="c.clk_get_rate">
+ulong <code class="sig-name descname">clk_get_rate</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_get_rate" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_rate"></a><a class="headerlink" href="#c.clk_get_rate" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get current clock rate.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<dl class="simple">
+<dt>clock rate in Hz on success, 0 for invalid clock, or -ve error code</dt><dd><p>for other errors.</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.clk_get_parent">
+<em class="property">struct</em> <a class="reference internal" href="#c.clk_get_parent" title="clk">clk</a> *<code class="sig-name descname">clk_get_parent</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_get_parent" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_parent"></a><a class="headerlink" href="#c.clk_get_parent" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get current clock’s parent.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>pointer to parent’s struct clk, or error code passed as pointer</p>
+<dl class="c function">
+<dt id="c.clk_get_parent_rate">
+ulong <code class="sig-name descname">clk_get_parent_rate</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_get_parent_rate" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_parent_rate"></a><a class="headerlink" href="#c.clk_get_parent_rate" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get parent of current clock rate.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>clock rate in Hz, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_round_rate">
+ulong <code class="sig-name descname">clk_round_rate</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_round_rate" title="clk">clk</a> *<em>clk</em>, ulong <em>rate</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_round_rate"></a><a class="headerlink" href="#c.clk_round_rate" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Adjust a rate to the exact rate a clock can provide</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">rate</span></code></dt><dd><p>desired clock rate in Hz.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This answers the question “if I were to pass <strong>rate</strong> to clk_set_rate(),
+what clock rate would I end up with?” without changing the hardware
+in any way. In other words:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rate = clk_round_rate(clk, r);
+</pre></div>
+</div>
+<p>and:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rate = clk_set_rate(clk, r);
+</pre></div>
+</div>
+<p>are equivalent except the former does not modify the clock hardware
+in any way.</p>
+<p><strong>Return</strong></p>
+<p>rounded rate in Hz, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_set_rate">
+ulong <code class="sig-name descname">clk_set_rate</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_set_rate" title="clk">clk</a> *<em>clk</em>, ulong <em>rate</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_set_rate"></a><a class="headerlink" href="#c.clk_set_rate" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set current clock rate.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">rate</span></code></dt><dd><p>New clock rate in Hz.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>new rate, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_set_parent">
+int <code class="sig-name descname">clk_set_parent</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_set_parent" title="clk">clk</a> *<em>clk</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk_set_parent" title="clk">clk</a> *<em>parent</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_set_parent"></a><a class="headerlink" href="#c.clk_set_parent" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set current clock parent.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*parent</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>new rate, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_enable">
+int <code class="sig-name descname">clk_enable</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_enable" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_enable"></a><a class="headerlink" href="#c.clk_enable" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Enable (turn on) a clock.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_enable_bulk">
+int <code class="sig-name descname">clk_enable_bulk</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_bulk" title="clk_bulk">clk_bulk</a> *<em>bulk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_enable_bulk"></a><a class="headerlink" href="#c.clk_enable_bulk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Enable (turn on) all clocks in a clock bulk struct.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk_bulk</span> <span class="pre">*bulk</span></code></dt><dd><p>A clock bulk struct that was previously successfully requested
+by clk_get_bulk().</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_disable">
+int <code class="sig-name descname">clk_disable</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_disable" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_disable"></a><a class="headerlink" href="#c.clk_disable" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Disable (turn off) a clock.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct that was previously successfully requested by
+clk_request/get_by_*().</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_disable_bulk">
+int <code class="sig-name descname">clk_disable_bulk</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_bulk" title="clk_bulk">clk_bulk</a> *<em>bulk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_disable_bulk"></a><a class="headerlink" href="#c.clk_disable_bulk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Disable (turn off) all clocks in a clock bulk struct.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk_bulk</span> <span class="pre">*bulk</span></code></dt><dd><p>A clock bulk struct that was previously successfully requested
+by clk_get_bulk().</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.clk_is_match">
+bool <code class="sig-name descname">clk_is_match</code><span class="sig-paren">(</span><em class="property">const</em> <em class="property">struct</em> <a class="reference internal" href="#c.clk" title="clk">clk</a> *<em>p</em>, <em class="property">const</em> <em class="property">struct</em> <a class="reference internal" href="#c.clk" title="clk">clk</a> *<em>q</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_is_match"></a><a class="headerlink" href="#c.clk_is_match" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>check if two clk’s point to the same hardware clock</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*p</span></code></dt><dd><p>clk compared against q</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*q</span></code></dt><dd><p>clk compared against p</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">true</span></code> if the two struct clk pointers both point to the same hardware clock
+node, and <code class="docutils literal notranslate"><span class="pre">false</span></code> otherwise. Note that two <code class="docutils literal notranslate"><span class="pre">NULL</span></code> clks are treated as matching.</p>
+<dl class="c function">
+<dt id="c.clk_get_by_id">
+int <code class="sig-name descname">clk_get_by_id</code><span class="sig-paren">(</span>ulong <em>id</em>, <em class="property">struct</em> <a class="reference internal" href="#c.clk" title="clk">clk</a> **<em>clkp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_by_id"></a><a class="headerlink" href="#c.clk_get_by_id" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the clock by its ID</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">id</span></code></dt><dd><p>The clock ID to search for</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">**clkp</span></code></dt><dd><p>A pointer to clock struct that has been found among added clocks
+to UCLASS_CLK</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ENOENT on error</p>
+<dl class="c function">
+<dt id="c.clk_dev_binded">
+bool <code class="sig-name descname">clk_dev_binded</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_dev_binded" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_dev_binded"></a><a class="headerlink" href="#c.clk_dev_binded" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Check whether the clk has a device binded</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A pointer to the clk</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>true on binded, or false on no</p>
+<dl class="c function">
+<dt id="c.clk_get_id">
+ulong <code class="sig-name descname">clk_get_id</code><span class="sig-paren">(</span><em class="property">const</em> <em class="property">struct</em> <a class="reference internal" href="#c.clk_get_id" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_get_id"></a><a class="headerlink" href="#c.clk_get_id" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get clk id</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>A clock struct</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>the clock identifier as it is defined by the clock provider in
+device tree or in platdata</p>
+<dl class="c function">
+<dt id="c.clk_valid">
+bool <code class="sig-name descname">clk_valid</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk_valid" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/clk_valid"></a><a class="headerlink" href="#c.clk_valid" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>check if clk is valid</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>the clock to check</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>true if valid, or false</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Driver API"></a><div class="section" id="driver-api">
+<h2>Driver API<a class="headerlink" href="#driver-api" title="Permalink to this headline">¶</a></h2>
+<dl class="c struct">
+<dt id="c.clk_ops">
+<em class="property">struct </em><code class="sig-name descname">clk_ops</code><a class="headerlink" href="#c.clk_ops" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>The functions that a clock driver must implement.</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct clk_ops {
+  int (*of_xlate)(struct clk *clock, struct ofnode_phandle_args *args);
+  int (*request)(struct clk *clock);
+  void (*rfree)(struct clk *clock);
+  ulong (*round_rate)(struct clk *clk, ulong rate);
+  ulong (*get_rate)(struct clk *clk);
+  ulong (*set_rate)(struct clk *clk, ulong rate);
+  int (*set_parent)(struct clk *clk, struct clk *parent);
+  int (*enable)(struct clk *clk);
+  int (*disable)(struct clk *clk);
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">of_xlate</span></code></dt><dd><p>Translate a client’s device-tree (OF) clock specifier.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">request</span></code></dt><dd><p>Request a translated clock.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rfree</span></code></dt><dd><p>Free a previously requested clock.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">round_rate</span></code></dt><dd><p>Adjust a rate to the exact rate a clock can provide.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_rate</span></code></dt><dd><p>Get current clock rate.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">set_rate</span></code></dt><dd><p>Set current clock rate.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">set_parent</span></code></dt><dd><p>Set current clock parent</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enable</span></code></dt><dd><p>Enable a clock.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">disable</span></code></dt><dd><p>Disable a clock.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The individual methods are described more fully below.</p>
+<dl class="c function">
+<dt id="c.of_xlate">
+int <code class="sig-name descname">of_xlate</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk" title="clk">clk</a> *<em>clock</em>, <em class="property">struct</em> ofnode_phandle_args *<em>args</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/of_xlate"></a><a class="headerlink" href="#c.of_xlate" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Translate a client’s device-tree (OF) clock specifier.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clock</span></code></dt><dd><p>The clock struct to hold the translation result.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">ofnode_phandle_args</span> <span class="pre">*args</span></code></dt><dd><p>The clock specifier values from device tree.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The clock core calls this function as the first step in implementing
+a client’s clk_get_by_*() call.</p>
+<p>If this function pointer is set to NULL, the clock core will use a
+default implementation, which assumes #clock-cells = &lt;1&gt;, and that
+the DT cell contains a simple integer clock ID.</p>
+<p>At present, the clock API solely supports device-tree. If this
+changes, other xxx_xlate() functions may be added to support those
+other mechanisms.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.request">
+int <code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk" title="clk">clk</a> *<em>clock</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/request"></a><a class="headerlink" href="#c.request" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Request a translated clock.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clock</span></code></dt><dd><p>The clock struct to request; this has been filled in by
+a previoux xxx_xlate() function call, or by the caller
+of clk_request().</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The clock core calls this function as the second step in
+implementing a client’s clk_get_by_*() call, following a successful
+xxx_xlate() call, or as the only step in implementing a client’s
+clk_request() call.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, or a negative error code.</p>
+<dl class="c function">
+<dt id="c.rfree">
+void <code class="sig-name descname">rfree</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.clk" title="clk">clk</a> *<em>clock</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/rfree"></a><a class="headerlink" href="#c.rfree" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Free a previously requested clock.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clock</span></code></dt><dd><p>The clock to free.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Free any resources allocated in request().</p>
+<dl class="c function">
+<dt id="c.round_rate">
+ulong <code class="sig-name descname">round_rate</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.round_rate" title="clk">clk</a> *<em>clk</em>, ulong <em>rate</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/round_rate"></a><a class="headerlink" href="#c.round_rate" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Adjust a rate to the exact rate a clock can provide.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>The clock to manipulate.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">rate</span></code></dt><dd><p>Desidered clock rate in Hz.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>rounded rate in Hz, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.get_rate">
+ulong <code class="sig-name descname">get_rate</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.get_rate" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/get_rate"></a><a class="headerlink" href="#c.get_rate" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get current clock rate.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>The clock to query.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>clock rate in Hz, or -ve error code</p>
+<dl class="c function">
+<dt id="c.set_rate">
+ulong <code class="sig-name descname">set_rate</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.set_rate" title="clk">clk</a> *<em>clk</em>, ulong <em>rate</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/set_rate"></a><a class="headerlink" href="#c.set_rate" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set current clock rate.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>The clock to manipulate.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ulong</span> <span class="pre">rate</span></code></dt><dd><p>New clock rate in Hz.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>new rate, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.set_parent">
+int <code class="sig-name descname">set_parent</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.set_parent" title="clk">clk</a> *<em>clk</em>, <em class="property">struct</em> <a class="reference internal" href="#c.set_parent" title="clk">clk</a> *<em>parent</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/set_parent"></a><a class="headerlink" href="#c.set_parent" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set current clock parent</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>The clock to manipulate.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*parent</span></code></dt><dd><p>New clock parent.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.enable">
+int <code class="sig-name descname">enable</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.enable" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/enable"></a><a class="headerlink" href="#c.enable" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Enable a clock.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>The clock to manipulate.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+<dl class="c function">
+<dt id="c.disable">
+int <code class="sig-name descname">disable</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.disable" title="clk">clk</a> *<em>clk</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/disable"></a><a class="headerlink" href="#c.disable" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Disable a clock.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">clk</span> <span class="pre">*clk</span></code></dt><dd><p>The clock to manipulate.</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, or -ve error code.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="U-Boot API documentation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="dfu.html" rel="next" title="Device firmware update">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

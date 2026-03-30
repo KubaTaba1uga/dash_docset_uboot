@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Android Fastboot — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="../chromium/index.html" rel="next" title="Chromium OS-specific doc"/>
+<link href="fastboot-protocol.html" rel="prev" title="FastBoot Version 0.4"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Android-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ab.html">Android A/B updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html">Android Verified Boot 2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html">Android Bootloader Control Block (BCB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html">Android Boot Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html">FastBoot Version 0.4</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Android Fastboot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#client-installation">Client installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#board-specific">Board specific</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#usb-configuration">USB configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-configuration">General configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#fastboot-environment-variables">Fastboot environment variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#partition-aliases">Partition aliases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#raw-partition-descriptors">Raw partition descriptors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variable-overrides">Variable overrides</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot-command">Boot command</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#partition-names">Partition Names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-partition-table">Writing Partition Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#in-action">In Action</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#running-shell-commands">Running Shell Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Android-specific doc</a> »</li>
+<li>Android Fastboot</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/android/fastboot.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Android Fastboot"></a><div class="section" id="android-fastboot">
+<h1>Android Fastboot<a class="headerlink" href="#android-fastboot" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The protocol that is used over USB and UDP is described in <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
+<p>The current implementation supports the following standard commands:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">boot</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">continue</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">download</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">erase</span></code> (if enabled)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flash</span></code> (if enabled)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">getvar</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reboot</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reboot-bootloader</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set_active</span></code> (only a stub implementation which always succeeds)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ucmd</span></code> (if enabled)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">acmd</span></code> (if enabled)</p></li>
+</ul>
+<p>The following OEM commands are supported (if enabled):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">oem</span> <span class="pre">format</span></code> - this executes <code class="docutils literal notranslate"><span class="pre">gpt</span> <span class="pre">write</span> <span class="pre">mmc</span> <span class="pre">%x</span> <span class="pre">$partitions</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">oem</span> <span class="pre">partconf</span></code> - this executes <code class="docutils literal notranslate"><span class="pre">mmc</span> <span class="pre">partconf</span> <span class="pre">%x</span> <span class="pre">&lt;arg&gt;</span> <span class="pre">0</span></code> to configure eMMC
+with &lt;arg&gt; = boot_ack boot_partition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">oem</span> <span class="pre">bootbus</span></code>  - this executes <code class="docutils literal notranslate"><span class="pre">mmc</span> <span class="pre">bootbus</span> <span class="pre">%x</span> <span class="pre">%s</span></code> to configure eMMC</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">oem</span> <span class="pre">run</span></code> - this executes an arbitrary U-Boot command</p></li>
+</ul>
+<p>Support for both eMMC and NAND devices is included.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Client installation"></a><div class="section" id="client-installation">
+<h2>Client installation<a class="headerlink" href="#client-installation" title="Permalink to this headline">¶</a></h2>
+<p>The counterpart to this is the fastboot client which can be found in
+Android’s <code class="docutils literal notranslate"><span class="pre">platform/system/core</span></code> repository in the fastboot
+folder. It runs on Windows, Linux and OSX. The fastboot client is
+part of the Android SDK Platform-Tools and can be downloaded from <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Board specific"></a><div class="section" id="board-specific">
+<h2>Board specific<a class="headerlink" href="#board-specific" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="usb-configuration">
+<h3>USB configuration<a class="headerlink" href="#usb-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The fastboot gadget relies on the USB download gadget, so the following
+options must be configured:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_USB_GADGET_DOWNLOAD
+CONFIG_USB_GADGET_VENDOR_NUM
+CONFIG_USB_GADGET_PRODUCT_NUM
+CONFIG_USB_GADGET_MANUFACTURER
+</pre></div>
+</div>
+<p>NOTE: The <code class="docutils literal notranslate"><span class="pre">CONFIG_USB_GADGET_VENDOR_NUM</span></code> must be one of the numbers
+supported by the fastboot client. The list of vendor IDs supported can
+be found in the fastboot client source code.</p>
+</div>
+<div class="section" id="general-configuration">
+<h3>General configuration<a class="headerlink" href="#general-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The fastboot protocol requires a large memory buffer for
+downloads. This buffer should be as large as possible for a
+platform. The location of the buffer and size are set with
+<code class="docutils literal notranslate"><span class="pre">CONFIG_FASTBOOT_BUF_ADDR</span></code> and <code class="docutils literal notranslate"><span class="pre">CONFIG_FASTBOOT_BUF_SIZE</span></code>. These
+may be overridden on the fastboot command line using <code class="docutils literal notranslate"><span class="pre">-l</span></code> and
+<code class="docutils literal notranslate"><span class="pre">-s</span></code>.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Fastboot environment variables"></a><div class="section" id="fastboot-environment-variables">
+<h2>Fastboot environment variables<a class="headerlink" href="#fastboot-environment-variables" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="partition-aliases">
+<h3>Partition aliases<a class="headerlink" href="#partition-aliases" title="Permalink to this headline">¶</a></h3>
+<p>Fastboot partition aliases can also be defined for devices where GPT
+limitations prevent user-friendly partition names such as <code class="docutils literal notranslate"><span class="pre">boot</span></code>, <code class="docutils literal notranslate"><span class="pre">system</span></code>
+and <code class="docutils literal notranslate"><span class="pre">cache</span></code>.  Or, where the actual partition name doesn’t match a standard
+partition name used commonly with fastboot.</p>
+<p>The current implementation checks aliases when accessing partitions by
+name (flash_write and erase functions).  To define a partition alias
+add an environment variable similar to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fastboot_partition_alias_&lt;alias partition name&gt;=&lt;actual partition name&gt;
+</pre></div>
+</div>
+<p>for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fastboot_partition_alias_boot=LNX
+</pre></div>
+</div>
+</div>
+<div class="section" id="raw-partition-descriptors">
+<h3>Raw partition descriptors<a class="headerlink" href="#raw-partition-descriptors" title="Permalink to this headline">¶</a></h3>
+<p>In cases where no partition table is present, a raw partition descriptor can be
+defined, specifying the offset, size, and optionally the MMC hardware partition
+number for a given partition name.</p>
+<p>This is useful when using fastboot to flash files (e.g. SPL or U-Boot) to a
+specific offset in the eMMC boot partition, without having to update the entire
+boot partition.</p>
+<p>To define a raw partition descriptor, add an environment variable similar to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fastboot_raw_partition_&lt;raw partition name&gt;=&lt;offset&gt; &lt;size&gt; [mmcpart &lt;num&gt;]
+</pre></div>
+</div>
+<p>for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fastboot_raw_partition_boot=0x100 0x1f00 mmcpart 1
+</pre></div>
+</div>
+</div>
+<div class="section" id="variable-overrides">
+<h3>Variable overrides<a class="headerlink" href="#variable-overrides" title="Permalink to this headline">¶</a></h3>
+<p>Variables retrived through <code class="docutils literal notranslate"><span class="pre">getvar</span></code> can be overridden by defining
+environment variables of the form <code class="docutils literal notranslate"><span class="pre">fastboot.&lt;variable&gt;</span></code>. These are
+looked up first so can be used to override values which would
+otherwise be returned. Using this mechanism you can also return types
+for NAND filesystems, as the fully parameterised variable is looked
+up, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fastboot.partition-type:boot=jffs2
+</pre></div>
+</div>
+</div>
+<div class="section" id="boot-command">
+<h3>Boot command<a class="headerlink" href="#boot-command" title="Permalink to this headline">¶</a></h3>
+<p>When executing the fastboot <code class="docutils literal notranslate"><span class="pre">boot</span></code> command, if <code class="docutils literal notranslate"><span class="pre">fastboot_bootcmd</span></code> is set
+then that will be executed in place of <code class="docutils literal notranslate"><span class="pre">bootm</span> <span class="pre">&lt;CONFIG_FASTBOOT_BUF_ADDR&gt;</span></code>.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Partition Names"></a><div class="section" id="partition-names">
+<h2>Partition Names<a class="headerlink" href="#partition-names" title="Permalink to this headline">¶</a></h2>
+<p>The Fastboot implementation in U-Boot allows to write images into disk
+partitions. Target partitions are referred on the host computer by
+their names.</p>
+<p>For GPT/EFI the respective partition name is used.</p>
+<p>For MBR the partitions are referred by generic names according to the
+following schema:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;device type&gt;&lt;device index letter&gt;&lt;partition index&gt;
+</pre></div>
+</div>
+<p>Example: <code class="docutils literal notranslate"><span class="pre">hda3</span></code>, <code class="docutils literal notranslate"><span class="pre">sdb1</span></code>, <code class="docutils literal notranslate"><span class="pre">usbda1</span></code>.</p>
+<p>The device type is as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>IDE, ATAPI and SATA disks: <code class="docutils literal notranslate"><span class="pre">hd</span></code></p></li>
+<li><p>SCSI disks: <code class="docutils literal notranslate"><span class="pre">sd</span></code></p></li>
+<li><p>USB media: <code class="docutils literal notranslate"><span class="pre">usbd</span></code></p></li>
+<li><p>MMC and SD cards: <code class="docutils literal notranslate"><span class="pre">mmcsd</span></code></p></li>
+<li><p>Disk on chip: <code class="docutils literal notranslate"><span class="pre">docd</span></code></p></li>
+<li><p>other: <code class="docutils literal notranslate"><span class="pre">xx</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>The device index starts from <code class="docutils literal notranslate"><span class="pre">a</span></code> and refers to the interface (e.g. USB
+controller, SD/MMC controller) or disk index. The partition index starts
+from <code class="docutils literal notranslate"><span class="pre">1</span></code> and describes the partition number on the particular device.</p>
+<p>Alternatively, partition types may be specified using <a class="reference internal" href="../usage/partitions.html#partitions"><span class="std std-ref">U-Boot’s partition
+syntax</span></a>. This allows specifying partitions like <code class="docutils literal notranslate"><span class="pre">0.1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">0#boot</span></code>, or <code class="docutils literal notranslate"><span class="pre">:3</span></code>. The interface is always <code class="docutils literal notranslate"><span class="pre">mmc</span></code>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Writing Partition Table"></a><div class="section" id="writing-partition-table">
+<h2>Writing Partition Table<a class="headerlink" href="#writing-partition-table" title="Permalink to this headline">¶</a></h2>
+<p>Fastboot also allows to write the partition table to the media. This can be
+done by writing the respective partition table image to a special target
+“gpt” or “mbr”. These names can be customized by defining the following
+configuration options:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_FASTBOOT_GPT_NAME
+CONFIG_FASTBOOT_MBR_NAME
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/In Action"></a><div class="section" id="in-action">
+<h2>In Action<a class="headerlink" href="#in-action" title="Permalink to this headline">¶</a></h2>
+<p>Enter into fastboot by executing the fastboot command in U-Boot for either USB:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; fastboot usb 0
+</pre></div>
+</div>
+<p>or UDP:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; fastboot udp
+link up on port 0, speed 100, full duplex
+Using ethernet@4a100000 device
+Listening for fastboot command on 192.168.0.102
+</pre></div>
+</div>
+<p>On the client side you can fetch the bootloader version for instance:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ fastboot getvar version-bootloader
+version-bootloader: U-Boot 2019.07-rc4-00240-g00c9f2a2ec
+Finished. Total time: 0.005s
+</pre></div>
+</div>
+<p>or initiate a reboot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ fastboot reboot
+</pre></div>
+</div>
+<p>and once the client comes back, the board should reset.</p>
+<p>You can also specify a kernel image to boot. You have to either specify
+the an image in Android format <em>or</em> pass a binary kernel and let the
+fastboot client wrap the Android suite around it. On OMAP for instance you
+take zImage kernel and pass it to the fastboot client:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ fastboot -b 0x80000000 -c "console=ttyO2 earlyprintk root=/dev/ram0 mem=128M" boot zImage
+creating boot image...
+creating boot image - 1847296 bytes
+downloading 'boot.img'...
+OKAY [  2.766s]
+booting...
+OKAY [ -0.000s]
+finished. total time: 2.766s
+</pre></div>
+</div>
+<p>and on the U-Boot side you should see:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Starting download of 1847296 bytes
+........................................................
+downloading of 1847296 bytes finished
+Booting kernel..
+## Booting Android Image at 0x81000000 ...
+Kernel load addr 0x80008000 size 1801 KiB
+Kernel command line: console=ttyO2 earlyprintk root=/dev/ram0 mem=128M
+   Loading Kernel Image ... OK
+OK
+
+Starting kernel ...
+</pre></div>
+</div>
+<div class="section" id="running-shell-commands">
+<h3>Running Shell Commands<a class="headerlink" href="#running-shell-commands" title="Permalink to this headline">¶</a></h3>
+<p>Normally, arbitrary U-Boot command execution is not enabled. This is so
+fastboot can be used to update systems using verified boot. However, such
+functionality can be useful for production or when verified boot is not in use.
+Enable <code class="docutils literal notranslate"><span class="pre">CONFIG_FASTBOOT_OEM_RUN</span></code> to use this functionality. This will enable
+<code class="docutils literal notranslate"><span class="pre">oem</span> <span class="pre">run</span></code> command, which can be used with the fastboot client. For example,
+to print “Hello at 115200 baud” (or whatever <code class="docutils literal notranslate"><span class="pre">CONFIG_BAUDRATE</span></code> is), run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ fastboot oem run:'echo Hello at $baudrate baud'
+</pre></div>
+</div>
+<p>You can run any command you would normally run on the U-Boot command line,
+including multiple commands (using e.g. <code class="docutils literal notranslate"><span class="pre">;</span></code> or <code class="docutils literal notranslate"><span class="pre">&amp;&amp;</span></code>) and control structures
+(<code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">while</span></code>, etc.). The exit code of <code class="docutils literal notranslate"><span class="pre">fastboot</span></code> will reflect the exit
+code of the command you ran.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/References"></a><div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference internal" href="fastboot-protocol.html"><span class="doc">FastBoot Version 0.4</span></a></p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p><a class="reference external" href="https://developer.android.com/studio/releases/platform-tools">https://developer.android.com/studio/releases/platform-tools</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="fastboot-protocol.html" rel="prev" title="FastBoot Version 0.4"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../chromium/index.html" rel="next" title="Chromium OS-specific doc">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

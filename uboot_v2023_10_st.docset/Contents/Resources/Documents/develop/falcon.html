@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Falcon Mode — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="uefi/index.html" rel="next" title="Unified Extensible Firmware (UEFI)"/>
+<link href="spl.html" rel="prev" title="Generic SPL framework"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Falcon Mode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#function-that-a-board-must-implement">Function that a board must implement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#environment-variables">Environment variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-spl-command">Using spl command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#usage-on-the-twister-board">Usage on the twister board</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-with-fdt-a3m071-board">Example with FDT: a3m071 board</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Falcon Mode</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/falcon.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Falcon Mode"></a><div class="section" id="falcon-mode">
+<h1>Falcon Mode<a class="headerlink" href="#falcon-mode" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This document provides an overview of how to add support for Falcon Mode
+to a board.</p>
+<p>Falcon Mode is introduced to speed up the booting process, allowing
+to boot a Linux kernel (or whatever image) without a full blown U-Boot.</p>
+<p>Falcon Mode relies on the SPL framework. In fact, to make booting faster,
+U-Boot is split into two parts: the SPL (Secondary Program Loader) and U-Boot
+image. In most implementations, SPL is used to start U-Boot when booting from
+a mass storage, such as NAND or SD-Card. SPL has now support for other media,
+and can generally be seen as a way to start an image performing the minimum
+required initialization. SPL mainly initializes the RAM controller, and then
+copies U-Boot image into the memory.</p>
+<p>The Falcon Mode extends this way allowing to start the Linux kernel directly
+from SPL. A new command is added to U-Boot to prepare the parameters that SPL
+must pass to the kernel, using ATAGS or Device Tree.</p>
+<p>In normal mode, these parameters are generated each time before
+loading the kernel, passing to Linux the address in memory where
+the parameters can be read.
+With Falcon Mode, this snapshot can be saved into persistent storage and SPL is
+informed to load it before running the kernel.</p>
+<p>To boot the kernel, these steps under a Falcon-aware U-Boot are required:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Boot the board into U-Boot.</dt><dd><p>After loading the desired legacy-format kernel image into memory (and DT as
+well, if used), use the “spl export” command to generate the kernel
+parameters area or the DT.  U-Boot runs as when it boots the kernel, but
+stops before passing the control to the kernel.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Save the prepared snapshot into persistent media.</dt><dd><p>The address where to save it must be configured into board configuration
+file (CONFIG_CMD_SPL_NAND_OFS for NAND).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Boot the board into Falcon Mode. SPL will load the kernel and copy</dt><dd><p>the parameters which are saved in the persistent area to the required
+address. If a valid uImage is not found at the defined location, U-Boot
+will be booted instead.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>It is required to implement a custom mechanism to select if SPL loads U-Boot
+or another image.</p>
+<p>The value of a GPIO is a simple way to operate the selection, as well as
+reading a character from the SPL console if CONFIG_SPL_CONSOLE is set.</p>
+<p>Falcon Mode is generally activated by setting CONFIG_SPL_OS_BOOT. This tells
+SPL that U-Boot is not the only available image that SPL is able to start.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration"></a><div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>CONFIG_CMD_SPL</dt><dd><p>Enable the “spl export” command.
+The command “spl export” is then available in U-Boot mode.</p>
+</dd>
+<dt>CONFIG_SYS_SPL_ARGS_ADDR</dt><dd><p>Address in RAM where the parameters must be copied by SPL.
+In most cases, it is &lt;start_of_ram&gt; + 0x100.</p>
+</dd>
+<dt>CONFIG_SYS_NAND_SPL_KERNEL_OFFS</dt><dd><p>Offset in NAND where the kernel is stored</p>
+</dd>
+<dt>CONFIG_CMD_SPL_NAND_OFS</dt><dd><p>Offset in NAND where the parameters area was saved.</p>
+</dd>
+<dt>CONFIG_CMD_SPL_NOR_OFS</dt><dd><p>Offset in NOR where the parameters area was saved.</p>
+</dd>
+<dt>CONFIG_CMD_SPL_WRITE_SIZE</dt><dd><p>Size of the parameters area to be copied</p>
+</dd>
+<dt>CONFIG_SPL_OS_BOOT</dt><dd><p>Activate Falcon Mode.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Function that a board must implement"></a><div class="section" id="function-that-a-board-must-implement">
+<h2>Function that a board must implement<a class="headerlink" href="#function-that-a-board-must-implement" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>void spl_board_prepare_for_linux(void)</dt><dd><p>optional, called from SPL before starting the kernel</p>
+</dd>
+<dt>spl_start_uboot()</dt><dd><p>required, returns “0” if SPL should start the kernel, “1” if U-Boot
+must be started.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Environment variables"></a><div class="section" id="environment-variables">
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h2>
+<p>A board may chose to look at the environment for decisions about falcon
+mode.  In this case the following variables may be supported:</p>
+<dl class="simple">
+<dt>boot_os</dt><dd><p>Set to yes/Yes/true/True/1 to enable booting to OS,
+any other value to fall back to U-Boot (including unset)</p>
+</dd>
+<dt>falcon_args_file</dt><dd><p>Filename to load as the ‘args’ portion of falcon mode rather than the
+hard-coded value.</p>
+</dd>
+<dt>falcon_image_file</dt><dd><p>Filename to load as the OS image portion of falcon mode rather than the
+hard-coded value.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Using spl command"></a><div class="section" id="using-spl-command">
+<h2>Using spl command<a class="headerlink" href="#using-spl-command" title="Permalink to this headline">¶</a></h2>
+<p>spl - SPL configuration</p>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spl export &lt;img=atags|fdt&gt; [kernel_addr] [initrd_addr] [fdt_addr ]
+</pre></div>
+</div>
+<dl class="simple">
+<dt>img</dt><dd><p>“atags” or “fdt”</p>
+</dd>
+<dt>kernel_addr</dt><dd><p>kernel is loaded as part of the boot process, but it is not started.
+This is the address where a kernel image is stored.</p>
+</dd>
+<dt>initrd_addr</dt><dd><p>Address of initial ramdisk
+can be set to “-” if fdt_addr without initrd_addr is used</p>
+</dd>
+<dt>fdt_addr</dt><dd><p>in case of fdt, the address of the device tree.</p>
+</dd>
+</dl>
+<p>The <em>spl export</em> command does not write to a storage media. The user is
+responsible to transfer the gathered information (assembled ATAGS list
+or prepared FDT) from temporary storage in RAM into persistent storage
+after each run of <em>spl export</em>. Unfortunately the position of temporary
+storage can not be predicted nor provided at command line, it depends
+highly on your system setup and your provided data (ATAGS or FDT).
+However at the end of an successful <em>spl export</em> run it will print the
+RAM address of temporary storage. The RAM address of FDT will also be
+set in the environment variable <em>fdtargsaddr</em>, the new length of the
+prepared FDT will be set in the environment variable <em>fdtargslen</em>.
+These environment variables can be used in scripts for writing updated
+FDT to persistent storage.</p>
+<p>Now the user have to save the generated BLOB from that printed address
+to the pre-defined address in persistent storage
+(CONFIG_CMD_SPL_NAND_OFS in case of NAND).
+The following example shows how to prepare the data for Falcon Mode on
+twister board with ATAGS BLOB.</p>
+<p>The <em>spl export</em> command is prepared to work with ATAGS and FDT. However,
+using FDT is at the moment untested. The ppc port (see a3m071 example
+later) prepares the fdt blob with the fdt command instead.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Usage on the twister board"></a><div class="section" id="usage-on-the-twister-board">
+<h2>Usage on the twister board<a class="headerlink" href="#usage-on-the-twister-board" title="Permalink to this headline">¶</a></h2>
+<p>Using mtd names with the following (default) configuration
+for mtdparts:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>device nand0 &lt;omap2-nand.0&gt;, # parts = 9
+ #: name        size        offset      mask_flags
+ 0: MLO                 0x00080000      0x00000000      0
+ 1: u-boot              0x00100000      0x00080000      0
+ 2: env1                0x00040000      0x00180000      0
+ 3: env2                0x00040000      0x001c0000      0
+ 4: kernel              0x00600000      0x00200000      0
+ 5: bootparms           0x00040000      0x00800000      0
+ 6: splashimg           0x00200000      0x00840000      0
+ 7: mini                0x02800000      0x00a40000      0
+ 8: rootfs              0x1cdc0000      0x03240000      0
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>twister =&gt; nand read 82000000 kernel
+
+NAND read: device 0 offset 0x200000, size 0x600000
+6291456 bytes read: OK
+</pre></div>
+</div>
+<p>Now the kernel is in RAM at address 0x82000000:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>twister =&gt; spl export atags 0x82000000
+## Booting kernel from Legacy Image at 82000000 ...
+   Image Name:   Linux-3.5.0-rc4-14089-gda0b7f4
+   Image Type:   ARM Linux Kernel Image (uncompressed)
+   Data Size:    3654808 Bytes = 3.5 MiB
+   Load Address: 80008000
+   Entry Point:  80008000
+   Verifying Checksum ... OK
+   Loading Kernel Image ... OK
+OK
+cmdline subcommand not supported
+bdt subcommand not supported
+Argument image is now in RAM at: 0x80000100
+</pre></div>
+</div>
+<p>The result can be checked at address 0x80000100:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>twister =&gt; md 0x80000100
+80000100: 00000005 54410001 00000000 00000000    ......AT........
+80000110: 00000000 00000067 54410009 746f6f72    ....g.....ATroot
+80000120: 65642f3d 666e2f76 77722073 73666e20    =/dev/nfs rw nfs
+</pre></div>
+</div>
+<p>The parameters generated with this step can be saved into NAND at the offset
+0x800000 (value for twister for CONFIG_CMD_SPL_NAND_OFS):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nand erase.part bootparms
+nand write 0x80000100 bootparms 0x4000
+</pre></div>
+</div>
+<p>Now the parameters are stored into the NAND flash at the address
+CONFIG_CMD_SPL_NAND_OFS (=0x800000).</p>
+<p>Next time, the board can be started into Falcon Mode moving the
+setting the GPIO (on twister GPIO 55 is used) to kernel mode.</p>
+<p>The kernel is loaded directly by the SPL without passing through U-Boot.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example with FDT: a3m071 board"></a><div class="section" id="example-with-fdt-a3m071-board">
+<h2>Example with FDT: a3m071 board<a class="headerlink" href="#example-with-fdt-a3m071-board" title="Permalink to this headline">¶</a></h2>
+<p>To boot the Linux kernel from the SPL, the DT blob (fdt) needs to get
+prepared/patched first. U-Boot usually inserts some dynamic values into
+the DT binary (blob), e.g. autodetected memory size, MAC addresses,
+clocks speeds etc. To generate this patched DT blob, you can use
+the following command:</p>
+<ol class="arabic">
+<li><p>Load fdt blob to SDRAM:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; tftp 1800000 a3m071/a3m071.dtb
+</pre></div>
+</div>
+</li>
+<li><p>Set bootargs as desired for Linux booting (e.g. flash_mtd):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; run mtdargs addip2 addtty
+</pre></div>
+</div>
+</li>
+<li><p>Use “fdt” commands to patch the DT blob:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; fdt addr 1800000
+=&gt; fdt boardsetup
+=&gt; fdt chosen
+</pre></div>
+</div>
+</li>
+<li><p>Display patched DT blob (optional):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; fdt print
+</pre></div>
+</div>
+</li>
+<li><p>Save fdt to NOR flash:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; erase fc060000 fc07ffff
+=&gt; cp.b 1800000 fc060000 10000
+...
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Falcon Mode was presented at the RMLL 2012. Slides are available at:</p>
+<p><a class="reference external" href="http://schedule2012.rmll.info/IMG/pdf/LSM2012_UbootFalconMode_Babic.pdf">http://schedule2012.rmll.info/IMG/pdf/LSM2012_UbootFalconMode_Babic.pdf</a></p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="spl.html" rel="prev" title="Generic SPL framework"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="uefi/index.html" rel="next" title="Unified Extensible Firmware (UEFI)">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

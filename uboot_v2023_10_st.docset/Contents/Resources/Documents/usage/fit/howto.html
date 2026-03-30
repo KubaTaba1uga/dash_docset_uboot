@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>How to use images in the new image format — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="x86-fit-boot.html" rel="next" title="Booting Linux on x86 with FIT"/>
+<link href="update_uboot.html" rel="prev" title="Automatic software update"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Flat Image Tree (FIT)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="source_file_format.html">Flattened Image Tree (FIT) Format</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">How to use images in the new image format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spl-usage">SPL usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#loadables-example">Loadables Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-1-old-style-non-fdt-kernel-booting">Example 1 – old-style (non-FDT) kernel booting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-2-new-style-fdt-kernel-booting">Example 2 – new-style (FDT) kernel booting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-3-advanced-booting">Example 3 – advanced booting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="x86-fit-boot.html">Booting Linux on x86 with FIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="signature.html">U-Boot FIT Signature Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verified-boot.html">U-Boot Verified Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="beaglebone_vboot.html">Verified Boot on the Beaglebone Black</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlay-fdt-boot.html">U-Boot FDT Overlay FIT usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li><a href="index.html">Flat Image Tree (FIT)</a> »</li>
+<li>How to use images in the new image format</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/fit/howto.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to use images in the new image format"></a><div class="section" id="how-to-use-images-in-the-new-image-format">
+<h1>How to use images in the new image format<a class="headerlink" href="#how-to-use-images-in-the-new-image-format" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The new uImage format allows more flexibility in handling images of various
+types (kernel, ramdisk, etc.), it also enhances integrity protection of images
+with sha1 and md5 checksums.</p>
+<p>Two auxiliary tools are needed on the development host system in order to
+create an uImage in the new format: mkimage and dtc, although only one
+(mkimage) is invoked directly. dtc is called from within mkimage and operates
+behind the scenes, but needs to be present in the $PATH nevertheless. It is
+important that the dtc used has support for binary includes – refer to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git://git.kernel.org/pub/scm/utils/dtc/dtc.git
+</pre></div>
+</div>
+<p>for its latest version. mkimage (together with dtc) takes as input
+an image source file, which describes the contents of the image and defines
+its various properties used during booting. By convention, image source file
+has the “.its” extension, also, the details of its format are provided in
+<a class="reference internal" href="source_file_format.html"><span class="doc">Flattened Image Tree (FIT) Format</span></a>. The actual data that is to be included in
+the uImage (kernel, ramdisk, etc.) is specified in the image source file in the
+form of paths to appropriate data files. The outcome of the image creation
+process is a binary file (by convention with the “.itb” extension) that
+contains all the referenced data (kernel, ramdisk, etc.) and other information
+needed by U-Boot to handle the uImage properly. The uImage file is then
+transferred to the target (e.g., via tftp) and booted using the bootm command.</p>
+<p>To summarize the prerequisites needed for new uImage creation:</p>
+<ul class="simple">
+<li><p>mkimage</p></li>
+<li><p>dtc (with support for binary includes)</p></li>
+<li><p>image source file (<cite>*.its</cite>)</p></li>
+<li><p>image data file(s)</p></li>
+</ul>
+<p>Here’s a graphical overview of the image creation and booting process:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>image source file     mkimage + dtc          transfer to target
+    +          ---------------&gt; image file --------------------&gt; bootm
+image data file(s)
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/SPL usage"></a><div class="section" id="spl-usage">
+<h2>SPL usage<a class="headerlink" href="#spl-usage" title="Permalink to this headline">¶</a></h2>
+<p>The SPL can make use of the new image format as well, this traditionally
+is used to ship multiple device tree files within one image. Code in the SPL
+will choose the one matching the current board and append this to the
+U-Boot proper binary to be automatically used up by it.
+Aside from U-Boot proper and one device tree blob the SPL can load multiple,
+arbitrary image files as well. These binaries should be specified in their
+own subnode under the /images node, which should then be referenced from one or
+multiple /configurations subnodes. The required images must be enumerated in
+the “loadables” property as a list of strings.</p>
+<p>If a platform specific image source file (.its) is shipped with the U-Boot
+source, it can be specified using the CONFIG_SPL_FIT_SOURCE Kconfig symbol.
+In this case it will be automatically used by U-Boot’s Makefile to generate
+the image.
+If a static source file is not flexible enough, CONFIG_SPL_FIT_GENERATOR
+can point to a script which generates this image source file during
+the build process. It gets passed a list of device tree files (taken from the
+CONFIG_OF_LIST symbol).</p>
+<p>The SPL also records to a DT all additional images (called loadables) which are
+loaded. The information about loadables locations is passed via the DT node with
+fit-images name.</p>
+<p>Finally, if there are multiple xPL phases (e.g. SPL, VPL), images can be marked
+as intended for a particular phase using the ‘phase’ property. For example, if
+fit_image_load() is called with image_ph(IH_PHASE_SPL, IH_TYPE_FIRMWARE), then
+only the image listed into the “firmware” property where phase is set to “spl”
+will be loaded.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Loadables Example"></a><div class="section" id="loadables-example">
+<h2>Loadables Example<a class="headerlink" href="#loadables-example" title="Permalink to this headline">¶</a></h2>
+<p>Consider the following case for an ARM64 platform where U-Boot runs in EL2
+started by ATF where SPL is loading U-Boot (as loadables) and ATF (as firmware).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dts-v1/;
+
+/ {
+    description = "Configuration to load ATF before U-Boot";
+
+    images {
+        uboot {
+            description = "U-Boot (64-bit)";
+            data = /incbin/("u-boot-nodtb.bin");
+            type = "firmware";
+            os = "u-boot";
+            arch = "arm64";
+            compression = "none";
+            load = &lt;0x8 0x8000000&gt;;
+            entry = &lt;0x8 0x8000000&gt;;
+            hash {
+                algo = "md5";
+            };
+        };
+        atf {
+            description = "ARM Trusted Firmware";
+            data = /incbin/("bl31.bin");
+            type = "firmware";
+            os = "arm-trusted-firmware";
+            arch = "arm64";
+            compression = "none";
+            load = &lt;0xfffea000&gt;;
+            entry = &lt;0xfffea000&gt;;
+            hash {
+                algo = "md5";
+            };
+        };
+        fdt_1 {
+            description = "zynqmp-zcu102-revA";
+            data = /incbin/("arch/arm/dts/zynqmp-zcu102-revA.dtb");
+            type = "flat_dt";
+            arch = "arm64";
+            compression = "none";
+            load = &lt;0x100000&gt;;
+            hash {
+                algo = "md5";
+            };
+        };
+    };
+    configurations {
+        default = "config_1";
+
+        config_1 {
+            description = "zynqmp-zcu102-revA";
+            firmware = "atf";
+            loadables = "uboot";
+            fdt = "fdt_1";
+        };
+    };
+};
+</pre></div>
+</div>
+<p>In this case the SPL records via fit-images DT node the information about
+loadables U-Boot image:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ZynqMP&gt; fdt addr $fdtcontroladdr
+ZynqMP&gt; fdt print /fit-images
+fit-images {
+    uboot {
+        os = "u-boot";
+        type = "firmware";
+        size = &lt;0x001017c8&gt;;
+        entry = &lt;0x00000008 0x08000000&gt;;
+        load = &lt;0x00000008 0x08000000&gt;;
+    };
+};
+</pre></div>
+</div>
+<p>As you can see entry and load properties are 64bit wide to support loading
+images above 4GB (in past entry and load properties where just 32bit).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example 1 – old-style (non-FDT) kernel booting"></a><div class="section" id="example-1-old-style-non-fdt-kernel-booting">
+<h2>Example 1 – old-style (non-FDT) kernel booting<a class="headerlink" href="#example-1-old-style-non-fdt-kernel-booting" title="Permalink to this headline">¶</a></h2>
+<p>Consider a simple scenario, where a PPC Linux kernel built from sources on the
+development host is to be booted old-style (non-FDT) by U-Boot on an embedded
+target. Assume that the outcome of the build is vmlinux.bin.gz, a file which
+contains a gzip-compressed PPC Linux kernel (the only data file in this case).
+The uImage can be produced using the image source file
+doc/uImage.FIT/kernel.its (note that kernel.its assumes that vmlinux.bin.gz is
+in the current working directory; if desired, an alternative path can be
+specified in the kernel.its file). Here’s how to create the image and inspect
+its contents:</p>
+<p>[on the host system]:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ mkimage -f kernel.its kernel.itb
+DTC: dts-&gt;dtb  on file "kernel.its"
+$
+$ mkimage -l kernel.itb
+FIT description: Simple image with single Linux kernel
+Created:     Tue Mar 11 17:26:15 2008
+ Image 0 (kernel)
+  Description:    Vanilla Linux kernel
+  Type:        Kernel Image
+  Compression:    gzip compressed
+  Data Size:    943347 Bytes = 921.24 kB = 0.90 MB
+  Architecture: PowerPC
+  OS:        Linux
+  Load Address: 0x00000000
+  Entry Point:    0x00000000
+  Hash algo:    crc32
+  Hash value:    2ae2bb40
+  Hash algo:    sha1
+  Hash value:    3c200f34e2c226ddc789240cca0c59fc54a67cf4
+ Default Configuration: 'config-1'
+ Configuration 0 (config-1)
+  Description:    Boot Linux kernel
+  Kernel:    kernel
+</pre></div>
+</div>
+<p>The resulting image file kernel.itb can be now transferred to the target,
+inspected and booted (note that first three U-Boot commands below are shown
+for completeness – they are part of the standard booting procedure and not
+specific to the new image format).</p>
+<p>[on the target system]:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; print nfsargs
+nfsargs=setenv bootargs root=/dev/nfs rw nfsroot=${serverip}:${rootpath}
+=&gt; print addip
+addip=setenv bootargs ${bootargs} ip=${ipaddr}:${serverip}:${gatewayip}:${netmask}:${hostname}:${netdev}:off panic=1
+=&gt; run nfsargs addip
+=&gt; tftp 900000 /path/to/tftp/location/kernel.itb
+Using FEC device
+TFTP from server 192.168.1.1; our IP address is 192.168.160.5
+Filename '/path/to/tftp/location/kernel.itb'.
+Load address: 0x900000
+Loading: #################################################################
+done
+Bytes transferred = 944464 (e6950 hex)
+=&gt; iminfo
+
+## Checking Image at 00900000 ...
+   FIT image found
+   FIT description: Simple image with single Linux kernel
+   Created:        2008-03-11    16:26:15 UTC
+    Image 0 (kernel)
+     Description:  Vanilla Linux kernel
+     Type:       Kernel Image
+     Compression:  gzip compressed
+     Data Start:   0x009000e0
+     Data Size:    943347 Bytes = 921.2 kB
+     Architecture: PowerPC
+     OS:       Linux
+     Load Address: 0x00000000
+     Entry Point:  0x00000000
+     Hash algo:    crc32
+     Hash value:   2ae2bb40
+     Hash algo:    sha1
+     Hash value:   3c200f34e2c226ddc789240cca0c59fc54a67cf4
+    Default Configuration: 'config-1'
+    Configuration 0 (config-1)
+     Description:  Boot Linux kernel
+     Kernel:       kernel
+
+=&gt; bootm
+## Booting kernel from FIT Image at 00900000 ...
+   Using 'config-1' configuration
+   Trying 'kernel' kernel subimage
+     Description:  Vanilla Linux kernel
+     Type:       Kernel Image
+     Compression:  gzip compressed
+     Data Start:   0x009000e0
+     Data Size:    943347 Bytes = 921.2 kB
+     Architecture: PowerPC
+     OS:       Linux
+     Load Address: 0x00000000
+     Entry Point:  0x00000000
+     Hash algo:    crc32
+     Hash value:   2ae2bb40
+     Hash algo:    sha1
+     Hash value:   3c200f34e2c226ddc789240cca0c59fc54a67cf4
+   Verifying Hash Integrity ... crc32+ sha1+ OK
+   Uncompressing Kernel Image ... OK
+Memory BAT mapping: BAT2=256Mb, BAT3=0Mb, residual: 0Mb
+Linux version 2.4.25 (m8@hekate) (gcc version 4.0.0 (DENX ELDK 4.0 4.0.0)) #2 czw lip 5 17:56:18 CEST 2007
+On node 0 totalpages: 65536
+zone(0): 65536 pages.
+zone(1): 0 pages.
+zone(2): 0 pages.
+Kernel command line: root=/dev/nfs rw nfsroot=192.168.1.1:/opt/eldk-4.1/ppc_6xx ip=192.168.160.5:192.168.1.1::255.255.0.0:lite5200b:eth0:off panic=1
+Calibrating delay loop... 307.20 BogoMIPS
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example 2 – new-style (FDT) kernel booting"></a><div class="section" id="example-2-new-style-fdt-kernel-booting">
+<h2>Example 2 – new-style (FDT) kernel booting<a class="headerlink" href="#example-2-new-style-fdt-kernel-booting" title="Permalink to this headline">¶</a></h2>
+<p>Consider another simple scenario, where a PPC Linux kernel is to be booted
+new-style, i.e., with a FDT blob. In this case there are two prerequisite data
+files: vmlinux.bin.gz (Linux kernel) and target.dtb (FDT blob). The uImage can
+be produced using image source file doc/uImage.FIT/kernel_fdt.its like this
+(note again, that both prerequisite data files are assumed to be present in
+the current working directory – image source file kernel_fdt.its can be
+modified to take the files from some other location if needed):</p>
+<p>[on the host system]:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ mkimage -f kernel_fdt.its kernel_fdt.itb
+DTC: dts-&gt;dtb  on file "kernel_fdt.its"
+$
+$ mkimage -l kernel_fdt.itb
+FIT description: Simple image with single Linux kernel and FDT blob
+Created:     Tue Mar 11 16:29:22 2008
+ Image 0 (kernel)
+  Description:    Vanilla Linux kernel
+  Type:        Kernel Image
+  Compression:    gzip compressed
+  Data Size:    1092037 Bytes = 1066.44 kB = 1.04 MB
+  Architecture: PowerPC
+  OS:        Linux
+  Load Address: 0x00000000
+  Entry Point:    0x00000000
+  Hash algo:    crc32
+  Hash value:    2c0cc807
+  Hash algo:    sha1
+  Hash value:    264b59935470e42c418744f83935d44cdf59a3bb
+ Image 1 (fdt-1)
+  Description:    Flattened Device Tree blob
+  Type:        Flat Device Tree
+  Compression:    uncompressed
+  Data Size:    16384 Bytes = 16.00 kB = 0.02 MB
+  Architecture: PowerPC
+  Hash algo:    crc32
+  Hash value:    0d655d71
+  Hash algo:    sha1
+  Hash value:    25ab4e15cd4b8a5144610394560d9c318ce52def
+ Default Configuration: 'conf-1'
+ Configuration 0 (conf-1)
+  Description:    Boot Linux kernel with FDT blob
+  Kernel:    kernel
+  FDT:        fdt-1
+</pre></div>
+</div>
+<p>The resulting image file kernel_fdt.itb can be now transferred to the target,
+inspected and booted:</p>
+<p>[on the target system]:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; tftp 900000 /path/to/tftp/location/kernel_fdt.itb
+Using FEC device
+TFTP from server 192.168.1.1; our IP address is 192.168.160.5
+Filename '/path/to/tftp/location/kernel_fdt.itb'.
+Load address: 0x900000
+Loading: #################################################################
+     ###########
+done
+Bytes transferred = 1109776 (10ef10 hex)
+=&gt; iminfo
+
+## Checking Image at 00900000 ...
+   FIT image found
+   FIT description: Simple image with single Linux kernel and FDT blob
+   Created:        2008-03-11    15:29:22 UTC
+    Image 0 (kernel)
+     Description:  Vanilla Linux kernel
+     Type:       Kernel Image
+     Compression:  gzip compressed
+     Data Start:   0x009000ec
+     Data Size:    1092037 Bytes =  1 MB
+     Architecture: PowerPC
+     OS:       Linux
+     Load Address: 0x00000000
+     Entry Point:  0x00000000
+     Hash algo:    crc32
+     Hash value:   2c0cc807
+     Hash algo:    sha1
+     Hash value:   264b59935470e42c418744f83935d44cdf59a3bb
+    Image 1 (fdt-1)
+     Description:  Flattened Device Tree blob
+     Type:       Flat Device Tree
+     Compression:  uncompressed
+     Data Start:   0x00a0abdc
+     Data Size:    16384 Bytes = 16 kB
+     Architecture: PowerPC
+     Hash algo:    crc32
+     Hash value:   0d655d71
+     Hash algo:    sha1
+     Hash value:   25ab4e15cd4b8a5144610394560d9c318ce52def
+    Default Configuration: 'conf-1'
+    Configuration 0 (conf-1)
+     Description:  Boot Linux kernel with FDT blob
+     Kernel:       kernel
+     FDT:       fdt-1
+=&gt; bootm
+## Booting kernel from FIT Image at 00900000 ...
+   Using 'conf-1' configuration
+   Trying 'kernel' kernel subimage
+     Description:  Vanilla Linux kernel
+     Type:       Kernel Image
+     Compression:  gzip compressed
+     Data Start:   0x009000ec
+     Data Size:    1092037 Bytes =  1 MB
+     Architecture: PowerPC
+     OS:       Linux
+     Load Address: 0x00000000
+     Entry Point:  0x00000000
+     Hash algo:    crc32
+     Hash value:   2c0cc807
+     Hash algo:    sha1
+     Hash value:   264b59935470e42c418744f83935d44cdf59a3bb
+   Verifying Hash Integrity ... crc32+ sha1+ OK
+   Uncompressing Kernel Image ... OK
+## Flattened Device Tree from FIT Image at 00900000
+   Using 'conf-1' configuration
+   Trying 'fdt-1' FDT blob subimage
+     Description:  Flattened Device Tree blob
+     Type:       Flat Device Tree
+     Compression:  uncompressed
+     Data Start:   0x00a0abdc
+     Data Size:    16384 Bytes = 16 kB
+     Architecture: PowerPC
+     Hash algo:    crc32
+     Hash value:   0d655d71
+     Hash algo:    sha1
+     Hash value:   25ab4e15cd4b8a5144610394560d9c318ce52def
+   Verifying Hash Integrity ... crc32+ sha1+ OK
+   Booting using the fdt blob at 0xa0abdc
+   Loading Device Tree to 007fc000, end 007fffff ... OK
+[    0.000000] Using lite5200 machine description
+[    0.000000] Linux version 2.6.24-rc6-gaebecdfc (m8@hekate) (gcc version 4.0.0 (DENX ELDK 4.1 4.0.0)) #1 Sat Jan 12 15:38:48 CET 2008
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example 3 – advanced booting"></a><div class="section" id="example-3-advanced-booting">
+<h2>Example 3 – advanced booting<a class="headerlink" href="#example-3-advanced-booting" title="Permalink to this headline">¶</a></h2>
+<p>Refer to <a class="reference internal" href="multi.html"><span class="doc">Multiple kernels, ramdisks and FDT blobs</span></a> for an image source file that allows more
+sophisticated booting scenarios (multiple kernels, ramdisks and fdt blobs).</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="update_uboot.html" rel="prev" title="Automatic software update"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="x86-fit-boot.html" rel="next" title="Booting Linux on x86 with FIT">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

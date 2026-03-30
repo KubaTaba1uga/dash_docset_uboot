@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Printf() format codes — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="smbios.html" rel="next" title="SMBIOS tables"/>
+<link href="menus.html" rel="prev" title="Menus"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Printf() format codes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flags">Flags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#integer-types">Integer types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#characters">Characters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#strings">Strings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pointers">Pointers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Printf() format codes</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/printf.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Printf() format codes"></a><div class="section" id="printf-format-codes">
+<h1>Printf() format codes<a class="headerlink" href="#printf-format-codes" title="Permalink to this headline">¶</a></h1>
+<p>Each conversion specification consists of:</p>
+<ul class="simple">
+<li><p>leading ‘%’ character</p></li>
+<li><p>zero or more flags</p></li>
+<li><p>an optional minimum field width</p></li>
+<li><p>an optional precision field preceded by ‘.’</p></li>
+<li><p>an optional length modifier</p></li>
+<li><p>a conversion specifier</p></li>
+</ul>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flags"></a><div class="section" id="flags">
+<h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>‘space’</dt><dd><p>fill up with spaces to reach the specified length</p>
+</dd>
+<dt>-</dt><dd><p>left justify</p>
+</dd>
+<dt>+</dt><dd><p>add sign field of decimal conversion</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>#</dt><dd><p>convert to alternative form</p>
+<ul class="simple">
+<li><p>prepend 0 to octal output</p></li>
+<li><p>ignored for decimal output</p></li>
+<li><p>prepend 0X to hexadecimal output</p></li>
+</ul>
+</dd>
+<dt>0</dt><dd><p>fill up with zeroes to reach the specified length</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Integer types"></a><div class="section" id="integer-types">
+<h2>Integer types<a class="headerlink" href="#integer-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="length-modifiers">
+<h3>Length modifiers<a class="headerlink" href="#length-modifiers" title="Permalink to this headline">¶</a></h3>
+<p>The optional length modifier specifies the size of the argument.</p>
+<dl class="simple">
+<dt>no modifier</dt><dd><p>bool, enum, short, int are passed as int</p>
+</dd>
+<dt>%h</dt><dd><p>convert to (unsigned) short before printing.
+Only the low 16 bits are printed.</p>
+</dd>
+<dt>%hh</dt><dd><p><strong>not implemented</strong></p>
+</dd>
+<dt>%j</dt><dd><p><strong>not implemented</strong></p>
+</dd>
+<dt>%l</dt><dd><p>long</p>
+</dd>
+<dt>%ll, %L</dt><dd><p>long long</p>
+</dd>
+<dt>%t</dt><dd><p>ptr_diff_t</p>
+</dd>
+<dt>%z, %Z</dt><dd><p>size_t, ssize_t</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="conversion-specifiers">
+<h3>Conversion specifiers<a class="headerlink" href="#conversion-specifiers" title="Permalink to this headline">¶</a></h3>
+<p>Conversion specifiers control the output.</p>
+<dl class="simple">
+<dt>%d</dt><dd><p>signed decimal</p>
+</dd>
+<dt>%u</dt><dd><p>unsigned decimal</p>
+</dd>
+<dt>%o</dt><dd><p>unsigned octal</p>
+</dd>
+<dt>%x</dt><dd><p>unsigned lower case hexadecimal</p>
+</dd>
+<dt>%X</dt><dd><p>unsigned upper case hexadecimal</p>
+</dd>
+</dl>
+<p>The floating point conversion specifiers are not implemented:</p>
+<ul class="simple">
+<li><p>%a</p></li>
+<li><p>%A</p></li>
+<li><p>%e</p></li>
+<li><p>%E</p></li>
+<li><p>%f</p></li>
+<li><p>%F</p></li>
+<li><p>%g</p></li>
+<li><p>%G</p></li>
+</ul>
+<p>The following tables shows the correct combinations of modifiers and specifiers
+for the individual integer types.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 51%"/>
+<col style="width: 49%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Format specifier</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>bool</p></td>
+<td><p>%d, %x</p></td>
+</tr>
+<tr class="row-odd"><td><p>char</p></td>
+<td><p>%d, %x</p></td>
+</tr>
+<tr class="row-even"><td><p>unsigned char</p></td>
+<td><p>%u, %x</p></td>
+</tr>
+<tr class="row-odd"><td><p>short</p></td>
+<td><p>%d, %x</p></td>
+</tr>
+<tr class="row-even"><td><p>unsigned short</p></td>
+<td><p>%u, %x</p></td>
+</tr>
+<tr class="row-odd"><td><p>int</p></td>
+<td><p>%d, %x</p></td>
+</tr>
+<tr class="row-even"><td><p>unsigned int</p></td>
+<td><p>%u, %x</p></td>
+</tr>
+<tr class="row-odd"><td><p>long</p></td>
+<td><p>%ld, %lx</p></td>
+</tr>
+<tr class="row-even"><td><p>unsigned long</p></td>
+<td><p>%lu, %lx</p></td>
+</tr>
+<tr class="row-odd"><td><p>long long</p></td>
+<td><p>%lld, %llx</p></td>
+</tr>
+<tr class="row-even"><td><p>unsigned long long</p></td>
+<td><p>%llu, %llx</p></td>
+</tr>
+<tr class="row-odd"><td><p>off_t</p></td>
+<td><p>%llu, %llx</p></td>
+</tr>
+<tr class="row-even"><td><p>ptr_diff_t</p></td>
+<td><p>%td, %tx</p></td>
+</tr>
+<tr class="row-odd"><td><p>fdt_addr_t</p></td>
+<td><p>%pa, see pointers</p></td>
+</tr>
+<tr class="row-even"><td><p>fdt_size_t</p></td>
+<td><p>%pa, see pointers</p></td>
+</tr>
+<tr class="row-odd"><td><p>phys_addr_t</p></td>
+<td><p>%pa, see pointers</p></td>
+</tr>
+<tr class="row-even"><td><p>phys_size_t</p></td>
+<td><p>%pa, see pointers</p></td>
+</tr>
+<tr class="row-odd"><td><p>resource_size_t</p></td>
+<td><p>%pa, see pointers</p></td>
+</tr>
+<tr class="row-even"><td><p>size_t</p></td>
+<td><p>%zu, %zx, %zX</p></td>
+</tr>
+<tr class="row-odd"><td><p>ssize_t</p></td>
+<td><p>%zd, %zx, %zX</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Characters"></a><div class="section" id="characters">
+<h2>Characters<a class="headerlink" href="#characters" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>%%</dt><dd><p>a ‘%’ character is written</p>
+</dd>
+<dt>%c</dt><dd><p>prints a single character</p>
+</dd>
+<dt>%lc</dt><dd><p><strong>not implemented</strong></p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Strings"></a><div class="section" id="strings">
+<h2>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>%s</dt><dd><p>prints a UTF-8 string (char *)</p>
+</dd>
+<dt>%ls</dt><dd><p>prints a UTF-16 string (u16 *)</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Pointers"></a><div class="section" id="pointers">
+<h2>Pointers<a class="headerlink" href="#pointers" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>%p</dt><dd><p>prints the address the pointer points to hexadecimally</p>
+</dd>
+<dt>%pa, %pap</dt><dd><p>prints the value of a phys_addr_t value that the pointer points to
+preceded with 0x and zero padding according to the size of phys_addr_t.
+The following types should be printed this way:</p>
+<ul class="simple">
+<li><p>fdt_addr_t</p></li>
+<li><p>fdt_size_t</p></li>
+<li><p>phys_addr_t</p></li>
+<li><p>phys_size_t</p></li>
+<li><p>resource_size_t</p></li>
+</ul>
+</dd>
+<dt>%pD</dt><dd><p>prints a UEFI device path</p>
+</dd>
+<dt>%pi4, %pI4</dt><dd><p>prints IPv4 address, e.g. ‘192.168.0.1’</p>
+</dd>
+<dt>%pm</dt><dd><p>prints MAC address without separators, e.g. ‘001122334455’</p>
+</dd>
+<dt>%pM</dt><dd><p>print MAC address colon separated, e.g. ‘00:01:02:03:04:05’</p>
+</dd>
+<dt>%pUb</dt><dd><p>prints GUID big endian, lower case
+e.g. ‘00112233-4455-6677-8899-aabbccddeeff’</p>
+</dd>
+<dt>%pUB</dt><dd><p>prints GUID big endian, upper case
+e.g. ‘00112233-4455-6677-8899-AABBCCDDEEFF’</p>
+</dd>
+<dt>%pUl</dt><dd><p>prints GUID little endian, lower case
+e.g. ‘33221100-5544-7766-8899-aabbccddeeff’</p>
+</dd>
+<dt>%pUL</dt><dd><p>prints GUID little endian, upper case
+e.g. ‘33221100-5544-7766-8899-AABBCCDDEEFF’</p>
+</dd>
+<dt>%pUs</dt><dd><p>prints text description of a GUID or if such is not known little endian,
+lower case, e.g. ‘system’ for a GUID identifying an EFI system
+partition.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="menus.html" rel="prev" title="Menus"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="smbios.html" rel="next" title="SMBIOS tables">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coreboot — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../emulation/index.html" rel="next" title="Emulation"/>
+<link href="index.html" rel="prev" title="Coreboot"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Coreboot</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Coreboot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-instructions-for-u-boot-as-coreboot-payload">Build Instructions for U-Boot as coreboot payload</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-with-coreboot">Test with coreboot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bit-u-boot">64-bit U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cbfs-access">CBFS access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-map">Memory map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-uart">Debug UART</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coreboot-in-ci">coreboot in CI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Coreboot</a> »</li>
+<li>Coreboot</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/coreboot/coreboot.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Coreboot"></a><div class="section" id="coreboot">
+<h1>Coreboot<a class="headerlink" href="#coreboot" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build Instructions for U-Boot as coreboot payload"></a><div class="section" id="build-instructions-for-u-boot-as-coreboot-payload">
+<h2>Build Instructions for U-Boot as coreboot payload<a class="headerlink" href="#build-instructions-for-u-boot-as-coreboot-payload" title="Permalink to this headline">¶</a></h2>
+<p>Building U-Boot as a coreboot payload is just like building U-Boot for targets
+on other architectures, like below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make coreboot_defconfig
+$ make all
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Test with coreboot"></a><div class="section" id="test-with-coreboot">
+<h2>Test with coreboot<a class="headerlink" href="#test-with-coreboot" title="Permalink to this headline">¶</a></h2>
+<p>For testing U-Boot as the coreboot payload, there are things that need be paid
+attention to. coreboot supports loading an ELF executable and a 32-bit plain
+binary, as well as other supported payloads. With the default configuration,
+U-Boot is set up to use a separate Device Tree Blob (dtb). As of today, the
+generated u-boot-dtb.bin needs to be packaged by the cbfstool utility (a tool
+provided by coreboot) manually as coreboot’s ‘make menuconfig’ does not provide
+this capability yet. The command is as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># in the coreboot root directory
+$ ./build/util/cbfstool/cbfstool build/coreboot.rom add-flat-binary \
+  -f u-boot-dtb.bin -n fallback/payload -c lzma -l 0x1110000 -e 0x1110000
+</pre></div>
+</div>
+<p>Make sure 0x1110000 matches CONFIG_TEXT_BASE, which is the symbol address
+of _x86boot_start (in arch/x86/cpu/start.S).</p>
+<p>If you want to use ELF as the coreboot payload, change U-Boot configuration to
+use CONFIG_OF_EMBED instead of CONFIG_OF_SEPARATE.</p>
+<p>To enable video you must enable these options in coreboot:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Set framebuffer graphics resolution (1280x1024 32k-color (1:5:5))</p></li>
+<li><p>Keep VESA framebuffer</p></li>
+</ul>
+</div></blockquote>
+<p>At present it seems that for Minnowboard Max, coreboot does not pass through
+the video information correctly (it always says the resolution is 0x0). This
+works correctly for link though.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/64-bit U-Boot"></a><div class="section" id="bit-u-boot">
+<h2>64-bit U-Boot<a class="headerlink" href="#bit-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the 32-bit ‘coreboot’ build there is a ‘coreboot64’ build. This
+produces an image which can be booted from coreboot (32-bit). Internally it
+works by using a 32-bit SPL binary to switch to 64-bit for running U-Boot. It
+can be useful for running UEFI applications, for example.</p>
+<p>This has only been lightly tested.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/CBFS access"></a><div class="section" id="cbfs-access">
+<h2>CBFS access<a class="headerlink" href="#cbfs-access" title="Permalink to this headline">¶</a></h2>
+<p>You can use the ‘cbfs’ commands to access the Coreboot filesystem:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; cbfsinit
+=&gt; cbfsinfo
+
+CBFS version: 0x31313132
+ROM size: 0x100000
+Boot block size: 0x4
+CBFS size: 0xffdfc
+Alignment: 64
+Offset: 0x200
+
+=&gt; cbfsls
+     size              type  name
+------------------------------------------
+       32       cbfs header  cbfs master header
+    16720                17  fallback/romstage
+    53052                17  fallback/ramstage
+      398               raw  config
+      715               raw  revision
+      117               raw  build_info
+     4044               raw  fallback/dsdt.aml
+      640       cmos layout  cmos_layout.bin
+    17804                17  fallback/postcar
+   335797           payload  fallback/payload
+   607000              null  (empty)
+    10752         bootblock  bootblock
+
+12 file(s)
+
+=&gt;
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Memory map"></a><div class="section" id="memory-map">
+<h2>Memory map<a class="headerlink" href="#memory-map" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 13%"/>
+<col style="width: 87%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Address</p></th>
+<th class="head"><p>Region at that address</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ffffffff</p></td>
+<td><p>Top of ROM (and last byte of 32-bit address space)</p></td>
+</tr>
+<tr class="row-odd"><td><p>7a9fd000</p></td>
+<td><p>Typical top of memory available to U-Boot
+(use cbsysinfo to see where memory range ‘table’ starts)</p></td>
+</tr>
+<tr class="row-even"><td><p>10000000</p></td>
+<td><p>Memory reserved by coreboot for mapping PCI devices
+(typical size 2151000, includes framebuffer)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1920000</p></td>
+<td><p>CONFIG_SYS_CAR_ADDR, fake Cache-as-RAM memory, used during startup</p></td>
+</tr>
+<tr class="row-even"><td><p>1110000</p></td>
+<td><p>CONFIG_TEXT_BASE (start address of U-Boot code, before reloc)</p></td>
+</tr>
+<tr class="row-odd"><td><p>110000</p></td>
+<td><p>CONFIG_BLOBLIST_ADDR (before being relocated)</p></td>
+</tr>
+<tr class="row-even"><td><p>100000</p></td>
+<td><p>CONFIG_PRE_CON_BUF_ADDR</p></td>
+</tr>
+<tr class="row-odd"><td><p>f0000</p></td>
+<td><p>ACPI tables set up by U-Boot
+(typically redirects to 7ab10030 or similar)</p></td>
+</tr>
+<tr class="row-even"><td><p>500</p></td>
+<td><p>Location of coreboot sysinfo table, used during startup</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debug UART"></a><div class="section" id="debug-uart">
+<h2>Debug UART<a class="headerlink" href="#debug-uart" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to enable the debug UART with coreboot. To do this, use the
+info from the cbsysinfo command to locate the UART base. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; cbsysinfo
+...
+Serial I/O port: 00000000
+   base        : 00000000
+   pointer     : 767b51bc
+   type        : 2
+   base        : fe03e000
+   baud        : 0d115200
+   regwidth    : 4
+   input_hz    : 0d1843200
+   PCI addr    : 00000010
+...
+</pre></div>
+</div>
+<p>Here you can see that the UART base is fe03e000, regwidth is 4 (1 &lt;&lt; 2) and the
+input clock is 1843200. So you can add the following CONFIG options:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_DEBUG_UART=y
+CONFIG_DEBUG_UART_BASE=fe03e000
+CONFIG_DEBUG_UART_CLOCK=1843200
+CONFIG_DEBUG_UART_SHIFT=2
+CONFIG_DEBUG_UART_ANNOUNCE=y
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/coreboot in CI"></a><div class="section" id="coreboot-in-ci">
+<h2>coreboot in CI<a class="headerlink" href="#coreboot-in-ci" title="Permalink to this headline">¶</a></h2>
+<p>CI runs tests using a pre-built coreboot image. This ensures that U-Boot can
+boot as a coreboot payload, based on a known-good build of coreboot.</p>
+<p>To update the <cite>coreboot.rom</cite> file which is used:</p>
+<ol class="arabic">
+<li><p>Build coreboot with <cite>CONFIG_LINEAR_FRAMEBUFFER=y</cite>. If using <cite>make menuconfig</cite>
+this is under
+<cite>Devices -&gt;Display-&gt;Framebuffer mode-&gt;Linear “high resolution” framebuffer</cite>.</p></li>
+<li><p>Compress the resulting <cite>coreboot.rom</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>xz -c /path/to/coreboot/build/coreboot.rom &gt;coreboot.rom.xz
+</pre></div>
+</div>
+</li>
+<li><p>Upload the file to Google drive</p></li>
+<li><p>Send a patch to change the file ID used by wget in the CI yaml files.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Coreboot"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../emulation/index.html" rel="next" title="Emulation">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

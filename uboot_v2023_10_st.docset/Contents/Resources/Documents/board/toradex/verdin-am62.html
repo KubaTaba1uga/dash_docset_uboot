@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verdin AM62 Module — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../ti/am65x_evm.html" rel="next" title="AM65x Platforms"/>
+<link href="../ti/am62x_sk.html" rel="prev" title="AM62 Platforms"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../ti/index.html">Texas Instruments</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../ti/am335x_evm.html">AM335x Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ti/am43xx_evm.html">AM43xx Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ti/dra7xx_evm.html">DRA7xx Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ti/ks2_evm.html">Keystone II EVM Generation</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../ti/k3.html">K3 Generation</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../ti/k3.html#summary">Summary</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../ti/k3.html#k3-based-socs">K3 Based SoCs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ti/k3.html#boot-flow-overview">Boot Flow Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ti/k3.html#software-sources">Software Sources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ti/k3.html#build-procedure">Build Procedure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ti/k3.html#fit-signature-signing">Fit Signature Signing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ti/k3.html#saving-environment">Saving environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ti/k3.html#common-debugging-environment-openocd">Common Debugging environment - OpenOCD</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="../ti/index.html">Texas Instruments</a> »</li>
+<li><a href="../ti/k3.html">K3 Generation</a> »</li>
+<li>Verdin AM62 Module</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/toradex/verdin-am62.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Verdin AM62 Module"></a><div class="section" id="verdin-am62-module">
+<h1>Verdin AM62 Module<a class="headerlink" href="#verdin-am62-module" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>SoM: <a class="reference external" href="https://www.toradex.com/computer-on-modules/verdin-arm-family/ti-am62">https://www.toradex.com/computer-on-modules/verdin-arm-family/ti-am62</a></p></li>
+<li><p>Carrier board: <a class="reference external" href="https://www.toradex.com/products/carrier-board/verdin-development-board-kit">https://www.toradex.com/products/carrier-board/verdin-development-board-kit</a></p></li>
+</ul>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Quick Start"></a><div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Get the binary-only SYSFW</p></li>
+<li><p>Get binary-only TI Linux firmware</p></li>
+<li><p>Build the ARM trusted firmware binary</p></li>
+<li><p>Build the OPTEE binary</p></li>
+<li><p>Build U-Boot for the R5</p></li>
+<li><p>Build U-Boot for the A53</p></li>
+<li><p>Flash to eMMC</p></li>
+<li><p>Boot</p></li>
+</ul>
+<p>For an overview of the TI AM62 SoC boot flow please head over to:
+<a class="reference internal" href="../ti/am62x_sk.html"><span class="doc">AM62 Platforms</span></a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sources:"></a><div class="section" id="sources">
+<h2>Sources:<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><strong>Das U-Boot</strong></p>
+<div class="line-block">
+<div class="line"><strong>source:</strong> <a class="reference external" href="https://source.denx.de/u-boot/u-boot.git">https://source.denx.de/u-boot/u-boot.git</a></div>
+<div class="line"><strong>branch:</strong> master</div>
+</div>
+</li>
+<li><p><strong>Trusted Firmware-A (TF-A)</strong></p>
+<div class="line-block">
+<div class="line"><strong>source:</strong> <a class="reference external" href="https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/">https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/</a></div>
+<div class="line"><strong>branch:</strong> master</div>
+</div>
+</li>
+<li><p><strong>Open Portable Trusted Execution Environment (OP-TEE)</strong></p>
+<div class="line-block">
+<div class="line"><strong>source:</strong> <a class="reference external" href="https://github.com/OP-TEE/optee_os.git">https://github.com/OP-TEE/optee_os.git</a></div>
+<div class="line"><strong>branch:</strong> master</div>
+</div>
+</li>
+<li><p><strong>TI Firmware (TIFS, DM, SYSFW)</strong></p>
+<div class="line-block">
+<div class="line"><strong>source:</strong> <a class="reference external" href="https://git.ti.com/git/processor-firmware/ti-linux-firmware.git">https://git.ti.com/git/processor-firmware/ti-linux-firmware.git</a></div>
+<div class="line"><strong>branch:</strong> ti-linux-firmware</div>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<blockquote>
+<div><p>The TI Firmware required for functionality of the system can be
+one of the following combination (see platform specific boot diagram for
+further information as to which component runs on which processor):</p>
+<ul class="simple">
+<li><p><strong>TIFS</strong> - TI Foundational Security Firmware - Consists of purely firmware
+meant to run on the security enclave.</p></li>
+<li><p><strong>DM</strong> - Device Management firmware also called TI System Control Interface
+server (TISCI Server) - This component purely plays the role of managing
+device resources such as power, clock, interrupts, dma etc. This firmware
+runs on a dedicated or multi-use microcontroller outside the security
+enclave.</p></li>
+</ul>
+</div></blockquote>
+<p>OR</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>SYSFW</strong> - System firmware - consists of both TIFS and DM both running on
+the security enclave.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build procedure:"></a><div class="section" id="build-procedure">
+<h2>Build procedure:<a class="headerlink" href="#build-procedure" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple" start="0">
+<li><p>Setup the environment variables:</p></li>
+</ol>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-text">Generic environment variables</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>S/w Component</p></th>
+<th class="head"><p>Env Variable</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>All Software</p></td>
+<td><p>CC32</p></td>
+<td><p>Cross compiler for ARMv7 (ARM 32bit), typically arm-linux-gnueabihf-</p></td>
+</tr>
+<tr class="row-odd"><td><p>All Software</p></td>
+<td><p>CC64</p></td>
+<td><p>Cross compiler for ARMv8 (ARM 64bit), typically aarch64-linux-gnu-</p></td>
+</tr>
+<tr class="row-even"><td><p>All Software</p></td>
+<td><p>LNX_FW_PATH</p></td>
+<td><p>Path to TI Linux firmware repository</p></td>
+</tr>
+<tr class="row-odd"><td><p>All Software</p></td>
+<td><p>TFA_PATH</p></td>
+<td><p>Path to source of Trusted Firmware-A</p></td>
+</tr>
+<tr class="row-even"><td><p>All Software</p></td>
+<td><p>OPTEE_PATH</p></td>
+<td><p>Path to source of OP-TEE</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-given docutils align-default" id="id2">
+<caption><span class="caption-text">Board specific environment variables</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>S/w Component</p></th>
+<th class="head"><p>Env Variable</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>U-Boot</p></td>
+<td><p>UBOOT_CFG_CORTEXR</p></td>
+<td><p>Defconfig for Cortex-R (Boot processor).</p></td>
+</tr>
+<tr class="row-odd"><td><p>U-Boot</p></td>
+<td><p>UBOOT_CFG_CORTEXA</p></td>
+<td><p>Defconfig for Cortex-A (MPU processor).</p></td>
+</tr>
+<tr class="row-even"><td><p>Trusted Firmware-A</p></td>
+<td><p>TFA_BOARD</p></td>
+<td><p>Platform name used for building TF-A for Cortex-A Processor.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Trusted Firmware-A</p></td>
+<td><p>TFA_EXTRA_ARGS</p></td>
+<td><p>Any extra arguments used for building TF-A.</p></td>
+</tr>
+<tr class="row-even"><td><p>OP-TEE</p></td>
+<td><p>OPTEE_PLATFORM</p></td>
+<td><p>Platform name used for building OP-TEE for Cortex-A Processor.</p></td>
+</tr>
+<tr class="row-odd"><td><p>OP-TEE</p></td>
+<td><p>OPTEE_EXTRA_ARGS</p></td>
+<td><p>Any extra arguments used for building OP-TEE.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Set the variables corresponding to this platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">CC32</span><span class="o">=</span>arm-linux-gnueabihf-</span>
+<span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">CC64</span><span class="o">=</span>aarch64-linux-gnu-</span>
+<span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">LNX_FW_PATH</span><span class="o">=</span>path/to/ti-linux-firmware</span>
+<span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">TFA_PATH</span><span class="o">=</span>path/to/trusted-firmware-a</span>
+<span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">OPTEE_PATH</span><span class="o">=</span>path/to/optee_os</span>
+</pre></div></div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">UBOOT_CFG_CORTEXR</span><span class="o">=</span>verdin-am62_r5_defconfig
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">UBOOT_CFG_CORTEXA</span><span class="o">=</span>verdin-am62_a53_defconfig
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">TFA_BOARD</span><span class="o">=</span>lite
+$<span class="w"> </span><span class="c1"># we don't use any extra TFA parameters</span>
+$<span class="w"> </span><span class="nb">unset</span><span class="w"> </span>TFA_EXTRA_ARGS
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">OPTEE_PLATFORM</span><span class="o">=</span>k3-am62x
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">OPTEE_EXTRA_ARGS</span><span class="o">=</span><span class="s2">"CFG_WITH_SOFTWARE_PRNG=y"</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Trusted Firmware-A:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside trusted-firmware-a source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC64</span><span class="w"> </span><span class="nv">ARCH</span><span class="o">=</span>aarch64<span class="w"> </span><span class="nv">PLAT</span><span class="o">=</span>k3<span class="w"> </span><span class="nv">SPD</span><span class="o">=</span>opteed<span class="w"> </span><span class="nv">$TFA_EXTRA_ARGS</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="nv">TARGET_BOARD</span><span class="o">=</span><span class="nv">$TFA_BOARD</span></span>
+</pre></div></div><ol class="arabic simple" start="2">
+<li><p>OP-TEE:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside optee_os source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC32</span><span class="w"> </span><span class="nv">CROSS_COMPILE64</span><span class="o">=</span><span class="nv">$CC64</span><span class="w"> </span><span class="nv">CFG_ARM64_core</span><span class="o">=</span>y<span class="w"> </span><span class="nv">$OPTEE_EXTRA_ARGS</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="nv">PLATFORM</span><span class="o">=</span><span class="nv">$OPTEE_PLATFORM</span></span>
+</pre></div></div><ol class="arabic simple" start="3">
+<li><p>U-Boot:</p></li>
+</ol>
+<ul class="simple">
+<li><p>3.1 R5:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside u-boot source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">$UBOOT_CFG_CORTEXR</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC32</span><span class="w"> </span><span class="nv">BINMAN_INDIRS</span><span class="o">=</span><span class="nv">$LNX_FW_PATH</span></span>
+</pre></div></div><ul class="simple">
+<li><p>3.2 A53:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside u-boot source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">$UBOOT_CFG_CORTEXA</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC64</span><span class="w"> </span><span class="nv">BINMAN_INDIRS</span><span class="o">=</span><span class="nv">$LNX_FW_PATH</span><span class="w"> </span><span class="se">\</span>
+<span class="w">       </span><span class="nv">BL31</span><span class="o">=</span><span class="nv">$TFA_PATH</span>/build/k3/<span class="nv">$TFA_BOARD</span>/release/bl31.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span><span class="nv">TEE</span><span class="o">=</span><span class="nv">$OPTEE_PATH</span>/out/arm-plat-k3/core/tee-raw.bin</span>
+</pre></div></div></div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flash to eMMC"></a><div class="section" id="flash-to-emmc">
+<h2>Flash to eMMC<a class="headerlink" href="#flash-to-emmc" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span>dev<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nv">1</span>
+<span class="o">=</span>&gt;<span class="w"> </span>fatload<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>tiboot3.bin
+<span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>0x0<span class="w"> </span><span class="nv">0x400</span>
+<span class="o">=</span>&gt;<span class="w"> </span>fatload<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>tispl.bin
+<span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>0x400<span class="w"> </span><span class="nv">0x1000</span>
+<span class="o">=</span>&gt;<span class="w"> </span>fatload<span class="w"> </span>mmc<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>u-boot.img
+<span class="o">=</span>&gt;<span class="w"> </span>mmc<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>0x1400<span class="w"> </span>0x2000
+</pre></div>
+</div>
+<p>As a convenience, instead of having to remember all those addresses and sizes,
+one may also use the update U-Boot wrappers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>tftpboot<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>tiboot3-am62x-gp-verdin.bin
+&gt;<span class="w"> </span>run<span class="w"> </span>update_tiboot3
+
+&gt;<span class="w"> </span>tftpboot<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>tispl.bin
+&gt;<span class="w"> </span>run<span class="w"> </span>update_tispl
+
+&gt;<span class="w"> </span>tftpboot<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>u-boot.img
+&gt;<span class="w"> </span>run<span class="w"> </span>update_uboot
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot"></a><div class="section" id="boot">
+<h2>Boot<a class="headerlink" href="#boot" title="Permalink to this headline">¶</a></h2>
+<p>Output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot SPL 2023.10-rc1-00210-gb678170a34c (Aug 03 2023 - 00:09:14 +0200)
+SYSFW ABI: 3.1 (firmware rev 0x0009 '9.0.1--v09.00.01 (Kool Koala)')
+SPL initial stack usage: 13368 bytes
+Trying to boot from MMC1
+Authentication passed
+Authentication passed
+Authentication passed
+Authentication passed
+Authentication passed
+Starting ATF on ARM64 core...
+
+NOTICE:  BL31: v2.9(release):v2.9.0-73-g463655cc8
+NOTICE:  BL31: Built : 14:51:42, Jun  5 2023
+I/TC:
+I/TC: OP-TEE version: 3.21.0-168-g322cf9e33 (gcc version 12.2.1 20221205 (Arm GNU Toolchain 12.2.Rel1 (Build arm-12.24))) #2 Mon Jun  5 13:04:15 UTC 2023 aarch64
+I/TC: WARNING: This OP-TEE configuration might be insecure!
+I/TC: WARNING: Please check https://optee.readthedocs.io/en/latest/architecture/porting_guidelines.html
+I/TC: Primary CPU initializing
+I/TC: SYSFW ABI: 3.1 (firmware rev 0x0009 '9.0.1--v09.00.01 (Kool Koala)')
+I/TC: HUK Initialized
+I/TC: Primary CPU switching to normal world boot
+
+U-Boot SPL 2023.10-rc1-00210-gb678170a34c (Aug 03 2023 - 00:09:41 +0200)
+SYSFW ABI: 3.1 (firmware rev 0x0009 '9.0.1--v09.00.01 (Kool Koala)')
+SPL initial stack usage: 1840 bytes
+Trying to boot from MMC1
+Authentication passed
+Authentication passed
+
+
+U-Boot 2023.10-rc1-00210-gb678170a34c (Aug 03 2023 - 00:09:41 +0200)
+
+SoC:   AM62X SR1.0 HS-FS
+DRAM:  2 GiB
+Core:  136 devices, 28 uclasses, devicetree: separate
+MMC:   mmc@fa10000: 0, mmc@fa00000: 1
+Loading Environment from MMC... OK
+In:    serial@2800000
+Out:   serial@2800000
+Err:   serial@2800000
+Model: Toradex 0076 Verdin AM62 Quad 2GB WB IT V1.0A
+Serial#: 15037380
+Carrier: Toradex Verdin Development Board V1.1A, Serial# 10754333
+am65_cpsw_nuss ethernet@8000000: K3 CPSW: nuss_ver: 0x6BA01103 cpsw_ver: 0x6BA81103 ale_ver: 0x00290105 Ports:2 mdio_freq:1000000
+Setting variant to wifi
+Net:
+Warning: ethernet@8000000port@1 MAC addresses don't match:
+Address in ROM is             1c:63:49:22:5f:f9
+Address in environment is     00:14:2d:e5:73:c4
+eth0: ethernet@8000000port@1 [PRIME], eth1: ethernet@8000000port@2
+Hit any key to stop autoboot:  0
+Verdin AM62 #
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../ti/am62x_sk.html" rel="prev" title="AM62 Platforms"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../ti/am65x_evm.html" rel="next" title="AM65x Platforms">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

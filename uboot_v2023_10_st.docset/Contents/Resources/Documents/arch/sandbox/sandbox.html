@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sandbox — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="block_impl.html" rel="next" title="Sandbox block devices (implementation)"/>
+<link href="index.html" rel="prev" title="Sandbox"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arm64.html">ARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../riscv.html">RISC-V</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Sandbox</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Sandbox</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#native-execution-of-u-boot">Native Execution of U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#basic-operation">Basic Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#console-lcd-support">Console / LCD support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#command-line-options">Command-line Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-emulation">Memory Emulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#storing-state">Storing State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-and-booting">Running and Booting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#supported-drivers">Supported Drivers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sandbox-variants">Sandbox Variants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linux-raw-networking-bridge">Linux RAW Networking Bridge</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spi-emulation">SPI Emulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#block-device-emulation">Block Device Emulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-sandbox-drivers">Writing Sandbox Drivers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vpl-verifying-program-loader">VPL (Verifying Program Loader)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debugging-the-init-sequence">Debugging the init sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdl-config">SDL_CONFIG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-valgrind-memcheck">Using valgrind / memcheck</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-map">Memory Map</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="block_impl.html">Sandbox block devices (implementation)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Architecture-specific doc</a> »</li>
+<li><a href="index.html">Sandbox</a> »</li>
+<li>Sandbox</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/arch/sandbox/sandbox.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox"></a><div class="section" id="sandbox">
+<h1>Sandbox<a class="headerlink" href="#sandbox" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Native Execution of U-Boot"></a><div class="section" id="native-execution-of-u-boot">
+<h2>Native Execution of U-Boot<a class="headerlink" href="#native-execution-of-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>The ‘sandbox’ architecture is designed to allow U-Boot to run under Linux on
+almost any hardware. To achieve this it builds U-Boot (so far as possible)
+as a normal C application with a main() and normal C libraries.</p>
+<p>All of U-Boot’s architecture-specific code therefore cannot be built as part
+of the sandbox U-Boot. The purpose of running U-Boot under Linux is to test
+all the generic code, not specific to any one architecture. The idea is to
+create unit tests which we can run to test this upper level code.</p>
+<p>Sandbox allows development of many types of new features in a traditional way,
+rather than needing to test each iteration on real hardware. Many U-Boot
+features were developed on sandbox, including the core driver model, most
+uclasses, verified boot, bloblist, logging and dozens of others. Sandbox has
+enabled many large-scale code refactors as well.</p>
+<p>CONFIG_SANDBOX is defined when building a native board.</p>
+<p>The board name is ‘sandbox’ but the vendor name is unset, so there is a
+single board in board/sandbox.</p>
+<p>CONFIG_SANDBOX_BIG_ENDIAN should be defined when running on big-endian
+machines.</p>
+<p>There are two versions of the sandbox: One using 32-bit-wide integers, and one
+using 64-bit-wide integers. The 32-bit version can be build and run on either
+32 or 64-bit hosts by either selecting or deselecting CONFIG_SANDBOX_32BIT; by
+default, the sandbox it built for a 32-bit host. The sandbox using 64-bit-wide
+integers can only be built on 64-bit hosts.</p>
+<p>Note that standalone/API support is not available at present.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Prerequisites"></a><div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>Install the dependencies noted in <a class="reference internal" href="../../build/gcc.html"><span class="doc">Building with GCC</span></a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Basic Operation"></a><div class="section" id="basic-operation">
+<h2>Basic Operation<a class="headerlink" href="#basic-operation" title="Permalink to this headline">¶</a></h2>
+<p>To run sandbox U-Boot use something like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make sandbox_defconfig all
+./u-boot
+</pre></div>
+</div>
+<p>Note: If you get errors about ‘sdl-config: Command not found’ you may need to
+install libsdl2.0-dev or similar to get SDL support. Alternatively you can
+build sandbox without SDL (i.e. no display/keyboard support) by disabling
+CONFIG_SANDBOX_SDL in the .config file.</p>
+<p>U-Boot will start on your computer, showing a sandbox emulation of the serial
+console:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot 2014.04 (Mar 20 2014 - 19:06:00)
+
+DRAM:  128 MiB
+Using default environment
+
+In:    serial
+Out:   lcd
+Err:   lcd
+=&gt;
+</pre></div>
+</div>
+<p>You can issue commands as your would normally. If the command you want is
+not supported you can add it to include/configs/sandbox.h.</p>
+<p>To exit, type ‘poweroff’ or press Ctrl-C.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Console / LCD support"></a><div class="section" id="console-lcd-support">
+<h2>Console / LCD support<a class="headerlink" href="#console-lcd-support" title="Permalink to this headline">¶</a></h2>
+<p>Assuming that CONFIG_SANDBOX_SDL is enabled when building, you can run the
+sandbox with LCD and keyboard emulation, using something like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./u-boot -d u-boot.dtb -l
+</pre></div>
+</div>
+<p>This will start U-Boot with a window showing the contents of the LCD. If
+that window has the focus then you will be able to type commands as you
+would on the console. You can adjust the display settings in the device
+tree file - see arch/sandbox/dts/sandbox.dts.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Command-line Options"></a><div class="section" id="command-line-options">
+<h2>Command-line Options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h2>
+<p>Various options are available, mostly for test purposes. Use -h to see
+available options. Some of these are described below:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-t</span>, <span class="option">--terminal <var>&lt;arg&gt;</var></span></kbd></dt>
+<dd><p>The terminal is normally in what is called ‘raw-with-sigs’ mode. This means
+that you can use arrow keys for command editing and history, but if you
+press Ctrl-C, U-Boot will exit instead of handling this as a keypress.
+Other options are ‘raw’ (so Ctrl-C is handled within U-Boot) and ‘cooked’
+(where the terminal is in cooked mode and cursor keys will not work, Ctrl-C
+will exit).</p>
+</dd>
+<dt><kbd><span class="option">-l</span></kbd></dt>
+<dd><p>Show the LCD emulation window.</p>
+</dd>
+<dt><kbd><span class="option">-d <var>&lt;device_tree&gt;</var></span></kbd></dt>
+<dd><p>A device tree binary file can be provided with -d. If you edit the source
+(it is stored at arch/sandbox/dts/sandbox.dts) you must rebuild U-Boot to
+recreate the binary file.</p>
+</dd>
+<dt><kbd><span class="option">-D</span></kbd></dt>
+<dd><p>To use the default device tree, use -D.</p>
+</dd>
+<dt><kbd><span class="option">-T</span></kbd></dt>
+<dd><p>To use the test device tree, use -T.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>-c [&lt;cmd&gt;;]&lt;cmd&gt;</dt><dd><p>To execute commands directly, use the -c option. You can specify a single
+command, or multiple commands separated by a semicolon, as is normal in
+U-Boot. Be careful with quoting as the shell will normally process and
+swallow quotes. When -c is used, U-Boot exits after the command is complete,
+but you can force it to go to interactive mode instead with -i.</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">-i</span></kbd></dt>
+<dd><p>Go to interactive mode after executing the commands specified by -c.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Environment Variables"></a><div class="section" id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>UBOOT_SB_TIME_OFFSET</dt><dd><p>This environment variable stores the offset of the emulated real time clock
+to the host’s real time clock in seconds. The offset defaults to zero.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Memory Emulation"></a><div class="section" id="memory-emulation">
+<h2>Memory Emulation<a class="headerlink" href="#memory-emulation" title="Permalink to this headline">¶</a></h2>
+<p>Memory emulation is supported, with the size set by CONFIG_SANDBOX_RAM_SIZE_MB.
+The -m option can be used to read memory from a file on start-up and write
+it when shutting down. This allows preserving of memory contents across
+test runs. You can tell U-Boot to remove the memory file after it is read
+(on start-up) with the –rm_memory option.</p>
+<p>To access U-Boot’s emulated memory within the code, use map_sysmem(). This
+function is used throughout U-Boot to ensure that emulated memory is used
+rather than the U-Boot application memory. This provides memory starting
+at 0 and extending to the size of the emulation.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Storing State"></a><div class="section" id="storing-state">
+<h2>Storing State<a class="headerlink" href="#storing-state" title="Permalink to this headline">¶</a></h2>
+<p>With sandbox you can write drivers which emulate the operation of drivers on
+real devices. Some of these drivers may want to record state which is
+preserved across U-Boot runs. This is particularly useful for testing. For
+example, the contents of a SPI flash chip should not disappear just because
+U-Boot exits.</p>
+<p>State is stored in a device tree file in a simple format which is driver-
+specific. You then use the -s option to specify the state file. Use -r to
+make U-Boot read the state on start-up (otherwise it starts empty) and -w
+to write it on exit (otherwise the stored state is left unchanged and any
+changes U-Boot made will be lost). You can also use -n to tell U-Boot to
+ignore any problems with missing state. This is useful when first running
+since the state file will be empty.</p>
+<p>The device tree file has one node for each driver - the driver can store
+whatever properties it likes in there. See ‘Writing Sandbox Drivers’ below
+for more details on how to get drivers to read and write their state.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running and Booting"></a><div class="section" id="running-and-booting">
+<h2>Running and Booting<a class="headerlink" href="#running-and-booting" title="Permalink to this headline">¶</a></h2>
+<p>Since there is no machine architecture, sandbox U-Boot cannot actually boot
+a kernel, but it does support the bootm command. Filesystems, memory
+commands, hashing, FIT images, verified boot and many other features are
+supported.</p>
+<p>When ‘bootm’ runs a kernel, sandbox will exit, as U-Boot does on a real
+machine. Of course in this case, no kernel is run.</p>
+<p>It is also possible to tell U-Boot that it has jumped from a temporary
+previous U-Boot binary, with the -j option. That binary is automatically
+removed by the U-Boot that gets the -j option. This allows you to write
+tests which emulate the action of chain-loading U-Boot, typically used in
+a situation where a second ‘updatable’ U-Boot is stored on your board. It
+is very risky to overwrite or upgrade the only U-Boot on a board, since a
+power or other failure will brick the board and require return to the
+manufacturer in the case of a consumer device.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Supported Drivers"></a><div class="section" id="supported-drivers">
+<h2>Supported Drivers<a class="headerlink" href="#supported-drivers" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot sandbox supports these emulations:</p>
+<ul class="simple">
+<li><p>Arm FF-A</p></li>
+<li><p>Block devices</p></li>
+<li><p>Chrome OS EC</p></li>
+<li><p>GPIO</p></li>
+<li><p>Host filesystem (access files on the host from within U-Boot)</p></li>
+<li><p>I2C</p></li>
+<li><p>Keyboard (Chrome OS)</p></li>
+<li><p>LCD</p></li>
+<li><p>Network</p></li>
+<li><p>Serial (for console only)</p></li>
+<li><p>Sound (incomplete - see sandbox_sdl_sound_init() for details)</p></li>
+<li><p>SPI</p></li>
+<li><p>SPI flash</p></li>
+<li><p>TPM (Trusted Platform Module)</p></li>
+</ul>
+<p>A wide range of commands are implemented. Filesystems which use a block
+device are supported.</p>
+<p>Also sandbox supports driver model (CONFIG_DM) and associated commands.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox Variants"></a><div class="section" id="sandbox-variants">
+<h2>Sandbox Variants<a class="headerlink" href="#sandbox-variants" title="Permalink to this headline">¶</a></h2>
+<p>There are unfortunately quite a few variants at present:</p>
+<dl class="simple">
+<dt>sandbox:</dt><dd><p>should be used for most tests</p>
+</dd>
+<dt>sandbox64:</dt><dd><p>special build that forces a 64-bit host</p>
+</dd>
+<dt>sandbox_flattree:</dt><dd><p>builds with dev_read_…() functions defined as inline.
+We need this build so that we can test those inline functions, and we
+cannot build with both the inline functions and the non-inline functions
+since they are named the same.</p>
+</dd>
+<dt>sandbox_spl:</dt><dd><p>builds sandbox with SPL support, so you can run spl/u-boot-spl
+and it will start up and then load ./u-boot. It is also possible to
+run ./u-boot directly.</p>
+</dd>
+</dl>
+<p>Of these sandbox_spl can probably be removed since it is a superset of sandbox.</p>
+<p>Most of the config options should be identical between these variants.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Linux RAW Networking Bridge"></a><div class="section" id="linux-raw-networking-bridge">
+<h2>Linux RAW Networking Bridge<a class="headerlink" href="#linux-raw-networking-bridge" title="Permalink to this headline">¶</a></h2>
+<p>The sandbox_eth_raw driver bridges traffic between the bottom of the network
+stack and the RAW sockets API in Linux. This allows much of the U-Boot network
+functionality to be tested in sandbox against real network traffic.</p>
+<p>For Ethernet network adapters, the bridge utilizes the RAW AF_PACKET API.  This
+is needed to get access to the lowest level of the network stack in Linux. This
+means that all of the Ethernet frame is included. This allows the U-Boot network
+stack to be fully used. In other words, nothing about the Linux network stack is
+involved in forming the packets that end up on the wire. To receive the
+responses to packets sent from U-Boot the network interface has to be set to
+promiscuous mode so that the network card won’t filter out packets not destined
+for its configured (on Linux) MAC address.</p>
+<p>The RAW sockets Ethernet API requires elevated privileges in Linux. You can
+either run as root, or you can add the capability needed like so:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo /sbin/setcap "CAP_NET_RAW+ep" /path/to/u-boot
+</pre></div>
+</div>
+<p>The default device tree for sandbox includes an entry for eth0 on the sandbox
+host machine whose alias is “eth1”. The following are a few examples of network
+operations being tested on the eth0 interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo /path/to/u-boot -D
+
+DHCP
+....
+
+setenv autoload no
+setenv ethrotate no
+setenv ethact eth1
+dhcp
+
+PING
+....
+
+setenv autoload no
+setenv ethrotate no
+setenv ethact eth1
+dhcp
+ping $gatewayip
+
+TFTP
+....
+
+setenv autoload no
+setenv ethrotate no
+setenv ethact eth1
+dhcp
+setenv serverip WWW.XXX.YYY.ZZZ
+tftpboot u-boot.bin
+</pre></div>
+</div>
+<p>The bridge also supports (to a lesser extent) the localhost interface, ‘lo’.</p>
+<p>The ‘lo’ interface cannot use the RAW AF_PACKET API because the lo interface
+doesn’t support Ethernet-level traffic. It is a higher-level interface that is
+expected only to be used at the AF_INET level of the API. As such, the most raw
+we can get on that interface is the RAW AF_INET API on UDP. This allows us to
+set the IP_HDRINCL option to include everything except the Ethernet header in
+the packets we send and receive.</p>
+<p>Because only UDP is supported, ICMP traffic will not work, so expect that ping
+commands will time out.</p>
+<p>The default device tree for sandbox includes an entry for lo on the sandbox
+host machine whose alias is “eth5”. The following is an example of a network
+operation being tested on the lo interface.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TFTP
+....
+
+setenv ethrotate no
+setenv ethact eth5
+tftpboot u-boot.bin
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/SPI Emulation"></a><div class="section" id="spi-emulation">
+<h2>SPI Emulation<a class="headerlink" href="#spi-emulation" title="Permalink to this headline">¶</a></h2>
+<p>Sandbox supports SPI and SPI flash emulation.</p>
+<p>The device can be enabled via a device tree, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spi@0 {
+        #address-cells = &lt;1&gt;;
+        #size-cells = &lt;0&gt;;
+        reg = &lt;0 1&gt;;
+        compatible = "sandbox,spi";
+        cs-gpios = &lt;0&gt;, &lt;&amp;gpio_a 0&gt;;
+        spi.bin@0 {
+                reg = &lt;0&gt;;
+                compatible = "spansion,m25p16", "jedec,spi-nor";
+                spi-max-frequency = &lt;40000000&gt;;
+                sandbox,filename = "spi.bin";
+        };
+};
+</pre></div>
+</div>
+<p>The file must be created in advance:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ dd if=/dev/zero of=spi.bin bs=1M count=2
+$ u-boot -T
+</pre></div>
+</div>
+<p>Here, you can use “-T” or “-D” option to specify test.dtb or u-boot.dtb,
+respectively, or “-d &lt;file&gt;” for your own dtb.</p>
+<p>With this setup you can issue SPI flash commands as normal:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt;sf probe
+SF: Detected M25P16 with page size 64 KiB, total 2 MiB
+=&gt;sf read 0 0 10000
+SF: 65536 bytes @ 0x0 Read: OK
+</pre></div>
+</div>
+<p>Since this is a full SPI emulation (rather than just flash), you can
+also use low-level SPI commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt;sspi 0:0 32 9f
+FF202015
+</pre></div>
+</div>
+<p>This is issuing a READ_ID command and getting back 20 (ST Micro) part
+0x2015 (the M25P16).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Block Device Emulation"></a><div class="section" id="block-device-emulation">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Block Device Emulation"></a><span id="sandbox-blk"></span><h2>Block Device Emulation<a class="headerlink" href="#block-device-emulation" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot can use raw disk images for block device emulation. To e.g. list
+the contents of the root directory on the second partion of the image
+“disk.raw”, you can use the following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt;host bind 0 ./disk.raw
+=&gt;ls host 0:2
+</pre></div>
+</div>
+<p>The device can be marked removeable with ‘host bind -r’.</p>
+<p>A disk image can be created using the following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$&gt; truncate -s 1200M ./disk.raw
+$&gt; /usr/sbin/sgdisk --new=1:0:+64M --typecode=1:EF00 --new=2:0:0 --typecode=2:8300 disk.raw
+$&gt; lodev=`sudo losetup -P -f --show ./disk.raw`
+$&gt; sudo mkfs.vfat -n EFI -v ${lodev}p1
+$&gt; sudo mkfs.ext4 -L ROOT -v ${lodev}p2
+</pre></div>
+</div>
+<p>or utilize the device described in test/py/make_test_disk.py:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#!/usr/bin/python
+import make_test_disk
+make_test_disk.makeDisk()
+</pre></div>
+</div>
+<p>For more technical details, see <a class="reference internal" href="block_impl.html"><span class="doc">Sandbox block devices (implementation)</span></a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Writing Sandbox Drivers"></a><div class="section" id="writing-sandbox-drivers">
+<h2>Writing Sandbox Drivers<a class="headerlink" href="#writing-sandbox-drivers" title="Permalink to this headline">¶</a></h2>
+<p>Generally you should put your driver in a file containing the word ‘sandbox’
+and put it in the same directory as other drivers of its type. You can then
+implement the same hooks as the other drivers.</p>
+<p>To access U-Boot’s emulated memory, use map_sysmem() as mentioned above.</p>
+<p>If your driver needs to store configuration or state (such as SPI flash
+contents or emulated chip registers), you can use the device tree as
+described above. Define handlers for this with the SANDBOX_STATE_IO macro.
+See arch/sandbox/include/asm/state.h for documentation. In short you provide
+a node name, compatible string and functions to read and write the state.
+Since writing the state can expand the device tree, you may need to use
+state_setprop() which does this automatically and avoids running out of
+space. See existing code for examples.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/VPL (Verifying Program Loader)"></a><div class="section" id="vpl-verifying-program-loader">
+<h2>VPL (Verifying Program Loader)<a class="headerlink" href="#vpl-verifying-program-loader" title="Permalink to this headline">¶</a></h2>
+<p>Sandbox provides an example build of vpl called <cite>sandbox_vpl</cite>. This can be run
+using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/path/to/sandbox_vpl/tpl/u-boot-tpl -D
+</pre></div>
+</div>
+<p>It starts up TPL (first-stage init), then VPL, then runs SPL and finally U-Boot
+proper, following the normal flow for a verified boot. At present, no
+verification is actually implemented.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debugging the init sequence"></a><div class="section" id="debugging-the-init-sequence">
+<h2>Debugging the init sequence<a class="headerlink" href="#debugging-the-init-sequence" title="Permalink to this headline">¶</a></h2>
+<p>If you get a failure in the initcall sequence, like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>initcall sequence 0000560775957c80 failed at call 0000000000048134 (err=-96)
+</pre></div>
+</div>
+<p>Then you use can use grep to see which init call failed, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ grep 0000000000048134 u-boot.map
+stdio_add_devices
+</pre></div>
+</div>
+<p>Of course another option is to run it with a debugger such as gdb:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ gdb u-boot
+...
+(gdb) br initcall.h:41
+Breakpoint 1 at 0x4db9d: initcall.h:41. (2 locations)
+</pre></div>
+</div>
+<p>Note that two locations are reported, since this function is used in both
+board_init_f() and board_init_r().</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) r
+Starting program: /tmp/b/sandbox/u-boot
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+U-Boot 2018.09-00264-ge0c2ba9814-dirty (Sep 22 2018 - 12:21:46 -0600)
+
+DRAM:  128 MiB
+MMC:
+
+Breakpoint 1, initcall_run_list (init_sequence=0x5555559619e0 &lt;init_sequence_f&gt;)
+    at /scratch/sglass/cosarm/src/third_party/u-boot/files/include/initcall.h:41
+41                              printf("initcall sequence %p failed at call %p (err=%d)\n",
+(gdb) print *init_fnc_ptr
+$1 = (const init_fnc_t) 0x55555559c114 &lt;stdio_add_devices&gt;
+(gdb)
+</pre></div>
+</div>
+<p>This approach can be used on normal boards as well as sandbox.</p>
+<p>For debugging with GDB or LLDB, it is preferable to reduce the compiler
+optimization level (CONFIG_CC_OPTIMIZE_FOR_DEBUG=y) and to disable Link Time
+Optimization (CONFIG_LTO=n).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/SDL_CONFIG"></a><div class="section" id="sdl-config">
+<h2>SDL_CONFIG<a class="headerlink" href="#sdl-config" title="Permalink to this headline">¶</a></h2>
+<p>If sdl-config is on a different path from the default, set the SDL_CONFIG
+environment variable to the correct pathname before building U-Boot.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Using valgrind / memcheck"></a><div class="section" id="using-valgrind-memcheck">
+<h2>Using valgrind / memcheck<a class="headerlink" href="#using-valgrind-memcheck" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to run U-Boot under valgrind to check memory allocations:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>valgrind ./u-boot
+</pre></div>
+</div>
+<p>However, this does not give very useful results. The sandbox allocates a memory
+pool via mmap(). U-Boot’s internal malloc() and free() work on this memory pool.
+Custom allocators and deallocators are invisible to valgrind by default. To
+expose U-Boot’s malloc() and free() to valgrind, enable <code class="docutils literal notranslate"><span class="pre">CONFIG_VALGRIND</span></code>.
+Enabling this option will inject placeholder assembler code which valgrind
+interprets. This is used to annotate sections of memory as safe or unsafe, and
+to inform valgrind about malloc()s and free()s. There are currently no standard
+placeholder assembly sequences for RISC-V, so this option cannot be enabled on
+that architecture.</p>
+<p>Malloc’s bookkeeping information is marked as unsafe by default. However, this
+will generate many false positives when malloc itself accesses this information.
+These warnings can be suppressed with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>valgrind --suppressions=scripts/u-boot.supp ./u-boot
+</pre></div>
+</div>
+<p>Additionally, you may experience false positives if U-Boot is using a smaller
+pointer size than your host architecture. This is because the pointers used by
+U-Boot will only contain 32 bits of addressing information. When interpreted as
+64-bit pointers, valgrind will think that they are not initialized properly. To
+fix this, enable <code class="docutils literal notranslate"><span class="pre">CONFIG_SANDBOX64</span></code> (such as via <code class="docutils literal notranslate"><span class="pre">sandbox64_defconfig</span></code>)
+when running on a 64-bit host.</p>
+<div class="section" id="additional-options">
+<h3>Additional options<a class="headerlink" href="#additional-options" title="Permalink to this headline">¶</a></h3>
+<p>The following valgrind options are useful in addition to the above examples:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">--trace-childen=yes</span></code></dt><dd><p>tells valgrind to keep tracking subprocesses, such
+as when U-Boot jumps from TPL to SPL, or from SPL to U-Boot proper.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--track-origins=yes</span></code></dt><dd><p>will (for a small overhead) tell valgrind to keep
+track of who allocated some troublesome memory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--error-limit</span></code></dt><dd><p>will enable printing more than 1000 errors in a single session.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--vgdb=yes</span> <span class="pre">--vgdb-error=0</span></code></dt><dd><p>will let you use GDB to attach like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gdb -ex "target remote | vgdb" u-boot
+</pre></div>
+</div>
+<p>This is very helpful for inspecting the program state when there is
+an error.</p>
+</dd>
+</dl>
+<p>The following U-Boot option are also helpful:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-Tc</span> <span class="pre">'ut</span> <span class="pre">all'</span></code></dt><dd><p>lets U-Boot run unit tests automatically. Note
+that not all unit tests will succeed in the default configuration.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">cooked</span></code></dt><dd><p>will keep the console in a sane state if you
+terminate it early (instead of having to run tset).</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="future-work">
+<h3>Future work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h3>
+<p>The biggest limitation to the current approach is that supressions don’t
+“un-taint” uninitialized memory accesses. Currently, dlmalloc’s bookkeeping
+information is marked as a “red zone.” This means that all reads to that zone
+are marked as illegal by valgrind. This is fine for regular code, but dlmalloc
+really does need to access this area, so we suppress its violations. However, if
+dlmalloc then passes a result calculated from a “tainted” access, that result is
+still tainted. So the first accessor will raise a warning. This means that every
+construct like</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>foo = malloc(sizeof(*foo));
+if (!foo)
+    return -ENOMEM;
+</pre></div>
+</div>
+<p>will raise a warning when we check the result of malloc. Whoops.</p>
+<p>There are at least four possible ways to address this:</p>
+<ul class="simple">
+<li><p>Don’t mark dlmalloc bookkeeping information as a red zone. This is the
+simplest solution, but reduces the power of valgrind immensely, since we can
+no longer determine that (e.g.) access past the end of an array is undefined.</p></li>
+<li><p>Implement red zones properly. This would involve growing every allocation by a
+fixed amount (16 bytes or so) and then using that extra space for a real red
+zone that neither regular code nor dlmalloc needs to access. Unfortunately,
+this would probably some fairly intensive surgery to dlmalloc to add/remove
+the offset appropriately.</p></li>
+<li><p>Mark bookkeeping information as valid before we use it in dlmalloc, and then
+mark it invalid before returning. This would be the most correct, but it would
+be very tricky to implement since there are so many code paths to mark. I
+think it would be the most effort out of the three options here.</p></li>
+<li><p>Use the host malloc and free instead of U-Boot’s custom allocator. This will
+eliminate the need to annotate dlmalloc. However, using a different allocator
+for sandbox will mean that bugs in dlmalloc will only be tested when running
+on read (or emulated) hardware.</p></li>
+</ul>
+<p>Until one of the above options are implemented, it will remain difficult
+to sift through the massive amount of spurious warnings.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Testing"></a><div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot sandbox can be used to run various tests, mostly in the test/
+directory.</p>
+<p>See <a class="reference internal" href="../../develop/tests_sandbox.html"><span class="doc">Sandbox tests</span></a> for more information and
+<a class="reference internal" href="../../develop/testing.html"><span class="doc">Introduction to testing</span></a> for information about testing generally.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Memory Map"></a><div class="section" id="memory-map">
+<h2>Memory Map<a class="headerlink" href="#memory-map" title="Permalink to this headline">¶</a></h2>
+<p>Sandbox has its own emulated memory starting at 0. Here are some of the things
+that are mapped into that memory:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 33%"/>
+<col style="width: 58%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Addr</p></th>
+<th class="head"><p>Config</p></th>
+<th class="head"><p>Usage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>CONFIG_SYS_FDT_LOAD_ADDR</p></td>
+<td><p>Device tree</p></td>
+</tr>
+<tr class="row-odd"><td><p>c000</p></td>
+<td><p>CONFIG_BLOBLIST_ADDR</p></td>
+<td><p>Blob list</p></td>
+</tr>
+<tr class="row-even"><td><p>10000</p></td>
+<td><p>CFG_MALLOC_F_ADDR</p></td>
+<td><p>Early memory allocation</p></td>
+</tr>
+<tr class="row-odd"><td><p>f0000</p></td>
+<td><p>CONFIG_PRE_CON_BUF_ADDR</p></td>
+<td><p>Pre-console buffer</p></td>
+</tr>
+<tr class="row-even"><td><p>100000</p></td>
+<td><p>CONFIG_TRACE_EARLY_ADDR</p></td>
+<td><p>Early trace buffer (if enabled). Also used
+as the SPL load buffer in spl_test_load().</p></td>
+</tr>
+<tr class="row-odd"><td><p>200000</p></td>
+<td><p>CONFIG_TEXT_BASE</p></td>
+<td><p>Load buffer for U-Boot (sandbox_spl only)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Sandbox"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="block_impl.html" rel="next" title="Sandbox block devices (implementation)">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

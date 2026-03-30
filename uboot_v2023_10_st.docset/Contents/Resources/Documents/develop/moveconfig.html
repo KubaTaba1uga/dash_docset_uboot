@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>moveconfig - Migrating and querying CONFIG options — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="python_cq.html" rel="next" title="Python code quality"/>
+<link href="coccinelle.html" rel="prev" title="Coccinelle"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#refactoring">Refactoring</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="checkpatch.html">Checkpatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coccinelle.html">Coccinelle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">moveconfig - Migrating and querying CONFIG options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installing">Installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-does-it-work">How does it work?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#toolchains">Toolchains</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tips-and-trips">Tips and trips</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finding-boards-with-particular-config-combinations">Finding boards with particular CONFIG combinations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finding-implied-configs">Finding implied CONFIGs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available-options">Available options</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>moveconfig - Migrating and querying CONFIG options</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/moveconfig.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/moveconfig - Migrating and querying CONFIG options"></a><div class="section" id="moveconfig-migrating-and-querying-config-options">
+<h1>moveconfig - Migrating and querying CONFIG options<a class="headerlink" href="#moveconfig-migrating-and-querying-config-options" title="Permalink to this headline">¶</a></h1>
+<p>Since Kconfig was introduced to U-Boot, we have worked on moving
+config options from headers to Kconfig (defconfig).</p>
+<p>This tool intends to help this tremendous work.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installing"></a><div class="section" id="installing">
+<h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<p>You may need to install ‘python3-asteval’ for the ‘asteval’ module.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Usage"></a><div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>First, you must edit the Kconfig to add the menu entries for the configs
+you are moving.</p>
+<p>Then run this tool giving CONFIG names you want to move.
+For example, if you want to move CONFIG_CMD_USB and CONFIG_TEXT_BASE,
+simply type as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ tools/moveconfig.py CONFIG_CMD_USB CONFIG_TEXT_BASE
+</pre></div>
+</div>
+<p>The tool walks through all the defconfig files and move the given CONFIGs.</p>
+<p>The log is also displayed on the terminal.</p>
+<p>The log is printed for each defconfig as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;defconfig_name&gt;
+   &lt;action1&gt;
+   &lt;action2&gt;
+   &lt;action3&gt;
+   ...
+</pre></div>
+</div>
+<p><cite>&lt;defconfig_name&gt;</cite> is the name of the defconfig.</p>
+<p><cite>&lt;action*&gt;</cite> shows what the tool did for that defconfig.
+It looks like one of the following:</p>
+<blockquote>
+<div><ul>
+<li><p>Move ‘CONFIG_… ‘
+This config option was moved to the defconfig</p></li>
+<li><p>CONFIG_… is not defined in Kconfig.  Do nothing.
+The entry for this CONFIG was not found in Kconfig.  The option is not
+defined in the config header, either.  So, this case can be just skipped.</p></li>
+<li><p>CONFIG_… is not defined in Kconfig (suspicious).  Do nothing.
+This option is defined in the config header, but its entry was not found
+in Kconfig.
+There are two common cases:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>You forgot to create an entry for the CONFIG before running
+this tool, or made a typo in a CONFIG passed to this tool.</p></li>
+<li><p>The entry was hidden due to unmet ‘depends on’.</p></li>
+</ul>
+</div></blockquote>
+<p>The tool does not know if the result is reasonable, so please check it
+manually.</p>
+</li>
+<li><p>‘CONFIG_…’ is the same as the define in Kconfig.  Do nothing.
+The define in the config header matched the one in Kconfig.
+We do not need to touch it.</p></li>
+<li><p>Compiler is missing.  Do nothing.
+The compiler specified for this architecture was not found
+in your PATH environment.
+(If -e option is passed, the tool exits immediately.)</p></li>
+<li><p>Failed to process.
+An error occurred during processing this defconfig.  Skipped.
+(If -e option is passed, the tool exits immediately on error.)</p></li>
+</ul>
+</div></blockquote>
+<p>Finally, you will be asked, Clean up headers? [y/n]:</p>
+<p>If you say ‘y’ here, the unnecessary config defines are removed
+from the config headers (include/configs/*.h).
+It just uses the regex method, so you should not rely on it.
+Just in case, please do ‘git diff’ to see what happened.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How does it work?"></a><div class="section" id="how-does-it-work">
+<h2>How does it work?<a class="headerlink" href="#how-does-it-work" title="Permalink to this headline">¶</a></h2>
+<p>This tool runs configuration and builds include/autoconf.mk for every
+defconfig.  The config options defined in Kconfig appear in the .config
+file (unless they are hidden because of unmet dependency.)
+On the other hand, the config options defined by board headers are seen
+in include/autoconf.mk.  The tool looks for the specified options in both
+of them to decide the appropriate action for the options.  If the given
+config option is found in the .config, but its value does not match the
+one from the board header, the config option in the .config is replaced
+with the define in the board header.  Then, the .config is synced by
+“make savedefconfig” and the defconfig is updated with it.</p>
+<p>For faster processing, this tool handles multi-threading.  It creates
+separate build directories where the out-of-tree build is run.  The
+temporary build directories are automatically created and deleted as
+needed.  The number of threads are chosen based on the number of the CPU
+cores of your system although you can change it via -j (–jobs) option.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Toolchains"></a><div class="section" id="toolchains">
+<h2>Toolchains<a class="headerlink" href="#toolchains" title="Permalink to this headline">¶</a></h2>
+<p>Appropriate toolchain are necessary to generate include/autoconf.mk
+for all the architectures supported by U-Boot.  Most of them are available
+at the kernel.org site, some are not provided by kernel.org. This tool uses
+the same tools as buildman, so see that tool for setup (e.g. –fetch-arch).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Tips and trips"></a><div class="section" id="tips-and-trips">
+<h2>Tips and trips<a class="headerlink" href="#tips-and-trips" title="Permalink to this headline">¶</a></h2>
+<p>To sync only X86 defconfigs:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./tools/moveconfig.py -s -d &lt;(grep -l X86 configs/*)
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>grep -l X86 configs/* | ./tools/moveconfig.py -s -d -
+</pre></div>
+</div>
+<p>To process CONFIG_CMD_FPGAD only for a subset of configs based on path match:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ls configs/{hrcon*,iocon*,strider*} | \
+    ./tools/moveconfig.py -Cy CONFIG_CMD_FPGAD -d -
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Finding boards with particular CONFIG combinations"></a><div class="section" id="finding-boards-with-particular-config-combinations">
+<h2>Finding boards with particular CONFIG combinations<a class="headerlink" href="#finding-boards-with-particular-config-combinations" title="Permalink to this headline">¶</a></h2>
+<p>You can use <cite>moveconfig.py</cite> to figure out which boards have a CONFIG enabled, or
+which do not. To use it, first build a database:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./tools/moveconfig.py -b
+</pre></div>
+</div>
+<p>Then you can run queries using the <cite>-f</cite> flag followed by a list of CONFIG terms.
+Each term is CONFIG name, with or without a tilde (~) prefix. The tool searches
+for boards which match the CONFIG name, or do not match if tilde is used. For
+example, to find boards which enabled CONFIG_SCSI but not CONFIG_BLK:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>tools/moveconfig.py -f SCSI ~BLK
+3 matches
+pg_wcom_seli8_defconfig highbank_defconfig pg_wcom_expu1_defconfig
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Finding implied CONFIGs"></a><div class="section" id="finding-implied-configs">
+<h2>Finding implied CONFIGs<a class="headerlink" href="#finding-implied-configs" title="Permalink to this headline">¶</a></h2>
+<p>Some CONFIG options can be implied by others and this can help to reduce
+the size of the defconfig files. For example, CONFIG_X86 implies
+CONFIG_CMD_IRQ, so we can put ‘imply CMD_IRQ’ under ‘config X86’ and
+all x86 boards will have that option, avoiding adding CONFIG_CMD_IRQ to
+each of the x86 defconfig files.</p>
+<p>This tool can help find such configs. To use it, first build a database:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./tools/moveconfig.py -b
+</pre></div>
+</div>
+<p>Then try to query it:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./tools/moveconfig.py -i CONFIG_I8042_KEYB
+CONFIG_I8042_KEYB found in 33/5155 defconfigs
+28 : CONFIG_X86
+28 : CONFIG_SA_PCIEX_LENGTH
+28 : CONFIG_HPET_ADDRESS
+28 : CONFIG_MAX_PIRQ_LINKS
+28 : CONFIG_I8254_TIMER
+28 : CONFIG_I8259_PIC
+28 : CONFIG_RAMBASE
+28 : CONFIG_IRQ_SLOT_COUNT
+28 : CONFIG_PCIE_ECAM_SIZE
+28 : CONFIG_APIC
+...
+</pre></div>
+</div>
+<p>This shows a list of config options which might imply CONFIG_I8042_KEYB along
+with how many defconfigs they cover. From this you can see that CONFIG_X86
+generally implies CONFIG_I8042_KEYB but not always (28 out of 35). Therefore,
+instead of adding CONFIG_I8042_KEYB to
+the defconfig of every x86 board, you could add a single imply line to the
+Kconfig file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>config X86
+    bool "x86 architecture"
+    ...
+    imply CMD_EEPROM
+</pre></div>
+</div>
+<p>That will cover 28 defconfigs and you can perhaps find another condition that
+indicates that CONFIG_I8042_KEYB is not needed for the remaining 5 boards. Many
+of the options listed are not suitable as they are not related. E.g. it would be
+odd for CONFIG_RAMBASE to imply CONFIG_I8042_KEYB.</p>
+<p>Using this search you can reduce the size of moveconfig patches.</p>
+<p>You can automatically add ‘imply’ statements in the Kconfig with the -a
+option:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./tools/moveconfig.py -s -i CONFIG_SCSI \
+        -a CONFIG_ARCH_LS1021A,CONFIG_ARCH_LS1043A
+</pre></div>
+</div>
+<p>This will add ‘imply SCSI’ to the two CONFIG options mentioned, assuming that
+the database indicates that they do actually imply CONFIG_SCSI and do not
+already have an ‘imply SCSI’.</p>
+<p>The output shows where the imply is added:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>18 : CONFIG_ARCH_LS1021A       arch/arm/cpu/armv7/ls102xa/Kconfig:1
+13 : CONFIG_ARCH_LS1043A       arch/arm/cpu/armv8/fsl-layerscape/Kconfig:11
+12 : CONFIG_ARCH_LS1046A       arch/arm/cpu/armv8/fsl-layerscape/Kconfig:31
+</pre></div>
+</div>
+<p>The first number is the number of boards which can avoid having a special
+CONFIG_SCSI option in their defconfig file if this ‘imply’ is added.
+The location at the right is the Kconfig file and line number where the config
+appears. For example, adding ‘imply CONFIG_SCSI’ to the ‘config ARCH_LS1021A’
+in arch/arm/cpu/armv7/ls102xa/Kconfig at line 1 will help 18 boards to reduce
+the size of their defconfig files.</p>
+<p>If you want to add an ‘imply’ to every imply config in the list, you can use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./tools/moveconfig.py -s -i CONFIG_SCSI -a all
+</pre></div>
+</div>
+<p>To control which ones are displayed, use -I &lt;list&gt; where list is a list of
+options (use ‘-I help’ to see possible options and their meaning).</p>
+<p>To skip showing you options that already have an ‘imply’ attached, use -A.</p>
+<p>When you have finished adding ‘imply’ options you can regenerate the
+defconfig files for affected boards with something like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git show --stat | ./tools/moveconfig.py -s -d -
+</pre></div>
+</div>
+<p>This will regenerate only those defconfigs changed in the current commit.
+If you start with (say) 100 defconfigs being changed in the commit, and add
+a few ‘imply’ options as above, then regenerate, hopefully you can reduce the
+number of defconfigs changed in the commit.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Available options"></a><div class="section" id="available-options">
+<h2>Available options<a class="headerlink" href="#available-options" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="option-list">
+<dt><kbd><span class="option">-c</span>, <span class="option">--color</span></kbd></dt>
+<dd><p>Surround each portion of the log with escape sequences to display it
+in color on the terminal.</p>
+</dd>
+<dt><kbd><span class="option">-C</span>, <span class="option">--commit</span></kbd></dt>
+<dd><p>Create a git commit with the changes when the operation is complete. A
+standard commit message is used which may need to be edited.</p>
+</dd>
+<dt><kbd><span class="option">-d</span>, <span class="option">--defconfigs</span></kbd></dt>
+<dd><p>Specify a file containing a list of defconfigs to move.  The defconfig
+files can be given with shell-style wildcards. Use ‘-‘ to read from stdin.</p>
+</dd>
+<dt><kbd><span class="option">-f</span>, <span class="option">--find</span></kbd></dt>
+<dd><p>Find boards with a given config combination</p>
+</dd>
+<dt><kbd><span class="option">-n</span>, <span class="option">--dry-run</span></kbd></dt>
+<dd><p>Perform a trial run that does not make any changes.  It is useful to
+see what is going to happen before one actually runs it.</p>
+</dd>
+<dt><kbd><span class="option">-e</span>, <span class="option">--exit-on-error</span></kbd></dt>
+<dd><p>Exit immediately if Make exits with a non-zero status while processing
+a defconfig file.</p>
+</dd>
+<dt><kbd><span class="option">-s</span>, <span class="option">--force-sync</span></kbd></dt>
+<dd><p>Do “make savedefconfig” forcibly for all the defconfig files.
+If not specified, “make savedefconfig” only occurs for cases
+where at least one CONFIG was moved.</p>
+</dd>
+<dt><kbd><span class="option">-S</span>, <span class="option">--spl</span></kbd></dt>
+<dd><p>Look for moved config options in spl/include/autoconf.mk instead of
+include/autoconf.mk.  This is useful for moving options for SPL build
+because SPL related options (mostly prefixed with CONFIG_SPL_) are
+sometimes blocked by CONFIG_SPL_BUILD ifdef conditionals.</p>
+</dd>
+<dt><kbd><span class="option">-H</span>, <span class="option">--headers-only</span></kbd></dt>
+<dd><p>Only cleanup the headers; skip the defconfig processing</p>
+</dd>
+<dt><kbd><span class="option">-j</span>, <span class="option">--jobs</span></kbd></dt>
+<dd><p>Specify the number of threads to run simultaneously.  If not specified,
+the number of threads is the same as the number of CPU cores.</p>
+</dd>
+<dt><kbd><span class="option">-r</span>, <span class="option">--git-ref</span></kbd></dt>
+<dd><p>Specify the git ref to clone for building the autoconf.mk. If unspecified
+use the CWD. This is useful for when changes to the Kconfig affect the
+default values and you want to capture the state of the defconfig from
+before that change was in effect. If in doubt, specify a ref pre-Kconfig
+changes (use HEAD if Kconfig changes are not committed). Worst case it will
+take a bit longer to run, but will always do the right thing.</p>
+</dd>
+<dt><kbd><span class="option">-v</span>, <span class="option">--verbose</span></kbd></dt>
+<dd><p>Show any build errors as boards are built</p>
+</dd>
+<dt><kbd><span class="option">-y</span>, <span class="option">--yes</span></kbd></dt>
+<dd><p>Instead of prompting, automatically go ahead with all operations. This
+includes cleaning up headers, the config whitelist and the README.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>To see the complete list of supported options, run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>tools/moveconfig.py -h
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="coccinelle.html" rel="prev" title="Coccinelle"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="python_cq.html" rel="next" title="Python code quality">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

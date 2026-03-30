@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Android Bootloader Control Block (BCB) — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="boot-image.html" rel="next" title="Android Boot Image"/>
+<link href="avb2.html" rel="prev" title="Android Verified Boot 2.0"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Android-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ab.html">Android A/B updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html">Android Verified Boot 2.0</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Android Bootloader Control Block (BCB)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bcb-shell-command-overview">‘bcb’. Shell command overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bcb-example-of-getting-reboot-reason">‘bcb’. Example of getting reboot reason</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-on-your-board">Enable on your board</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html">Android Boot Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html">FastBoot Version 0.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html">Android Fastboot</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Android-specific doc</a> »</li>
+<li>Android Bootloader Control Block (BCB)</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/android/bcb.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Android Bootloader Control Block (BCB)"></a><div class="section" id="android-bootloader-control-block-bcb">
+<h1>Android Bootloader Control Block (BCB)<a class="headerlink" href="#android-bootloader-control-block-bcb" title="Permalink to this headline">¶</a></h1>
+<p>The purpose behind this file is to:</p>
+<ul class="simple">
+<li><p>give an overview of BCB w/o duplicating public documentation</p></li>
+<li><p>describe the main BCB use-cases which concern U-Boot</p></li>
+<li><p>reflect current support status in U-Boot</p></li>
+<li><p>mention any relevant U-Boot build-time tunables</p></li>
+<li><p>precisely exemplify one or more use-cases</p></li>
+</ul>
+<p>Additions and fixes are welcome!</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Bootloader Control Block (BCB) is a well established term/acronym in
+the Android namespace which refers to a location in a dedicated raw
+(i.e. FS-unaware) flash (e.g. eMMC) partition, usually called <code class="docutils literal notranslate"><span class="pre">misc</span></code>,
+which is used as media for exchanging messages between Android userspace
+(particularly recovery <a class="footnote-reference brackets" href="#id6" id="id1">1</a>) and an Android-capable bootloader.</p>
+<p>On higher level, BCB provides a way to implement a subset of Android
+Bootloader Requirements <a class="footnote-reference brackets" href="#id7" id="id2">2</a>, amongst which are:</p>
+<ul class="simple">
+<li><p>Android-specific bootloader flow <a class="footnote-reference brackets" href="#id8" id="id3">3</a></p></li>
+<li><p>Get the “reboot reason” (and act accordingly) <a class="footnote-reference brackets" href="#id9" id="id4">4</a></p></li>
+<li><p>Get/pass a list of commands from/to recovery <a class="footnote-reference brackets" href="#id6" id="id5">1</a></p></li>
+<li><p>TODO</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/‘bcb’. Shell command overview"></a><div class="section" id="bcb-shell-command-overview">
+<h2>‘bcb’. Shell command overview<a class="headerlink" href="#bcb-shell-command-overview" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">bcb</span></code> command provides a CLI to facilitate the development of the
+requirements enumerated above. Below is the command’s help message:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; bcb
+bcb - Load/set/clear/test/dump/store Android BCB fields
+
+Usage:
+bcb load  &lt;dev&gt; &lt;part&gt;       - load  BCB from mmc &lt;dev&gt;:&lt;part&gt;
+bcb set   &lt;field&gt; &lt;val&gt;      - set   BCB &lt;field&gt; to &lt;val&gt;
+bcb clear [&lt;field&gt;]          - clear BCB &lt;field&gt; or all fields
+bcb test  &lt;field&gt; &lt;op&gt; &lt;val&gt; - test  BCB &lt;field&gt; against &lt;val&gt;
+bcb dump  &lt;field&gt;            - dump  BCB &lt;field&gt;
+bcb store                    - store BCB back to mmc
+
+Legend:
+&lt;dev&gt;   - MMC device index containing the BCB partition
+&lt;part&gt;  - MMC partition index or name containing the BCB
+&lt;field&gt; - one of {command,status,recovery,stage,reserved}
+&lt;op&gt;    - the binary operator used in 'bcb test':
+          '=' returns true if &lt;val&gt; matches the string stored in &lt;field&gt;
+          '~' returns true if &lt;val&gt; matches a subset of &lt;field&gt;'s string
+&lt;val&gt;   - string/text provided as input to bcb {set,test}
+          NOTE: any ':' character in &lt;val&gt; will be replaced by line feed
+          during 'bcb set' and used as separator by upper layers
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/‘bcb’. Example of getting reboot reason"></a><div class="section" id="bcb-example-of-getting-reboot-reason">
+<h2>‘bcb’. Example of getting reboot reason<a class="headerlink" href="#bcb-example-of-getting-reboot-reason" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span>bcb<span class="w"> </span>load<span class="w"> </span><span class="m">1</span><span class="w"> </span>misc<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="c1"># valid BCB found</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>bcb<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>bootonce-bootloader<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>bcb<span class="w"> </span>clear<span class="w"> </span>command<span class="p">;</span><span class="w"> </span>bcb<span class="w"> </span>store<span class="p">;</span>
+<span class="w">        </span><span class="c1"># do the equivalent of AOSP ${fastbootcmd}</span>
+<span class="w">        </span><span class="c1"># i.e. call fastboot</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span>bcb<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>boot-recovery<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>bcb<span class="w"> </span>clear<span class="w"> </span>command<span class="p">;</span><span class="w"> </span>bcb<span class="w"> </span>store<span class="p">;</span>
+<span class="w">        </span><span class="c1"># do the equivalent of AOSP ${recoverycmd}</span>
+<span class="w">        </span><span class="c1"># i.e. do anything required for booting into recovery</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="c1"># boot Android OS normally</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="c1"># corrupted/non-existent BCB</span>
+<span class="w">    </span><span class="c1"># report error or boot non-Android OS (platform-specific)</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enable on your board"></a><div class="section" id="enable-on-your-board">
+<h2>Enable on your board<a class="headerlink" href="#enable-on-your-board" title="Permalink to this headline">¶</a></h2>
+<p>The following Kconfig options must be enabled:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_PARTITIONS=y
+CONFIG_MMC=y
+CONFIG_BCB=y
+</pre></div>
+</div>
+<dl class="footnote brackets">
+<dt class="label" id="id6"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id5">2</a>)</span></dt>
+<dd><p><a class="reference external" href="https://android.googlesource.com/platform/bootable/recovery">https://android.googlesource.com/platform/bootable/recovery</a></p>
+</dd>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p><a class="reference external" href="https://source.android.com/devices/bootloader">https://source.android.com/devices/bootloader</a></p>
+</dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p><a class="reference external" href="https://patchwork.ozlabs.org/patch/746835/">https://patchwork.ozlabs.org/patch/746835/</a>
+(“[U-Boot,5/6] Initial support for the Android Bootloader flow”)</p>
+</dd>
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p><a class="reference external" href="https://source.android.com/devices/bootloader/boot-reason">https://source.android.com/devices/bootloader/boot-reason</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="avb2.html" rel="prev" title="Android Verified Boot 2.0"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="boot-image.html" rel="next" title="Android Boot Image">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

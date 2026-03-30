@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Writing Tests — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="tests_sandbox.html" rel="next" title="Sandbox tests"/>
+<link href="py_testing.html" rel="prev" title="U-Boot pytest suite"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#testing">Testing</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="testing.html">Introduction to testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_testing.html">U-Boot pytest suite</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Writing Tests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#test-types">Test types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-or-c">Python or C</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mixing-python-and-c">Mixing Python and C</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-slow-are-python-tests">How slow are Python tests?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-does-speed-matter">Why does speed matter?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-c-tests">Writing C tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-python-tests">Writing Python tests</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests_sandbox.html">Sandbox tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Writing Tests</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/tests_writing.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Writing Tests"></a><div class="section" id="writing-tests">
+<h1>Writing Tests<a class="headerlink" href="#writing-tests" title="Permalink to this headline">¶</a></h1>
+<p>This describes how to write tests in U-Boot and describes the possible options.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Test types"></a><div class="section" id="test-types">
+<h2>Test types<a class="headerlink" href="#test-types" title="Permalink to this headline">¶</a></h2>
+<p>There are two basic types of test in U-Boot:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Python tests, in test/py/tests</p></li>
+<li><p>C tests, in test/ and its subdirectories</p></li>
+</ul>
+</div></blockquote>
+<p>(there are also UEFI tests in lib/efi_selftest/ not considered here.)</p>
+<p>Python tests talk to U-Boot via the command line. They support both sandbox and
+real hardware. They typically do not require building test code into U-Boot
+itself. They are fairly slow to run, due to the command-line interface and there
+being two separate processes. Python tests are fairly easy to write. They can
+be a little tricky to debug sometimes due to the voluminous output of pytest.</p>
+<p>C tests are written directly in U-Boot. While they can be used on boards, they
+are more commonly used with sandbox, as they obviously add to U-Boot code size.
+C tests are easy to write so long as the required facilities exist. Where they
+do not it can involve refactoring or adding new features to sandbox. They are
+fast to run and easy to debug.</p>
+<p>Regardless of which test type is used, all tests are collected and run by the
+pytest framework, so there is typically no need to run them separately. This
+means that C tests can be used when it makes sense, and Python tests when it
+doesn’t.</p>
+<p>This table shows how to decide whether to write a C or Python test:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 27%"/>
+<col style="width: 35%"/>
+<col style="width: 38%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>C test</p></th>
+<th class="head"><p>Python test</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Fast to run?</p></td>
+<td><p>Yes</p></td>
+<td><p>No (two separate processes)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Easy to write?</p></td>
+<td><p>Yes, if required test
+features exist in sandbox
+or the target system</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>Needs code in U-Boot?</p></td>
+<td><p>Yes</p></td>
+<td><p>No, provided the test can be
+executed and the result
+determined using the command
+line</p></td>
+</tr>
+<tr class="row-odd"><td><p>Easy to debug?</p></td>
+<td><p>Yes</p></td>
+<td><p>No, since access to the U-Boot
+state is not available and the
+amount of output can
+sometimes require a bit of
+digging</p></td>
+</tr>
+<tr class="row-even"><td><p>Can use gdb?</p></td>
+<td><p>Yes, directly</p></td>
+<td><p>Yes, with –gdbserver</p></td>
+</tr>
+<tr class="row-odd"><td><p>Can run on boards?</p></td>
+<td><p>Some can, but only if
+compiled in and not
+dependent on sandboxau</p></td>
+<td><p>Some</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Python or C"></a><div class="section" id="python-or-c">
+<h2>Python or C<a class="headerlink" href="#python-or-c" title="Permalink to this headline">¶</a></h2>
+<p>Typically in U-Boot we encourage C test using sandbox for all features. This
+allows fast testing, easy development and allows contributors to make changes
+without needing dozens of boards to test with.</p>
+<p>When a test requires setup or interaction with the running host (such as to
+generate images and then running U-Boot to check that they can be loaded), or
+cannot be run on sandbox, Python tests should be used. These should typically
+NOT rely on running with sandbox, but instead should function correctly on any
+board supported by U-Boot.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Mixing Python and C"></a><div class="section" id="mixing-python-and-c">
+<h2>Mixing Python and C<a class="headerlink" href="#mixing-python-and-c" title="Permalink to this headline">¶</a></h2>
+<p>The best of both worlds is sometimes to have a Python test set things up and
+perform some operations, with a ‘checker’ C unit test doing the checks
+afterwards. This can be achieved with these steps:</p>
+<ul class="simple">
+<li><p>Add the <cite>UT_TESTF_MANUAL</cite> flag to the checker test so that the <cite>ut</cite> command
+does not run it by default</p></li>
+<li><p>Add a <cite>_norun</cite> suffix to the name so that pytest knows to skip it too</p></li>
+</ul>
+<p>In your Python test use the <cite>-f</cite> flag to the <cite>ut</cite> command to force the checker
+test to run it, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Do the Python part
+host load ...
+bootm ...
+
+# Run the checker to make sure that everything worked
+ut -f bootstd vbe_test_fixup_norun
+</pre></div>
+</div>
+<p>Note that apart from the <cite>UT_TESTF_MANUAL</cite> flag, the code in a ‘manual’ C test
+is just like any other C test. It still uses ut_assert…() and other such
+constructs, in this case to check that the expected things happened in the
+Python test.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How slow are Python tests?"></a><div class="section" id="how-slow-are-python-tests">
+<h2>How slow are Python tests?<a class="headerlink" href="#how-slow-are-python-tests" title="Permalink to this headline">¶</a></h2>
+<p>Under the hood, when running on sandbox, Python tests work by starting a sandbox
+test and connecting to it via a pipe. Each interaction with the U-Boot process
+requires at least a context switch to handle the pipe interaction. The test
+sends a command to U-Boot, which then reacts and shows some output, then the
+test sees that and continues. Of course on real hardware, communications delays
+(e.g. with a serial console) make this slower.</p>
+<p>For comparison, consider a test that checks the ‘md’ (memory dump). All times
+below are approximate, as measured on an AMD 2950X system. Here is is the test
+in Python:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@pytest.mark.buildconfigspec('cmd_memory')
+def test_md(u_boot_console):
+    """Test that md reads memory as expected, and that memory can be modified
+    using the mw command."""
+
+    ram_base = u_boot_utils.find_ram_base(u_boot_console)
+    addr = '%08x' % ram_base
+    val = 'a5f09876'
+    expected_response = addr + ': ' + val
+    u_boot_console.run_command('mw ' + addr + ' 0 10')
+    response = u_boot_console.run_command('md ' + addr + ' 10')
+    assert(not (expected_response in response))
+    u_boot_console.run_command('mw ' + addr + ' ' + val)
+    response = u_boot_console.run_command('md ' + addr + ' 10')
+    assert(expected_response in response)
+</pre></div>
+</div>
+<p>This runs a few commands and checks the output. Note that it runs a command,
+waits for the response and then checks it agains what is expected. If run by
+itself it takes around 800ms, including test collection. For 1000 runs it takes
+19 seconds, or 19ms per run. Of course 1000 runs it not that useful since we
+only want to run it once.</p>
+<p>There is no exactly equivalent C test, but here is a similar one that tests ‘ms’
+(memory search):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* Test 'ms' command with bytes */
+static int mem_test_ms_b(struct unit_test_state *uts)
+{
+   u8 *buf;
+
+   buf = map_sysmem(0, BUF_SIZE + 1);
+   memset(buf, '\0', BUF_SIZE);
+   buf[0x0] = 0x12;
+   buf[0x31] = 0x12;
+   buf[0xff] = 0x12;
+   buf[0x100] = 0x12;
+   ut_assertok(console_record_reset_enable());
+   run_command("ms.b 1 ff 12", 0);
+   ut_assert_nextline("00000030: 00 12 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................");
+   ut_assert_nextline("--");
+   ut_assert_nextline("000000f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 12    ................");
+   ut_assert_nextline("2 matches");
+   ut_assert_console_end();
+
+   ut_asserteq(2, env_get_hex("memmatches", 0));
+   ut_asserteq(0xff, env_get_hex("memaddr", 0));
+   ut_asserteq(0xfe, env_get_hex("mempos", 0));
+
+   unmap_sysmem(buf);
+
+   return 0;
+}
+MEM_TEST(mem_test_ms_b, UT_TESTF_CONSOLE_REC);
+</pre></div>
+</div>
+<p>This runs the command directly in U-Boot, then checks the console output, also
+directly in U-Boot. If run by itself this takes 100ms. For 1000 runs it takes
+660ms, or 0.66ms per run.</p>
+<p>So overall running a C test is perhaps 8 times faster individually and the
+interactions are perhaps 25 times faster.</p>
+<p>It should also be noted that the C test is fairly easy to debug. You can set a
+breakpoint on do_mem_search(), which is what implements the ‘ms’ command,
+single step to see what might be wrong, etc. That is also possible with the
+pytest, but requires two terminals and –gdbserver.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Why does speed matter?"></a><div class="section" id="why-does-speed-matter">
+<h2>Why does speed matter?<a class="headerlink" href="#why-does-speed-matter" title="Permalink to this headline">¶</a></h2>
+<p>Many development activities rely on running tests:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>‘git bisect run make qcheck’ can be used to find a failing commit</p></li>
+<li><p>test-driven development relies on quick iteration of build/test</p></li>
+<li><dl class="simple">
+<dt>U-Boot’s continuous integration (CI) systems make use of tests. Running</dt><dd><p>all sandbox tests typically takes 90 seconds and running each qemu test
+takes about 30 seconds. This is currently dwarfed by the time taken to
+build all boards</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>As U-Boot continues to grow its feature set, fast and reliable tests are a
+critical factor factor in developer productivity and happiness.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Writing C tests"></a><div class="section" id="writing-c-tests">
+<h2>Writing C tests<a class="headerlink" href="#writing-c-tests" title="Permalink to this headline">¶</a></h2>
+<p>C tests are arranged into suites which are typically executed by the ‘ut’
+command. Each suite is in its own file. This section describes how to accomplish
+some common test tasks.</p>
+<p>(there are also UEFI C tests in lib/efi_selftest/ not considered here.)</p>
+<div class="section" id="add-a-new-driver-model-test">
+<h3>Add a new driver model test<a class="headerlink" href="#add-a-new-driver-model-test" title="Permalink to this headline">¶</a></h3>
+<p>Use this when adding a test for a new or existing uclass, adding new operations
+or features to a uclass, adding new ofnode or dev_read_() functions, or anything
+else related to driver model.</p>
+<p>Find a suitable place for your test, perhaps near other test functions in
+existing code, or in a new file. Each uclass should have its own test file.</p>
+<p>Declare the test with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* Test that ... */
+static int dm_test_uclassname_what(struct unit_test_state *uts)
+{
+   /* test code here */
+
+   return 0;
+}
+DM_TEST(dm_test_uclassname_what, UT_TESTF_SCAN_FDT);
+</pre></div>
+</div>
+<p>Replace ‘uclassname’ with the name of your uclass, if applicable. Replace ‘what’
+with what you are testing.</p>
+<p>The flags for DM_TEST() are defined in test/test.h and you typically want
+UT_TESTF_SCAN_FDT so that the devicetree is scanned and all devices are bound
+and ready for use. The DM_TEST macro adds UT_TESTF_DM automatically so that
+the test runner knows it is a driver model test.</p>
+<p>Driver model tests are special in that the entire driver model state is
+recreated anew for each test. This ensures that if a previous test deletes a
+device, for example, it does not affect subsequent tests. Driver model tests
+also run both with livetree and flattree, to ensure that both devicetree
+implementations work as expected.</p>
+<p>Example commit: c48cb7ebfb4 (“sandbox: add ADC unit tests”) [1]</p>
+<p>[1] <a class="reference external" href="https://gitlab.denx.de/u-boot/u-boot/-/commit/c48cb7ebfb4">https://gitlab.denx.de/u-boot/u-boot/-/commit/c48cb7ebfb4</a></p>
+</div>
+<div class="section" id="add-a-c-test-to-an-existing-suite">
+<h3>Add a C test to an existing suite<a class="headerlink" href="#add-a-c-test-to-an-existing-suite" title="Permalink to this headline">¶</a></h3>
+<p>Use this when you are adding to or modifying an existing feature outside driver
+model. An example is bloblist.</p>
+<p>Add a new function in the same file as the rest of the suite and register it
+with the suite. For example, to add a new mem_search test:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* Test 'ms' command with 32-bit values */
+static int mem_test_ms_new_thing(struct unit_test_state *uts)
+{
+      /* test code here*/
+
+      return 0;
+}
+MEM_TEST(mem_test_ms_new_thing, UT_TESTF_CONSOLE_REC);
+</pre></div>
+</div>
+<p>Note that the MEM_TEST() macros is defined at the top of the file.</p>
+<p>Example commit: 9fe064646d2 (“bloblist: Support relocating to a larger space”) [1]</p>
+<p>[1] <a class="reference external" href="https://gitlab.denx.de/u-boot/u-boot/-/commit/9fe064646d2">https://gitlab.denx.de/u-boot/u-boot/-/commit/9fe064646d2</a></p>
+</div>
+<div class="section" id="add-a-new-test-suite">
+<h3>Add a new test suite<a class="headerlink" href="#add-a-new-test-suite" title="Permalink to this headline">¶</a></h3>
+<p>Each suite should focus on one feature or subsystem, so if you are writing a
+new one of those, you should add a new suite.</p>
+<p>Create a new file in test/ or a subdirectory and define a macro to register the
+suite. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;common.h&gt;
+#include &lt;console.h&gt;
+#include &lt;mapmem.h&gt;
+#include &lt;dm/test.h&gt;
+#include &lt;test/ut.h&gt;
+
+/* Declare a new wibble test */
+#define WIBBLE_TEST(_name, _flags)   UNIT_TEST(_name, _flags, wibble_test)
+
+/* Tetss go here */
+
+/* At the bottom of the file: */
+
+int do_ut_wibble(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+{
+  struct unit_test *tests = UNIT_TEST_SUITE_START(wibble_test);
+  const int n_ents = UNIT_TEST_SUITE_COUNT(wibble_test);
+
+  return cmd_ut_category("cmd_wibble", "wibble_test_", tests, n_ents, argc, argv);
+}
+</pre></div>
+</div>
+<p>Then add new tests to it as above.</p>
+<p>Register this new suite in test/cmd_ut.c by adding to cmd_ut_sub[]:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/* Within cmd_ut_sub[]... */
+
+U_BOOT_CMD_MKENT(wibble, CONFIG_SYS_MAXARGS, 1, do_ut_wibble, "", ""),
+</pre></div>
+</div>
+<p>and adding new help to ut_help_text[]:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>"ut wibble - Test the wibble feature\n"
+</pre></div>
+</div>
+<p>If your feature is conditional on a particular Kconfig, then you can use #ifdef
+to control that.</p>
+<p>Finally, add the test to the build by adding to the Makefile in the same
+directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>obj-$(CONFIG_$(SPL_)CMDLINE) += wibble.o
+</pre></div>
+</div>
+<p>Note that CMDLINE is never enabled in SPL, so this test will only be present in
+U-Boot proper. See below for how to do SPL tests.</p>
+<p>As before, you can add an extra Kconfig check if needed:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ifneq ($(CONFIG_$(SPL_)WIBBLE),)
+obj-$(CONFIG_$(SPL_)CMDLINE) += wibble.o
+endif
+</pre></div>
+</div>
+<p>Example commit: 919e7a8fb64 (“test: Add a simple test for bloblist”) [1]</p>
+<p>[1] <a class="reference external" href="https://gitlab.denx.de/u-boot/u-boot/-/commit/919e7a8fb64">https://gitlab.denx.de/u-boot/u-boot/-/commit/919e7a8fb64</a></p>
+</div>
+<div class="section" id="making-the-test-run-from-pytest">
+<h3>Making the test run from pytest<a class="headerlink" href="#making-the-test-run-from-pytest" title="Permalink to this headline">¶</a></h3>
+<p>All C tests must run from pytest. Typically this is automatic, since pytest
+scans the U-Boot executable for available tests to run. So long as you have a
+‘ut’ subcommand for your test suite, it will run. The same applies for driver
+model tests since they use the ‘ut dm’ subcommand.</p>
+<p>See test/py/tests/test_ut.py for how unit tests are run.</p>
+</div>
+<div class="section" id="add-a-c-test-for-spl">
+<h3>Add a C test for SPL<a class="headerlink" href="#add-a-c-test-for-spl" title="Permalink to this headline">¶</a></h3>
+<p>Note: C tests are only available for sandbox_spl at present. There is currently
+no mechanism in other boards to existing SPL tests even if they are built into
+the image.</p>
+<p>SPL tests cannot be run from the ‘ut’ command since there are no commands
+available in SPL. Instead, sandbox (only) calls ut_run_list() on start-up, when
+the -u flag is given. This runs the available unit tests, no matter what suite
+they are in.</p>
+<p>To create a new SPL test, follow the same rules as above, either adding to an
+existing suite or creating a new one.</p>
+<p>An example SPL test is spl_test_load().</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Writing Python tests"></a><div class="section" id="writing-python-tests">
+<h2>Writing Python tests<a class="headerlink" href="#writing-python-tests" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference internal" href="py_testing.html"><span class="doc">U-Boot pytest suite</span></a> for brief notes how to write Python tests. You
+should be able to use the existing tests in test/py/tests as examples.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="py_testing.html" rel="prev" title="U-Boot pytest suite"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="tests_sandbox.html" rel="next" title="Sandbox tests">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

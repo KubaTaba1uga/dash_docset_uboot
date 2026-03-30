@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Release Statistics for U-Boot v2021.10 — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li>Release Statistics for U-Boot v2021.10</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/statistics/u-boot-stats-v2021.10.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Release Statistics for U-Boot v2021.10"></a><div class="section" id="release-statistics-for-u-boot-v2021-10">
+<h1>Release Statistics for U-Boot v2021.10<a class="headerlink" href="#release-statistics-for-u-boot-v2021-10" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Processed 1509 changesets from 176 developers</p></li>
+<li><p>28 employers found</p></li>
+<li><p>A total of 98664 lines added, 74614 removed (delta 24050)</p></li>
+</ul>
+<table class="colwidths-auto docutils align-default" id="id1">
+<caption><span class="caption-text">Developers with the most changesets</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Simon Glass</p></td>
+<td><p>191 (12.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tom Rini</p></td>
+<td><p>92 (6.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Michal Simek</p></td>
+<td><p>91 (6.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pali Rohár</p></td>
+<td><p>80 (5.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrick Delaunay</p></td>
+<td><p>70 (4.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tim Harvey</p></td>
+<td><p>54 (3.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Heinrich Schuchardt</p></td>
+<td><p>51 (3.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marek Vasut</p></td>
+<td><p>38 (2.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Aswath Govindraju</p></td>
+<td><p>37 (2.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alexandru Gagniuc</p></td>
+<td><p>29 (1.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Marek Behún</p></td>
+<td><p>26 (1.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bin Meng</p></td>
+<td><p>26 (1.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ye Li</p></td>
+<td><p>26 (1.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pratyush Yadav</p></td>
+<td><p>26 (1.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Peng Fan</p></td>
+<td><p>25 (1.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tero Kristo</p></td>
+<td><p>22 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Stephan Gerhold</p></td>
+<td><p>21 (1.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Andre Przywara</p></td>
+<td><p>20 (1.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tony Dinh</p></td>
+<td><p>19 (1.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ashok Reddy Soma</p></td>
+<td><p>18 (1.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Mattijs Korpershoek</p></td>
+<td><p>18 (1.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Masami Hiramatsu</p></td>
+<td><p>18 (1.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Zong Li</p></td>
+<td><p>16 (1.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Siew Chin Lim</p></td>
+<td><p>15 (1.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Gireesh Hiremath</p></td>
+<td><p>15 (1.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Suman Anna</p></td>
+<td><p>13 (0.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sean Anderson</p></td>
+<td><p>12 (0.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kishon Vijay Abraham I</p></td>
+<td><p>12 (0.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Masahisa Kojima</p></td>
+<td><p>10 (0.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Teresa Remmet</p></td>
+<td><p>10 (0.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Takahiro Kuwano</p></td>
+<td><p>10 (0.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>T Karthik Reddy</p></td>
+<td><p>9 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Artem Lapkin</p></td>
+<td><p>9 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alper Nebi Yasak</p></td>
+<td><p>9 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Trevor Woerner</p></td>
+<td><p>9 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rasmus Villemoes</p></td>
+<td><p>8 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kuldeep Singh</p></td>
+<td><p>8 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fabio Estevam</p></td>
+<td><p>8 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Steffen Jaeckel</p></td>
+<td><p>8 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vignesh Raghavendra</p></td>
+<td><p>8 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Stephen Carlson</p></td>
+<td><p>8 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dario Binacchi</p></td>
+<td><p>8 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Samuel Holland</p></td>
+<td><p>7 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Adam Ford</p></td>
+<td><p>7 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kunihiko Hayashi</p></td>
+<td><p>7 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vladimir Oltean</p></td>
+<td><p>7 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Dave Gerlach</p></td>
+<td><p>6 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Roland Gaudig</p></td>
+<td><p>6 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>AKASHI Takahiro</p></td>
+<td><p>6 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Daniel Schwierzeck</p></td>
+<td><p>6 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Gowtham Tammana</p></td>
+<td><p>6 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lokesh Vutla</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Priyanka Jain</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wasim Khan</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chris Morgan</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Johan Jonker</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Eugen Hristev</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hai Pham</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Joseph Chen</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Grzegorz Szymaszek</p></td>
+<td><p>5 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrice Chotard</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ilias Apalodimas</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Matthias Schiffer</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Oleksandr Suvorov</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Michael Walle</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Matwey V. Kornilov</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Paul Barker</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nandor Han</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Yifeng Zhao</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Frieder Schrempf</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Andy Shevchenko</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tien Fong Chee</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sebastian Reichel</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Camelia Groza</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Peter Robinson</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Xiaobo Tian</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>John Keeping</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reto Schneider</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Joao Marcos Costa</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Moses Christopher</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tianrui Wei</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jassi Brar</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Zhengxun</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Anand Moon</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ilko Iliev</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marek Szyprowski</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Matthias Brugger</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mark Kettenis</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Roger Quadros</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stefan Agner</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Raju Kumar Pothuraju</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Oleh Kravchenko</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Dimitri John Ledkov</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Guillaume La Roque</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ming Liu</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Adarsh Babu Kalepalli</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Thomas Perrot</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jean-Jacques Hiblot</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Piyush Mehta</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chen Baozi</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Peter Hoyes</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Anders Dellien</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Lukasz Majewski</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cosmin-Florin Aluchenesei</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Vincent Chen</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Breno Lima</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>MengLi</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Keerthy</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sheep Sun</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Koji Matsuoka</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Elaine Zhang</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tudor Ambarus</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Nicolas Saenz Julienne</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Robert Marko</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Denis Odintsov</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ruchika Gupta</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Simon Guinot</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Martyn Welch</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Nishanth Menon</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jan Kiszka</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Christophe Leroy</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ivan T. Ivanov</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Yuan Fang</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marcel Ziswiler</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Derald D. Woods</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Yuezhang Mo</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sven Auhagen</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Thomas Skibo</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sai Krishna Potthuri</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ley Foon Tan</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Horia Geantă</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kshitiz Varshney</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jon Lin</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Johan Gunnarsson</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Alex Bee</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Christian Hewitt</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Campbell Suter</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Linus Walleij</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Icenowy Zheng</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chris Packham</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>litchipi</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marc Kleine-Budde</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chan, Donald</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alan Douglas</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Faiz Abbas</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Manish Narani</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Mike Looijmans</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ricardo Salveti</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chia-Wei Wang</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Patrick Wildt</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Etienne Carriere</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chen Guanqiao</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Vitaly Wool</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alfonso Sánchez-Beato</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Max Yang</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Joel Stanley</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sven Roederer</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Yann Dirson</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Stefano Babic</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cody Gray</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kacper Kubkowski</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Christoph Niedermaier</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jernej Skrabec</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Yu-Tung Chang</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Paul Kocialkowski</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sinan Akman</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Green Wan</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Radu Pirea (NXP OSS)</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jaime Liao</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Srinivas Neeli</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Stefano Stabellini</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jorge Ramirez-Ortiz</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Daniil Stas</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Michael Opdenacker</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kevin Scholz</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kai Stuhlemmer (ebee Engineering)</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id2">
+<caption><span class="caption-text">Developers with the most changed lines</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Tom Rini</p></td>
+<td><p>48665 (30.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simon Glass</p></td>
+<td><p>14052 (8.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Peng Fan</p></td>
+<td><p>8037 (5.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marek Vasut</p></td>
+<td><p>6463 (4.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Joseph Chen</p></td>
+<td><p>5161 (3.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tim Harvey</p></td>
+<td><p>4466 (2.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Elaine Zhang</p></td>
+<td><p>4389 (2.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Zong Li</p></td>
+<td><p>3994 (2.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrick Delaunay</p></td>
+<td><p>3410 (2.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aswath Govindraju</p></td>
+<td><p>3202 (2.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Michal Simek</p></td>
+<td><p>2657 (1.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tien Fong Chee</p></td>
+<td><p>2547 (1.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Masami Hiramatsu</p></td>
+<td><p>2163 (1.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tero Kristo</p></td>
+<td><p>2122 (1.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Siew Chin Lim</p></td>
+<td><p>1925 (1.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pratyush Yadav</p></td>
+<td><p>1906 (1.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ye Li</p></td>
+<td><p>1793 (1.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sean Anderson</p></td>
+<td><p>1790 (1.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Yifeng Zhao</p></td>
+<td><p>1658 (1.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stephan Gerhold</p></td>
+<td><p>1643 (1.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Peter Robinson</p></td>
+<td><p>1578 (1.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dave Gerlach</p></td>
+<td><p>1550 (1.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ashok Reddy Soma</p></td>
+<td><p>1456 (0.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pali Rohár</p></td>
+<td><p>1432 (0.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Trevor Woerner</p></td>
+<td><p>1352 (0.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Steffen Jaeckel</p></td>
+<td><p>1326 (0.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Alexandru Gagniuc</p></td>
+<td><p>1220 (0.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Adam Ford</p></td>
+<td><p>1187 (0.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jean-Jacques Hiblot</p></td>
+<td><p>1174 (0.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Roland Gaudig</p></td>
+<td><p>1120 (0.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tianrui Wei</p></td>
+<td><p>1029 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jassi Brar</p></td>
+<td><p>938 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Nandor Han</p></td>
+<td><p>933 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Keerthy</p></td>
+<td><p>931 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chris Morgan</p></td>
+<td><p>800 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kunihiko Hayashi</p></td>
+<td><p>781 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Lokesh Vutla</p></td>
+<td><p>778 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alan Douglas</p></td>
+<td><p>760 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Zhengxun</p></td>
+<td><p>754 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Paul Barker</p></td>
+<td><p>730 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Andre Przywara</p></td>
+<td><p>706 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Linus Walleij</p></td>
+<td><p>667 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Johan Jonker</p></td>
+<td><p>643 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vignesh Raghavendra</p></td>
+<td><p>642 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Hai Pham</p></td>
+<td><p>622 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Heinrich Schuchardt</p></td>
+<td><p>599 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tony Dinh</p></td>
+<td><p>584 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marek Behún</p></td>
+<td><p>573 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Masahisa Kojima</p></td>
+<td><p>517 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ilias Apalodimas</p></td>
+<td><p>482 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Dario Binacchi</p></td>
+<td><p>479 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fabio Estevam</p></td>
+<td><p>457 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kishon Vijay Abraham I</p></td>
+<td><p>456 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Joao Marcos Costa</p></td>
+<td><p>452 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Teresa Remmet</p></td>
+<td><p>450 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>T Karthik Reddy</p></td>
+<td><p>406 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Stephen Carlson</p></td>
+<td><p>398 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Radu Pirea (NXP OSS)</p></td>
+<td><p>368 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Takahiro Kuwano</p></td>
+<td><p>358 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samuel Holland</p></td>
+<td><p>339 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sebastian Reichel</p></td>
+<td><p>314 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gireesh Hiremath</p></td>
+<td><p>301 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Daniel Schwierzeck</p></td>
+<td><p>274 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alper Nebi Yasak</p></td>
+<td><p>254 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Bin Meng</p></td>
+<td><p>226 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kevin Scholz</p></td>
+<td><p>220 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jorge Ramirez-Ortiz</p></td>
+<td><p>218 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Suman Anna</p></td>
+<td><p>214 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Mattijs Korpershoek</p></td>
+<td><p>206 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kuldeep Singh</p></td>
+<td><p>187 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Vladimir Oltean</p></td>
+<td><p>135 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ilko Iliev</p></td>
+<td><p>134 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Wasim Khan</p></td>
+<td><p>129 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Artem Lapkin</p></td>
+<td><p>121 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Michael Walle</p></td>
+<td><p>110 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Yu-Tung Chang</p></td>
+<td><p>106 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Guillaume La Roque</p></td>
+<td><p>81 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Moses Christopher</p></td>
+<td><p>76 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Vincent Chen</p></td>
+<td><p>75 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sinan Akman</p></td>
+<td><p>73 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>AKASHI Takahiro</p></td>
+<td><p>70 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Koji Matsuoka</p></td>
+<td><p>65 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrice Chotard</p></td>
+<td><p>62 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Matwey V. Kornilov</p></td>
+<td><p>60 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Rasmus Villemoes</p></td>
+<td><p>57 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Eugen Hristev</p></td>
+<td><p>57 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Roger Quadros</p></td>
+<td><p>55 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gowtham Tammana</p></td>
+<td><p>48 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jaime Liao</p></td>
+<td><p>46 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Etienne Carriere</p></td>
+<td><p>44 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Matthias Schiffer</p></td>
+<td><p>42 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Priyanka Jain</p></td>
+<td><p>41 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Derald D. Woods</p></td>
+<td><p>40 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Frieder Schrempf</p></td>
+<td><p>39 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Matthias Brugger</p></td>
+<td><p>37 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Breno Lima</p></td>
+<td><p>37 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Peter Hoyes</p></td>
+<td><p>36 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Andy Shevchenko</p></td>
+<td><p>35 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jon Lin</p></td>
+<td><p>32 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Grzegorz Szymaszek</p></td>
+<td><p>30 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Manish Narani</p></td>
+<td><p>30 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Piyush Mehta</p></td>
+<td><p>28 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kshitiz Varshney</p></td>
+<td><p>27 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Yann Dirson</p></td>
+<td><p>27 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Oleksandr Suvorov</p></td>
+<td><p>25 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lukasz Majewski</p></td>
+<td><p>24 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ruchika Gupta</p></td>
+<td><p>24 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Camelia Groza</p></td>
+<td><p>22 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Xiaobo Tian</p></td>
+<td><p>22 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stefan Agner</p></td>
+<td><p>21 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Michael Opdenacker</p></td>
+<td><p>21 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sai Krishna Potthuri</p></td>
+<td><p>20 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kai Stuhlemmer (ebee Engineering)</p></td>
+<td><p>19 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nishanth Menon</p></td>
+<td><p>18 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Marcel Ziswiler</p></td>
+<td><p>18 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Oleh Kravchenko</p></td>
+<td><p>17 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Reto Schneider</p></td>
+<td><p>16 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>MengLi</p></td>
+<td><p>16 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chris Packham</p></td>
+<td><p>16 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>litchipi</p></td>
+<td><p>16 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Daniil Stas</p></td>
+<td><p>15 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ming Liu</p></td>
+<td><p>13 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Marc Kleine-Budde</p></td>
+<td><p>13 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Paul Kocialkowski</p></td>
+<td><p>13 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>John Keeping</p></td>
+<td><p>11 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Anand Moon</p></td>
+<td><p>9 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tudor Ambarus</p></td>
+<td><p>9 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alfonso Sánchez-Beato</p></td>
+<td><p>9 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Marek Szyprowski</p></td>
+<td><p>8 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Raju Kumar Pothuraju</p></td>
+<td><p>8 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chen Baozi</p></td>
+<td><p>8 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mark Kettenis</p></td>
+<td><p>6 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Dimitri John Ledkov</p></td>
+<td><p>6 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sheep Sun</p></td>
+<td><p>6 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Denis Odintsov</p></td>
+<td><p>6 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ivan T. Ivanov</p></td>
+<td><p>6 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Mike Looijmans</p></td>
+<td><p>6 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vitaly Wool</p></td>
+<td><p>6 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Cosmin-Florin Aluchenesei</p></td>
+<td><p>5 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kacper Kubkowski</p></td>
+<td><p>5 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Adarsh Babu Kalepalli</p></td>
+<td><p>4 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sven Auhagen</p></td>
+<td><p>4 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ley Foon Tan</p></td>
+<td><p>4 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chia-Wei Wang</p></td>
+<td><p>4 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Cody Gray</p></td>
+<td><p>4 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Thomas Perrot</p></td>
+<td><p>3 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Anders Dellien</p></td>
+<td><p>3 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Martyn Welch</p></td>
+<td><p>3 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Alex Bee</p></td>
+<td><p>3 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Faiz Abbas</p></td>
+<td><p>3 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chen Guanqiao</p></td>
+<td><p>3 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jernej Skrabec</p></td>
+<td><p>3 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Green Wan</p></td>
+<td><p>3 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Robert Marko</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jan Kiszka</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Yuezhang Mo</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Christian Hewitt</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Icenowy Zheng</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrick Wildt</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Max Yang</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Joel Stanley</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sven Roederer</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Stefano Babic</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Christoph Niedermaier</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Stefano Stabellini</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nicolas Saenz Julienne</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Simon Guinot</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Christophe Leroy</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Yuan Fang</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Thomas Skibo</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Horia Geantă</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Johan Gunnarsson</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Campbell Suter</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chan, Donald</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ricardo Salveti</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Srinivas Neeli</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id3">
+<caption><span class="caption-text">Developers with the most lines removed</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Tom Rini</p></td>
+<td><p>46519 (62.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simon Glass</p></td>
+<td><p>1414 (1.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Linus Walleij</p></td>
+<td><p>667 (0.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Patrick Delaunay</p></td>
+<td><p>331 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ilias Apalodimas</p></td>
+<td><p>293 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sean Anderson</p></td>
+<td><p>274 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ilko Iliev</p></td>
+<td><p>124 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stephen Carlson</p></td>
+<td><p>56 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Suman Anna</p></td>
+<td><p>40 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Derald D. Woods</p></td>
+<td><p>34 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Xiaobo Tian</p></td>
+<td><p>20 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Michael Walle</p></td>
+<td><p>15 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Oleksandr Suvorov</p></td>
+<td><p>11 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lukasz Majewski</p></td>
+<td><p>5 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Bin Meng</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Anand Moon</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jan Kiszka</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kai Stuhlemmer (ebee Engineering)</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ivan T. Ivanov</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Anders Dellien</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Yuezhang Mo</p></td>
+<td><p>1 (0.0%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id4">
+<caption><span class="caption-text">Developers with the most signoffs (total 326)</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Lokesh Vutla</p></td>
+<td><p>108 (33.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Michal Simek</p></td>
+<td><p>37 (11.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Neil Armstrong</p></td>
+<td><p>28 (8.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tom Rini</p></td>
+<td><p>13 (4.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Peng Fan</p></td>
+<td><p>12 (3.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kishon Vijay Abraham I</p></td>
+<td><p>10 (3.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Andre Przywara</p></td>
+<td><p>10 (3.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alexandru Gagniuc</p></td>
+<td><p>8 (2.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Marek Vasut</p></td>
+<td><p>7 (2.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Heinrich Schuchardt</p></td>
+<td><p>6 (1.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tero Kristo</p></td>
+<td><p>6 (1.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jon Lin</p></td>
+<td><p>5 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Guillaume La Roque</p></td>
+<td><p>5 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ashok Reddy Soma</p></td>
+<td><p>5 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Oleksandr Suvorov</p></td>
+<td><p>4 (1.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Markus Niebel</p></td>
+<td><p>4 (1.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Matthias Brugger</p></td>
+<td><p>4 (1.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vignesh Raghavendra</p></td>
+<td><p>4 (1.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Minkyu Kang</p></td>
+<td><p>3 (0.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dave Gerlach</p></td>
+<td><p>3 (0.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Masami Hiramatsu</p></td>
+<td><p>3 (0.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aswath Govindraju</p></td>
+<td><p>3 (0.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>David Abdurachmanov</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jagan Teki</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jonathan Balkind</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Roger Quadros</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Mattijs Korpershoek</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>T Karthik Reddy</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Hai Pham</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jean-Jacques Hiblot</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ye Li</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Siew Chin Lim</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrick Delaunay</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Suman Anna</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jan Kiszka</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tom Warren</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kever Yang</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Timothée Cercueil</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Murali Karicheri</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Robert Jones</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Paul Walmsley</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alessandro Temil</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Praneeth Bajjuri</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Priyanka Jain</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Nishanth Menon</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tudor Ambarus</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrice Chotard</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marek Behún</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Pratyush Yadav</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tien Fong Chee</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id5">
+<caption><span class="caption-text">Developers with the most reviews (total 832)</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Stefan Roese</p></td>
+<td><p>124 (14.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simon Glass</p></td>
+<td><p>120 (14.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrice Chotard</p></td>
+<td><p>52 (6.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jagan Teki</p></td>
+<td><p>50 (6.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Marek Behún</p></td>
+<td><p>45 (5.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jaehoon Chung</p></td>
+<td><p>42 (5.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ramon Fried</p></td>
+<td><p>38 (4.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kever Yang</p></td>
+<td><p>36 (4.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Chris Packham</p></td>
+<td><p>31 (3.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bin Meng</p></td>
+<td><p>30 (3.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Priyanka Jain</p></td>
+<td><p>28 (3.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Leo Yu-Chi Liang</p></td>
+<td><p>28 (3.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Heinrich Schuchardt</p></td>
+<td><p>21 (2.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Heiko Schocher</p></td>
+<td><p>20 (2.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrick Delaunay</p></td>
+<td><p>13 (1.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pali Rohár</p></td>
+<td><p>13 (1.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sean Anderson</p></td>
+<td><p>11 (1.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Miquel Raynal</p></td>
+<td><p>11 (1.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Alexandru Gagniuc</p></td>
+<td><p>9 (1.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Linus Walleij</p></td>
+<td><p>9 (1.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Fabio Estevam</p></td>
+<td><p>9 (1.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pratyush Yadav</p></td>
+<td><p>8 (1.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tom Rini</p></td>
+<td><p>7 (0.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Andre Przywara</p></td>
+<td><p>7 (0.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Walter Lozano</p></td>
+<td><p>7 (0.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rick Chen</p></td>
+<td><p>6 (0.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Patrick Wildt</p></td>
+<td><p>5 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Neil Armstrong</p></td>
+<td><p>4 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ashok Reddy Soma</p></td>
+<td><p>4 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nishanth Menon</p></td>
+<td><p>4 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ilias Apalodimas</p></td>
+<td><p>4 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Konstantin Porotchkin</p></td>
+<td><p>4 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ye Li</p></td>
+<td><p>3 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Suman Anna</p></td>
+<td><p>3 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Igor Opaniuk</p></td>
+<td><p>3 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nicolas Saenz Julienne</p></td>
+<td><p>2 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jernej Skrabec</p></td>
+<td><p>2 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mark Kettenis</p></td>
+<td><p>2 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Marcel Ziswiler</p></td>
+<td><p>2 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Peng Fan</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Masami Hiramatsu</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Andy Wu</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Asherah Connor</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Qu Wenruo</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Biju Bas</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Heiko Stuebner</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Jens Wiklander</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Horatiu Vultur</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ley Foon Tan</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Daniel Schwierzeck</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sebastian Reichel</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Joao Marcos Costa</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Paul Barker</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Steffen Jaeckel</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id6">
+<caption><span class="caption-text">Developers with the most test credits (total 67)</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Chris Packham</p></td>
+<td><p>26 (38.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Patrice Chotard</p></td>
+<td><p>14 (20.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Simon Glass</p></td>
+<td><p>10 (14.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Patrick Wildt</p></td>
+<td><p>3 (4.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Michal Simek</p></td>
+<td><p>2 (3.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jaehoon Chung</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Pali Rohár</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tom Rini</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Andre Przywara</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Suman Anna</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Igor Opaniuk</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Masami Hiramatsu</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tudor Ambarus</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Derald D. Woods</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sughosh Ganu</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stefan Agner</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Keerthy</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id7">
+<caption><span class="caption-text">Developers who gave the most tested-by credits (total 67)</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Pali Rohár</p></td>
+<td><p>24 (35.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marek Behún</p></td>
+<td><p>13 (19.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Bin Meng</p></td>
+<td><p>7 (10.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stephan Gerhold</p></td>
+<td><p>4 (6.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ye Li</p></td>
+<td><p>3 (4.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Joao Marcos Costa</p></td>
+<td><p>3 (4.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ashok Reddy Soma</p></td>
+<td><p>2 (3.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ilias Apalodimas</p></td>
+<td><p>2 (3.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Alexandru Gagniuc</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jernej Skrabec</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Dave Gerlach</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aswath Govindraju</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Kai Stuhlemmer (ebee Engineering)</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kevin Scholz</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Marek Szyprowski</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ming Liu</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Adam Ford</p></td>
+<td><p>1 (1.5%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id8">
+<caption><span class="caption-text">Developers with the most report credits (total 10)</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Tom Rini</p></td>
+<td><p>3 (30.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marek Behún</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Keerthy</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Walter Lozano</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Minkyu Kang</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jan Kiszka</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Andreas Schwab</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fu Wei</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id9">
+<caption><span class="caption-text">Developers who gave the most report credits (total 10)</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Simon Glass</p></td>
+<td><p>4 (40.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tom Rini</p></td>
+<td><p>3 (30.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Dave Gerlach</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dimitri John Ledkov</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tianrui Wei</p></td>
+<td><p>1 (10.0%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id10">
+<caption><span class="caption-text">Top changeset contributors by employer</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>(Unknown)</p></td>
+<td><p>577 (38.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google, Inc.</p></td>
+<td><p>191 (12.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Texas Instruments</p></td>
+<td><p>141 (9.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Konsulko Group</p></td>
+<td><p>93 (6.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>AMD</p></td>
+<td><p>91 (6.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>NXP</p></td>
+<td><p>86 (5.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>ST Microelectronics</p></td>
+<td><p>74 (4.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Linaro</p></td>
+<td><p>44 (2.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>DENX Software Engineering</p></td>
+<td><p>43 (2.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Xilinx</p></td>
+<td><p>35 (2.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>ARM</p></td>
+<td><p>24 (1.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Intel</p></td>
+<td><p>21 (1.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>BayLibre SAS</p></td>
+<td><p>20 (1.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rockchip</p></td>
+<td><p>12 (0.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Phytec</p></td>
+<td><p>10 (0.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Renesas Electronics</p></td>
+<td><p>7 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Socionext Inc.</p></td>
+<td><p>7 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Toradex</p></td>
+<td><p>6 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Weidmüller Interface GmbH &amp; Co. KG</p></td>
+<td><p>6 (0.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bootlin</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Collabora Ltd.</p></td>
+<td><p>4 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ronetix</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>SUSE</p></td>
+<td><p>3 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wind River</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Samsung</p></td>
+<td><p>2 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sony</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Pengutronix</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Siemens</p></td>
+<td><p>1 (0.1%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id11">
+<caption><span class="caption-text">Top lines changed by employer</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Konsulko Group</p></td>
+<td><p>48671 (30.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>(Unknown)</p></td>
+<td><p>32467 (20.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Google, Inc.</p></td>
+<td><p>14052 (8.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Texas Instruments</p></td>
+<td><p>13223 (8.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Rockchip</p></td>
+<td><p>11240 (7.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>NXP</p></td>
+<td><p>10782 (6.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>DENX Software Engineering</p></td>
+<td><p>6493 (4.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Linaro</p></td>
+<td><p>4905 (3.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Intel</p></td>
+<td><p>4507 (2.8%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ST Microelectronics</p></td>
+<td><p>3472 (2.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>AMD</p></td>
+<td><p>2657 (1.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Xilinx</p></td>
+<td><p>1951 (1.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Weidmüller Interface GmbH &amp; Co. KG</p></td>
+<td><p>1120 (0.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Socionext Inc.</p></td>
+<td><p>781 (0.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>ARM</p></td>
+<td><p>745 (0.5%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Renesas Electronics</p></td>
+<td><p>687 (0.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Phytec</p></td>
+<td><p>450 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Collabora Ltd.</p></td>
+<td><p>317 (0.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>BayLibre SAS</p></td>
+<td><p>287 (0.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ronetix</p></td>
+<td><p>134 (0.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Toradex</p></td>
+<td><p>69 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>SUSE</p></td>
+<td><p>43 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Bootlin</p></td>
+<td><p>37 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wind River</p></td>
+<td><p>16 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Pengutronix</p></td>
+<td><p>13 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung</p></td>
+<td><p>8 (0.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Sony</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Siemens</p></td>
+<td><p>2 (0.0%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id12">
+<caption><span class="caption-text">Employers with the most signoffs (total 326)</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Texas Instruments</p></td>
+<td><p>138 (42.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Xilinx</p></td>
+<td><p>44 (13.5%)</p></td>
+</tr>
+<tr class="row-even"><td><p>(Unknown)</p></td>
+<td><p>39 (12.0%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>BayLibre SAS</p></td>
+<td><p>35 (10.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>NXP</p></td>
+<td><p>15 (4.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Konsulko Group</p></td>
+<td><p>13 (4.0%)</p></td>
+</tr>
+<tr class="row-even"><td><p>ARM</p></td>
+<td><p>10 (3.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rockchip</p></td>
+<td><p>6 (1.8%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Toradex</p></td>
+<td><p>4 (1.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>SUSE</p></td>
+<td><p>4 (1.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Linaro</p></td>
+<td><p>3 (0.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Intel</p></td>
+<td><p>3 (0.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>ST Microelectronics</p></td>
+<td><p>3 (0.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung</p></td>
+<td><p>3 (0.9%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Renesas Electronics</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Amarula Solutions</p></td>
+<td><p>2 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Siemens</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>NVidia</p></td>
+<td><p>1 (0.3%)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-auto docutils align-default" id="id13">
+<caption><span class="caption-text">Employers with the most hackers (total 181)</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>(Unknown)</p></td>
+<td><p>94 (51.9%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Texas Instruments</p></td>
+<td><p>15 (8.3%)</p></td>
+</tr>
+<tr class="row-even"><td><p>NXP</p></td>
+<td><p>12 (6.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Xilinx</p></td>
+<td><p>8 (4.4%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Linaro</p></td>
+<td><p>8 (4.4%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rockchip</p></td>
+<td><p>4 (2.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Toradex</p></td>
+<td><p>4 (2.2%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>DENX Software Engineering</p></td>
+<td><p>4 (2.2%)</p></td>
+</tr>
+<tr class="row-even"><td><p>ARM</p></td>
+<td><p>3 (1.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Intel</p></td>
+<td><p>3 (1.7%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Bootlin</p></td>
+<td><p>3 (1.7%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>BayLibre SAS</p></td>
+<td><p>2 (1.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Konsulko Group</p></td>
+<td><p>2 (1.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>SUSE</p></td>
+<td><p>2 (1.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>ST Microelectronics</p></td>
+<td><p>2 (1.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Renesas Electronics</p></td>
+<td><p>2 (1.1%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Collabora Ltd.</p></td>
+<td><p>2 (1.1%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samsung</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Siemens</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google, Inc.</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>AMD</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Weidmüller Interface GmbH &amp; Co. KG</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Socionext Inc.</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phytec</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Ronetix</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wind River</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-even"><td><p>Pengutronix</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sony</p></td>
+<td><p>1 (0.6%)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<footer>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>K3 Generation — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="am62x_sk.html" rel="next" title="AM62 Platforms"/>
+<link href="ks2_evm.html" rel="prev" title="Keystone II EVM Generation"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Texas Instruments</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="am335x_evm.html">AM335x Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="am43xx_evm.html">AM43xx Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dra7xx_evm.html">DRA7xx Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ks2_evm.html">Keystone II EVM Generation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">K3 Generation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#k3-based-socs">K3 Based SoCs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot-flow-overview">Boot Flow Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#software-sources">Software Sources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-procedure">Build Procedure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fit-signature-signing">Fit Signature Signing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#saving-environment">Saving environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#common-debugging-environment-openocd">Common Debugging environment - OpenOCD</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Texas Instruments</a> »</li>
+<li>K3 Generation</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/ti/k3.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/K3 Generation"></a><div class="section" id="k3-generation">
+<h1>K3 Generation<a class="headerlink" href="#k3-generation" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Summary"></a><div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Texas Instrument’s K3 family of SoCs utilize a heterogeneous multicore
+and highly integrated device architecture targeted to maximize
+performance and power efficiency for a wide range of industrial,
+automotive and other broad market segments.</p>
+<p>Typically the processing cores and the peripherals for these devices are
+partitioned into three functional domains to provide ultra-low power
+modes as well as accommodating application and industrial safety systems
+on the same SoC.  These functional domains are typically called the:</p>
+<ul class="simple">
+<li><p>Wakeup (WKUP) domain</p></li>
+<li><p>Micro-controller (MCU) domain</p></li>
+<li><p>Main domain</p></li>
+</ul>
+<p>For a more detailed view of what peripherals are attached to each
+domain, consult the device specific documentation.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/K3 Based SoCs"></a><div class="section" id="k3-based-socs">
+<h2>K3 Based SoCs<a class="headerlink" href="#k3-based-socs" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="am62x_sk.html">AM62 Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../toradex/verdin-am62.html">Verdin AM62 Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="am65x_evm.html">AM65x Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="j7200_evm.html">J7200 Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="j721e_evm.html">J721E Platforms</a></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot Flow Overview"></a><div class="section" id="boot-flow-overview">
+<h2>Boot Flow Overview<a class="headerlink" href="#boot-flow-overview" title="Permalink to this headline">¶</a></h2>
+<p>For all K3 SoCs the first core started will be inside the Security
+Management Subsystem (SMS) which will secure the device and start a core
+in the wakeup domain to run the ROM code. ROM will then initialize the
+boot media needed to load the binaries packaged inside <cite>tiboot3.bin</cite>,
+including a 32bit U-Boot SPL, (called the wakup SPL) that ROM will jump
+to after it has finished loading everything into internal SRAM.</p>
+<img alt="Boot flow up to wakeup domain SPL" src="../../_images/boot_flow_01.svg"/><p>The wakeup SPL, running on a wakeup domain core, will initialize DDR and
+any peripherals needed load the larger binaries inside the <cite>tispl.bin</cite>
+into DDR.  Once loaded the wakeup SPL will start one of the ‘big’
+application cores inside the main domain to initialize the main domain,
+starting with Trusted Firmware-A (TF-A), before moving on to start
+OP-TEE and the main domain’s U-Boot SPL.</p>
+<img alt="Boot flow up to main domain SPL" src="../../_images/boot_flow_02.svg"/><p>The main domain’s SPL, running on a 64bit application core, has
+virtually unlimited space (billions of bytes now that DDR is working) to
+initialize even more peripherals needed to load in the <cite>u-boot.img</cite>
+which loads more firmware into the micro-controller &amp; wakeup domains and
+finally prepare the main domain to run Linux.</p>
+<img alt="Complete boot flow up to Linux" src="../../_images/boot_flow_03.svg"/><p>This is the typical boot flow for all K3 based SoCs, however this flow
+offers quite a lot in the terms of flexibility, especially on High
+Security (HS) SoCs.</p>
+<div class="section" id="boot-flow-variations">
+<h3>Boot Flow Variations<a class="headerlink" href="#boot-flow-variations" title="Permalink to this headline">¶</a></h3>
+<p>All K3 SoCs will generally use the above boot flow with two main
+differences depending on the capabilities of the boot ROM and the number
+of cores inside the device. These differences split the bootflow into
+essentially 4 unique but very similar flows:</p>
+<ul class="simple">
+<li><p>Split binary with a combined firmware: (eg: AM65)</p></li>
+<li><p>Combined binary with a combined firmware: (eg: AM64)</p></li>
+<li><p>Split binary with a split firmware: (eg: J721E)</p></li>
+<li><p>Combined binary with a split firmware: (eg: AM62)</p></li>
+</ul>
+<p>For devices that utilize the split binary approach, ROM is not capable
+of loading the firmware into the SoC requiring the wakeup domain’s
+U-Boot SPL to load the firmware.</p>
+<p>Devices with a split firmware will have two firmwares loaded into the
+device at different times during the bootup process. TI’s Foundational
+Security (TIFS), needed to operate the Security Management Subsystem,
+will either be loaded by ROM or the WKUP U-Boot SPL, then once the
+wakeup U-Boot SPL has completed, the second Device Management (DM)
+firmware can be loaded on the now free core in the wakeup domain.</p>
+<p>For more information on the bootup process of your SoC, consult the
+device specific boot flow documentation.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Software Sources"></a><div class="section" id="software-sources">
+<h2>Software Sources<a class="headerlink" href="#software-sources" title="Permalink to this headline">¶</a></h2>
+<p>All scripts and code needed to build the <cite>tiboot3.bin</cite>, <cite>tispl.bin</cite> and
+<cite>u-boot.img</cite> for all K3 SoCs can be located at the following places
+online</p>
+<ul>
+<li><p><strong>Das U-Boot</strong></p>
+<div class="line-block">
+<div class="line"><strong>source:</strong> <a class="reference external" href="https://source.denx.de/u-boot/u-boot.git">https://source.denx.de/u-boot/u-boot.git</a></div>
+<div class="line"><strong>branch:</strong> master</div>
+</div>
+</li>
+<li><p><strong>Trusted Firmware-A (TF-A)</strong></p>
+<div class="line-block">
+<div class="line"><strong>source:</strong> <a class="reference external" href="https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/">https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/</a></div>
+<div class="line"><strong>branch:</strong> master</div>
+</div>
+</li>
+<li><p><strong>Open Portable Trusted Execution Environment (OP-TEE)</strong></p>
+<div class="line-block">
+<div class="line"><strong>source:</strong> <a class="reference external" href="https://github.com/OP-TEE/optee_os.git">https://github.com/OP-TEE/optee_os.git</a></div>
+<div class="line"><strong>branch:</strong> master</div>
+</div>
+</li>
+<li><p><strong>TI Firmware (TIFS, DM, SYSFW)</strong></p>
+<div class="line-block">
+<div class="line"><strong>source:</strong> <a class="reference external" href="https://git.ti.com/git/processor-firmware/ti-linux-firmware.git">https://git.ti.com/git/processor-firmware/ti-linux-firmware.git</a></div>
+<div class="line"><strong>branch:</strong> ti-linux-firmware</div>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<blockquote>
+<div><p>The TI Firmware required for functionality of the system can be
+one of the following combination (see platform specific boot diagram for
+further information as to which component runs on which processor):</p>
+<ul class="simple">
+<li><p><strong>TIFS</strong> - TI Foundational Security Firmware - Consists of purely firmware
+meant to run on the security enclave.</p></li>
+<li><p><strong>DM</strong> - Device Management firmware also called TI System Control Interface
+server (TISCI Server) - This component purely plays the role of managing
+device resources such as power, clock, interrupts, dma etc. This firmware
+runs on a dedicated or multi-use microcontroller outside the security
+enclave.</p></li>
+</ul>
+</div></blockquote>
+<p>OR</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>SYSFW</strong> - System firmware - consists of both TIFS and DM both running on
+the security enclave.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build Procedure"></a><div class="section" id="build-procedure">
+<h2>Build Procedure<a class="headerlink" href="#build-procedure" title="Permalink to this headline">¶</a></h2>
+<p>Depending on the specifics of your device, you will need three or more
+binaries to boot your SoC.</p>
+<ul class="simple">
+<li><p><cite>tiboot3.bin</cite> (bootloader for the wakeup domain)</p></li>
+<li><p><cite>tispl.bin</cite> (bootloader for the main domain)</p></li>
+<li><p><cite>u-boot.img</cite></p></li>
+</ul>
+<p>During the bootup process, both the 32bit wakeup domain and the 64bit
+main domains will be involved. This means everything inside the
+<cite>tiboot3.bin</cite> running in the wakeup domain will need to be compiled for
+32bit cores and most binaries in the <cite>tispl.bin</cite> will need to be
+compiled for 64bit main domain CPU cores.</p>
+<p>All of that to say you will need both a 32bit and 64bit cross compiler
+(assuming you’re using an x86 desktop)</p>
+<table class="colwidths-given docutils align-default" id="id3">
+<caption><span class="caption-text">Generic environment variables</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>S/w Component</p></th>
+<th class="head"><p>Env Variable</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>All Software</p></td>
+<td><p>CC32</p></td>
+<td><p>Cross compiler for ARMv7 (ARM 32bit), typically arm-linux-gnueabihf-</p></td>
+</tr>
+<tr class="row-odd"><td><p>All Software</p></td>
+<td><p>CC64</p></td>
+<td><p>Cross compiler for ARMv8 (ARM 64bit), typically aarch64-linux-gnu-</p></td>
+</tr>
+<tr class="row-even"><td><p>All Software</p></td>
+<td><p>LNX_FW_PATH</p></td>
+<td><p>Path to TI Linux firmware repository</p></td>
+</tr>
+<tr class="row-odd"><td><p>All Software</p></td>
+<td><p>TFA_PATH</p></td>
+<td><p>Path to source of Trusted Firmware-A</p></td>
+</tr>
+<tr class="row-even"><td><p>All Software</p></td>
+<td><p>OPTEE_PATH</p></td>
+<td><p>Path to source of OP-TEE</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">CC32</span><span class="o">=</span>arm-linux-gnueabihf-</span>
+<span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">CC64</span><span class="o">=</span>aarch64-linux-gnu-</span>
+<span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">LNX_FW_PATH</span><span class="o">=</span>path/to/ti-linux-firmware</span>
+<span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">TFA_PATH</span><span class="o">=</span>path/to/trusted-firmware-a</span>
+<span class="prompt1"><span class="nb">export</span><span class="w"> </span><span class="nv">OPTEE_PATH</span><span class="o">=</span>path/to/optee_os</span>
+</pre></div></div><p>We will also need some common environment variables set up for the various
+other build sources. we shall use the following, in the build descriptions below:</p>
+<table class="colwidths-given docutils align-default" id="id4">
+<caption><span class="caption-text">Board specific environment variables</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>S/w Component</p></th>
+<th class="head"><p>Env Variable</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>U-Boot</p></td>
+<td><p>UBOOT_CFG_CORTEXR</p></td>
+<td><p>Defconfig for Cortex-R (Boot processor).</p></td>
+</tr>
+<tr class="row-odd"><td><p>U-Boot</p></td>
+<td><p>UBOOT_CFG_CORTEXA</p></td>
+<td><p>Defconfig for Cortex-A (MPU processor).</p></td>
+</tr>
+<tr class="row-even"><td><p>Trusted Firmware-A</p></td>
+<td><p>TFA_BOARD</p></td>
+<td><p>Platform name used for building TF-A for Cortex-A Processor.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Trusted Firmware-A</p></td>
+<td><p>TFA_EXTRA_ARGS</p></td>
+<td><p>Any extra arguments used for building TF-A.</p></td>
+</tr>
+<tr class="row-even"><td><p>OP-TEE</p></td>
+<td><p>OPTEE_PLATFORM</p></td>
+<td><p>Platform name used for building OP-TEE for Cortex-A Processor.</p></td>
+</tr>
+<tr class="row-odd"><td><p>OP-TEE</p></td>
+<td><p>OPTEE_EXTRA_ARGS</p></td>
+<td><p>Any extra arguments used for building OP-TEE.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="building-tiboot3-bin">
+<h3>Building tiboot3.bin<a class="headerlink" href="#building-tiboot3-bin" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>To generate the U-Boot SPL for the wakeup domain, use the following
+commands, substituting <code class="code docutils literal notranslate"><span class="pre">{SOC}</span></code> for the name of your device (eg:
+am62x) to package the various firmware and the wakeup UBoot SPL into
+the final <cite>tiboot3.bin</cite> binary. (or the <cite>sysfw.itb</cite> if your device
+uses the split binary flow)</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside u-boot source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">$UBOOT_CFG_CORTEXR</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC32</span><span class="w"> </span><span class="nv">BINMAN_INDIRS</span><span class="o">=</span><span class="nv">$LNX_FW_PATH</span></span>
+</pre></div></div><p>At this point you should have all the needed binaries to boot the wakeup
+domain of your K3 SoC.</p>
+<p><strong>Combined Binary Boot Flow</strong> (eg: am62x, am64x, … )</p>
+<blockquote>
+<div><p><cite>tiboot3-{SOC}-{gp/hs-fs/hs}.bin</cite></p>
+</div></blockquote>
+<p><strong>Split Binary Boot Flow</strong> (eg: j721e, am65x)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><cite>tiboot3-{SOC}-{gp/hs-fs/hs}.bin</cite></div>
+<div class="line"><cite>sysfw-{SOC}-{gp/hs-fs/hs}-evm.itb</cite></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It’s important to rename the generated <cite>tiboot3.bin</cite> and <cite>sysfw.itb</cite>
+to match exactly <cite>tiboot3.bin</cite> and <cite>sysfw.itb</cite> as ROM and the wakeup
+UBoot SPL will only look for and load the files with these names.</p>
+</div>
+</div>
+<div class="section" id="building-tispl-bin">
+<h3>Building tispl.bin<a class="headerlink" href="#building-tispl-bin" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>tispl.bin</cite> is a standard fitImage combining the firmware need for
+the main domain to function properly as well as Device Management (DM)
+firmware if your device using a split firmware.</p>
+<ol class="arabic simple" start="2">
+<li><p>We will first need TF-A, as it’s the first thing to run on the ‘big’
+application cores on the main domain.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside trusted-firmware-a source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC64</span><span class="w"> </span><span class="nv">ARCH</span><span class="o">=</span>aarch64<span class="w"> </span><span class="nv">PLAT</span><span class="o">=</span>k3<span class="w"> </span><span class="nv">SPD</span><span class="o">=</span>opteed<span class="w"> </span><span class="nv">$TFA_EXTRA_ARGS</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="nv">TARGET_BOARD</span><span class="o">=</span><span class="nv">$TFA_BOARD</span></span>
+</pre></div></div><p>Typically all <cite>j7*</cite> devices will use <cite>TARGET_BOARD=generic</cite> or <cite>TARGET_BOARD
+=j784s4</cite> (if it is a J784S4 device), while typical Sitara (<cite>am6*</cite>) devices
+use the <cite>lite</cite> option.</p>
+<ol class="arabic simple" start="3">
+<li><p>The Open Portable Trusted Execution Environment (OP-TEE) is designed
+to run as a companion to a non-secure Linux kernel for Cortex-A cores
+using the TrustZone technology built into the core.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside optee_os source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC32</span><span class="w"> </span><span class="nv">CROSS_COMPILE64</span><span class="o">=</span><span class="nv">$CC64</span><span class="w"> </span><span class="nv">CFG_ARM64_core</span><span class="o">=</span>y<span class="w"> </span><span class="nv">$OPTEE_EXTRA_ARGS</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="nv">PLATFORM</span><span class="o">=</span><span class="nv">$OPTEE_PLATFORM</span></span>
+</pre></div></div><ol class="arabic simple" start="4">
+<li><p>Finally, after TF-A has initialized the main domain and OP-TEE has
+finished, we can jump back into U-Boot again, this time running on a
+64bit core in the main domain.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside u-boot source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">$UBOOT_CFG_CORTEXA</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC64</span><span class="w"> </span><span class="nv">BINMAN_INDIRS</span><span class="o">=</span><span class="nv">$LNX_FW_PATH</span><span class="w"> </span><span class="se">\</span>
+<span class="w">       </span><span class="nv">BL31</span><span class="o">=</span><span class="nv">$TFA_PATH</span>/build/k3/<span class="nv">$TFA_BOARD</span>/release/bl31.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span><span class="nv">TEE</span><span class="o">=</span><span class="nv">$OPTEE_PATH</span>/out/arm-plat-k3/core/tee-raw.bin</span>
+</pre></div></div><p>At this point you should have every binary needed initialize both the
+wakeup and main domain and to boot to the U-Boot prompt</p>
+<p><strong>Main Domain Bootloader</strong></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><cite>tispl.bin</cite> for HS devices or <cite>tispl.bin_unsigned</cite> for GP devices</div>
+<div class="line"><cite>u-boot.img</cite> for HS devices or <cite>u-boot.img_unsigned</cite> for GP devices</div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Fit Signature Signing"></a><div class="section" id="fit-signature-signing">
+<h2>Fit Signature Signing<a class="headerlink" href="#fit-signature-signing" title="Permalink to this headline">¶</a></h2>
+<p>K3 Platforms have fit signature signing enabled by default on their primary
+platforms. Here we’ll take an example for creating fit image for J721e platform
+and the same can be extended to other platforms</p>
+<ol class="arabic simple">
+<li><p>Describing FIT source</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/dts-v1/<span class="p">;</span>
+
+/<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="nv">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Kernel fitImage for j721e-hs-evm"</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">#address-cells = &lt;1&gt;;</span>
+
+<span class="w">        </span>images<span class="w"> </span><span class="o">{</span>
+<span class="w">                </span>kernel-1<span class="w"> </span><span class="o">{</span>
+<span class="w">                        </span><span class="nv">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Linux kernel"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/incbin/<span class="o">(</span><span class="s2">"Image"</span><span class="o">)</span><span class="p">;</span>
+<span class="w">                        </span><span class="nb">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"kernel"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">arch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"arm64"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"linux"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">compression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;0x80080000&gt;<span class="p">;</span>
+<span class="w">                        </span><span class="nv">entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;0x80080000&gt;<span class="p">;</span>
+<span class="w">                        </span>hash-1<span class="w"> </span><span class="o">{</span>
+<span class="w">                                </span><span class="nv">algo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sha512"</span><span class="p">;</span>
+<span class="w">                        </span><span class="o">}</span><span class="p">;</span>
+
+<span class="w">                </span><span class="o">}</span><span class="p">;</span>
+<span class="w">                </span>fdt-ti_k3-j721e-common-proc-board.dtb<span class="w"> </span><span class="o">{</span>
+<span class="w">                        </span><span class="nv">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Flattened Device Tree blob"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/incbin/<span class="o">(</span><span class="s2">"k3-j721e-common-proc-board.dtb"</span><span class="o">)</span><span class="p">;</span>
+<span class="w">                        </span><span class="nb">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"flat_dt"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">arch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"arm64"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">compression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;0x83000000&gt;<span class="p">;</span>
+<span class="w">                        </span>hash-1<span class="w"> </span><span class="o">{</span>
+<span class="w">                                </span><span class="nv">algo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sha512"</span><span class="p">;</span>
+<span class="w">                        </span><span class="o">}</span><span class="p">;</span>
+
+<span class="w">                </span><span class="o">}</span><span class="p">;</span>
+<span class="w">        </span><span class="o">}</span><span class="p">;</span>
+
+<span class="w">        </span>configurations<span class="w"> </span><span class="o">{</span>
+<span class="w">                </span><span class="nv">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"conf-ti_k3-j721e-common-proc-board.dtb"</span><span class="p">;</span>
+<span class="w">                </span>conf-ti_k3-j721e-common-proc-board.dtb<span class="w"> </span><span class="o">{</span>
+<span class="w">                        </span><span class="nv">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Linux kernel, FDT blob"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">fdt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fdt-ti_k3-j721e-common-proc-board.dtb"</span><span class="p">;</span>
+<span class="w">                        </span><span class="nv">kernel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"kernel-1"</span><span class="p">;</span>
+<span class="w">                        </span>signature-1<span class="w"> </span><span class="o">{</span>
+<span class="w">                                </span><span class="nv">algo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sha512,rsa4096"</span><span class="p">;</span>
+<span class="w">                                </span>key-name-hint<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"custMpk"</span><span class="p">;</span>
+<span class="w">                                </span>sign-images<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"kernel"</span>,<span class="w"> </span><span class="s2">"fdt"</span><span class="p">;</span>
+<span class="w">                        </span><span class="o">}</span><span class="p">;</span>
+<span class="w">                </span><span class="o">}</span><span class="p">;</span>
+<span class="w">        </span><span class="o">}</span><span class="p">;</span>
+<span class="o">}</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>You would require to change the ‘/incbin/’ lines to point to the respective
+files in your local machine and the key-name-hint also needs to be changed
+if you are using some other key other than the TI dummy key that we are
+using for this example.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Compile U-boot for the respective board</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside u-boot source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">$UBOOT_CFG_CORTEXA</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC64</span><span class="w"> </span><span class="nv">BINMAN_INDIRS</span><span class="o">=</span><span class="nv">$LNX_FW_PATH</span><span class="w"> </span><span class="se">\</span>
+<span class="w">       </span><span class="nv">BL31</span><span class="o">=</span><span class="nv">$TFA_PATH</span>/build/k3/<span class="nv">$TFA_BOARD</span>/release/bl31.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span><span class="nv">TEE</span><span class="o">=</span><span class="nv">$OPTEE_PATH</span>/out/arm-plat-k3/core/tee-raw.bin</span>
+</pre></div></div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The changes only affect a72 binaries so the example just builds that</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Sign the fit image and embed the dtb in uboot</p></li>
+</ol>
+<blockquote>
+<div><p>Now once the build is done, you’ll have a dtb for your board that you’ll
+be passing to mkimage for signing the fitImage and embedding the key in
+the u-boot dtb.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">mkimage<span class="w"> </span>-r<span class="w"> </span>-f<span class="w"> </span>fitImage.its<span class="w"> </span>-k<span class="w"> </span><span class="nv">$UBOOT_PATH</span>/board/ti/keys<span class="w"> </span>-K</span>
+<span class="prompt1"><span class="nv">$UBOOT_PATH</span>/build/a72/dts/dt.dtb</span>
+</pre></div></div><p>For signing a secondary platform, pass the -K parameter to that DTB</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">mkimage<span class="w"> </span>-f<span class="w"> </span>fitImage.its<span class="w"> </span>-k<span class="w"> </span><span class="nv">$UBOOT_PATH</span>/board/ti/keys<span class="w"> </span>-K</span>
+<span class="prompt1"><span class="nv">$UBOOT_PATH</span>/build/a72/arch/arm/dts/k3-j721e-sk.dtb</span>
+</pre></div></div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If changing <cite>CONFIG_DEFAULT_DEVICE_TREE</cite> to the secondary platform,
+binman changes would also be required so that correct dtb gets packaged.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>diff<span class="w"> </span>--git<span class="w"> </span>a/arch/arm/dts/k3-j721e-binman.dtsi<span class="w"> </span>b/arch/arm/dts/k3-j721e-binman.dtsi
+index<span class="w"> </span>673be646b1e3..752fa805fe8d<span class="w"> </span><span class="m">100644</span>
+---<span class="w"> </span>a/arch/arm/dts/k3-j721e-binman.dtsi
++++<span class="w"> </span>b/arch/arm/dts/k3-j721e-binman.dtsi
+@@<span class="w"> </span>-299,8<span class="w"> </span>+299,8<span class="w"> </span>@@
+<span class="w"> </span><span class="c1">#define SPL_J721E_SK_DTB "spl/dts/k3-j721e-sk.dtb"</span>
+
+<span class="w"> </span><span class="c1">#define UBOOT_NODTB "u-boot-nodtb.bin"</span>
+-#define<span class="w"> </span>J721E_EVM_DTB<span class="w"> </span><span class="s2">"u-boot.dtb"</span>
+-#define<span class="w"> </span>J721E_SK_DTB<span class="w"> </span><span class="s2">"arch/arm/dts/k3-j721e-sk.dtb"</span>
++#define<span class="w"> </span>J721E_EVM_DTB<span class="w"> </span><span class="s2">"arch/arm/dts/k3-j721e-common-proc-board.dtb"</span>
++#define<span class="w"> </span>J721E_SK_DTB<span class="w"> </span><span class="s2">"u-boot.dtb"</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<ol class="arabic" start="5">
+<li><p>Rebuilt u-boot</p>
+<p>This is required so that the modified dtb gets updated in u-boot.img</p>
+</li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># inside u-boot source</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">$UBOOT_CFG_CORTEXA</span></span>
+<span class="prompt1">make<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="nv">$CC64</span><span class="w"> </span><span class="nv">BINMAN_INDIRS</span><span class="o">=</span><span class="nv">$LNX_FW_PATH</span><span class="w"> </span><span class="se">\</span>
+<span class="w">       </span><span class="nv">BL31</span><span class="o">=</span><span class="nv">$TFA_PATH</span>/build/k3/<span class="nv">$TFA_BOARD</span>/release/bl31.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span><span class="nv">TEE</span><span class="o">=</span><span class="nv">$OPTEE_PATH</span>/out/arm-plat-k3/core/tee-raw.bin</span>
+</pre></div></div><ol class="arabic" start="6">
+<li><p>(Optional) Enabled FIT_SIGNATURE_ENFORCED</p>
+<p>By default u-boot will boot up the fit image without any authentication as
+such if the public key is not embedded properly, to check if the public key
+nodes are proper you can enable FIT_SIGNATURE_ENFORCED that would not rely
+on the dtb for anything else then the signature node for checking the fit
+image, rest other things will be enforced such as the property of
+required-keys. This is not an extensive check so do manual checks also</p>
+<p>This is by default enabled for devices with TI_SECURE_DEVICE enabled.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The devices now also have distroboot enabled so if the fit image doesn’t
+work then the fallback to normal distroboot will be there on hs devices,
+this will need to be explicitly disabled by changing the boot_targets.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Saving environment"></a><div class="section" id="saving-environment">
+<h2>Saving environment<a class="headerlink" href="#saving-environment" title="Permalink to this headline">¶</a></h2>
+<p>SAVEENV is disabled by default and for the new flow uses Uenv.txt as the default
+way for saving the environments. This has been done as Uenv.txt is more granular
+then the saveenv command and can be used across various bootmodes too.</p>
+<p><strong>Writing to MMC/EMMC</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">env<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-t<span class="w"> </span><span class="nv">$loadaddr</span><span class="w"> </span>&lt;list<span class="w"> </span>of<span class="w"> </span>variables&gt;</span>
+<span class="prompt2">fatwrite<span class="w"> </span>mmc<span class="w"> </span><span class="si">${</span><span class="nv">mmcdev</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">bootenvfile</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">filesize</span><span class="si">}</span></span>
+</pre></div></div><p><strong>Reading from MMC/EMMC</strong></p>
+<p>By default run envboot will read it from the MMC/EMMC partition ( based on
+mmcdev) and set the environments.</p>
+<p>If manually needs to be done then the environment can be read from the
+filesystem and then imported</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">fatload<span class="w"> </span>mmc<span class="w"> </span><span class="si">${</span><span class="nv">mmcdev</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">bootenvfile</span><span class="si">}</span></span>
+<span class="prompt2">env<span class="w"> </span>import<span class="w"> </span>-t<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">filesize</span><span class="si">}</span></span>
+</pre></div></div></div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Common Debugging environment - OpenOCD"></a><div class="section" id="common-debugging-environment-openocd">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Common Debugging environment - OpenOCD"></a><span id="k3-rst-refer-openocd"></span><h2>Common Debugging environment - OpenOCD<a class="headerlink" href="#common-debugging-environment-openocd" title="Permalink to this headline">¶</a></h2>
+<p>This section will show you how to connect a board to <a class="reference external" href="https://openocd.org/">OpenOCD</a> and load the SPL symbols for debugging with
+a K3 generation device. To follow this guide, you must build custom
+u-boot binaries, start your board from a boot media such as an SD
+card, and use an OpenOCD environment. This section uses generic
+examples, though you can apply these instructions to any supported K3
+generation device.</p>
+<p>The overall structure of this setup is in the following figure.</p>
+<img alt="Overview of OpenOCD setup." src="../../_images/openocd-overview.svg"/><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you find these instructions useful, please consider <a class="reference external" href="https://openocd.org/pages/donations.html">donating</a> to OpenOCD.</p>
+</div>
+<div class="section" id="step-1-download-and-install-openocd">
+<h3>Step 1: Download and install OpenOCD<a class="headerlink" href="#step-1-download-and-install-openocd" title="Permalink to this headline">¶</a></h3>
+<p>To get started, it is more convenient if the distribution you
+use supports OpenOCD by default. Follow the instructions in the
+<a class="reference external" href="https://openocd.org/pages/getting-openocd.html">getting OpenOCD</a>
+documentation to pick the installation steps appropriate to your
+environment. Some references to OpenOCD documentation:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://openocd.org/doc/html/index.html">OpenOCD User Guide</a></p></li>
+<li><p><a class="reference external" href="https://openocd.org/doc/doxygen/html/index.html">OpenOCD Developer’s Guide</a></p></li>
+</ul>
+<p>Refer to the release notes corresponding to the <a class="reference external" href="https://github.com/openocd-org/openocd/releases">OpenOCD version</a> to ensure</p>
+<ul class="simple">
+<li><p>Processor support: In general, processor support shouldn’t present
+any difficulties since OpenOCD provides solid support for both ARMv8
+and ARMv7.</p></li>
+<li><p>SoC support: When working with System-on-a-Chip (SoC), the support
+usually comes as a TCL config file. It is vital to ensure the correct
+version of OpenOCD or to use the TCL files from the latest release or
+the one mentioned.</p></li>
+<li><p>Board or the JTAG adapter support: In most cases, board support is
+a relatively easy problem if the board has a JTAG pin header. All
+you need to do is ensure that the adapter you select is compatible
+with OpenOCD. Some boards come with an onboard JTAG adapter that
+requires a USB cable to be plugged into the board, in which case, it
+is vital to ensure that the JTAG adapter is supported. Fortunately,
+almost all TI K3 SK/EVMs come with TI’s XDS110, which has out of the
+box support by OpenOCD. The board-specific documentation will
+cover the details and any adapter/dongle recommendations.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">openocd<span class="w"> </span>-v</span>
+</pre></div></div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>OpenOCD version 0.12.0 is usually required to connect to most K3
+devices. If your device is only supported by a newer version than the
+one provided by your distribution, you may need to build it from the source.</p>
+</div>
+<div class="section" id="building-openocd-from-source">
+<h4>Building OpenOCD from source<a class="headerlink" href="#building-openocd-from-source" title="Permalink to this headline">¶</a></h4>
+<p>The dependency package installation instructions below are for Debian
+systems, but equivalent instructions should exist for systems with
+other package managers. Please refer to the <a class="reference external" href="https://openocd.org/">OpenOCD Documentation</a> for more recent installation steps.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># Check the packages to be installed: needs deb-src in sources.list</span></span>
+<span class="prompt1">sudo<span class="w"> </span>apt<span class="w"> </span>build-dep<span class="w"> </span>openocd</span>
+<span class="prompt1"><span class="c1"># The following list is NOT complete - please check the latest</span></span>
+<span class="prompt1">sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libtool<span class="w"> </span>pkg-config<span class="w"> </span>texinfo<span class="w"> </span>libusb-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>libusb-1.0.0-dev<span class="w"> </span>libftdi-dev<span class="w"> </span>libhidapi-dev<span class="w"> </span>autoconf<span class="w"> </span>automake</span>
+<span class="prompt1">git<span class="w"> </span>clone<span class="w"> </span>https://github.com/openocd-org/openocd.git<span class="w"> </span>openocd</span>
+<span class="prompt1"><span class="nb">cd</span><span class="w"> </span>openocd</span>
+<span class="prompt1">git<span class="w"> </span>submodule<span class="w"> </span>init</span>
+<span class="prompt1">git<span class="w"> </span>submodule<span class="w"> </span>update</span>
+<span class="prompt1">./bootstrap</span>
+<span class="prompt1">./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/</span>
+<span class="prompt1">make<span class="w"> </span>-j<span class="sb">`</span>nproc<span class="sb">`</span></span>
+<span class="prompt1">sudo<span class="w"> </span>make<span class="w"> </span>install</span>
+</pre></div></div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The example above uses the GitHub mirror site. See
+<a class="reference external" href="https://openocd.org/doc/html/Developers.html#OpenOCD-Git-Repository">git repo information</a>
+information to pick the official git repo.
+If a specific version is desired, select the version using <cite>git checkout tag</cite>.</p>
+</div>
+</div>
+<div class="section" id="installing-openocd-udev-rules">
+<h4>Installing OpenOCD udev rules<a class="headerlink" href="#installing-openocd-udev-rules" title="Permalink to this headline">¶</a></h4>
+<p>The step is not necessary if the distribution supports the OpenOCD, but
+if building from a source, ensure that the udev rules are installed
+correctly to ensure a sane system.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># Go to the OpenOCD source directory</span></span>
+<span class="prompt1"><span class="nb">cd</span><span class="w"> </span>openocd</span>
+<span class="prompt1">Copy<span class="w"> </span>the<span class="w"> </span>udev<span class="w"> </span>rules<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>correct<span class="w"> </span>system<span class="w"> </span>location</span>
+<span class="prompt1">sudo<span class="w"> </span>cp<span class="w"> </span>./contrib/60-openocd.rules<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>./src/jtag/drivers/libjaylink/contrib/99-libjaylink.rules<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/etc/udev/rules.d/</span>
+<span class="prompt1"><span class="c1"># Get Udev to load the new rules up</span></span>
+<span class="prompt1">sudo<span class="w"> </span>udevadm<span class="w"> </span>control<span class="w"> </span>--reload-rules</span>
+<span class="prompt1"><span class="c1"># Use the new rules on existing connected devices</span></span>
+<span class="prompt1">sudo<span class="w"> </span>udevadm<span class="w"> </span>trigger</span>
+</pre></div></div></div>
+</div>
+<div class="section" id="step-2-setup-gdb">
+<h3>Step 2: Setup GDB<a class="headerlink" href="#step-2-setup-gdb" title="Permalink to this headline">¶</a></h3>
+<p>Most systems come with gdb-multiarch package.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="c1"># Install gdb-multiarch package</span></span>
+<span class="prompt1">sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>gdb-multiarch</span>
+</pre></div></div><p>Though using GDB natively is normal, developers with interest in using IDE
+may find a few of these interesting:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/cyrus-and/gdb-dashboard">gdb-dashboard</a></p></li>
+<li><p><a class="reference external" href="https://github.com/hugsy/gef">gef</a></p></li>
+<li><p><a class="reference external" href="https://github.com/longld/peda">peda</a></p></li>
+<li><p><a class="reference external" href="https://github.com/pwndbg/pwndbg">pwndbg</a></p></li>
+<li><p><a class="reference external" href="https://github.com/snare/voltron">voltron</a></p></li>
+<li><p><a class="reference external" href="https://www.gnu.org/software/ddd/">ddd</a></p></li>
+<li><p><a class="reference external" href="https://www.justinmklam.com/posts/2017/10/vscode-debugger-setup/">vscode</a></p></li>
+<li><p><a class="reference external" href="https://github.com/vim-scripts/Conque-GDB">vim conque-gdb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/realgud/realgud/wiki/gdb-notes">emacs realgud</a></p></li>
+<li><p><a class="reference external" href="https://www2.lauterbach.com/pdf/backend_gdb.pdf">Lauterbach IDE</a></p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>LLDB support for OpenOCD is still a work in progress as of this writing.
+Using GDB is probably the safest option at this point in time.</p>
+</div>
+</div>
+<div class="section" id="step-3-connect-board-to-pc">
+<h3>Step 3: Connect board to PC<a class="headerlink" href="#step-3-connect-board-to-pc" title="Permalink to this headline">¶</a></h3>
+<p>There are few patterns of boards in the ecosystem</p>
+<p><strong>Integrated JTAG adapter/dongle</strong>: The board has a micro-USB connector labelled
+XDS110 USB or JTAG. Connect a USB cable to the board to the mentioned port.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are multiple USB ports on a typical board, So, ensure you have read
+the user guide for the board and confirmed the silk screen label to ensure
+connecting to the correct port.</p>
+</div>
+<p><strong>cTI20 connector</strong>: The TI’s <a class="reference external" href="https://software-dl.ti.com/ccs/esd/documents/xdsdebugprobes/emu_JTAG_connectors.html#cti-20-pin-header-information">cTI20</a> connector
+is probably the most prevelant on TI platforms. Though many
+TI boards have an onboard XDS110, cTI20 connector is usually
+provided as an alternate scheme to connect alternatives such
+as <a class="reference external" href="https://www.lauterbach.com/">Lauterbach</a> or <a class="reference external" href="https://www.ti.com/tool/TMDSEMU560V2STM-U">XDS560</a>.</p>
+<p>To debug on these boards, the following combinations is suggested:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.diygadget.com/JTAG-cables-and-microcontroller-programmers/tiao-usb-multi-protocol-adapter-JTAG-spi-i2c-serial">TUMPA</a>
+or <a class="reference external" href="https://openocd.org/doc/html/Debug-Adapter-Hardware.html#Debug-Adapter-Hardware">equivalent dongles supported by OpenOCD.</a></p></li>
+<li><p>Cable such as <a class="reference external" href="https://www.tag-connect.com/product/20-pin-cortex-ribbon-cable-4-length-with-50-mil-connectors">Tag-connect ribbon cable</a></p></li>
+<li><p>Adapter to convert cTI20 to ARM20 such as those from
+<a class="reference external" href="https://www.segger.com/products/debug-probes/j-link/accessories/adapters/ti-cti-20-adapter/">Segger</a>
+or <a class="reference external" href="https://www.lauterbach.com/ad3780.html">Lauterbach LA-3780</a>
+Or optionally, if you have manufacturing capability then you could try
+<a class="reference external" href="https://github.com/mmorawiec/BeagleBone-Black-JTAG-Adapters">BeagleBone JTAG Adapter</a></p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>XDS560 and Lauterbach are proprietary solutions and is not supported by
+OpenOCD.
+When purchasing an off the shelf adapter/dongle, you do want to be careful
+about the signalling though. Please
+<a class="reference external" href="https://software-dl.ti.com/ccs/esd/xdsdebugprobes/emu_JTAG_connectors.html">read for additional info</a>.</p>
+</div>
+<p><strong>Tag-Connect</strong>: <a class="reference external" href="https://www.tag-connect.com/">Tag-Connect</a>
+pads on the boards which require special cable. Please check the documentation
+to <a class="reference external" href="https://www.tag-connect.com/info/legs-or-no-legs">identify</a> if “legged”
+or “no-leg” version of the cable is appropriate for the board.</p>
+<p>To debug on these boards, you will need:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.diygadget.com/JTAG-cables-and-microcontroller-programmers/tiao-usb-multi-protocol-adapter-JTAG-spi-i2c-serial">TUMPA</a>
+or <a class="reference external" href="https://openocd.org/doc/html/Debug-Adapter-Hardware.html#Debug-Adapter-Hardware">equivalent dongles supported by OpenOCD</a>.</p></li>
+<li><p>Tag-Connect cable appropriate to the board such as
+<a class="reference external" href="https://www.tag-connect.com/product/TC2050-IDC-NL-10-pin-no-legs-cable-with-ribbon-connector">TC2050-IDC-NL</a></p></li>
+<li><p>In case of no-leg, version, a
+<a class="reference external" href="https://www.tag-connect.com/product/tc2050-clip-3pack-retaining-clip">retaining clip</a></p></li>
+<li><p>Tag-Connect to ARM20
+<a class="reference external" href="https://www.tag-connect.com/product/tc2050-arm2010-arm-20-pin-to-tc2050-adapter">adapter</a></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can optionally use a 3d printed solution such as
+<a class="reference external" href="https://www.thingiverse.com/thing:3025584">Protective cap</a> or
+<a class="reference external" href="https://www.thingiverse.com/thing:3035278">clip</a> to replace
+the retaining clip.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>With the Tag-Connect to ARM20 adapter, Please solder the “Trst” signal for
+connection to work.</p>
+</div>
+</div>
+<div class="section" id="debugging-with-openocd">
+<h3>Debugging with OpenOCD<a class="headerlink" href="#debugging-with-openocd" title="Permalink to this headline">¶</a></h3>
+<p>Debugging U-Boot is different from debugging regular user space
+applications. The bootloader initialization process involves many boot
+media and hardware configuration operations. For K3 devices, there
+are also interactions with security firmware. While reloading the
+“elf” file works through GDB, developers must be mindful of cascading
+initialization’s potential consequences.</p>
+<p>Consider the following code change:</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gd">--- a/file.c  2023-07-29 10:55:29.647928811 -0500</span>
+<span class="gi">+++ b/file.c  2023-07-29 10:55:46.091856816 -0500</span>
+<span class="gu">@@ -1,3 +1,3 @@</span>
+<span class="w"> </span>val = readl(reg);
+<span class="gd">-val |= 0x2;</span>
+<span class="gi">+val |= 0x1;</span>
+<span class="w"> </span>writel(val, reg);
+</pre></div>
+</div>
+<p>Re-running the elf file with the above change will result in the
+register setting 0x3 instead of the intended 0x1. There are other
+hardware blocks which may not behave very well with a re-initialization
+without proper shutdown.</p>
+<p>To help narrow the debug down, it is usually simpler to use the
+standard boot media to get to the bootloader and debug only in the area
+of interest.</p>
+<p>In general, to debug u-boot spl/u-boot with OpenOCD there are three steps:</p>
+<ul class="simple">
+<li><p>Modify the code adding a loop to allow the debugger to attach
+near the point of interest. Boot up normally to stop at the loop.</p></li>
+<li><p>Connect with OpenOCD and step out of the loop.</p></li>
+<li><p>Step through the code to find the root of issue.</p></li>
+</ul>
+<p>Typical debugging involves a few iterations of the above sequence.
+Though most bootloader developers like to use printf to debug,
+debug with JTAG tends to be most efficient since it is possible to
+investigate the code flow and inspect hardware registers without
+repeated iterations.</p>
+<div class="section" id="code-modification">
+<h4>Code modification<a class="headerlink" href="#code-modification" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><strong>start.S</strong>: Adding an infinite while loop at the very entry of
+U-Boot. For this, look for the corresponding start.S entry file.
+This is usually only required when debugging some core SoC or
+processor related function. For example: arch/arm/cpu/armv8/start.S or
+arch/arm/cpu/armv7/start.S</p></li>
+</ul>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gh">diff --git a/arch/arm/cpu/armv7/start.S b/arch/arm/cpu/armv7/start.S</span>
+<span class="gh">index 69e281b086..744929e825 100644</span>
+<span class="gd">--- a/arch/arm/cpu/armv7/start.S</span>
+<span class="gi">+++ b/arch/arm/cpu/armv7/start.S</span>
+<span class="gu">@@ -37,6 +37,8 @@</span>
+<span class="w"> </span>#endif
+
+<span class="w"> </span>reset:
+<span class="gi">+dead_loop:</span>
+<span class="gi">+    b dead_loop</span>
+<span class="w"> </span>    /* Allow the board to save important registers */
+<span class="w"> </span>    b    save_boot_params
+<span class="w"> </span>save_boot_params_ret:
+</pre></div>
+</div>
+<ul>
+<li><p><strong>board_init_f</strong>: Adding an infinite while loop at the board entry
+function. In many cases, it is important to debug the boot process if
+any changes are made for board-specific applications. Below is a step
+by step process for debugging the boot SPL or Armv8 SPL:</p>
+<p>To debug the boot process in either domain, we will first
+add a modification to the code we would like to debug.
+In this example, we will debug <code class="docutils literal notranslate"><span class="pre">board_init_f</span></code> inside
+<code class="docutils literal notranslate"><span class="pre">arch/arm/mach-k3/{soc}_init.c</span></code>. Since some sections of U-Boot
+will be executed multiple times during the bootup process of K3
+devices, we will need to include either <code class="docutils literal notranslate"><span class="pre">CONFIG_ARM64</span></code> or
+<code class="docutils literal notranslate"><span class="pre">CONFIG_CPU_V7R</span></code> to catch the CPU at the desired place during the
+bootup process (Main or Wakeup domains). For example, modify the
+file as follows (depending on need):</p>
+</li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">board_init_f</span><span class="p">(</span><span class="n">ulong</span><span class="w"> </span><span class="n">dummy</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="p">.</span>
+<span class="w">    </span><span class="p">.</span>
+<span class="w">    </span><span class="cm">/* Code to run on the R5F (Wakeup/Boot Domain) */</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">IS_ENABLED</span><span class="p">(</span><span class="n">CONFIG_CPU_V7R</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="cm">/* Code to run on the ARMV8 (Main Domain) */</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">IS_ENABLED</span><span class="p">(</span><span class="n">CONFIG_ARM64</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">.</span>
+<span class="w">    </span><span class="p">.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="connecting-with-openocd-for-a-debug-session">
+<h4>Connecting with OpenOCD for a debug session<a class="headerlink" href="#connecting-with-openocd-for-a-debug-session" title="Permalink to this headline">¶</a></h4>
+<p>Startup OpenOCD to debug the platform as follows:</p>
+<ul class="simple">
+<li><p><strong>Integrated JTAG interface</strong>: If the evm has a debugger such as
+XDS110 inbuilt, there is typically an evm board support added and a
+cfg file will be available.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">openocd<span class="w"> </span>-f<span class="w"> </span>board/<span class="o">{</span>board_of_choice<span class="o">}</span>.cfg</span>
+</pre></div></div><ul class="simple">
+<li><p><strong>External JTAG adapter/interface</strong>: In other cases, where an
+adapter/dongle is used, a simple cfg file can be created to integrate the
+SoC and adapter information. See <a class="reference external" href="https://github.com/openocd-org/openocd/blob/master/tcl/target/ti_k3.cfg#L59">supported TI K3 SoCs</a>
+to decide if the SoC is supported or not.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">openocd<span class="w"> </span>-f<span class="w"> </span>openocd_connect.cfg</span>
+</pre></div></div><div class="highlight-tcl notranslate"><div class="highlight"><pre><span></span><span class="c"># TUMPA example:</span>
+<span class="c"># http://www.tiaowiki.com/w/TIAO_USB_Multi_Protocol_Adapter_User's_Manual</span>
+<span class="nb">source</span><span class="w"> </span><span class="k">[</span><span class="nv">find</span><span class="w"> </span>interface<span class="o">/</span>ftdi<span class="o">/</span>tumpa.cfg<span class="k">]</span>
+
+<span class="nv">transport</span><span class="w"> </span>select<span class="w"> </span>jtag
+
+<span class="c"># default JTAG configuration has only SRST and no TRST</span>
+<span class="nv">reset_config</span><span class="w"> </span>srst_only<span class="w"> </span>srst_push_pull
+
+<span class="c"># delay after SRST goes inactive</span>
+<span class="nv">adapter</span><span class="w"> </span>srst<span class="w"> </span>delay<span class="w"> </span><span class="mi">20</span>
+
+<span class="k">if</span><span class="w"> </span><span class="k">{</span><span class="w"> </span><span class="o">!</span><span class="k">[</span><span class="nb">info</span><span class="w"> </span>exists<span class="w"> </span>SOC<span class="k">]</span><span class="w"> </span><span class="k">}</span><span class="w"> </span><span class="k">{</span>
+<span class="w">  </span><span class="c"># Set the SoC of interest</span>
+<span class="w">  </span><span class="k">set</span><span class="w"> </span>SOC<span class="w"> </span>am625
+<span class="k">}</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="k">[</span><span class="nv">find</span><span class="w"> </span>target<span class="o">/</span>ti_k3.cfg<span class="k">]</span>
+
+<span class="nv">ftdi</span><span class="w"> </span>tdo_sample_edge<span class="w"> </span>falling
+
+<span class="c"># Speeds for FT2232H are in multiples of 2, and 32MHz is tops</span>
+<span class="c"># max speed we seem to achieve is ~20MHz.. so we pick 16MHz</span>
+<span class="nv">adapter</span><span class="w"> </span>speed<span class="w"> </span><span class="mi">16000</span>
+</pre></div>
+</div>
+<p>Below is an example of the output of this command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Info : Listening on port 6666 for tcl connections</span>
+<span class="go">Info : Listening on port 4444 for telnet connections</span>
+<span class="go">Info : XDS110: connected</span>
+<span class="go">Info : XDS110: vid/pid = 0451/bef3</span>
+<span class="go">Info : XDS110: firmware version = 3.0.0.20</span>
+<span class="go">Info : XDS110: hardware version = 0x002f</span>
+<span class="go">Info : XDS110: connected to target via JTAG</span>
+<span class="go">Info : XDS110: TCK set to 2500 kHz</span>
+<span class="go">Info : clock speed 2500 kHz</span>
+<span class="go">Info : JTAG tap: am625.cpu tap/device found: 0x0bb7e02f (mfg: 0x017 (Texas Instruments), part: 0xbb7e, ver: 0x0)</span>
+<span class="go">Info : starting gdb server for am625.cpu.sysctrl on 3333</span>
+<span class="go">Info : Listening on port 3333 for gdb connections</span>
+<span class="go">Info : starting gdb server for am625.cpu.a53.0 on 3334</span>
+<span class="go">Info : Listening on port 3334 for gdb connections</span>
+<span class="go">Info : starting gdb server for am625.cpu.a53.1 on 3335</span>
+<span class="go">Info : Listening on port 3335 for gdb connections</span>
+<span class="go">Info : starting gdb server for am625.cpu.a53.2 on 3336</span>
+<span class="go">Info : Listening on port 3336 for gdb connections</span>
+<span class="go">Info : starting gdb server for am625.cpu.a53.3 on 3337</span>
+<span class="go">Info : Listening on port 3337 for gdb connections</span>
+<span class="go">Info : starting gdb server for am625.cpu.main0_r5.0 on 3338</span>
+<span class="go">Info : Listening on port 3338 for gdb connections</span>
+<span class="go">Info : starting gdb server for am625.cpu.gp_mcu on 3339</span>
+<span class="go">Info : Listening on port 3339 for gdb connections</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice the default configuration is non-SMP configuration allowing
+for each of the core to be attached and debugged simultaneously.
+ARMv8 SPL/U-Boot starts up on cpu0 of a53/a72.</p>
+</div>
+<p>To debug using this server, use GDB directly or your preferred
+GDB-based IDE. To start up GDB in the terminal, run the following
+command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">gdb-multiarch</span>
+</pre></div></div><p>To connect to your desired core, run the following command within GDB:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>target<span class="w"> </span>extended-remote<span class="w"> </span>localhost:<span class="o">{</span>port<span class="w"> </span><span class="k">for</span><span class="w"> </span>desired<span class="w"> </span>core<span class="o">}</span>
+</pre></div>
+</div>
+<p>To load symbols:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SPL and U-Boot does a re-location of address compared to where it
+is loaded originally. This step takes place after the DDR size is
+determined from dt parsing. So, debugging can be split into either
+“before re-location” or “after re-location”. Please refer to the
+file ‘’doc/README.arm-relocation’’ to see how to grab the relocation
+address.</p>
+</div>
+<ul class="simple">
+<li><p>Prior to relocation:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>symbol-file<span class="w"> </span><span class="o">{</span>path<span class="w"> </span>to<span class="w"> </span>elf<span class="w"> </span>file<span class="o">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>After relocation:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Drop old symbol file</span>
+symbol-file
+<span class="c1"># Pick up new relocaddr</span>
+add-symbol-file<span class="w"> </span><span class="o">{</span>path<span class="w"> </span>to<span class="w"> </span>elf<span class="w"> </span>file<span class="o">}</span><span class="w"> </span><span class="o">{</span>relocaddr<span class="o">}</span>
+</pre></div>
+</div>
+<p>In the above example of AM625,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>target<span class="w"> </span>extended-remote<span class="w"> </span>localhost:3338<span class="w">     </span>&lt;-<span class="w"> </span>R5F<span class="w"> </span><span class="o">(</span>Wakeup<span class="w"> </span>Domain<span class="o">)</span>
+target<span class="w"> </span>extended-remote<span class="w"> </span>localhost:3334<span class="w">     </span>&lt;-<span class="w"> </span>A53<span class="w"> </span><span class="o">(</span>Main<span class="w"> </span>Domain<span class="o">)</span>
+</pre></div>
+</div>
+<p>The core can now be debugged directly within GDB using GDB commands or
+if using IDE, as appropriate to the IDE.</p>
+</div>
+<div class="section" id="stepping-through-the-code">
+<h4>Stepping through the code<a class="headerlink" href="#stepping-through-the-code" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="https://sourceware.org/gdb/onlinedocs/gdb/TUI-Commands.html">GDB TUI Commands</a> can
+help set up the display more sensible for debug. Provide the name
+of the layout that can be used to debug. For example, use the GDB
+command <code class="docutils literal notranslate"><span class="pre">layout</span> <span class="pre">src</span></code> after loading the symbols to see the code and
+breakpoints. To exit the debug loop added above, add any breakpoints
+needed and run the following GDB commands to step out of the debug
+loop set in the <code class="docutils literal notranslate"><span class="pre">board_init_f</span></code> function.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="k">continue</span>
+</pre></div>
+</div>
+<p>The platform has now been successfully setup to debug with OpenOCD
+using GDB commands or a GDB-based IDE. See <a class="reference external" href="https://openocd.org/doc/html/GDB-and-OpenOCD.html">OpenOCD documentation for
+GDB</a> for further
+information.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>On the K3 family of devices, a watchdog timer within the DMSC is
+enabled by default by the ROM bootcode with a timeout of 3 minutes.
+The watchdog timer is serviced by System Firmware (SYSFW) or TI
+Foundational Security (TIFS) during normal operation. If debugging
+the SPL before the SYSFW is loaded, the watchdog timer will not get
+serviced automatically and the debug session will reset after 3
+minutes. It is recommended to start debugging SPL code only after
+the startup of SYSFW to avoid running into the watchdog timer reset.</p>
+</div>
+</div>
+</div>
+<div class="section" id="miscellaneous-notes-with-openocd">
+<h3>Miscellaneous notes with OpenOCD<a class="headerlink" href="#miscellaneous-notes-with-openocd" title="Permalink to this headline">¶</a></h3>
+<p>Currently, OpenOCD does not support tracing for K3 platforms. Tracing
+function could be beneficial if the bug in code occurs deep within
+nested function and can optionally save developers major trouble of
+stepping through a large quantity of code.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="ks2_evm.html" rel="prev" title="Keystone II EVM Generation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="am62x_sk.html" rel="next" title="AM62 Platforms">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

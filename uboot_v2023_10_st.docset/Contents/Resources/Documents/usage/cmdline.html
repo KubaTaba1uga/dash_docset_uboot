@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Command-line Parsing — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="semihosting.html" rel="next" title="Semihosting"/>
+<link href="partitions.html" rel="prev" title="Partitions"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partitions.html">Partitions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Command-line Parsing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simple-command-line-parser">Simple command-line parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hush-shell">Hush shell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-rules">General rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#representing-numbers">Representing numbers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Use U-Boot</a> »</li>
+<li>Command-line Parsing</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/usage/cmdline.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Command-line Parsing"></a><div class="section" id="command-line-parsing">
+<h1>Command-line Parsing<a class="headerlink" href="#command-line-parsing" title="Permalink to this headline">¶</a></h1>
+<p>The command line is available in U-Boot proper, enabled by CONFIG_CMDLINE which
+is on by default. It is not enabled in SPL.</p>
+<p>There are two different command-line parsers available with U-Boot:
+the old “simple” one, and the much more powerful “hush” shell:</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Simple command-line parser"></a><div class="section" id="simple-command-line-parser">
+<h2>Simple command-line parser<a class="headerlink" href="#simple-command-line-parser" title="Permalink to this headline">¶</a></h2>
+<p>This takes very little code space and offers only basic features:</p>
+<ul>
+<li><p>supports environment variables (through <a class="reference internal" href="cmd/env.html"><span class="doc">env command</span></a>)</p></li>
+<li><p>several commands on one line, separated by ‘;’</p></li>
+<li><p>variable substitution using “… ${name} …” syntax</p></li>
+<li><p>special characters (‘$’, ‘;’) can be escaped by prefixing with ‘',
+for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>setenv bootcmd bootm \${address}
+</pre></div>
+</div>
+</li>
+<li><p>You can also escape text by enclosing in single apostrophes, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>setenv addip 'setenv bootargs $bootargs ip=$ipaddr:$serverip:$gatewayip:$netmask:$hostname::off'
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Hush shell"></a><div class="section" id="hush-shell">
+<h2>Hush shell<a class="headerlink" href="#hush-shell" title="Permalink to this headline">¶</a></h2>
+<p>This is similar to Bourne shell, with control structures like:</p>
+<ul class="simple">
+<li><p><cite>if</cite>… <cite>then</cite> … <cite>else</cite>… <cite>fi</cite></p></li>
+<li><p><cite>for</cite>… <cite>do</cite> … <cite>done</cite></p></li>
+<li><p><cite>while</cite> … <cite>do</cite> … <cite>done</cite></p></li>
+<li><p><cite>until</cite> … <cite>do</cite> … <cite>done</cite></p></li>
+</ul>
+<p>Hush supports environment (“global”) variables (through setenv / saveenv
+commands) and local shell variables (through standard shell syntax
+<cite>name=value</cite>); only environment variables can be used with the “run” command</p>
+<p>The Hush shell is enabled with <cite>CONFIG_HUSH_PARSER</cite>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/General rules"></a><div class="section" id="general-rules">
+<h2>General rules<a class="headerlink" href="#general-rules" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>If a command line (or an environment variable executed by a “run”
+command) contains several commands separated by semicolon, and
+one of these commands fails, then the remaining commands will be
+executed anyway.</p></li>
+<li><p>If you execute several variables with one call to run (i. e.
+calling run with a list of variables as arguments), any failing
+command will cause “run” to terminate, i. e. the remaining
+variables are not executed.</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Representing numbers"></a><div class="section" id="representing-numbers">
+<h2>Representing numbers<a class="headerlink" href="#representing-numbers" title="Permalink to this headline">¶</a></h2>
+<p>Most U-Boot commands use hexadecimal (hex) as the default base, for convenient
+use of addresses, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; md 1000 6
+00001000: 2c786f62 00697073 03000000 0c000000  box,spi.........
+00001010: 67020000 00000000                    ...g....
+</pre></div>
+</div>
+<p>There is no need to add a <cite>0x</cite> prefix to the arguments and the output is shown
+in hex also, without any prefixes. This helps to avoid clutter.</p>
+<p>Some commands use decimal where it is more natural:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; i2c dev 0
+Setting bus to 0
+=&gt; i2c speed
+Current bus speed=400000
+=&gt; i2c speed 100000
+Setting bus speed to 100000 Hz
+</pre></div>
+</div>
+<p>In some cases the default is decimal but it is possible to use octal if that is
+useful:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pmic dev pmic@41
+dev: 1 @ pmic@41
+=&gt; pmic write 2 0177
+=&gt; pmic read 2
+0x02: 0x00007f
+</pre></div>
+</div>
+<p>It is possible to use a <cite>0x</cite> prefix to use a hex value if that is more
+convenient:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; i2c speed 0x30000
+Setting bus speed to 196608 Hz
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="partitions.html" rel="prev" title="Partitions"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="semihosting.html" rel="next" title="Semihosting">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

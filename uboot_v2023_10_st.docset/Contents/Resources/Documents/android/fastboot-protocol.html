@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FastBoot Version 0.4 — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="fastboot.html" rel="next" title="Android Fastboot"/>
+<link href="boot-image.html" rel="prev" title="Android Boot Image"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Android-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ab.html">Android A/B updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html">Android Verified Boot 2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html">Android Bootloader Control Block (BCB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html">Android Boot Image</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FastBoot Version 0.4</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-requirements">Basic Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transport-and-framing">Transport and Framing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-session">Example Session</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-reference">Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#client-variables">Client Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html">Android Fastboot</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Android-specific doc</a> »</li>
+<li>FastBoot Version 0.4</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/android/fastboot-protocol.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/FastBoot Version 0.4"></a><div class="section" id="fastboot-version-0-4">
+<h1>FastBoot Version 0.4<a class="headerlink" href="#fastboot-version-0-4" title="Permalink to this headline">¶</a></h1>
+<p>The fastboot protocol is a mechanism for communicating with bootloaders
+over USB.  It is designed to be very straightforward to implement, to
+allow it to be used across a wide range of devices and from hosts running
+Linux, Windows, or OSX.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Basic Requirements"></a><div class="section" id="basic-requirements">
+<h2>Basic Requirements<a class="headerlink" href="#basic-requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Two bulk endpoints (in, out) are required</p></li>
+<li><p>Max packet size must be 64 bytes for full-speed and 512 bytes for
+high-speed USB</p></li>
+<li><p>The protocol is entirely host-driven and synchronous (unlike the
+multi-channel, bi-directional, asynchronous ADB protocol)</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Transport and Framing"></a><div class="section" id="transport-and-framing">
+<h2>Transport and Framing<a class="headerlink" href="#transport-and-framing" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Host sends a command, which is an ascii string in a single
+packet no greater than 64 bytes.</p></li>
+<li><p>Client response with a single packet no greater than 64 bytes.
+The first four bytes of the response are “OKAY”, “FAIL”, “DATA”,
+or “INFO”.  Additional bytes may contain an (ascii) informative
+message.</p>
+<ol class="loweralpha simple">
+<li><p>INFO -&gt; the remaining 60 bytes are an informative message
+(providing progress or diagnostic messages).  They should
+be displayed and then step #2 repeats</p></li>
+<li><p>FAIL -&gt; the requested command failed.  The remaining 60 bytes
+of the response (if present) provide a textual failure message
+to present to the user.  Stop.</p></li>
+<li><p>OKAY -&gt; the requested command completed successfully.  Go to #5</p></li>
+<li><p>DATA -&gt; the requested command is ready for the data phase.
+A DATA response packet will be 12 bytes long, in the form of
+DATA00000000 where the 8 digit hexidecimal number represents
+the total data size to transfer.</p></li>
+</ol>
+</li>
+<li><p>Data phase.  Depending on the command, the host or client will
+send the indicated amount of data.  Short packets are always
+acceptable and zero-length packets are ignored.  This phase continues
+until the client has sent or received the number of bytes indicated
+in the “DATA” response above.</p></li>
+<li><p>Client responds with a single packet no greater than 64 bytes.
+The first four bytes of the response are “OKAY”, “FAIL”, or “INFO”.
+Similar to #2:</p>
+<ol class="loweralpha simple">
+<li><p>INFO -&gt; display the remaining 60 bytes and return to #4</p></li>
+<li><p>FAIL -&gt; display the remaining 60 bytes (if present) as a failure
+reason and consider the command failed.  Stop.</p></li>
+<li><p>OKAY -&gt; success.  Go to #5</p></li>
+</ol>
+</li>
+<li><p>Success.  Stop.</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example Session"></a><div class="section" id="example-session">
+<h2>Example Session<a class="headerlink" href="#example-session" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Host:    "getvar:version"        request version variable
+
+Client:  "OKAY0.4"               return version "0.4"
+
+Host:    "getvar:nonexistant"    request some undefined variable
+
+Client:  "OKAY"                  return value ""
+
+Host:    "download:00001234"     request to send 0x1234 bytes of data
+
+Client:  "DATA00001234"          ready to accept data
+
+Host:    &lt; 0x1234 bytes &gt;        send data
+
+Client:  "OKAY"                  success
+
+Host:    "flash:bootloader"      request to flash the data to the bootloader
+
+Client:  "INFOerasing flash"     indicate status / progress
+         "INFOwriting flash"
+         "OKAY"                  indicate success
+
+Host:    "powerdown"             send a command
+
+Client:  "FAILunknown command"   indicate failure
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Command Reference"></a><div class="section" id="command-reference">
+<h2>Command Reference<a class="headerlink" href="#command-reference" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Command parameters are indicated by printf-style escape sequences.</p></li>
+<li><p>Commands are ascii strings and sent without the quotes (which are
+for illustration only here) and without a trailing 0 byte.</p></li>
+<li><p>Commands that begin with a lowercase letter are reserved for this
+specification.  OEM-specific commands should not begin with a
+lowercase letter, to prevent incompatibilities with future specs.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>"getvar:%s"           Read a config/version variable from the bootloader.
+                      The variable contents will be returned after the
+                      OKAY response.
+
+"download:%08x"       Write data to memory which will be later used
+                      by "boot", "ramdisk", "flash", etc.  The client
+                      will reply with "DATA%08x" if it has enough
+                      space in RAM or "FAIL" if not.  The size of
+                      the download is remembered.
+
+ "verify:%08x"        Send a digital signature to verify the downloaded
+                      data.  Required if the bootloader is "secure"
+                      otherwise "flash" and "boot" will be ignored.
+
+ "flash:%s"           Write the previously downloaded image to the
+                      named partition (if possible).
+
+ "erase:%s"           Erase the indicated partition (clear to 0xFFs)
+
+ "boot"               The previously downloaded data is a boot.img
+                      and should be booted according to the normal
+                      procedure for a boot.img
+
+ "continue"           Continue booting as normal (if possible)
+
+ "reboot"             Reboot the device.
+
+ "reboot-bootloader"  Reboot back into the bootloader.
+                      Useful for upgrade processes that require upgrading
+                      the bootloader and then upgrading other partitions
+                      using the new bootloader.
+
+ "powerdown"          Power off the device.
+
+ "ucmd"               execute any bootloader command and wait until it
+                      finishs.
+
+ "acmd"               execute any bootloader command, do not wait.
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Client Variables"></a><div class="section" id="client-variables">
+<h2>Client Variables<a class="headerlink" href="#client-variables" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">getvar:%s</span></code> command is used to read client variables which
+represent various information about the device and the software
+on it.</p>
+<p>The various currently defined names are:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>version             Version of FastBoot protocol supported.
+                    It should be "0.3" for this document.
+
+version-bootloader  Version string for the Bootloader.
+
+version-baseband    Version string of the Baseband Software
+
+product             Name of the product
+
+serialno            Product serial number
+
+secure              If the value is "yes", this is a secure
+                    bootloader requiring a signature before
+                    it will install or boot images.
+</pre></div>
+</div>
+<p>Names starting with a lowercase character are reserved by this
+specification.  OEM-specific names should not start with lowercase
+characters.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="boot-image.html" rel="prev" title="Android Boot Image"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="fastboot.html" rel="next" title="Android Fastboot">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

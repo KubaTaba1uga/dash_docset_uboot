@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>How to port a SPI driver to driver model — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="usb-info.html" rel="next" title="How USB works with driver model"/>
+<link href="soc-framework.html" rel="prev" title="SOC ID Framework"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ethernet.html">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>How to port a SPI driver to driver model</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/spi-howto.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to port a SPI driver to driver model"></a><div class="section" id="how-to-port-a-spi-driver-to-driver-model">
+<h1>How to port a SPI driver to driver model<a class="headerlink" href="#how-to-port-a-spi-driver-to-driver-model" title="Permalink to this headline">¶</a></h1>
+<p>Here is a rough step-by-step guide. It is based around converting the
+exynos SPI driver to driver model (DM) and the example code is based
+around U-Boot v2014.10-rc2 (commit be9f643). This has been updated for
+v2015.04.</p>
+<p>It is quite long since it includes actual code examples.</p>
+<p>Before driver model, SPI drivers have their own private structure which
+contains ‘struct spi_slave’. With driver model, ‘struct spi_slave’ still
+exists, but now it is ‘per-child data’ for the SPI bus. Each child of the
+SPI bus is a SPI slave. The information that was stored in the
+driver-specific slave structure can now be port in private data for the
+SPI bus.</p>
+<p>For example, struct tegra_spi_slave looks like this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">tegra_spi_slave</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_slave</span><span class="w"> </span><span class="n">slave</span><span class="p">;</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">tegra_spi_ctrl</span><span class="w"> </span><span class="o">*</span><span class="n">ctrl</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>In this case ‘slave’ will be in per-child data, and ‘ctrl’ will be in the
+SPI’s buses private data.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How long does this take?"></a><div class="section" id="how-long-does-this-take">
+<h2>How long does this take?<a class="headerlink" href="#how-long-does-this-take" title="Permalink to this headline">¶</a></h2>
+<p>You should be able to complete this within 2 hours, including testing but
+excluding preparing the patches. The API is basically the same as before
+with only minor changes:</p>
+<ul class="simple">
+<li><p>methods to set speed and mode are separated out</p></li>
+<li><p>cs_info is used to get information on a chip select</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enable driver mode for SPI and SPI flash"></a><div class="section" id="enable-driver-mode-for-spi-and-spi-flash">
+<h2>Enable driver mode for SPI and SPI flash<a class="headerlink" href="#enable-driver-mode-for-spi-and-spi-flash" title="Permalink to this headline">¶</a></h2>
+<p>Add these to your board config:</p>
+<ul class="simple">
+<li><p>CONFIG_DM_SPI</p></li>
+<li><p>CONFIG_DM_SPI_FLASH</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Add the skeleton"></a><div class="section" id="add-the-skeleton">
+<h2>Add the skeleton<a class="headerlink" href="#add-the-skeleton" title="Permalink to this headline">¶</a></h2>
+<p>Put this code at the bottom of your existing driver file:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_slave</span><span class="w"> </span><span class="o">*</span><span class="n">spi_setup_slave</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">busnum</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cs</span><span class="p">,</span>
+<span class="w">                                  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">max_hz</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">spi_slave</span><span class="w"> </span><span class="o">*</span><span class="n">spi_setup_slave_fdt</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">blob</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">slave_node</span><span class="p">,</span>
+<span class="w">                                      </span><span class="kt">int</span><span class="w"> </span><span class="n">spi_node</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_spi_of_to_plat</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_spi_probe</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_spi_remove</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_spi_claim_bus</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_spi_release_bus</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_spi_xfer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">bitlen</span><span class="p">,</span>
+<span class="w">                           </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dout</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">din</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_spi_set_speed</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="n">speed</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_spi_set_mode</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exynos_cs_info</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">,</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="n">cs</span><span class="p">,</span>
+<span class="w">                          </span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_cs_info</span><span class="w"> </span><span class="o">*</span><span class="n">info</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">dm_spi_ops</span><span class="w"> </span><span class="n">exynos_spi_ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">claim_bus</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_claim_bus</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">release_bus</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_release_bus</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">xfer</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_xfer</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">set_speed</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_set_speed</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">set_mode</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_set_mode</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">cs_info</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_cs_info</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice_id</span><span class="w"> </span><span class="n">exynos_spi_ids</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"samsung,exynos-spi"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">exynos_spi</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">"exynos_spi"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">UCLASS_SPI</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_match</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_ids</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">ops</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">exynos_spi_ops</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_to_plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_of_to_plat</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">probe</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_probe</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">remove</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exynos_spi_remove</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Replace ‘exynos’ in the above code with your driver name"></a><div class="section" id="replace-exynos-in-the-above-code-with-your-driver-name">
+<h2>Replace ‘exynos’ in the above code with your driver name<a class="headerlink" href="#replace-exynos-in-the-above-code-with-your-driver-name" title="Permalink to this headline">¶</a></h2>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/#ifdef out all of the code in your driver except for the above"></a><div class="section" id="ifdef-out-all-of-the-code-in-your-driver-except-for-the-above">
+<h2>#ifdef out all of the code in your driver except for the above<a class="headerlink" href="#ifdef-out-all-of-the-code-in-your-driver-except-for-the-above" title="Permalink to this headline">¶</a></h2>
+<p>This will allow you to get it building, which means you can work
+incrementally. Since all the methods return an error initially, there is
+less chance that you will accidentally leave something in.</p>
+<p>Also, even though your conversion is basically a rewrite, it might help
+reviewers if you leave functions in the same place in the file,
+particularly for large drivers.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Add some includes"></a><div class="section" id="add-some-includes">
+<h2>Add some includes<a class="headerlink" href="#add-some-includes" title="Permalink to this headline">¶</a></h2>
+<p>Add these includes to your driver:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;dm.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;errno.h&gt;</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Build"></a><div class="section" id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+<p>At this point you should be able to build U-Boot for your board with the
+empty SPI driver. You still have empty methods in your driver, but we will
+write these one by one.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Set up your platform data structure"></a><div class="section" id="set-up-your-platform-data-structure">
+<h2>Set up your platform data structure<a class="headerlink" href="#set-up-your-platform-data-structure" title="Permalink to this headline">¶</a></h2>
+<p>This will hold the information your driver to operate, like its hardware
+address or maximum frequency.</p>
+<p>You may already have a struct like this, or you may need to create one
+from some of the #defines or global variables in the driver.</p>
+<p>Note that this information is not the run-time information. It should not
+include state that changes. It should be fixed throughout the live of
+U-Boot. Run-time information comes later.</p>
+<p>Here is what was in the exynos spi driver:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_bus</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="n">periph_id</span><span class="w"> </span><span class="n">periph_id</span><span class="p">;</span>
+<span class="w">        </span><span class="n">s32</span><span class="w"> </span><span class="n">frequency</span><span class="p">;</span><span class="w">          </span><span class="cm">/* Default clock frequency, -1 for none */</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">inited</span><span class="p">;</span><span class="w">             </span><span class="cm">/* 1 if this bus is ready for use */</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">node</span><span class="p">;</span>
+<span class="w">        </span><span class="n">uint</span><span class="w"> </span><span class="n">deactivate_delay_us</span><span class="p">;</span><span class="w">       </span><span class="cm">/* Delay to wait after deactivate */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Of these, inited is handled by DM and node is the device tree node, which
+DM tells you. The name is not quite right. So in this case we would use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_plat</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="n">periph_id</span><span class="w"> </span><span class="n">periph_id</span><span class="p">;</span>
+<span class="w">        </span><span class="n">s32</span><span class="w"> </span><span class="n">frequency</span><span class="p">;</span><span class="w">          </span><span class="cm">/* Default clock frequency, -1 for none */</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">;</span>
+<span class="w">        </span><span class="n">uint</span><span class="w"> </span><span class="n">deactivate_delay_us</span><span class="p">;</span><span class="w">       </span><span class="cm">/* Delay to wait after deactivate */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Write of_to_plat() [for device tree only]"></a><div class="section" id="write-of-to-plat-for-device-tree-only">
+<h2>Write of_to_plat() [for device tree only]<a class="headerlink" href="#write-of-to-plat-for-device-tree-only" title="Permalink to this headline">¶</a></h2>
+<p>This method will convert information in the device tree node into a C
+structure in your driver (called platform data). If you are not using
+device tree, go to 8b.</p>
+<p>DM will automatically allocate the struct for us when we are using device
+tree, but we need to tell it the size:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">spi_exynos</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="p">...</span>
+<span class="w">        </span><span class="p">.</span><span class="n">plat_auto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_plat</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>Here is a sample function. It gets a pointer to the platform data and
+fills in the fields from device tree.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">exynos_spi_of_to_plat</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_plat</span><span class="w"> </span><span class="o">*</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">plat</span><span class="p">;</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">blob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gd</span><span class="o">-&gt;</span><span class="n">fdt_blob</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_of_offset</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">regs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">fdtdec_get_addr</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="s">"reg"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pinmux_decode_periph_id</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">PERIPH_ID_NONE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">debug</span><span class="p">(</span><span class="s">"%s: Invalid peripheral ID %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">__func__</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="p">);</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">FDT_ERR_NOTFOUND</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="cm">/* Use 500KHz as a suitable default */</span>
+<span class="w">        </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fdtdec_get_int</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="s">"spi-max-frequency"</span><span class="p">,</span>
+<span class="w">                                        </span><span class="mi">500000</span><span class="p">);</span>
+<span class="w">        </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">deactivate_delay_us</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fdtdec_get_int</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span>
+<span class="w">                                        </span><span class="s">"spi-deactivate-delay"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">debug</span><span class="p">(</span><span class="s">"%s: regs=%p, periph_id=%d, max-frequency=%d, deactivate_delay=%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+<span class="w">              </span><span class="n">__func__</span><span class="p">,</span><span class="w"> </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">regs</span><span class="p">,</span><span class="w"> </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="p">,</span><span class="w"> </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">frequency</span><span class="p">,</span>
+<span class="w">              </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">deactivate_delay_us</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Add the platform data [non-device-tree only]"></a><div class="section" id="add-the-platform-data-non-device-tree-only">
+<h2>Add the platform data [non-device-tree only]<a class="headerlink" href="#add-the-platform-data-non-device-tree-only" title="Permalink to this headline">¶</a></h2>
+<p>Specify this data in a U_BOOT_DRVINFO() declaration in your board file:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_plat</span><span class="w"> </span><span class="n">platdata_spi0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">periph_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="w">        </span><span class="p">.</span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="w">        </span><span class="p">.</span><span class="n">regs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="w">        </span><span class="p">.</span><span class="n">deactivate_delay_us</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="p">};</span>
+
+<span class="n">U_BOOT_DRVINFO</span><span class="p">(</span><span class="n">board_spi0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"exynos_spi"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">platdata_spi0</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>You will unfortunately need to put the struct definition into a header file
+in this case so that your board file can use it.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Add the device private data"></a><div class="section" id="add-the-device-private-data">
+<h2>Add the device private data<a class="headerlink" href="#add-the-device-private-data" title="Permalink to this headline">¶</a></h2>
+<p>Most devices have some private data which they use to keep track of things
+while active. This is the run-time information and needs to be stored in
+a structure. There is probably a structure in the driver that includes a
+‘struct spi_slave’, so you can use that.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_slave</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_slave</span><span class="w"> </span><span class="n">slave</span><span class="p">;</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">freq</span><span class="p">;</span><span class="w">              </span><span class="cm">/* Default frequency */</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="p">;</span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="n">periph_id</span><span class="w"> </span><span class="n">periph_id</span><span class="p">;</span><span class="w">       </span><span class="cm">/* Peripheral ID for this device */</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fifo_size</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">skip_preamble</span><span class="p">;</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_bus</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">;</span><span class="w">            </span><span class="cm">/* Pointer to our SPI bus info */</span>
+<span class="w">        </span><span class="n">ulong</span><span class="w"> </span><span class="n">last_transaction_us</span><span class="p">;</span><span class="w">      </span><span class="cm">/* Time of last transaction end */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>We should rename this to make its purpose more obvious, and get rid of
+the slave structure, so we have:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_priv</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">freq</span><span class="p">;</span><span class="w">              </span><span class="cm">/* Default frequency */</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="p">;</span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="n">periph_id</span><span class="w"> </span><span class="n">periph_id</span><span class="p">;</span><span class="w">       </span><span class="cm">/* Peripheral ID for this device */</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fifo_size</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">skip_preamble</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ulong</span><span class="w"> </span><span class="n">last_transaction_us</span><span class="p">;</span><span class="w">      </span><span class="cm">/* Time of last transaction end */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>DM can auto-allocate this also:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">spi_exynos</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="p">...</span>
+<span class="w">        </span><span class="p">.</span><span class="n">priv_auto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_priv</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>Note that this is created before the probe method is called, and destroyed
+after the remove method is called. It will be zeroed when the probe
+method is called.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Add the probe() and remove() methods"></a><div class="section" id="add-the-probe-and-remove-methods">
+<h2>Add the probe() and remove() methods<a class="headerlink" href="#add-the-probe-and-remove-methods" title="Permalink to this headline">¶</a></h2>
+<p>Note: It’s a good idea to build repeatedly as you are working, to avoid a
+huge amount of work getting things compiling at the end.</p>
+<p>The probe method is supposed to set up the hardware. U-Boot used to use
+spi_setup_slave() to do this. So take a look at this function and see
+what you can copy out to set things up.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">exynos_spi_probe</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_plat</span><span class="w"> </span><span class="o">*</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_plat</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_priv</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_priv</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">regs</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">PERIPH_ID_SPI1</span><span class="w"> </span><span class="o">||</span>
+<span class="w">            </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">PERIPH_ID_SPI2</span><span class="p">)</span>
+<span class="w">                </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">fifo_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">64</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">                </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">fifo_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">skip_preamble</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">last_transaction_us</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timer_get_us</span><span class="p">();</span>
+<span class="w">        </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">frequency</span><span class="p">;</span>
+<span class="w">        </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This implementation doesn’t actually touch the hardware, which is somewhat
+unusual for a driver. In this case we will do that when the device is
+claimed by something that wants to use the SPI bus.</p>
+<p>For remove we could shut down the clocks, but in this case there is
+nothing to do. DM frees any memory that it allocated, so we can just
+remove exynos_spi_remove() and its reference in U_BOOT_DRIVER.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Implement set_speed()"></a><div class="section" id="implement-set-speed">
+<h2>Implement set_speed()<a class="headerlink" href="#implement-set-speed" title="Permalink to this headline">¶</a></h2>
+<p>This should set up clocks so that the SPI bus is running at the right
+speed. With the old API spi_claim_bus() would normally do this and several
+of the following functions, so let’s look at that function:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">spi_claim_bus</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_slave</span><span class="w"> </span><span class="o">*</span><span class="n">slave</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_slave</span><span class="w"> </span><span class="o">*</span><span class="n">spi_slave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_exynos_spi</span><span class="p">(</span><span class="n">slave</span><span class="p">);</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">regs</span><span class="p">;</span>
+<span class="w">        </span><span class="n">u32</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">set_spi_clk</span><span class="p">(</span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="p">,</span>
+<span class="w">                                        </span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">freq</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">debug</span><span class="p">(</span><span class="s">"%s: Failed to setup spi clock</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">__func__</span><span class="p">);</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">exynos_pinmux_config</span><span class="p">(</span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="p">,</span><span class="w"> </span><span class="n">PINMUX_FLAG_NONE</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">spi_flush_fifo</span><span class="p">(</span><span class="n">slave</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readl</span><span class="p">(</span><span class="o">&amp;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">ch_cfg</span><span class="p">);</span>
+<span class="w">        </span><span class="n">reg</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">SPI_CH_CPHA_B</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SPI_CH_CPOL_L</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SPI_CPHA</span><span class="p">)</span>
+<span class="w">                </span><span class="n">reg</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">SPI_CH_CPHA_B</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SPI_CPOL</span><span class="p">)</span>
+<span class="w">                </span><span class="n">reg</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">SPI_CH_CPOL_L</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">writel</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">ch_cfg</span><span class="p">);</span>
+<span class="w">        </span><span class="n">writel</span><span class="p">(</span><span class="n">SPI_FB_DELAY_180</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">fb_clk</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It sets up the speed, mode, pinmux, feedback delay and clears the FIFOs.
+With DM these will happen in separate methods.</p>
+<p>Here is an example for the speed part:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">exynos_spi_set_speed</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">,</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="n">speed</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_plat</span><span class="w"> </span><span class="o">*</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">plat</span><span class="p">;</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_priv</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_priv</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">speed</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">frequency</span><span class="p">)</span>
+<span class="w">                </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plat</span><span class="o">-&gt;</span><span class="n">frequency</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">set_spi_clk</span><span class="p">(</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<span class="w">        </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span>
+<span class="w">        </span><span class="n">debug</span><span class="p">(</span><span class="s">"%s: regs=%p, speed=%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">__func__</span><span class="p">,</span><span class="w"> </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="p">,</span><span class="w"> </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">freq</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Implement set_mode()"></a><div class="section" id="implement-set-mode">
+<h2>Implement set_mode()<a class="headerlink" href="#implement-set-mode" title="Permalink to this headline">¶</a></h2>
+<p>This should adjust the SPI mode (polarity, etc.). Again this code probably
+comes from the old spi_claim_bus(). Here is an example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">exynos_spi_set_mode</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">,</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_priv</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_priv</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">reg</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readl</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">ch_cfg</span><span class="p">);</span>
+<span class="w">        </span><span class="n">reg</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">SPI_CH_CPHA_B</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SPI_CH_CPOL_L</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SPI_CPHA</span><span class="p">)</span>
+<span class="w">                </span><span class="n">reg</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">SPI_CH_CPHA_B</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SPI_CPOL</span><span class="p">)</span>
+<span class="w">                </span><span class="n">reg</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">SPI_CH_CPOL_L</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">writel</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">ch_cfg</span><span class="p">);</span>
+<span class="w">        </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mode</span><span class="p">;</span>
+<span class="w">        </span><span class="n">debug</span><span class="p">(</span><span class="s">"%s: regs=%p, mode=%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">__func__</span><span class="p">,</span><span class="w"> </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="p">,</span><span class="w"> </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">mode</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Implement claim_bus()"></a><div class="section" id="implement-claim-bus">
+<h2>Implement claim_bus()<a class="headerlink" href="#implement-claim-bus" title="Permalink to this headline">¶</a></h2>
+<p>This is where a client wants to make use of the bus, so claims it first.
+At this point we need to make sure everything is set up ready for data
+transfer. Note that this function is wholly internal to the driver - at
+present the SPI uclass never calls it.</p>
+<p>Here again we look at the old claim function and see some code that is
+needed. It is anything unrelated to speed and mode:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">exynos_spi_claim_bus</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_priv</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_priv</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">exynos_pinmux_config</span><span class="p">(</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">periph_id</span><span class="p">,</span><span class="w"> </span><span class="n">PINMUX_FLAG_NONE</span><span class="p">);</span>
+<span class="w">        </span><span class="n">spi_flush_fifo</span><span class="p">(</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">writel</span><span class="p">(</span><span class="n">SPI_FB_DELAY_180</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">fb_clk</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The spi_flush_fifo() function is in the removed part of the code, so we
+need to expose it again (perhaps with an #endif before it and ‘#if 0’
+after it). It only needs access to priv-&gt;regs which is why we have
+passed that in:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Flush spi tx, rx fifos and reset the SPI controller</span>
+<span class="cm"> *</span>
+<span class="cm"> * @param regs  Pointer to SPI registers</span>
+<span class="cm"> */</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">spi_flush_fifo</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="n">clrsetbits_le32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">ch_cfg</span><span class="p">,</span><span class="w"> </span><span class="n">SPI_CH_HS_EN</span><span class="p">,</span><span class="w"> </span><span class="n">SPI_CH_RST</span><span class="p">);</span>
+<span class="w">        </span><span class="n">clrbits_le32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">ch_cfg</span><span class="p">,</span><span class="w"> </span><span class="n">SPI_CH_RST</span><span class="p">);</span>
+<span class="w">        </span><span class="n">setbits_le32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">ch_cfg</span><span class="p">,</span><span class="w"> </span><span class="n">SPI_TX_CH_ON</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SPI_RX_CH_ON</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Implement release_bus()"></a><div class="section" id="implement-release-bus">
+<h2>Implement release_bus()<a class="headerlink" href="#implement-release-bus" title="Permalink to this headline">¶</a></h2>
+<p>This releases the bus - in our example the old code in spi_release_bus()
+is a call to spi_flush_fifo, so we add:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">exynos_spi_release_bus</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_priv</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_priv</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">spi_flush_fifo</span><span class="p">(</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Implement xfer()"></a><div class="section" id="implement-xfer">
+<h2>Implement xfer()<a class="headerlink" href="#implement-xfer" title="Permalink to this headline">¶</a></h2>
+<p>This is the final method that we need to create, and it is where all the
+work happens. The method parameters are the same as the old spi_xfer() with
+the addition of a ‘struct udevice’ so conversion is pretty easy. Start
+by copying the contents of spi_xfer() to your new xfer() method and proceed
+from there.</p>
+<p>If (flags &amp; SPI_XFER_BEGIN) is non-zero then xfer() normally calls an
+activate function, something like this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">spi_cs_activate</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_slave</span><span class="w"> </span><span class="o">*</span><span class="n">slave</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_slave</span><span class="w"> </span><span class="o">*</span><span class="n">spi_slave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_exynos_spi</span><span class="p">(</span><span class="n">slave</span><span class="p">);</span>
+
+<span class="w">        </span><span class="cm">/* If it's too soon to do another transaction, wait */</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">deactivate_delay_us</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">            </span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">last_transaction_us</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">ulong</span><span class="w"> </span><span class="n">delay_us</span><span class="p">;</span><span class="w">         </span><span class="cm">/* The delay completed so far */</span>
+<span class="w">                </span><span class="n">delay_us</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timer_get_us</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">last_transaction_us</span><span class="p">;</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delay_us</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">deactivate_delay_us</span><span class="p">)</span>
+<span class="w">                        </span><span class="n">udelay</span><span class="p">(</span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">deactivate_delay_us</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">delay_us</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">clrbits_le32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">cs_reg</span><span class="p">,</span><span class="w"> </span><span class="n">SPI_SLAVE_SIG_INACT</span><span class="p">);</span>
+<span class="w">        </span><span class="n">debug</span><span class="p">(</span><span class="s">"Activate CS, bus %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">slave</span><span class="p">.</span><span class="n">bus</span><span class="p">);</span>
+<span class="w">        </span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">skip_preamble</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spi_slave</span><span class="o">-&gt;</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SPI_PREAMBLE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The new version looks like this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">spi_cs_activate</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">;</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_plat</span><span class="w"> </span><span class="o">*</span><span class="n">pdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_plat</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">exynos_spi_priv</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_priv</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+<span class="w">        </span><span class="cm">/* If it's too soon to do another transaction, wait */</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pdata</span><span class="o">-&gt;</span><span class="n">deactivate_delay_us</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">            </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">last_transaction_us</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">ulong</span><span class="w"> </span><span class="n">delay_us</span><span class="p">;</span><span class="w">         </span><span class="cm">/* The delay completed so far */</span>
+<span class="w">                </span><span class="n">delay_us</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timer_get_us</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">last_transaction_us</span><span class="p">;</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delay_us</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">pdata</span><span class="o">-&gt;</span><span class="n">deactivate_delay_us</span><span class="p">)</span>
+<span class="w">                        </span><span class="n">udelay</span><span class="p">(</span><span class="n">pdata</span><span class="o">-&gt;</span><span class="n">deactivate_delay_us</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">delay_us</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">clrbits_le32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">cs_reg</span><span class="p">,</span><span class="w"> </span><span class="n">SPI_SLAVE_SIG_INACT</span><span class="p">);</span>
+<span class="w">        </span><span class="n">debug</span><span class="p">(</span><span class="s">"Activate CS, bus '%s'</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+<span class="w">        </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">skip_preamble</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SPI_PREAMBLE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>All we have really done here is change the pointers and print the device name
+instead of the bus number. Other local static functions can be treated in
+the same way.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Set up the per-child data and child pre-probe function"></a><div class="section" id="set-up-the-per-child-data-and-child-pre-probe-function">
+<h2>Set up the per-child data and child pre-probe function<a class="headerlink" href="#set-up-the-per-child-data-and-child-pre-probe-function" title="Permalink to this headline">¶</a></h2>
+<p>To minimise the pain and complexity of the SPI subsystem while the driver
+model change-over is in place, struct spi_slave is used to reference a
+SPI bus slave, even though that slave is actually a struct udevice. In fact
+struct spi_slave is the device’s child data. We need to make sure this space
+is available. It is possible to allocate more space that struct spi_slave
+needs, but this is the minimum.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">exynos_spi</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="p">...</span>
+<span class="w">        </span><span class="p">.</span><span class="n">per_child_auto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">spi_slave</span><span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Optional: Set up cs_info() if you want it"></a><div class="section" id="optional-set-up-cs-info-if-you-want-it">
+<h2>Optional: Set up cs_info() if you want it<a class="headerlink" href="#optional-set-up-cs-info-if-you-want-it" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it is useful to know whether a SPI chip select is valid, but this
+is not obvious from outside the driver. In this case you can provide a
+method for cs_info() to deal with this. If you don’t provide it, then the
+device tree will be used to determine what chip selects are valid.</p>
+<p>Return -EINVAL if the supplied chip select is invalid, or 0 if it is valid.
+If you don’t provide the cs_info() method, 0 is assumed for all chip selects
+that do not appear in the device tree.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Test it"></a><div class="section" id="test-it">
+<h2>Test it<a class="headerlink" href="#test-it" title="Permalink to this headline">¶</a></h2>
+<p>Now that you have the code written and it compiles, try testing it using
+the ‘sf test’ command. You may need to enable CONFIG_CMD_SF_TEST for your
+board.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Prepare patches and send them to the mailing lists"></a><div class="section" id="prepare-patches-and-send-them-to-the-mailing-lists">
+<h2>Prepare patches and send them to the mailing lists<a class="headerlink" href="#prepare-patches-and-send-them-to-the-mailing-lists" title="Permalink to this headline">¶</a></h2>
+<p>You can use ‘tools/patman/patman’ to prepare, check and send patches for
+your work. See tools/patman/README for details.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/A little note about SPI uclass features"></a><div class="section" id="a-little-note-about-spi-uclass-features">
+<h2>A little note about SPI uclass features<a class="headerlink" href="#a-little-note-about-spi-uclass-features" title="Permalink to this headline">¶</a></h2>
+<p>The SPI uclass keeps some information about each device ‘dev’ on the bus:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>struct dm_spi_slave_plat:</dt><dd><p>This is device_get_parent_plat(dev).
+This is where the chip select number is stored, along with
+the default bus speed and mode. It is automatically read
+from the device tree in spi_child_post_bind(). It must not
+be changed at run-time after being set up because platform
+data is supposed to be immutable at run-time.</p>
+</dd>
+<dt>struct spi_slave:</dt><dd><p>This is device_get_parentdata(dev).
+Already mentioned above. It holds run-time information about
+the device.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>There are also some SPI uclass methods that get called behind the scenes:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>spi_post_bind():</dt><dd><p>Called when a new bus is bound.
+This scans the device tree for devices on the bus, and binds
+each one. This in turn causes spi_child_post_bind() to be
+called for each, which reads the device tree information
+into the parent (per-child) platform data.</p>
+</dd>
+<dt>spi_child_post_bind():</dt><dd><p>Called when a new child is bound.
+As mentioned above this reads the device tree information
+into the per-child platform data</p>
+</dd>
+<dt>spi_child_pre_probe():</dt><dd><p>Called before a new child is probed.
+This sets up the mode and speed in struct spi_slave by
+copying it from the parent’s platform data for this child.
+It also sets the ‘dev’ pointer, needed to permit passing
+‘struct spi_slave’ around the place without needing a
+separate ‘struct udevice’ pointer.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>The above housekeeping makes it easier to write your SPI driver.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="soc-framework.html" rel="prev" title="SOC ID Framework"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="usb-info.html" rel="next" title="How USB works with driver model">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

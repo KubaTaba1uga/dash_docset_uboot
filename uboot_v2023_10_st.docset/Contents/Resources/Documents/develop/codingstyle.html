@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>U-Boot Coding Style — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="designprinciples.html" rel="next" title="U-Boot Design Principles"/>
+<link href="board_best_practices.html" rel="prev" title="Best Practices for Board Ports"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#general">General</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="board_best_practices.html">Best Practices for Board Ports</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">U-Boot Coding Style</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#u-boot-code-documentation">U-Boot Code Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-structures-for-i-o-access">Use structures for I/O access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#include-files">Include files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filenames">Filenames</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#function-and-struct-comments">Function and struct comments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#driver-model">Driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other">Other</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tests">Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="designprinciples.html">U-Boot Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docstyle.html">Documentation Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patman.html">Patman patch manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="process.html">U-Boot Development Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_cycle.html">Release Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="security.html">Handling of security vulnerabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sending_patches.html">Sending patches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_configuration.html">System configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>U-Boot Coding Style</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/codingstyle.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Coding Style"></a><div class="section" id="u-boot-coding-style">
+<h1>U-Boot Coding Style<a class="headerlink" href="#u-boot-coding-style" title="Permalink to this headline">¶</a></h1>
+<p>The following Coding Style requirements shall be mandatory for all code contributed to
+the U-Boot project.</p>
+<p>Exceptions are only allowed if code from other projects is integrated with no
+or only minimal changes.</p>
+<p>The following rules apply:</p>
+<ul class="simple">
+<li><p>All contributions to U-Boot should conform to the <a class="reference external" href="https://www.kernel.org/doc/html/latest/process/coding-style.html">Linux kernel
+coding style</a>
+and the <a class="reference external" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/Lindent">Lindent script</a>.
+* The exception for net files to the <a class="reference external" href="https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting">multi-line comment</a>
+applies only to Linux, not to U-Boot. Only large hunks which are copied
+unchanged from Linux may retain that comment format.</p></li>
+<li><p>Python code shall conform to <a class="reference external" href="https://peps.python.org/pep-0008/">PEP8 (Style Guide for Python Code)</a>. Use <a class="reference external" href="https://github.com/pylint-dev/pylint">pylint</a> for checking the code.</p></li>
+<li><p>Use patman to send your patches (<code class="docutils literal notranslate"><span class="pre">tools/patman/patman</span> <span class="pre">-H</span></code> for full
+instructions). With a few tags in your commits this will check your patches
+and take care of emailing them.</p></li>
+<li><p>If you don’t use patman, make sure to run <code class="docutils literal notranslate"><span class="pre">scripts/checkpatch.pl</span></code>. For
+more information, read <a class="reference internal" href="checkpatch.html"><span class="doc">Checkpatch</span></a>. Note that this should be done
+<em>before</em> posting on the mailing list!</p></li>
+<li><p>Source files originating from different projects (for example the MTD
+subsystem or the hush shell code from the BusyBox project) may, after
+careful consideration, be exempted from these rules. For such files, the
+original coding style may be kept to ease subsequent migration to newer
+versions of those sources.</p></li>
+<li><p>Please also stick to the following formatting rules:</p>
+<ul>
+<li><p>Remove any trailing white space</p></li>
+<li><p>Use TAB characters for indentation and vertical alignment, not spaces</p>
+<ul>
+<li><p>The exception here is Python which requires 4 spaces instead.</p></li>
+</ul>
+</li>
+<li><p>All source files need to be in “Unix” and not “DOS” or “Windows” format,
+with respect to line ends.</p></li>
+<li><p>Do not add more than 2 consecutive empty lines to source files</p></li>
+<li><p>Do not add trailing empty lines to source files</p></li>
+<li><p>Using the option <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--global</span> <span class="pre">color.diff</span> <span class="pre">auto</span></code> will help to
+visually see whitespace problems in <code class="docutils literal notranslate"><span class="pre">diff</span></code> output from <code class="docutils literal notranslate"><span class="pre">git</span></code>.</p></li>
+<li><p>In Emacs one can use <code class="docutils literal notranslate"><span class="pre">=M-x</span> <span class="pre">whitespace-global-mode=</span></code> to get visual
+feedback on the nasty details. <code class="docutils literal notranslate"><span class="pre">=M-x</span> <span class="pre">whitespace-cleanup=</span></code> does The Right
+Thing (tm)</p></li>
+</ul>
+</li>
+</ul>
+<p>Submissions of new code or patches that do not conform to these requirements
+shall be rejected with a request to reformat the changes.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Code Documentation"></a><div class="section" id="u-boot-code-documentation">
+<h2>U-Boot Code Documentation<a class="headerlink" href="#u-boot-code-documentation" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot adopted the kernel-doc annotation style, this is the only exception from
+multi-line comment rule of Coding Style. While not mandatory, adding
+documentation is strongly advised. The Linux kernel <a class="reference external" href="https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html">kernel-doc</a>
+documentation applies with no changes.</p>
+<p>Our Python code documentation follows <a class="reference external" href="https://peps.python.org/pep-0257/">PEP257 (Docstring Conventions)</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Use structures for I/O access"></a><div class="section" id="use-structures-for-i-o-access">
+<h2>Use structures for I/O access<a class="headerlink" href="#use-structures-for-i-o-access" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot typically uses a C structure to map out the registers in an I/O region,
+rather than offsets. The reasons for this are:</p>
+<ul class="simple">
+<li><p>It dissociates the register location (offset) from the register type, which
+means the developer has to make sure the type is right for each access,
+whereas with the struct method, this is checked by the compiler;</p></li>
+<li><p>It avoids actually writing all offsets, which is (more) error-prone;</p></li>
+<li><p>It allows for better compile time sanity-checking of values we write to registers.</p></li>
+</ul>
+<p>Some reasons why you might not use C structures:</p>
+<ul class="simple">
+<li><p>Where the registers appear at different offsets in different hardware
+revisions supported by the same driver</p></li>
+<li><p>Where the driver only uses a small subset of registers and it is not worth
+defining a struct to cover them all, with large empty regions</p></li>
+<li><p>Where the offset of a register might be hard to figure out when buried a long
+way down a structure, possibly with embedded sub-structures</p></li>
+<li><p>This may need to change to the kernel model if we allow for more run-time
+detection of what drivers are appropriate for what we’re running on.</p></li>
+</ul>
+<p>Please use the check_member() macro to verify that your structure is the
+expected size, or that particular members appear at the right offset.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Include files"></a><div class="section" id="include-files">
+<h2>Include files<a class="headerlink" href="#include-files" title="Permalink to this headline">¶</a></h2>
+<p>You should follow this ordering in U-Boot. The common.h header (which is going
+away at some point) should always be first, followed by other headers in order,
+then headers with directories, then local files:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;common.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;bootstage.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;dm.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;others.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;asm/...&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;arm/arch/...&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;dm/device_compat.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/...&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"local.h"</span>
+</pre></div>
+</div>
+<p>Within that order, sort your includes.</p>
+<p>It is important to include common.h first since it provides basic features used
+by most files, e.g. CONFIG options.</p>
+<p>For files that need to be compiled for the host (e.g. tools), you need to use
+<code class="docutils literal notranslate"><span class="pre">#ifndef</span> <span class="pre">USE_HOSTCC</span></code> to avoid including common.h since it includes a lot of
+internal U-Boot things. See common/image.c for an example.</p>
+<p>If your file uses driver model, include &lt;dm.h&gt; in the C file. Do not include
+dm.h in a header file. Try to use forward declarations (e.g. <code class="docutils literal notranslate"><span class="pre">struct</span>
+<span class="pre">udevice</span></code>) instead.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Filenames"></a><div class="section" id="filenames">
+<h2>Filenames<a class="headerlink" href="#filenames" title="Permalink to this headline">¶</a></h2>
+<p>For .c and .h files try to use underscore rather than hyphen unless you want
+the file to stand out (e.g. driver-model uclasses should be named xxx-uclass.h.
+Avoid upper case and keep the names fairly short.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Function and struct comments"></a><div class="section" id="function-and-struct-comments">
+<h2>Function and struct comments<a class="headerlink" href="#function-and-struct-comments" title="Permalink to this headline">¶</a></h2>
+<p>Non-trivial functions should have a comment which describes what they do. If it
+is an exported function, put the comment in the header file so the API is in
+one place. If it is a static function, put it in the C file.</p>
+<p>If the function returns errors, mention that and list the different errors that
+are returned. If it is merely passing errors back from a function it calls,
+then you can skip that.</p>
+<p>See <a class="reference external" href="https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#function-documentation">here</a>
+for style.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Driver model"></a><div class="section" id="driver-model">
+<h2>Driver model<a class="headerlink" href="#driver-model" title="Permalink to this headline">¶</a></h2>
+<p>When declaring a device, try to use <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">dev</span></code> as the name:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">ret</span></code> as the return value:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+
+<span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uclass_first_device_err</span><span class="p">(</span><span class="n">UCLASS_ACPI_PMC</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dev</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">log_msg_ret</span><span class="p">(</span><span class="s">"pmc"</span><span class="p">,</span><span class="w"> </span><span class="n">dev</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Consider using log_ret() or log_msg_ret() to return a value (see above).</p>
+<p>Add a <code class="docutils literal notranslate"><span class="pre">p</span></code> suffix on return arguments:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">dm_pci_find_class</span><span class="p">(</span><span class="n">uint</span><span class="w"> </span><span class="n">find_class</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">**</span><span class="n">devp</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">...</span>
+<span class="w">        </span><span class="o">*</span><span class="n">devp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>There are standard variable names that you should use in drivers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">xxx_priv</span></code> and <code class="docutils literal notranslate"><span class="pre">priv</span></code> for dev_get_priv()</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">xxx_plat</span></code> and <code class="docutils literal notranslate"><span class="pre">plat</span></code> for dev_get_platdata()</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">simple_bus_plat</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">u32</span><span class="w"> </span><span class="n">base</span><span class="p">;</span>
+<span class="w">   </span><span class="n">u32</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<span class="w">   </span><span class="n">u32</span><span class="w"> </span><span class="n">target</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cm">/* Davinci MMC board definitions */</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">davinci_mmc_priv</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="k">struct</span><span class="w"> </span><span class="nc">davinci_mmc_regs</span><span class="w"> </span><span class="o">*</span><span class="n">reg_base</span><span class="p">;</span><span class="w">   </span><span class="cm">/* Register base address */</span>
+<span class="w">   </span><span class="n">uint</span><span class="w"> </span><span class="n">input_clk</span><span class="p">;</span><span class="w">      </span><span class="cm">/* Input clock to MMC controller */</span>
+<span class="w">   </span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="n">cd_gpio</span><span class="p">;</span><span class="w">       </span><span class="cm">/* Card Detect GPIO */</span>
+<span class="w">   </span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="n">wp_gpio</span><span class="p">;</span><span class="w">       </span><span class="cm">/* Write Protect GPIO */</span>
+<span class="p">};</span>
+
+<span class="w">   </span><span class="k">struct</span><span class="w"> </span><span class="nc">rcar_gpio_priv</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_priv</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="w">   </span><span class="k">struct</span><span class="w"> </span><span class="nc">pl01x_serial_platdata</span><span class="w"> </span><span class="o">*</span><span class="n">plat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev_get_platdata</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Other"></a><div class="section" id="other">
+<h2>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h2>
+<p>Some minor things:</p>
+<ul class="simple">
+<li><p>Put a blank line before the last <code class="docutils literal notranslate"><span class="pre">return</span></code> in a function unless it is the only line:</p></li>
+</ul>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">pci_get_controller</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">   </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">device_is_on_pci_bus</span><span class="p">(</span><span class="n">dev</span><span class="p">))</span>
+<span class="w">      </span><span class="n">dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">;</span>
+
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">dev</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Tests"></a><div class="section" id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p>Please add tests when you add code. Please change or expand tests when you change code.</p>
+<p>Run the tests with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make check
+make qcheck   (skips some tests)
+</pre></div>
+</div>
+<p>Python tests are in test/py/tests - see the docs in test/py for info.</p>
+<p>Try to write your tests in C if you can. For example, tests to check a command
+will be much faster (10-100x or more) if they can directly call run_command()
+and ut_check_console_line() instead of using Python to send commands over a
+pipe to U-Boot.</p>
+<p>Tests run all supported CI systems (GitLab, Azure) using scripts in the root of
+the U-Boot tree.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="board_best_practices.html" rel="prev" title="Best Practices for Board Ports"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="designprinciples.html" rel="next" title="U-Boot Design Principles">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

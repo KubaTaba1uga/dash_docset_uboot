@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>bootmenu command — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="bootmeth.html" rel="next" title="bootmeth command"/>
+<link href="bootm.html" rel="prev" title="bootm command"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="acpi.html">acpi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="addrmap.html">addrmap command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="armffa.html">armffa command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="askenv.html">askenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base.html">base command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bdinfo.html">bdinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bind.html">bind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blkcache.html">blkcache command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootd.html">bootd command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootdev.html">bootdev command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootefi.html">bootefi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootflow.html">bootflow command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="booti.html">booti command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootm.html">bootm command</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">bootmenu command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bootmeth.html">bootmeth command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html">button command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootz.html">bootz command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cat.html">cat command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cbsysinfo.html">cbsysinfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cedit.html">cedit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cls.html">cls command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmp.html">cmp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coninfo.html">coninfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conitrace.html">conitrace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cp.html">cp command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">cyclic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dm.html">dm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ebtupdate.html">ebtupdate command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="echo.html">echo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efi.html">efi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eficonfig.html">eficonfig command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="env.html">env command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">event command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exception.html">exception command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extension.html">extension command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exit.html">exit command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="false.html">false command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatinfo.html">fatinfo command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fatload.html">fatload command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fdt.html">fdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="font.html">font command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="for.html">for command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fwu_mdata.html">fwu_mdata_read command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">gpio command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpt.html">gpt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="host.html">host command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imxtract.html">imxtract command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load.html">load command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadb.html">loadb command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadm.html">loadm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads.html">loads command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loadx.html">loadx command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loady.html">loady command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mbr.html">mbr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="md.html">md command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mmc.html">mmc command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtest.html">mtest command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtrr.html">mtrr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="panic.html">panic command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part.html">part command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pause.html">pause command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pinmux.html">pinmux command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printenv.html">printenv command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pstore.html">pstore command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qfw.html">qfw command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="read.html">read and write commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">reset command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rng.html">rng command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saves.html">saves command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sbi.html">sbi command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sf.html">sf command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scp03.html">scp03 command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="seama.html">seama command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setexpr.html">setexpr command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="size.html">size command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep.html">sleep command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sound.html">sound command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source.html">source command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sm.html">sm command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temperature.html">temperature command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tftpput.html">tftpput command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trace.html">trace command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="true.html">true command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ums.html">ums command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unbind.html">unbind command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ut.html">ut command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdt.html">wdt command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wget.html">wget command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="write.html">write command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xxd.html">xxd command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li>bootmenu command</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/cmd/bootmenu.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/bootmenu command"></a><div class="section" id="bootmenu-command">
+<h1>bootmenu command<a class="headerlink" href="#bootmenu-command" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Synopsis"></a><div class="section" id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootmenu [delay]
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Description"></a><div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The “bootmenu” command uses U-Boot menu interfaces and provides
+a simple mechanism for creating menus with different boot items.
+The cursor keys “Up” and “Down” are used for navigation through
+the items. Current active menu item is highlighted and can be
+selected using the “Enter” key. The selection of the highlighted
+menu entry invokes an U-Boot command (or a list of commands)
+associated with this menu entry.</p>
+<p>The “bootmenu” command interprets ANSI escape sequences, so
+an ANSI terminal is required for proper menu rendering and item
+selection.</p>
+<p>The assembling of the menu is done via a set of environment variables
+“bootmenu_&lt;num&gt;” and “bootmenu_delay”, i.e.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bootmenu_delay=&lt;delay&gt;
+bootmenu_&lt;num&gt;="&lt;title&gt;=&lt;commands&gt;"
+</pre></div>
+</div>
+<dl class="simple">
+<dt>&lt;delay&gt;</dt><dd><p>is the autoboot delay in seconds, after which the first
+menu entry will be selected automatically</p>
+</dd>
+<dt>&lt;num&gt;</dt><dd><p>is the boot menu entry number, starting from zero</p>
+</dd>
+<dt>&lt;title&gt;</dt><dd><p>is the text of the menu entry shown on the console
+or on the boot screen</p>
+</dd>
+<dt>&lt;commands&gt;</dt><dd><p>are commands which will be executed when a menu
+entry is selected</p>
+</dd>
+</dl>
+<p>Title and commands are separated by the first appearance of a ‘=’
+character in the value of the environment variable.</p>
+<p>The first (optional) argument of the “bootmenu” command is a delay specifier
+and it overrides the delay value defined by “bootmenu_delay” environment
+variable. If the environment variable “bootmenu_delay” is not set or if
+the argument of the “bootmenu” command is not specified, the default delay
+will be CONFIG_BOOTDELAY. If delay is 0, no menu entries will be shown on
+the console (or on the screen) and the command of the first menu entry will
+be called immediately. If delay is less then 0, bootmenu will be shown and
+autoboot will be disabled.</p>
+<p>Bootmenu always adds menu entry “U-Boot console” at the end of all menu
+entries specified by environment variables. When selecting this entry
+the bootmenu terminates and the usual U-Boot command prompt is presented
+to the user.</p>
+<p>Example environment:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>setenv bootmenu_0 Boot 1. kernel=bootm 0x82000000  # Set first menu entry
+setenv bootmenu_1 Boot 2. kernel=bootm 0x83000000  # Set second menu entry
+setenv bootmenu_2 Reset board=reset                # Set third menu entry
+setenv bootmenu_3 U-Boot boot order=boot           # Set fourth menu entry
+bootmenu 20        # Run bootmenu with autoboot delay 20s
+</pre></div>
+</div>
+<p>The above example will be rendered as below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>*** U-Boot Boot Menu ***
+
+   Boot 1. kernel
+   Boot 2. kernel
+   Reset board
+   U-Boot boot order
+   U-Boot console
+
+Hit any key to stop autoboot: 20
+Press UP/DOWN to move, ENTER to select
+</pre></div>
+</div>
+<p>The selected menu entry will be highlighted - it will have inverted
+background and text colors.</p>
+<div class="section" id="uefi-boot-variable-enumeration">
+<h3>UEFI boot variable enumeration<a class="headerlink" href="#uefi-boot-variable-enumeration" title="Permalink to this headline">¶</a></h3>
+<p>If enabled, the bootmenu command will automatically generate and add
+UEFI-related boot menu entries for the following items.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>possible bootable media with default file names</p></li>
+<li><p>user-defined UEFI boot options</p></li>
+</ul>
+</div></blockquote>
+<p>The bootmenu automatically enumerates the possible bootable
+media devices supporting EFI_SIMPLE_FILE_SYSTEM_PROTOCOL.
+This auto generated entry is named as “&lt;interface&gt; &lt;devnum&gt;:&lt;part&gt;” format.
+(e.g. “usb 0:1”)</p>
+<p>The bootmenu displays the UEFI-related menu entries in order of “BootOrder”.
+When the user selects the UEFI boot menu entry, the bootmenu sets
+the selected boot variable index to “BootNext” without non-volatile attribute,
+then call the uefi boot manager with the command “bootefi bootmgr”.</p>
+<p>Example bootmenu is as below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>*** U-Boot Boot Menu ***
+
+   mmc 0:1
+   mmc 0:2
+   debian
+   nvme 0:1
+   ubuntu
+   nvme 0:2
+   usb 0:2
+   U-Boot console
+</pre></div>
+</div>
+<div class="section" id="default-behavior-when-user-exits-from-the-bootmenu">
+<h4>Default behavior when user exits from the bootmenu<a class="headerlink" href="#default-behavior-when-user-exits-from-the-bootmenu" title="Permalink to this headline">¶</a></h4>
+<p>User can exit from bootmenu by selecting the last entry
+“U-Boot console”/”Quit” or ESC key.</p>
+<p>When the CONFIG_BOOTMENU_DISABLE_UBOOT_CONSOLE is disabled,
+user exits from the bootmenu and returns to the U-Boot console.</p>
+<p>When the CONFIG_BOOTMENU_DISABLE_UBOOT_CONSOLE is enabled, user can not
+enter the U-Boot console. When the user exits from the bootmenu,
+the bootmenu invokes the following default behavior.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>if CONFIG_CMD_BOOTEFI_BOOTMGR is enabled, execute “bootefi bootmgr” command</p></li>
+<li><p>“bootefi bootmgr” fails or is not enabled, then execute “run bootcmd” command.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration"></a><div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>The “bootmenu” command is enabled by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_CMD_BOOTMENU=y
+</pre></div>
+</div>
+<p>To run the bootmenu at startup add these additional settings:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_AUTOBOOT_KEYED=y
+CONFIG_BOOTDELAY=30
+CONFIG_AUTOBOOT_MENU_SHOW=y
+</pre></div>
+</div>
+<p>UEFI boot variable enumeration is enabled by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_CMD_BOOTEFI_BOOTMGR=y
+</pre></div>
+</div>
+<p>To improve the product security, entering U-Boot console from bootmenu
+can be disabled by:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_BOOTMENU_DISABLE_UBOOT_CONSOLE=y
+</pre></div>
+</div>
+<p>To scan the discoverable devices connected to the buses such as
+USB and PCIe prior to bootmenu showing up, CONFIG_PREBOOT can be
+used to run the command before showing the bootmenu, i.e.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_USE_PREBOOT=y
+CONFIG_PREBOOT="pci enum; usb start; scsi scan; nvme scan; virtio scan"
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="bootm.html" rel="prev" title="bootm command"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="bootmeth.html" rel="next" title="bootmeth command">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

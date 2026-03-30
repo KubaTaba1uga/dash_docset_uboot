@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Binman bintool Documentation — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../testing.html" rel="next" title="Introduction to testing"/>
+<link href="entries.html" rel="prev" title="Binman Entry Documentation"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#packaging">Packaging</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Package U-Boot</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="binman.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#using-binman">Using binman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#image-description-format">Image description format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#templates">Templates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#updating-an-elf-file">Updating an ELF file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#entry-documentation">Entry Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#managing-images">Managing images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#bintools">Bintools</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="binman.html#bintool-documentation">Bintool Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#binman-commands-and-arguments">Binman commands and arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binman.html#technical-details">Technical details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Package U-Boot</a> »</li>
+<li><a href="binman.html">Introduction</a> »</li>
+<li>Binman bintool Documentation</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/package/bintools.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Binman bintool Documentation"></a><div class="section" id="binman-bintool-documentation">
+<h1>Binman bintool Documentation<a class="headerlink" href="#binman-bintool-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This file describes the bintools (binary tools) supported by binman. Bintools
+are binman’s name for external executables that it runs to generate or process
+binaries. It is fairly easy to create new bintools. Just add a new file to the
+‘btool’ directory. You can use existing bintools as examples.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: bzip2: Compression/decompression using the bzip2 algorithm"></a><div class="section" id="bintool-bzip2-compression-decompression-using-the-bzip2-algorithm">
+<h2>Bintool: bzip2: Compression/decompression using the bzip2 algorithm<a class="headerlink" href="#bintool-bzip2-compression-decompression-using-the-bzip2-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>bzip2</cite> to compress and decompress data, as
+used by binman.</p>
+<p>It is also possible to fetch the tool, which uses <cite>apt</cite> to install it.</p>
+<p>Documentation is available via:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>man bzip2
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: cbfstool: Coreboot filesystem (CBFS) tool"></a><div class="section" id="bintool-cbfstool-coreboot-filesystem-cbfs-tool">
+<h2>Bintool: cbfstool: Coreboot filesystem (CBFS) tool<a class="headerlink" href="#bintool-cbfstool-coreboot-filesystem-cbfs-tool" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports creating new CBFS images and adding files to an
+existing image, i.e. the features needed by binman.</p>
+<p>It also supports fetching a binary cbfstool, since building it from source
+is fairly slow.</p>
+<p>Documentation about CBFS is at <a class="reference external" href="https://www.coreboot.org/CBFS">https://www.coreboot.org/CBFS</a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: fiptool: Image generation for ARM Trusted Firmware"></a><div class="section" id="bintool-fiptool-image-generation-for-arm-trusted-firmware">
+<h2>Bintool: fiptool: Image generation for ARM Trusted Firmware<a class="headerlink" href="#bintool-fiptool-image-generation-for-arm-trusted-firmware" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>fiptool</cite> with some basic parameters as
+neeed by binman.</p>
+<p>It also supports build fiptool from source.</p>
+<p>fiptool provides a way to package firmware in an ARM Trusted Firmware
+Firmware Image Package (ATF FIP) format. It is used with Trusted Firmware A,
+for example.</p>
+<p>See <a class="reference external" href="https://trustedfirmware-a.readthedocs.io/en/latest/getting_started/tools-build.html?highlight=fiptool#building-and-using-the-fip-tool">TF-A FIP tool documentation</a> for more information.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: futility: Handles the ‘futility’ tool"></a><div class="section" id="bintool-futility-handles-the-futility-tool">
+<h2>Bintool: futility: Handles the ‘futility’ tool<a class="headerlink" href="#bintool-futility-handles-the-futility-tool" title="Permalink to this headline">¶</a></h2>
+<p>futility (flash utility) is a tool for working with Chromium OS flash
+images. This Bintool implements just the features used by Binman, related to
+GBB creation and firmware signing.</p>
+<p>A binary version of the tool can be fetched.</p>
+<p>See <a class="reference external" href="https://chromium.googlesource.com/chromiumos/platform/vboot/+/refs/heads/main/_vboot_reference/README">Chromium OS vboot documentation</a> for more information.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: gzip: Compression/decompression using the gzip algorithm"></a><div class="section" id="bintool-gzip-compression-decompression-using-the-gzip-algorithm">
+<h2>Bintool: gzip: Compression/decompression using the gzip algorithm<a class="headerlink" href="#bintool-gzip-compression-decompression-using-the-gzip-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>gzip</cite> to compress and decompress data, as
+used by binman.</p>
+<p>It is also possible to fetch the tool, which uses <cite>apt</cite> to install it.</p>
+<p>Documentation is available via:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>man gzip
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: ifwitool: Handles the ‘ifwitool’ tool"></a><div class="section" id="bintool-ifwitool-handles-the-ifwitool-tool">
+<h2>Bintool: ifwitool: Handles the ‘ifwitool’ tool<a class="headerlink" href="#bintool-ifwitool-handles-the-ifwitool-tool" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>ifwitool</cite> with some basic parameters as
+neeed by binman. It includes creating a file from a FIT as well as adding,
+replacing, deleting and extracting subparts.</p>
+<p>The tool is built as part of U-Boot, but a binary version can be fetched if
+required.</p>
+<p>ifwitool provides a way to package firmware in an Intel Firmware Image
+(IFWI) file on some Intel SoCs, e.g. Apolo Lake.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: lz4: Compression/decompression using the LZ4 algorithm"></a><div class="section" id="bintool-lz4-compression-decompression-using-the-lz4-algorithm">
+<h2>Bintool: lz4: Compression/decompression using the LZ4 algorithm<a class="headerlink" href="#bintool-lz4-compression-decompression-using-the-lz4-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>lz4</cite> to compress and decompress data, as
+used by binman.</p>
+<p>It is also possible to fetch the tool, which uses <cite>apt</cite> to install it.</p>
+<p>Documentation is available via:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>man lz4
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: lzma_alone: Compression/decompression using the LZMA algorithm"></a><div class="section" id="bintool-lzma-alone-compression-decompression-using-the-lzma-algorithm">
+<h2>Bintool: lzma_alone: Compression/decompression using the LZMA algorithm<a class="headerlink" href="#bintool-lzma-alone-compression-decompression-using-the-lzma-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>lzma_alone</cite> to compress and decompress data,
+as used by binman.</p>
+<p>It is also possible to fetch the tool, which uses <cite>apt</cite> to install it.</p>
+<p>Documentation is available via:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>man lzma_alone
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: lzop: Compression/decompression using the lzop algorithm"></a><div class="section" id="bintool-lzop-compression-decompression-using-the-lzop-algorithm">
+<h2>Bintool: lzop: Compression/decompression using the lzop algorithm<a class="headerlink" href="#bintool-lzop-compression-decompression-using-the-lzop-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>lzop</cite> to compress and decompress data, as
+used by binman.</p>
+<p>It is also possible to fetch the tool, which uses <cite>apt</cite> to install it.</p>
+<p>Documentation is available via:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>man lzop
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: mkimage: Image generation for U-Boot"></a><div class="section" id="bintool-mkimage-image-generation-for-u-boot">
+<h2>Bintool: mkimage: Image generation for U-Boot<a class="headerlink" href="#bintool-mkimage-image-generation-for-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>mkimage</cite> with some basic parameters as
+neeed by binman.</p>
+<p>Normally binman uses the mkimage built by U-Boot. But when run outside the
+U-Boot build system, binman can use the version installed in your system.
+Support is provided for fetching this on Debian-like systems, using apt.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: openssl: openssl tool"></a><div class="section" id="bintool-openssl-openssl-tool">
+<h2>Bintool: openssl: openssl tool<a class="headerlink" href="#bintool-openssl-openssl-tool" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports creating new openssl certificates.</p>
+<p>It also supports fetching a binary openssl</p>
+<p>Documentation about openssl is at <a class="reference external" href="https://www.openssl.org/">https://www.openssl.org/</a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: xz: Compression/decompression using the xz algorithm"></a><div class="section" id="bintool-xz-compression-decompression-using-the-xz-algorithm">
+<h2>Bintool: xz: Compression/decompression using the xz algorithm<a class="headerlink" href="#bintool-xz-compression-decompression-using-the-xz-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>xz</cite> to compress and decompress data, as
+used by binman.</p>
+<p>It is also possible to fetch the tool, which uses <cite>apt</cite> to install it.</p>
+<p>Documentation is available via:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>man xz
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: zstd: Compression/decompression using the zstd algorithm"></a><div class="section" id="bintool-zstd-compression-decompression-using-the-zstd-algorithm">
+<h2>Bintool: zstd: Compression/decompression using the zstd algorithm<a class="headerlink" href="#bintool-zstd-compression-decompression-using-the-zstd-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>zstd</cite> to compress and decompress data, as
+used by binman.</p>
+<p>It is also possible to fetch the tool, which uses <cite>apt</cite> to install it.</p>
+<p>Documentation is available via:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>man zstd
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: fdt_add_pubkey: Add public key to device tree"></a><div class="section" id="bintool-fdt-add-pubkey-add-public-key-to-device-tree">
+<h2>Bintool: fdt_add_pubkey: Add public key to device tree<a class="headerlink" href="#bintool-fdt-add-pubkey-add-public-key-to-device-tree" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>fdt_add_pubkey</cite> in order to add a public
+key coming from a certificate to a device-tree.</p>
+<p>Normally signing is done using <cite>mkimage</cite> in context of <cite>binman sign</cite>. However,
+in this process the public key is not added to the stage before u-boot proper.
+Using <cite>fdt_add_pubkey</cite> the key can be injected to the SPL independent of
+<cite>mkimage</cite></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool: bootgen: Sign ZynqMP FSBL image"></a><div class="section" id="bintool-bootgen-sign-zynqmp-fsbl-image">
+<h2>Bintool: bootgen: Sign ZynqMP FSBL image<a class="headerlink" href="#bintool-bootgen-sign-zynqmp-fsbl-image" title="Permalink to this headline">¶</a></h2>
+<p>This bintool supports running <cite>bootgen</cite> in order to sign a SPL for ZynqMP
+devices.</p>
+<p>The bintool automatically creates an appropriate input image file (.bif) for
+bootgen based on the passed arguments. The output is a bootable,
+authenticated <cite>boot.bin</cite> file.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="entries.html" rel="prev" title="Binman Entry Documentation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../testing.html" rel="next" title="Introduction to testing">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

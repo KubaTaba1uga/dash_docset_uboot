@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Random number generation — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="sandbox.html" rel="next" title="Sandbox"/>
+<link href="pinctrl.html" rel="prev" title="Pinctrl and Pinmux"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Random number generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-random-number-generation">Hardware random number generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pseudo-random-number-generation">Pseudo random number generation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Random number generation</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/rng.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Random number generation"></a><div class="section" id="random-number-generation">
+<h1>Random number generation<a class="headerlink" href="#random-number-generation" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Hardware random number generation"></a><div class="section" id="hardware-random-number-generation">
+<h2>Hardware random number generation<a class="headerlink" href="#hardware-random-number-generation" title="Permalink to this headline">¶</a></h2>
+<dl class="c function">
+<dt id="c.dm_rng_read">
+int <code class="sig-name descname">dm_rng_read</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, void *<em>buffer</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dm_rng_read"></a><a class="headerlink" href="#c.dm_rng_read" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>read a random number seed from the rng device</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>random number generator device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buffer</span></code></dt><dd><p>input buffer to put the read random seed into</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">size</span></code></dt><dd><p>number of random bytes to read</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The function blocks until the requested number of bytes is read.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c struct">
+<dt id="c.dm_rng_ops">
+<em class="property">struct </em><code class="sig-name descname">dm_rng_ops</code><a class="headerlink" href="#c.dm_rng_ops" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>operations for the hwrng uclass</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct dm_rng_ops {
+  int (*read)(struct udevice *dev, void *data, size_t max);
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">read</span></code></dt><dd><p>read a random bytes</p>
+<p>The function blocks until the requested number of bytes is read.</p>
+<p><strong>read.dev</strong>:           random number generator device
+<strong>read.data</strong>:          input buffer to read the random seed into
+<strong>read.max</strong>:           number of random bytes to read
+<strong>read.Return</strong>:        0 if OK, -ve on error</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This structures contains the function implemented by a hardware random
+number generation device.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Pseudo random number generation"></a><div class="section" id="pseudo-random-number-generation">
+<h2>Pseudo random number generation<a class="headerlink" href="#pseudo-random-number-generation" title="Permalink to this headline">¶</a></h2>
+<dl class="c function">
+<dt id="c.srand">
+void <code class="sig-name descname">srand</code><span class="sig-paren">(</span>unsigned int <em>seed</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/srand"></a><a class="headerlink" href="#c.srand" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the random-number seed value</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">seed</span></code></dt><dd><p>New seed</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This can be used to restart the pseudo-random-number sequence from a known
+point. This affects future calls to rand() to start from that point</p>
+<dl class="c function">
+<dt id="c.rand">
+unsigned int <code class="sig-name descname">rand</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/rand"></a><a class="headerlink" href="#c.rand" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get a 32-bit pseudo-random number</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>next random number in the sequence</p>
+<dl class="c function">
+<dt id="c.rand_r">
+unsigned int <code class="sig-name descname">rand_r</code><span class="sig-paren">(</span>unsigned int *<em>seedp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/rand_r"></a><a class="headerlink" href="#c.rand_r" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get a 32-bit pseudo-random number</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">*seedp</span></code></dt><dd><p>seed value to use, updated on exit</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This version of the function allows multiple sequences to be used at the
+same time, since it requires the caller to store the seed value.</p>
+<p><strong>Return</strong></p>
+<p>next random number in the sequence</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="pinctrl.html" rel="prev" title="Pinctrl and Pinmux"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="sandbox.html" rel="next" title="Sandbox">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

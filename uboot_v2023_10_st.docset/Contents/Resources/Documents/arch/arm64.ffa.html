@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Arm FF-A Support — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="m68k.html" rel="next" title="M68K / ColdFire"/>
+<link href="arm64.html" rel="prev" title="ARM64"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html">ARM64</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Arm FF-A Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ff-a-and-smc-specifications">FF-A and SMC specifications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-hardware">Supported hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ff-a-abis-under-the-hood">FF-A ABIs under the hood</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ff-a-bus-discovery-on-arm-64-bit-platforms">FF-A bus discovery on Arm 64-bit platforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requirements-for-clients">Requirements for clients</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requirements-for-user-drivers">Requirements for user drivers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-bus-driver-layer">The bus driver layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#relationship-between-the-sandbox-emulator-and-the-ff-a-device">Relationship between the sandbox emulator and the FF-A device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-armffa-command">The armffa command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-of-boot-logs-with-ff-a-enabled">Example of boot logs with FF-A enabled</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html">RISC-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/index.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sh.html">SuperH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Architecture-specific doc</a> »</li>
+<li>Arm FF-A Support</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/arch/arm64.ffa.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Arm FF-A Support"></a><div class="section" id="arm-ff-a-support">
+<h1>Arm FF-A Support<a class="headerlink" href="#arm-ff-a-support" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Summary"></a><div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>FF-A stands for Firmware Framework for Arm A-profile processors.</p>
+<p>FF-A specifies interfaces that enable a pair of software execution environments aka partitions to
+communicate with each other. A partition could be a VM in the Normal or Secure world, an
+application in S-EL0, or a Trusted OS in S-EL1.</p>
+<p>The U-Boot FF-A support (the bus) implements the interfaces to communicate
+with partitions in the Secure world aka Secure partitions (SPs).</p>
+<p>The FF-A support specifically focuses on communicating with SPs that
+isolate portions of EFI runtime services that must run in a protected
+environment which is inaccessible by the Host OS or Hypervisor.
+Examples of such services are set/get variables.</p>
+<p>The FF-A support uses the SMC ABIs defined by the FF-A specification to:</p>
+<ul class="simple">
+<li><p>Discover the presence of SPs of interest</p></li>
+<li><p>Access an SP’s service through communication protocols
+e.g. EFI MM communication protocol</p></li>
+</ul>
+<p>At this stage of development only EFI boot-time services are supported.
+Runtime support will be added in future developments.</p>
+<p>The U-Boot FF-A support provides the following parts:</p>
+<ul class="simple">
+<li><p>A Uclass driver providing generic FF-A methods.</p></li>
+<li><p>An Arm FF-A device driver providing Arm-specific methods and reusing the Uclass methods.</p></li>
+<li><p>A sandbox emulator for Arm FF-A, emulates the FF-A side of the Secure World and provides
+FF-A ABIs inspection methods.</p></li>
+<li><p>An FF-A sandbox device driver for FF-A communication with the emulated Secure World.
+The driver leverages the FF-A Uclass to establish FF-A communication.</p></li>
+<li><p>Sandbox FF-A test cases.</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/FF-A and SMC specifications"></a><div class="section" id="ff-a-and-smc-specifications">
+<h2>FF-A and SMC specifications<a class="headerlink" href="#ff-a-and-smc-specifications" title="Permalink to this headline">¶</a></h2>
+<p>The current implementation of the U-Boot FF-A support relies on
+<a class="reference external" href="https://documentation-service.arm.com/static/5fb7e8a6ca04df4095c1d65e">FF-A v1.0 specification</a> and uses SMC32 calling convention which
+means using the first 32-bit data of the Xn registers.</p>
+<p>At this stage we only need the FF-A v1.0 features.</p>
+<p>The FF-A support has been tested with OP-TEE which supports SMC32 calling
+convention.</p>
+<p>Hypervisors are supported if they are configured to trap SMC calls.</p>
+<p>The FF-A support uses 64-bit registers as per <a class="reference external" href="https://documentation-service.arm.com/static/5f8edaeff86e16515cdbe4c6">SMC Calling Convention v1.2 specification</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Supported hardware"></a><div class="section" id="supported-hardware">
+<h2>Supported hardware<a class="headerlink" href="#supported-hardware" title="Permalink to this headline">¶</a></h2>
+<p>Aarch64 plaforms</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration"></a><div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>CONFIG_ARM_FFA_TRANSPORT</dt><dd><p>Enables the FF-A support. Turn this on if you want to use FF-A
+communication.
+When using an Arm 64-bit platform, the Arm FF-A driver will be used.
+When using sandbox, the sandbox FF-A emulator and FF-A sandbox driver will be used.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/FF-A ABIs under the hood"></a><div class="section" id="ff-a-abis-under-the-hood">
+<h2>FF-A ABIs under the hood<a class="headerlink" href="#ff-a-abis-under-the-hood" title="Permalink to this headline">¶</a></h2>
+<p>Invoking an FF-A ABI involves providing to the secure world/hypervisor the
+expected arguments from the ABI.</p>
+<p>On an Arm 64-bit platform, the ABI arguments are stored in x0 to x7 registers.
+Then, an SMC instruction is executed.</p>
+<p>At the secure side level or hypervisor the ABI is handled at a higher exception
+level and the arguments are read and processed.</p>
+<p>The response is put back through x0 to x7 registers and control is given back
+to the U-Boot Arm FF-A driver (non-secure world).</p>
+<p>The driver reads the response and processes it accordingly.</p>
+<p>This methodology applies to all the FF-A ABIs.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/FF-A bus discovery on Arm 64-bit platforms"></a><div class="section" id="ff-a-bus-discovery-on-arm-64-bit-platforms">
+<h2>FF-A bus discovery on Arm 64-bit platforms<a class="headerlink" href="#ff-a-bus-discovery-on-arm-64-bit-platforms" title="Permalink to this headline">¶</a></h2>
+<p>When CONFIG_ARM_FFA_TRANSPORT is enabled, the FF-A bus is considered as
+an architecture feature and discovered using ARM_SMCCC_FEATURES mechanism.
+This discovery mechanism is performed by the PSCI driver.</p>
+<p>The PSCI driver comes with a PSCI device tree node which is the root node for all
+architecture features including FF-A bus.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; dm tree
+
+ Class     Index  Probed  Driver                Name
+-----------------------------------------------------------
+ firmware      0  [ + ]   psci                      |-- psci
+ ffa                   0  [   ]   arm_ffa               |   `-- arm_ffa
+</pre></div>
+</div>
+<p>The PSCI driver is bound to the PSCI device and when probed it tries to discover
+the architecture features by calling a callback the features drivers provide.</p>
+<p>In case of FF-A, the callback is arm_ffa_is_supported() which tries to discover the
+FF-A framework by querying the FF-A framework version from secure world using
+FFA_VERSION ABI. When discovery is successful, the ARM_SMCCC_FEATURES
+mechanism creates a U-Boot device for the FF-A bus and binds the Arm FF-A driver
+with the device using device_bind_driver().</p>
+<p>At this stage the FF-A bus is registered with the DM and can be interacted with using
+the DM APIs.</p>
+<p>Clients are able to probe then use the FF-A bus by calling uclass_first_device().
+Please refer to the armffa command implementation as an example of how to probe
+and interact with the FF-A bus.</p>
+<p>When calling uclass_first_device(), the FF-A driver is probed and ends up calling
+ffa_do_probe() provided by the Uclass which does the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>saving the FF-A framework version in uc_priv</p></li>
+<li><p>querying from secure world the u-boot endpoint ID</p></li>
+<li><p>querying from secure world the supported features of FFA_RXTX_MAP</p></li>
+<li><p>mapping the RX/TX buffers</p></li>
+<li><p>querying from secure world all the partitions information</p></li>
+</ul>
+</div></blockquote>
+<p>When one of the above actions fails, probing fails and the driver stays not active
+and can be probed again if needed.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Requirements for clients"></a><div class="section" id="requirements-for-clients">
+<h2>Requirements for clients<a class="headerlink" href="#requirements-for-clients" title="Permalink to this headline">¶</a></h2>
+<p>When using the FF-A bus with EFI, clients must query the SPs they are looking for
+during EFI boot-time mode using the service UUID.</p>
+<p>The RX/TX buffers are only available at EFI boot-time. Querying partitions is
+done at boot time and data is cached for future use.</p>
+<p>RX/TX buffers should be unmapped before EFI runtime mode starts.
+The driver provides a bus operation for that called ffa_rxtx_unmap().</p>
+<p>The user should call ffa_rxtx_unmap() to unmap the RX/TX buffers when required
+(e.g: at efi_exit_boot_services()).</p>
+<p>The Linux kernel allocates its own RX/TX buffers. To be able to register these kernel buffers
+with secure world, the U-Boot’s RX/TX buffers should be unmapped before EFI runtime starts.</p>
+<p>When invoking FF-A direct messaging, clients should specify which ABI protocol
+they want to use (32-bit vs 64-bit). Selecting the protocol means using
+the 32-bit or 64-bit version of FFA_MSG_SEND_DIRECT_{REQ, RESP}.
+The calling convention between U-Boot and the secure world stays the same: SMC32.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Requirements for user drivers"></a><div class="section" id="requirements-for-user-drivers">
+<h2>Requirements for user drivers<a class="headerlink" href="#requirements-for-user-drivers" title="Permalink to this headline">¶</a></h2>
+<p>Users who want to implement their custom FF-A device driver while reusing the FF-A Uclass can do so
+by implementing their own invoke_ffa_fn() in the user driver.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/The bus driver layer"></a><div class="section" id="the-bus-driver-layer">
+<h2>The bus driver layer<a class="headerlink" href="#the-bus-driver-layer" title="Permalink to this headline">¶</a></h2>
+<p>FF-A support comes on top of the SMCCC layer and is implemented by the FF-A Uclass drivers/firmware/arm-ffa/arm-ffa-uclass.c</p>
+<p>The following features are provided:</p>
+<ul>
+<li><p>Support for the 32-bit version of the following ABIs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>FFA_VERSION</p></li>
+<li><p>FFA_ID_GET</p></li>
+<li><p>FFA_FEATURES</p></li>
+<li><p>FFA_PARTITION_INFO_GET</p></li>
+<li><p>FFA_RXTX_UNMAP</p></li>
+<li><p>FFA_RX_RELEASE</p></li>
+<li><p>FFA_RUN</p></li>
+<li><p>FFA_ERROR</p></li>
+<li><p>FFA_SUCCESS</p></li>
+<li><p>FFA_INTERRUPT</p></li>
+<li><p>FFA_MSG_SEND_DIRECT_REQ</p></li>
+<li><p>FFA_MSG_SEND_DIRECT_RESP</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Support for the 64-bit version of the following ABIs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>FFA_RXTX_MAP</p></li>
+<li><p>FFA_MSG_SEND_DIRECT_REQ</p></li>
+<li><p>FFA_MSG_SEND_DIRECT_RESP</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Processing the received data from the secure world/hypervisor and caching it</p></li>
+<li><p>Hiding from upper layers the FF-A protocol and registers details. Upper
+layers focus on exchanged data, FF-A support takes care of how to transport
+that to the secure world/hypervisor using FF-A</p></li>
+<li><p>FF-A support provides driver operations to be used by upper layers:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ffa_partition_info_get</p></li>
+<li><p>ffa_sync_send_receive</p></li>
+<li><p>ffa_rxtx_unmap</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>FF-A bus discovery makes sure FF-A framework is responsive and compatible
+with the driver</p></li>
+<li><p>FF-A bus can be compiled and used without EFI</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Relationship between the sandbox emulator and the FF-A device"></a><div class="section" id="relationship-between-the-sandbox-emulator-and-the-ff-a-device">
+<h2>Relationship between the sandbox emulator and the FF-A device<a class="headerlink" href="#relationship-between-the-sandbox-emulator-and-the-ff-a-device" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; dm tree
+
+ Class     Index  Probed  Driver                Name
+-----------------------------------------------------------
+ffa_emul      0  [ + ]   sandbox_ffa_emul      `-- arm-ffa-emul
+ ffa                  0  [    ]   sandbox_arm_ffa               `-- sandbox-arm-ffa
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/The armffa command"></a><div class="section" id="the-armffa-command">
+<h2>The armffa command<a class="headerlink" href="#the-armffa-command" title="Permalink to this headline">¶</a></h2>
+<p>armffa is a command showcasing how to use the FF-A bus and how to invoke the driver operations.</p>
+<p>Please refer the command documentation at <a class="reference internal" href="../usage/cmd/armffa.html"><span class="doc">armffa command</span></a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example of boot logs with FF-A enabled"></a><div class="section" id="example-of-boot-logs-with-ff-a-enabled">
+<h2>Example of boot logs with FF-A enabled<a class="headerlink" href="#example-of-boot-logs-with-ff-a-enabled" title="Permalink to this headline">¶</a></h2>
+<p>For example, when using FF-A with Corstone-1000, debug logs enabled, the output is as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot 2023.01 (May 10 2023 - 11:08:07 +0000) corstone1000 aarch64
+
+DRAM:  2 GiB
+Arm FF-A framework discovery
+FF-A driver 1.0
+FF-A framework 1.0
+FF-A versions are compatible
+...
+FF-A driver 1.0
+FF-A framework 1.0
+FF-A versions are compatible
+EFI: MM partition ID 0x8003
+...
+EFI stub: Booting Linux Kernel...
+...
+Linux version 6.1.9-yocto-standard (oe-user@oe-host) (aarch64-poky-linux-musl-gcc (GCC) 12.2.0, GNU ld (GNU Binutils) 2.40.202301193
+Machine model: ARM Corstone1000 FPGA MPS3 board
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Contributors"></a><div class="section" id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Abdellatif El Khlifi &lt;<a class="reference external" href="mailto:abdellatif.elkhlifi%40arm.com">abdellatif<span>.</span>elkhlifi<span>@</span>arm<span>.</span>com</a>&gt;</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="arm64.html" rel="prev" title="ARM64"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="m68k.html" rel="next" title="M68K / ColdFire">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AT91 Evaluation kits — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../beacon/index.html" rel="next" title="Beacon"/>
+<link href="index.html" rel="prev" title="Atmel"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Atmel</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">AT91 Evaluation kits</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#board-mapping-boot-media">Board mapping &amp; boot media</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nand-partition-table">NAND partition table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#watchdog-support">Watchdog support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Atmel</a> »</li>
+<li>AT91 Evaluation kits</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/atmel/at91ek.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/AT91 Evaluation kits"></a><div class="section" id="at91-evaluation-kits">
+<h1>AT91 Evaluation kits<a class="headerlink" href="#at91-evaluation-kits" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Board mapping &amp; boot media"></a><div class="section" id="board-mapping-boot-media">
+<h2>Board mapping &amp; boot media<a class="headerlink" href="#board-mapping-boot-media" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="at91sam9260ek-at91sam9g20ek-at91sam9xeek">
+<h3>AT91SAM9260EK, AT91SAM9G20EK &amp; AT91SAM9XEEK<a class="headerlink" href="#at91sam9260ek-at91sam9g20ek-at91sam9xeek" title="Permalink to this headline">¶</a></h3>
+<p>Memory map:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0x20000000 - 23FFFFFF   SDRAM (64 MB)
+0xC0000000 - Cxxxxxxx   Atmel Dataflash card (J13)
+0xD0000000 - D07FFFFF   Soldered Atmel Dataflash (AT45DB642)
+</pre></div>
+</div>
+<p>Environment variables</p>
+<p>U-Boot environment variables can be stored at different places:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Dataflash on SPI chip select 1 (default)</p></li>
+<li><p>Dataflash on SPI chip select 0 (dataflash card)</p></li>
+<li><p>Nand flash</p></li>
+</ul>
+</div></blockquote>
+<p>You can choose your storage location at config step (here for at91sam9260ek):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make at91sam9260ek_nandflash_config     - use nand flash
+make at91sam9260ek_dataflash_cs0_config - use data flash (spi cs0)
+make at91sam9260ek_dataflash_cs1_config - use data flash (spi cs1)
+</pre></div>
+</div>
+</div>
+<div class="section" id="at91sam9261ek-at91sam9g10ek">
+<h3>AT91SAM9261EK, AT91SAM9G10EK<a class="headerlink" href="#at91sam9261ek-at91sam9g10ek" title="Permalink to this headline">¶</a></h3>
+<p>Memory map:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0x20000000 - 23FFFFFF   SDRAM (64 MB)
+0xC0000000 - C07FFFFF   Soldered Atmel Dataflash (AT45DB642)
+0xD0000000 - Dxxxxxxx   Atmel Dataflash card (J22)
+</pre></div>
+</div>
+<p>Environment variables</p>
+<p>U-Boot environment variables can be stored at different places:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Dataflash on SPI chip select 0 (default)</p></li>
+<li><p>Dataflash on SPI chip select 3 (dataflash card)</p></li>
+<li><p>Nand flash</p></li>
+</ul>
+</div></blockquote>
+<p>You can choose your storage location at config step (here for at91sam9260ek):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make at91sam9261ek_nandflash_config     - use nand flash
+make at91sam9261ek_dataflash_cs0_config - use data flash (spi cs0)
+make at91sam9261ek_dataflash_cs3_config - use data flash (spi cs3)
+</pre></div>
+</div>
+</div>
+<div class="section" id="at91sam9263ek">
+<h3>AT91SAM9263EK<a class="headerlink" href="#at91sam9263ek" title="Permalink to this headline">¶</a></h3>
+<p>Memory map:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0x20000000 - 23FFFFFF   SDRAM (64 MB)
+0xC0000000 - Cxxxxxxx   Atmel Dataflash card (J9)
+</pre></div>
+</div>
+<p>Environment variables</p>
+<p>U-Boot environment variables can be stored at different places:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Dataflash on SPI chip select 0 (dataflash card)</p></li>
+<li><p>Nand flash</p></li>
+<li><p>Nor flash (not populate by default)</p></li>
+</ul>
+</div></blockquote>
+<p>You can choose your storage location at config step (here for at91sam9260ek):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make at91sam9263ek_nandflash_config     - use nand flash
+make at91sam9263ek_dataflash_cs0_config - use data flash (spi cs0)
+make at91sam9263ek_norflash_config      - use nor flash
+</pre></div>
+</div>
+<p>You can choose to boot directly from U-Boot at config step:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make at91sam9263ek_norflash_boot_config - boot from nor flash
+</pre></div>
+</div>
+</div>
+<div class="section" id="at91sam9m10g45ek">
+<h3>AT91SAM9M10G45EK<a class="headerlink" href="#at91sam9m10g45ek" title="Permalink to this headline">¶</a></h3>
+<p>Memory map:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0x70000000 - 77FFFFFF   SDRAM (128 MB)
+</pre></div>
+</div>
+<p>Environment variables</p>
+<p>U-Boot environment variables can be stored at different places:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Nand flash</p></li>
+</ul>
+</div></blockquote>
+<p>You can choose your storage location at config step (here for at91sam9m10g45ek):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make at91sam9m10g45ek_nandflash_config          - use nand flash
+</pre></div>
+</div>
+</div>
+<div class="section" id="at91sam9rlek">
+<h3>AT91SAM9RLEK<a class="headerlink" href="#at91sam9rlek" title="Permalink to this headline">¶</a></h3>
+<p>Memory map:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0x20000000 - 23FFFFFF   SDRAM (64 MB)
+0xC0000000 - C07FFFFF   Soldered Atmel Dataflash (AT45DB642)
+</pre></div>
+</div>
+<p>Environment variables</p>
+<p>U-Boot environment variables can be stored at different places:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Dataflash on SPI chip select 0</p></li>
+<li><p>Nand flash.</p></li>
+</ul>
+</div></blockquote>
+<p>You can choose your storage location at config step (here for at91sam9rlek):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make at91sam9rlek_nandflash_config      - use nand flash
+</pre></div>
+</div>
+</div>
+<div class="section" id="at91sam9n12ek-at91sam9x5ek">
+<h3>AT91SAM9N12EK, AT91SAM9X5EK<a class="headerlink" href="#at91sam9n12ek-at91sam9x5ek" title="Permalink to this headline">¶</a></h3>
+<p>Memory map:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0x20000000 - 27FFFFFF   SDRAM (128 MB)
+</pre></div>
+</div>
+<p>Environment variables</p>
+<p>U-Boot environment variables can be stored at different places:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Nand flash</p></li>
+<li><p>SD/MMC card</p></li>
+<li><p>Serialflash/Dataflash on SPI chip select 0</p></li>
+</ul>
+</div></blockquote>
+<p>You can choose your storage location at config step (here for at91sam9x5ek):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make at91sam9x5ek_dataflash_config      - use data flash
+make at91sam9x5ek_mmc_config            - use sd/mmc card
+make at91sam9x5ek_nandflash_config      - use nand flash
+make at91sam9x5ek_spiflash_config       - use serial flash
+</pre></div>
+</div>
+</div>
+<div class="section" id="sama5d3xek">
+<h3>SAMA5D3XEK<a class="headerlink" href="#sama5d3xek" title="Permalink to this headline">¶</a></h3>
+<p>Memory map:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0x20000000 - 3FFFFFFF   SDRAM (512 MB)
+</pre></div>
+</div>
+<p>Environment variables</p>
+<p>U-Boot environment variables can be stored at different places:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Nand flash</p></li>
+<li><p>SD/MMC card</p></li>
+<li><p>Serialflash on SPI chip select 0</p></li>
+</ul>
+</div></blockquote>
+<p>You can choose your storage location at config step (here for sama5d3xek):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make sama5d3xek_mmc_config              - use SD/MMC card
+make sama5d3xek_nandflash_config        - use nand flash
+make sama5d3xek_serialflash_config      - use serial flash
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/NAND partition table"></a><div class="section" id="nand-partition-table">
+<h2>NAND partition table<a class="headerlink" href="#nand-partition-table" title="Permalink to this headline">¶</a></h2>
+<p>All the board support boot from NAND flash will use the following NAND
+partition table:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0x00000000 - 0x0003FFFF bootstrap       (256 KiB)
+0x00040000 - 0x000BFFFF u-boot          (512 KiB)
+0x000C0000 - 0x000FFFFF env             (256 KiB)
+0x00100000 - 0x0013FFFF env_redundant   (256 KiB)
+0x00140000 - 0x0017FFFF spare           (256 KiB)
+0x00180000 - 0x001FFFFF dtb             (512 KiB)
+0x00200000 - 0x007FFFFF kernel          (6 MiB)
+0x00800000 - 0xxxxxxxxx rootfs          (All left)
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Watchdog support"></a><div class="section" id="watchdog-support">
+<h2>Watchdog support<a class="headerlink" href="#watchdog-support" title="Permalink to this headline">¶</a></h2>
+<p>For security reasons, the at91 watchdog is running at boot time and,
+if deactivated, cannot be used anymore.
+If you want to use the watchdog, you will need to keep it running in
+your code (make sure not to disable it in AT91Bootstrap for instance).</p>
+<p>In the U-Boot configuration, the AT91 watchdog support is enabled using
+the CONFIG_WDT and CONFIG_WDT_AT91 options.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Atmel"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../beacon/index.html" rel="next" title="Beacon">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

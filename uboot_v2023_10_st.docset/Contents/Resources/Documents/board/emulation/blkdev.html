@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Emulation of block devices — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="qemu-arm.html" rel="next" title="QEMU ARM"/>
+<link href="index.html" rel="prev" title="Emulation"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Emulation</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Emulation of block devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/semihosting.html">Semihosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-arm.html">QEMU ARM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-mips.html">QEMU MIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-ppce500.html">QEMU PPC E500</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-riscv.html">QEMU RISC-V</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-x86.html">QEMU x86</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Emulation</a> »</li>
+<li>Emulation of block devices</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/emulation/blkdev.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Emulation of block devices"></a><div class="section" id="emulation-of-block-devices">
+<h1>Emulation of block devices<a class="headerlink" href="#emulation-of-block-devices" title="Permalink to this headline">¶</a></h1>
+<p>QEMU can emulate common block devices by adding the following parameters to
+the qemu-system-&lt;arch&gt; command line:</p>
+<ul>
+<li><p>MMC</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-device<span class="w"> </span>sdhci-pci,sd-spec-version<span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>disk.img,format<span class="o">=</span>raw,id<span class="o">=</span>MMC1<span class="w"> </span><span class="se">\</span>
+-device<span class="w"> </span>sd-card,drive<span class="o">=</span>MMC1
+</pre></div>
+</div>
+</li>
+<li><p>NVMe</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>disk.img,format<span class="o">=</span>raw,id<span class="o">=</span>NVME1<span class="w"> </span><span class="se">\</span>
+-device<span class="w"> </span>nvme,drive<span class="o">=</span>NVME1,serial<span class="o">=</span>nvme-1
+</pre></div>
+</div>
+</li>
+<li><p>SATA</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-device<span class="w"> </span>ahci,id<span class="o">=</span>ahci0<span class="w"> </span><span class="se">\</span>
+-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>disk.img,format<span class="o">=</span>raw,id<span class="o">=</span>SATA1<span class="w"> </span><span class="se">\</span>
+-device<span class="w"> </span>ide-hd,bus<span class="o">=</span>ahci0.0,drive<span class="o">=</span>SATA1
+</pre></div>
+</div>
+</li>
+<li><p>USB</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-device<span class="w"> </span>qemu-xhci<span class="w"> </span><span class="se">\</span>
+-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>disk.img,format<span class="o">=</span>raw,id<span class="o">=</span>USB1<span class="w"> </span><span class="se">\</span>
+-device<span class="w"> </span>usb-storage,drive<span class="o">=</span>USB1
+</pre></div>
+</div>
+</li>
+<li><p>Virtio</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>none,file<span class="o">=</span>disk.img,format<span class="o">=</span>raw,id<span class="o">=</span>VIRTIO1<span class="w"> </span><span class="se">\</span>
+-device<span class="w"> </span>virtio-blk,drive<span class="o">=</span>VIRTIO1
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As of v2023.07 U-Boot does not have a driver for virtio-scsi-pci.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Emulation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="qemu-arm.html" rel="next" title="QEMU ARM">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

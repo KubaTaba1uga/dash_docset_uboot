@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Partition API — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="pinctrl.html" rel="next" title="Pinctrl and Pinmux"/>
+<link href="nvmem.html" rel="prev" title="NVMEM API"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Partition API</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/part.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Partition API"></a><div class="section" id="partition-api">
+<h1>Partition API<a class="headerlink" href="#partition-api" title="Permalink to this headline">¶</a></h1>
+<dl class="c function">
+<dt id="c.blk_get_dev">
+<em class="property">struct</em> blk_desc *<code class="sig-name descname">blk_get_dev</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>ifname</em>, int <em>dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/blk_get_dev"></a><a class="headerlink" href="#c.blk_get_dev" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get a pointer to a block device given its type and number</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*ifname</span></code></dt><dd><p>Interface name (e.g. “ide”, “scsi”)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">dev</span></code></dt><dd><p>Device number (0 for first device on that interface, 1 for
+second, etc.</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Each interface allocates its own devices and typically struct blk_desc is
+contained with the interface’s data structure. There is no global
+numbering for block devices, so the interface name must be provided.</p>
+<p><strong>Return</strong></p>
+<p>pointer to the block device, or NULL if not available, or an error occurred.</p>
+<dl class="c function">
+<dt id="c.part_get_info_by_type">
+int <code class="sig-name descname">part_get_info_by_type</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, int <em>part</em>, int <em>part_type</em>, <em class="property">struct</em> disk_partition *<em>info</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_get_info_by_type"></a><a class="headerlink" href="#c.part_get_info_by_type" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get partitions from a block device using a specific partition driver</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>Block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">part</span></code></dt><dd><p>Partition number to read</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">part_type</span></code></dt><dd><p>Partition driver to use, or PART_TYPE_UNKNOWN to automatically
+choose a driver</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">disk_partition</span> <span class="pre">*info</span></code></dt><dd><p>Returned partition information</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Each interface allocates its own devices and typically struct blk_desc is
+contained with the interface’s data structure. There is no global
+numbering for block devices, so the interface name must be provided.</p>
+<p><strong>Return</strong></p>
+<p>0 on success, negative errno on failure</p>
+<dl class="c function">
+<dt id="c.part_get_info_whole_disk">
+int <code class="sig-name descname">part_get_info_whole_disk</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, <em class="property">struct</em> disk_partition *<em>info</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_get_info_whole_disk"></a><a class="headerlink" href="#c.part_get_info_whole_disk" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get partition info for the special case of a partition occupying the entire disk.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">disk_partition</span> <span class="pre">*info</span></code></dt><dd><p>returned partition information</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success</p>
+<dl class="c function">
+<dt id="c.blk_get_device_by_str">
+int <code class="sig-name descname">blk_get_device_by_str</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>ifname</em>, <em class="property">const</em> char *<em>dev_str</em>, <em class="property">struct</em> blk_desc **<em>dev_desc</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/blk_get_device_by_str"></a><a class="headerlink" href="#c.blk_get_device_by_str" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get a block device given its interface/hw partition</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*ifname</span></code></dt><dd><p>Interface name (e.g. “ide”, “scsi”)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*dev_str</span></code></dt><dd><p>Device and optional hw partition. This can either be a string
+containing the device number (e.g. “2”) or the device number
+and hardware partition number (e.g. “2.4”) for devices that
+support it (currently only MMC).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">**dev_desc</span></code></dt><dd><p>Returns a pointer to the block device on success</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Each interface allocates its own devices and typically struct blk_desc is
+contained with the interface’s data structure. There is no global
+numbering for block devices, so the interface name must be provided.</p>
+<p>The hardware parition is not related to the normal software partitioning
+of a device - each hardware partition is effectively a separately
+accessible block device. When a hardware parition is selected on MMC the
+other hardware partitions become inaccessible. The same block device is
+used to access all hardware partitions, but its capacity may change when a
+different hardware partition is selected.</p>
+<p>When a hardware partition number is given, the block device switches to
+that hardware partition.</p>
+<p><strong>Return</strong></p>
+<p>block device number (local to the interface), or -1 on error</p>
+<dl class="c function">
+<dt id="c.blk_get_device_part_str">
+int <code class="sig-name descname">blk_get_device_part_str</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>ifname</em>, <em class="property">const</em> char *<em>dev_part_str</em>, <em class="property">struct</em> blk_desc **<em>dev_desc</em>, <em class="property">struct</em> disk_partition *<em>info</em>, int <em>allow_whole_dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/blk_get_device_part_str"></a><a class="headerlink" href="#c.blk_get_device_part_str" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get a block device and partition</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*ifname</span></code></dt><dd><p>Interface name (e.g. “ide”, “scsi”)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*dev_part_str</span></code></dt><dd><p>Device and partition string</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">**dev_desc</span></code></dt><dd><p>Returns a pointer to the block device on success</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">disk_partition</span> <span class="pre">*info</span></code></dt><dd><p>Returns partition information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">allow_whole_dev</span></code></dt><dd><p>true to allow the user to select partition 0
+(which means the whole device), false to require a valid
+partition number &gt;= 1</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This calls blk_get_device_by_str() to look up a device. It also looks up
+a partition and returns information about it.</p>
+<p><strong>dev_part_str</strong> is in the format &lt;dev&gt;.&lt;hw_part&gt;:&lt;part&gt; where</p>
+<ul class="simple">
+<li><p>&lt;dev&gt; is the device number,</p></li>
+<li><p>&lt;hw_part&gt; is the optional hardware partition number and</p></li>
+<li><p>&lt;part&gt; is the partition number.</p></li>
+</ul>
+<p>If <strong>ifname</strong> is “hostfs”, then this function returns the sandbox host block
+device.</p>
+<p>If <strong>ifname</strong> is “ubi”, then this function returns 0, with <strong>info</strong> set to a
+special UBI device.</p>
+<p>If <strong>dev_part_str</strong> is NULL or empty or “-“, then this function looks up
+the “bootdevice” environment variable and uses that string instead.</p>
+<p>If the partition string is empty then the first partition is used. If the
+partition string is “auto” then the first bootable partition is used.</p>
+<p><strong>Return</strong></p>
+<p>partition number, or -1 on error</p>
+<dl class="c function">
+<dt id="c.part_get_info_by_name">
+int <code class="sig-name descname">part_get_info_by_name</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, <em class="property">const</em> char *<em>name</em>, <em class="property">struct</em> disk_partition *<em>info</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_get_info_by_name"></a><a class="headerlink" href="#c.part_get_info_by_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Search for a partition by name among all available registered partitions</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>the specified table entry name</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">disk_partition</span> <span class="pre">*info</span></code></dt><dd><p>returns the disk partition info</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>the partition number on match (starting on 1), -1 on no match,
+otherwise error</p>
+<dl class="c function">
+<dt id="c.part_get_info_by_dev_and_name_or_num">
+int <code class="sig-name descname">part_get_info_by_dev_and_name_or_num</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>dev_iface</em>, <em class="property">const</em> char *<em>dev_part_str</em>, <em class="property">struct</em> blk_desc **<em>dev_desc</em>, <em class="property">struct</em> disk_partition *<em>part_info</em>, int <em>allow_whole_dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_get_info_by_dev_and_name_or_num"></a><a class="headerlink" href="#c.part_get_info_by_dev_and_name_or_num" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get partition info from dev number and part name, or dev number and part number.</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*dev_iface</span></code></dt><dd><p>Device interface</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*dev_part_str</span></code></dt><dd><p>Input partition description, like “0#misc” or “0:1”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">**dev_desc</span></code></dt><dd><p>Place to store the device description pointer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">disk_partition</span> <span class="pre">*part_info</span></code></dt><dd><p>Place to store the partition information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">allow_whole_dev</span></code></dt><dd><p>true to allow the user to select partition 0
+(which means the whole device), false to require a valid
+partition number &gt;= 1</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Parse a device number and partition description (either name or number)
+in the form of device number plus partition name separated by a “#”
+(like “device_num#partition_name”) or a device number plus a partition number
+separated by a “:”. For example both “0#misc” and “0:1” can be valid
+partition descriptions for a given interface. If the partition is found, sets
+dev_desc and part_info accordingly with the information of the partition.</p>
+<p><strong>Return</strong></p>
+<p>the partition number on success, or negative errno on error</p>
+<dl class="c function">
+<dt id="c.part_set_generic_name">
+void <code class="sig-name descname">part_set_generic_name</code><span class="sig-paren">(</span><em class="property">const</em> <em class="property">struct</em> blk_desc *<em>dev_desc</em>, int <em>part_num</em>, char *<em>name</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_set_generic_name"></a><a class="headerlink" href="#c.part_set_generic_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>create generic partition like hda1 or sdb2</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>pointer to the block device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">part_num</span></code></dt><dd><p>partition number for which the name is generated</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>buffer where the name is written</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Helper function for partition tables, which don’t hold partition names
+(DOS, ISO). Generates partition name out of the device type and partition
+number.</p>
+<dl class="c function">
+<dt id="c.part_get_bootable">
+int <code class="sig-name descname">part_get_bootable</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>desc</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_get_bootable"></a><a class="headerlink" href="#c.part_get_bootable" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Find the first bootable partition</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*desc</span></code></dt><dd><p>Block-device descriptor
+<strong>return</strong> first bootable partition, or 0 if there is none</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.part_create_block_devices">
+int <code class="sig-name descname">part_create_block_devices</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>blk_dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_create_block_devices"></a><a class="headerlink" href="#c.part_create_block_devices" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Create block devices for disk partitions</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*blk_dev</span></code></dt><dd><p>Whole disk device</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Create UCLASS_PARTITION udevices for each of disk partitions in <strong>parent</strong></p>
+<dl class="c function">
+<dt id="c.disk_blk_read">
+ulong <code class="sig-name descname">disk_blk_read</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, lbaint_t <em>start</em>, lbaint_t <em>blkcnt</em>, void *<em>buffer</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/disk_blk_read"></a><a class="headerlink" href="#c.disk_blk_read" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>read blocks from a disk partition</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to read from (UCLASS_PARTITION)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">lbaint_t</span> <span class="pre">start</span></code></dt><dd><p>Start block number to read in the partition (0=first)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">lbaint_t</span> <span class="pre">blkcnt</span></code></dt><dd><p>Number of blocks to read</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buffer</span></code></dt><dd><p>Destination buffer for data read</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of blocks read, or -ve error number (see the
+IS_ERR_VALUE() macro</p>
+<dl class="c function">
+<dt id="c.disk_blk_write">
+ulong <code class="sig-name descname">disk_blk_write</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, lbaint_t <em>start</em>, lbaint_t <em>blkcnt</em>, <em class="property">const</em> void *<em>buffer</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/disk_blk_write"></a><a class="headerlink" href="#c.disk_blk_write" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write to a disk partition</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to write to (UCLASS_PARTITION)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">lbaint_t</span> <span class="pre">start</span></code></dt><dd><p>Start block number to write in the partition (0=first)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">lbaint_t</span> <span class="pre">blkcnt</span></code></dt><dd><p>Number of blocks to write</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*buffer</span></code></dt><dd><p>Source buffer for data to write</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of blocks written, or -ve error number (see the
+IS_ERR_VALUE() macro</p>
+<dl class="c function">
+<dt id="c.disk_blk_erase">
+ulong <code class="sig-name descname">disk_blk_erase</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em>, lbaint_t <em>start</em>, lbaint_t <em>blkcnt</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/disk_blk_erase"></a><a class="headerlink" href="#c.disk_blk_erase" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>erase a section of a disk partition</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Device to (partially) erase (UCLASS_PARTITION)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">lbaint_t</span> <span class="pre">start</span></code></dt><dd><p>Start block number to erase in the partition (0=first)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">lbaint_t</span> <span class="pre">blkcnt</span></code></dt><dd><p>Number of blocks to erase</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of blocks erased, or -ve error number (see the
+IS_ERR_VALUE() macro</p>
+<dl class="c struct">
+<dt id="c.part_driver">
+<em class="property">struct </em><code class="sig-name descname">part_driver</code><a class="headerlink" href="#c.part_driver" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>partition driver</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct part_driver {
+  const char *name;
+  int part_type;
+  const int max_entries;
+  int (*get_info)(struct blk_desc *dev_desc, int part, struct disk_partition *info);
+  void (*print)(struct blk_desc *dev_desc);
+  int (*test)(struct blk_desc *dev_desc);
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>partition name</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">part_type</span></code></dt><dd><p>(MBR) partition type</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">max_entries</span></code></dt><dd><p>maximum number of partition table entries</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">get_info</span></code></dt><dd><p>Get information about a partition</p>
+<p><strong>get_info.dev_desc</strong>:  Block device descriptor
+<strong>get_info.part</strong>:      Partition number (1 = first)
+<strong>get_info.info</strong>:      Returns partition information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">print</span></code></dt><dd><p>Print partition information</p>
+<p><strong>print.dev_desc</strong>:     Block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">test</span></code></dt><dd><p>Test if a device contains this partition type</p>
+<p><strong>test.dev_desc</strong>:      Block device descriptor
+<strong>test.Return</strong>:
+0 if the block device appears to contain this partition type,
+-ve if not</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.write_gpt_table">
+int <code class="sig-name descname">write_gpt_table</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, gpt_header *<em>gpt_h</em>, gpt_entry *<em>gpt_e</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/write_gpt_table"></a><a class="headerlink" href="#c.write_gpt_table" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Write the GUID Partition Table to disk</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_header</span> <span class="pre">*gpt_h</span></code></dt><dd><p>pointer to GPT header representation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_entry</span> <span class="pre">*gpt_e</span></code></dt><dd><p>pointer to GPT partition table entries</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.gpt_fill_pte">
+int <code class="sig-name descname">gpt_fill_pte</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, gpt_header *<em>gpt_h</em>, gpt_entry *<em>gpt_e</em>, <em class="property">struct</em> disk_partition *<em>partitions</em>, int <em>parts</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/gpt_fill_pte"></a><a class="headerlink" href="#c.gpt_fill_pte" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Fill the GPT partition table entry</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_header</span> <span class="pre">*gpt_h</span></code></dt><dd><p>GPT header representation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_entry</span> <span class="pre">*gpt_e</span></code></dt><dd><p>GPT partition table entries</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">disk_partition</span> <span class="pre">*partitions</span></code></dt><dd><p>list of partitions</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">parts</span></code></dt><dd><p>number of partitions</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>zero on success</p>
+<dl class="c function">
+<dt id="c.gpt_fill_header">
+int <code class="sig-name descname">gpt_fill_header</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, gpt_header *<em>gpt_h</em>, char *<em>str_guid</em>, int <em>parts_count</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/gpt_fill_header"></a><a class="headerlink" href="#c.gpt_fill_header" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Fill the GPT header</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_header</span> <span class="pre">*gpt_h</span></code></dt><dd><p>GPT header representation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*str_guid</span></code></dt><dd><p>disk guid string representation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">parts_count</span></code></dt><dd><p>number of partitions</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>error on str_guid conversion error</p>
+<dl class="c function">
+<dt id="c.gpt_restore">
+int <code class="sig-name descname">gpt_restore</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, char *<em>str_disk_guid</em>, <em class="property">struct</em> disk_partition *<em>partitions</em>, <em class="property">const</em> int <em>parts_count</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/gpt_restore"></a><a class="headerlink" href="#c.gpt_restore" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Restore GPT partition table</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*str_disk_guid</span></code></dt><dd><p>disk GUID</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">disk_partition</span> <span class="pre">*partitions</span></code></dt><dd><p>list of partitions</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">int</span> <span class="pre">parts_count</span></code></dt><dd><p>number of partitions</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success</p>
+<dl class="c function">
+<dt id="c.is_valid_gpt_buf">
+int <code class="sig-name descname">is_valid_gpt_buf</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, void *<em>buf</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/is_valid_gpt_buf"></a><a class="headerlink" href="#c.is_valid_gpt_buf" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Ensure that the Primary GPT information is valid</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>buffer which contains the MBR and Primary GPT info</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.write_mbr_and_gpt_partitions">
+int <code class="sig-name descname">write_mbr_and_gpt_partitions</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, void *<em>buf</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/write_mbr_and_gpt_partitions"></a><a class="headerlink" href="#c.write_mbr_and_gpt_partitions" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write MBR, Primary GPT and Backup GPT</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>buffer which contains the MBR and Primary GPT info</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.gpt_verify_headers">
+int <code class="sig-name descname">gpt_verify_headers</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, gpt_header *<em>gpt_head</em>, gpt_entry **<em>gpt_pte</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/gpt_verify_headers"></a><a class="headerlink" href="#c.gpt_verify_headers" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Read and check CRC32 of the GPT’s header and partition table entries (PTE)</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_header</span> <span class="pre">*gpt_head</span></code></dt><dd><p>pointer to GPT header data read from medium</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_entry</span> <span class="pre">**gpt_pte</span></code></dt><dd><p>pointer to GPT partition table enties read from medium</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>As a side effect if sets gpt_head and gpt_pte so they point to GPT data.</p>
+<p><strong>Return</strong></p>
+<p>0 on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.gpt_repair_headers">
+int <code class="sig-name descname">gpt_repair_headers</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/gpt_repair_headers"></a><a class="headerlink" href="#c.gpt_repair_headers" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Function to repair the GPT’s header and partition table entries (PTE)</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.gpt_verify_partitions">
+int <code class="sig-name descname">gpt_verify_partitions</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, <em class="property">struct</em> disk_partition *<em>partitions</em>, int <em>parts</em>, gpt_header *<em>gpt_head</em>, gpt_entry **<em>gpt_pte</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/gpt_verify_partitions"></a><a class="headerlink" href="#c.gpt_verify_partitions" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Function to check if partitions’ name, start and size correspond to ‘$partitions’ env variable</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">disk_partition</span> <span class="pre">*partitions</span></code></dt><dd><p>partition data read from ‘$partitions’ env variable</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">parts</span></code></dt><dd><p>number of partitions read from ‘$partitions’ env variable</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_header</span> <span class="pre">*gpt_head</span></code></dt><dd><p>pointer to GPT header data read from medium</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gpt_entry</span> <span class="pre">**gpt_pte</span></code></dt><dd><p>pointer to GPT partition table enties read from medium</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function checks if on medium stored GPT data is in sync with information
+provided in ‘$partitions’ environment variable. Specificially, name, start
+and size of the partition is checked.</p>
+<p><strong>Return</strong></p>
+<p>0 on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.get_disk_guid">
+int <code class="sig-name descname">get_disk_guid</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, char *<em>guid</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/get_disk_guid"></a><a class="headerlink" href="#c.get_disk_guid" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Read the GUID string from a device’s GPT</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*guid</span></code></dt><dd><p>pre-allocated string in which to return the GUID</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function reads the GUID string from a block device whose descriptor
+is provided.</p>
+<p><strong>Return</strong></p>
+<p>0 on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.is_valid_dos_buf">
+int <code class="sig-name descname">is_valid_dos_buf</code><span class="sig-paren">(</span>void *<em>buf</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/is_valid_dos_buf"></a><a class="headerlink" href="#c.is_valid_dos_buf" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Ensure that a DOS MBR image is valid</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>buffer which contains the MBR</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.write_mbr_sector">
+int <code class="sig-name descname">write_mbr_sector</code><span class="sig-paren">(</span><em class="property">struct</em> blk_desc *<em>dev_desc</em>, void *<em>buf</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/write_mbr_sector"></a><a class="headerlink" href="#c.write_mbr_sector" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write DOS MBR</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">blk_desc</span> <span class="pre">*dev_desc</span></code></dt><dd><p>block device descriptor</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>buffer which contains the MBR</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success, otherwise error</p>
+<dl class="c function">
+<dt id="c.part_driver_get_count">
+int <code class="sig-name descname">part_driver_get_count</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_driver_get_count"></a><a class="headerlink" href="#c.part_driver_get_count" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get partition driver count</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of partition drivers</p>
+<dl class="c function">
+<dt id="c.part_driver_get_first">
+<em class="property">struct</em> <a class="reference internal" href="#c.part_driver" title="part_driver">part_driver</a> *<code class="sig-name descname">part_driver_get_first</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_driver_get_first"></a><a class="headerlink" href="#c.part_driver_get_first" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get first partition driver</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>pointer to first partition driver on success, otherwise NULL</p>
+<dl class="c function">
+<dt id="c.part_get_type_by_name">
+int <code class="sig-name descname">part_get_type_by_name</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/part_get_type_by_name"></a><a class="headerlink" href="#c.part_get_type_by_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get partition type by name</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name of partition type to look up (not case-sensitive)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>Corresponding partition type (PART_TYPE_…) or PART_TYPE_UNKNOWN</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="nvmem.html" rel="prev" title="NVMEM API"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="pinctrl.html" rel="next" title="Pinctrl and Pinmux">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

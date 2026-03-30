@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Introduction to testing — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="py_testing.html" rel="next" title="U-Boot pytest suite"/>
+<link href="package/bintools.html" rel="prev" title="Binman bintool Documentation"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#testing">Testing</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Introduction to testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#running-tests">Running tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sandbox">Sandbox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytest-suite">Pytest Suite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tbot">tbot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ad-hoc-tests">Ad-hoc tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#when-to-write-tests">When to write tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#future-work">Future work</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="py_testing.html">U-Boot pytest suite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests_writing.html">Writing Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests_sandbox.html">Sandbox tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Introduction to testing</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/testing.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction to testing"></a><div class="section" id="introduction-to-testing">
+<h1>Introduction to testing<a class="headerlink" href="#introduction-to-testing" title="Permalink to this headline">¶</a></h1>
+<p>U-Boot has a large amount of code. This file describes how this code is
+tested and what tests you should write when adding a new feature.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running tests"></a><div class="section" id="running-tests">
+<h2>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
+<p>To run most tests on sandbox, type this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make check
+</pre></div>
+</div>
+<p>in the U-Boot directory. Note that only the pytest suite is run using this
+command.</p>
+<p>Some tests take ages to run and are marked with @pytest.mark.slow. To run just
+the quick ones, type this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make qcheck
+</pre></div>
+</div>
+<p>It is also possible to run just the tests for tools (patman, binman, etc.).
+Such tests are included with those tools, i.e. no actual U-Boot unit tests are
+run. Type this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make tcheck
+</pre></div>
+</div>
+<p>You can also run a selection tests in parallel with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make pcheck
+</pre></div>
+</div>
+<p>All of the above use the test/run script with a paremeter to select which tests
+are run. See <a class="reference internal" href="py_testing.html"><span class="doc">U-Boot pytest suite</span></a> for more information.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sandbox"></a><div class="section" id="sandbox">
+<h2>Sandbox<a class="headerlink" href="#sandbox" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot can be built as a user-space application (e.g. for Linux). This
+allows test to be executed without needing target hardware. The ‘sandbox’
+target provides this feature and it is widely used in tests.</p>
+<p>See <a class="reference internal" href="tests_sandbox.html"><span class="doc">Sandbox tests</span></a> for more information.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Pytest Suite"></a><div class="section" id="pytest-suite">
+<h2>Pytest Suite<a class="headerlink" href="#pytest-suite" title="Permalink to this headline">¶</a></h2>
+<p>Many tests are available using the pytest suite, in test/py. This can run
+either on sandbox or on real hardware. It relies on the U-Boot console to
+inject test commands and check the result. It is slower to run than C code,
+but provides the ability to unify lots of tests and summarise their results.</p>
+<p>You can run the tests on sandbox with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./test/py/test.py --bd sandbox --build
+</pre></div>
+</div>
+<p>This will produce HTML output in build-sandbox/test-log.html</p>
+<p>Some tests run with other versions of sandbox. For example sandbox_flattree
+runs the tests with livetree (the hierachical devicetree) disabled. You can
+also select particular tests with -k:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./test/py/test.py --bd sandbox_flattree --build -k hello
+</pre></div>
+</div>
+<p>There are some special tests that run in SPL. For this you need the sandbox_spl
+build:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./test/py/test.py --bd sandbox_spl --build -k test_spl
+</pre></div>
+</div>
+<p>See test/py/README.md for more information about the pytest suite.</p>
+<p>See <a class="reference internal" href="tests_sandbox.html"><span class="doc">Sandbox tests</span></a> for how to run tests directly (not through pytest).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/tbot"></a><div class="section" id="tbot">
+<h2>tbot<a class="headerlink" href="#tbot" title="Permalink to this headline">¶</a></h2>
+<p>Tbot provides a way to execute tests on target hardware. It is intended for
+trying out both U-Boot and Linux (and potentially other software) on a
+number of boards automatically. It can be used to create a continuous test
+environment. See <a class="reference external" href="http://www.tbot.tools">http://www.tbot.tools</a> for more information.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Ad-hoc tests"></a><div class="section" id="ad-hoc-tests">
+<h2>Ad-hoc tests<a class="headerlink" href="#ad-hoc-tests" title="Permalink to this headline">¶</a></h2>
+<p>There are several ad-hoc tests which run outside the pytest environment:</p>
+<dl class="simple">
+<dt>test/fs</dt><dd><p>File system test (shell script)</p>
+</dd>
+<dt>test/image</dt><dd><p>FIT and legacy image tests (shell script and Python)</p>
+</dd>
+<dt>test/stdint</dt><dd><p>A test that stdint.h can be used in U-Boot (shell script)</p>
+</dd>
+<dt>trace</dt><dd><p>Test for the tracing feature (shell script)</p>
+</dd>
+</dl>
+<p>TODO: Move these into pytest.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/When to write tests"></a><div class="section" id="when-to-write-tests">
+<h2>When to write tests<a class="headerlink" href="#when-to-write-tests" title="Permalink to this headline">¶</a></h2>
+<p>If you add code to U-Boot without a test you are taking a risk. Even if you
+perform thorough manual testing at the time of submission, it may break when
+future changes are made to U-Boot. It may even break when applied to mainline,
+if other changes interact with it. A good mindset is that untested code
+probably doesn’t work and should be deleted.</p>
+<p>You can assume that the Pytest suite will be run before patches are accepted
+to mainline, so this provides protection against future breakage.</p>
+<p>On the other hand there is quite a bit of code that is not covered with tests,
+or is covered sparingly. So here are some suggestions:</p>
+<ul class="simple">
+<li><p>If you are adding a new uclass, add a sandbox driver and a test that uses it</p></li>
+<li><p>If you are modifying code covered by an existing test, add a new test case
+to cover your changes</p></li>
+<li><p>If the code you are modifying has not tests, consider writing one. Even a
+very basic test is useful, and may be picked up and enhanced by others. It
+is much easier to add onto a test - writing a new large test can seem
+daunting to most contributors.</p></li>
+</ul>
+<p>See doc:<cite>tests_writing</cite> for how to write tests.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Future work"></a><div class="section" id="future-work">
+<h2>Future work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
+<p>Converting existing shell scripts into pytest tests.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="package/bintools.html" rel="prev" title="Binman bintool Documentation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="py_testing.html" rel="next" title="U-Boot pytest suite">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

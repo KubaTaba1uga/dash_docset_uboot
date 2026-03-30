@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patman patch manager — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="process.html" rel="next" title="U-Boot Development Process"/>
+<link href="docstyle.html" rel="prev" title="Documentation Style"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#general">General</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="board_best_practices.html">Best Practices for Board Ports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codingstyle.html">U-Boot Coding Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="designprinciples.html">U-Boot Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docstyle.html">Documentation Style</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Patman patch manager</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-use-this-tool">How to use this tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-configure-it">How to configure it</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-run-it">How to run it</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-install-it">How to install it</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-add-tags">How to add tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#where-patches-are-sent">Where Patches Are Sent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#patchwork-integration">Patchwork Integration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-work-flow">Example Work Flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-points">General points</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-thoughts">Other thoughts</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="process.html">U-Boot Development Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_cycle.html">Release Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="security.html">Handling of security vulnerabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sending_patches.html">Sending patches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_configuration.html">System configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Patman patch manager</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/patman.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Patman patch manager"></a><div class="section" id="patman-patch-manager">
+<h1>Patman patch manager<a class="headerlink" href="#patman-patch-manager" title="Permalink to this headline">¶</a></h1>
+<p>This tool is a Python script which:</p>
+<ul class="simple">
+<li><p>Creates patch directly from your branch</p></li>
+<li><p>Cleans them up by removing unwanted tags</p></li>
+<li><p>Inserts a cover letter with change lists</p></li>
+<li><p>Runs the patches through checkpatch.pl and its own checks</p></li>
+<li><p>Optionally emails them out to selected people</p></li>
+</ul>
+<p>It also has some Patchwork features:</p>
+<ul class="simple">
+<li><p>shows review tags from Patchwork so you can update your local patches</p></li>
+<li><p>pulls these down into a new branch on request</p></li>
+<li><p>lists comments received on a series</p></li>
+</ul>
+<p>It is intended to automate patch creation and make it a less
+error-prone process. It is useful for U-Boot and Linux work so far,
+since they use the checkpatch.pl script.</p>
+<p>It is configured almost entirely by tags it finds in your commits.
+This means that you can work on a number of different branches at
+once, and keep the settings with each branch rather than having to
+git format-patch, git send-email, etc. with the correct parameters
+each time. So for example if you put:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-to: fred.blogs@napier.co.nz
+</pre></div>
+</div>
+<p>in one of your commits, the series will be sent there.</p>
+<p>In Linux and U-Boot this will also call get_maintainer.pl on each of your
+patches automatically (unless you use -m to disable this).</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installation"></a><div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>You can install patman using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install patch-manager
+</pre></div>
+</div>
+<p>The name is chosen since patman conflicts with an existing package.</p>
+<p>If you are using patman within the U-Boot tree, it may be easiest to add a
+symlink from your local <cite>~/.bin</cite> directory to <cite>/path/to/tools/patman/patman</cite>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to use this tool"></a><div class="section" id="how-to-use-this-tool">
+<h2>How to use this tool<a class="headerlink" href="#how-to-use-this-tool" title="Permalink to this headline">¶</a></h2>
+<p>This tool requires a certain way of working:</p>
+<ul class="simple">
+<li><p>Maintain a number of branches, one for each patch series you are
+working on</p></li>
+<li><p>Add tags into the commits within each branch to indicate where the
+series should be sent, cover letter, version, etc. Most of these are
+normally in the top commit so it is easy to change them with ‘git
+commit –amend’</p></li>
+<li><p>Each branch tracks the upstream branch, so that this script can
+automatically determine the number of commits in it (optional)</p></li>
+<li><p>Check out a branch, and run this script to create and send out your
+patches. Weeks later, change the patches and repeat, knowing that you
+will get a consistent result each time.</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to configure it"></a><div class="section" id="how-to-configure-it">
+<h2>How to configure it<a class="headerlink" href="#how-to-configure-it" title="Permalink to this headline">¶</a></h2>
+<p>For most cases of using patman for U-Boot development, patman can use the
+file ‘doc/git-mailrc’ in your U-Boot directory to supply the email aliases
+you need. To make this work, tell git where to find the file by typing
+this once:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git config sendemail.aliasesfile doc/git-mailrc
+</pre></div>
+</div>
+<p>For both Linux and U-Boot the ‘scripts/get_maintainer.pl’ handles
+figuring out where to send patches pretty well. For other projects,
+you may want to specify a different script to be run, for example via
+a project-specific <cite>.patman</cite> file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># .patman configuration file at the root of some project
+
+[settings]
+get_maintainer_script: etc/teams.scm get-maintainer
+</pre></div>
+</div>
+<p>The <cite>get_maintainer_script</cite> option corresponds to the
+<cite>–get-maintainer-script</cite> argument of the <cite>send</cite> command.  It is
+looked relatively to the root of the current git repository, as well
+as on PATH.  It can also be provided arguments, as shown above.  The
+contract is that the script should accept a patch file name and return
+a list of email addresses, one per line, like <cite>get_maintainer.pl</cite>
+does.</p>
+<p>During the first run patman creates a config file for you by taking the default
+user name and email address from the global .gitconfig file.</p>
+<p>To add your own, create a file <cite>~/.patman</cite> like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># patman alias file
+
+[alias]
+me: Simon Glass &lt;sjg@chromium.org&gt;
+
+u-boot: U-Boot Mailing List &lt;u-boot@lists.denx.de&gt;
+wolfgang: Wolfgang Denk &lt;wd@denx.de&gt;
+others: Mike Frysinger &lt;vapier@gentoo.org&gt;, Fred Bloggs &lt;f.bloggs@napier.net&gt;
+</pre></div>
+</div>
+<p>As hinted above, Patman will also look for a <cite>.patman</cite> configuration
+file at the root of the current project git repository, which makes it
+possible to override the <cite>project</cite> settings variable or anything else
+in a project-specific way. The values of this “local” configuration
+file take precedence over those of the “global” one.</p>
+<p>Aliases are recursive.</p>
+<p>The checkpatch.pl in the U-Boot tools/ subdirectory will be located and
+used. Failing that you can put it into your path or ~/bin/checkpatch.pl</p>
+<p>If you want to avoid sending patches to email addresses that are picked up
+by patman but are known to bounce you can add a [bounces] section to your
+.patman file. Unlike the [alias] section these are simple key: value pairs
+that are not recursive:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[bounces]
+gonefishing: Fred Bloggs &lt;f.bloggs@napier.net&gt;
+</pre></div>
+</div>
+<p>If you want to change the defaults for patman’s command-line arguments,
+you can add a [settings] section to your .patman file.  This can be used
+for any command line option by referring to the “dest” for the option in
+patman.py.  For reference, the useful ones (at the moment) shown below
+(all with the non-default setting):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[settings]
+ignore_errors: True
+process_tags: False
+verbose: True
+smtp_server: /path/to/sendmail
+patchwork_server: https://patchwork.ozlabs.org
+</pre></div>
+</div>
+<p>If you want to adjust settings (or aliases) that affect just a single
+project you can add a section that looks like [project_settings] or
+[project_alias].  If you want to use tags for your linux work, you could do:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[linux_settings]
+process_tags: True
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to run it"></a><div class="section" id="how-to-run-it">
+<h2>How to run it<a class="headerlink" href="#how-to-run-it" title="Permalink to this headline">¶</a></h2>
+<p>First do a dry run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./tools/patman/patman<span class="w"> </span>send<span class="w"> </span>-n
+</pre></div>
+</div>
+<p>If it can’t detect the upstream branch, try telling it how many patches
+there are in your series</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./tools/patman/patman<span class="w"> </span>-c5<span class="w"> </span>send<span class="w"> </span>-n
+</pre></div>
+</div>
+<p>This will create patch files in your current directory and tell you who
+it is thinking of sending them to. Take a look at the patch files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./tools/patman/patman<span class="w"> </span>-c5<span class="w"> </span>-s1<span class="w"> </span>send<span class="w"> </span>-n
+</pre></div>
+</div>
+<p>Similar to the above, but skip the first commit and take the next 5. This
+is useful if your top commit is for setting up testing.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to install it"></a><div class="section" id="how-to-install-it">
+<h2>How to install it<a class="headerlink" href="#how-to-install-it" title="Permalink to this headline">¶</a></h2>
+<p>The most up to date version of patman can be found in the U-Boot sources.
+However to use it on other projects it may be more convenient to install it as
+a standalone application. A distutils installer is included, this can be used
+to install patman:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>tools/patman<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span>install
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to add tags"></a><div class="section" id="how-to-add-tags">
+<h2>How to add tags<a class="headerlink" href="#how-to-add-tags" title="Permalink to this headline">¶</a></h2>
+<p>To make this script useful you must add tags like the following into any
+commit. Most can only appear once in the whole series.</p>
+<dl>
+<dt>Series-to: email / alias</dt><dd><p>Email address / alias to send patch series to (you can add this
+multiple times)</p>
+</dd>
+<dt>Series-cc: email / alias, …</dt><dd><p>Email address / alias to Cc patch series to (you can add this
+multiple times)</p>
+</dd>
+<dt>Series-version: n</dt><dd><p>Sets the version number of this patch series</p>
+</dd>
+<dt>Series-prefix: prefix</dt><dd><p>Sets the subject prefix. Normally empty but it can be RFC for
+RFC patches, or RESEND if you are being ignored. The patch subject
+is like [RFC PATCH] or [RESEND PATCH].
+In the meantime, git format.subjectprefix option will be added as
+well. If your format.subjectprefix is set to InternalProject, then
+the patch shows like: [InternalProject][RFC/RESEND PATCH]</p>
+</dd>
+<dt>Series-postfix: postfix</dt><dd><p>Sets the subject “postfix”. Normally empty, but can be the name of a
+tree such as net or net-next if that needs to be specified. The patch
+subject is like [PATCH net] or [PATCH net-next].</p>
+</dd>
+<dt>Series-name: name</dt><dd><p>Sets the name of the series. You don’t need to have a name, and
+patman does not yet use it, but it is convenient to put the branch
+name here to help you keep track of multiple upstreaming efforts.</p>
+</dd>
+<dt>Series-links: [id | version:id]…</dt><dd><p>Set the ID of the series in patchwork. You can set this after you send
+out the series and look in patchwork for the resulting series. The
+URL you want is the one for the series itself, not any particular patch.
+E.g. for <a class="reference external" href="http://patchwork.ozlabs.org/project/uboot/list/?series=187331">http://patchwork.ozlabs.org/project/uboot/list/?series=187331</a>
+the series ID is 187331. This property can have a list of series IDs,
+one for each version of the series, e.g.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-links: 1:187331 2:188434 189372
+</pre></div>
+</div>
+<p>Patman always uses the one without a version, since it assumes this is
+the latest one. When this tag is provided, patman can compare your local
+branch against patchwork to see what new reviews your series has
+collected (‘patman status’).</p>
+</dd>
+<dt>Series-patchwork-url: url</dt><dd><p>This allows specifying the Patchwork URL for a branch. This overrides
+both the setting files and the command-line argument. The URL should
+include the protocol and web site, with no trailing slash, for example
+‘<a class="reference external" href="https://patchwork.ozlabs.org/project">https://patchwork.ozlabs.org/project</a>’</p>
+</dd>
+<dt>Cover-letter:</dt><dd><p>Sets the cover letter contents for the series. The first line
+will become the subject of the cover letter:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Cover-letter:
+This is the patch set title
+blah blah
+more blah blah
+END
+</pre></div>
+</div>
+</dd>
+<dt>Cover-letter-cc: email / alias</dt><dd><p>Additional email addresses / aliases to send cover letter to (you
+can add this multiple times)</p>
+</dd>
+<dt>Series-notes:</dt><dd><p>Sets some notes for the patch series, which you don’t want in
+the commit messages, but do want to send, The notes are joined
+together and put after the cover letter. Can appear multiple
+times:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-notes:
+blah blah
+blah blah
+more blah blah
+END
+</pre></div>
+</div>
+</dd>
+<dt>Commit-notes:</dt><dd><p>Similar, but for a single commit (patch). These notes will appear
+immediately below the — cut in the patch file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Commit-notes:
+blah blah
+blah blah
+more blah blah
+</pre></div>
+</div>
+</dd>
+<dt>Signed-off-by: Their Name &lt;email&gt;</dt><dd><p>A sign-off is added automatically to your patches (this is
+probably a bug). If you put this tag in your patches, it will
+override the default signoff that patman automatically adds.
+Multiple duplicate signoffs will be removed.</p>
+</dd>
+<dt>Tested-by / Reviewed-by / Acked-by</dt><dd><p>These indicate that someone has tested/reviewed/acked your patch.
+When you get this reply on the mailing list, you can add this
+tag to the relevant commit and the script will include it when
+you send out the next version. If ‘Tested-by:’ is set to
+yourself, it will be removed. No one will believe you.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Tested-by: Their Name &lt;fred@bloggs.com&gt;
+Reviewed-by: Their Name &lt;email&gt;
+Acked-by: Their Name &lt;email&gt;
+</pre></div>
+</div>
+</dd>
+<dt>Series-changes: n</dt><dd><p>This can appear in any commit. It lists the changes for a
+particular version n of that commit. The change list is
+created based on this information. Each commit gets its own
+change list and also the whole thing is repeated in the cover
+letter (where duplicate change lines are merged).</p>
+<p>By adding your change lists into your commits it is easier to
+keep track of what happened. When you amend a commit, remember
+to update the log there and then, knowing that the script will
+do the rest.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-changes: n
+- Guinea pig moved into its cage
+- Other changes ending with a blank line
+&lt;blank line&gt;
+</pre></div>
+</div>
+</dd>
+<dt>Commit-changes: n</dt><dd><p>This tag is like Series-changes, except changes in this changelog will
+only appear in the changelog of the commit this tag is in. This is
+useful when you want to add notes which may not make sense in the cover
+letter. For example, you can have short changes such as “New” or
+“Lint”.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Commit-changes: n
+- This line will not appear in the cover-letter changelog
+&lt;blank line&gt;
+</pre></div>
+</div>
+</dd>
+<dt>Cover-changes: n</dt><dd><p>This tag is like Series-changes, except changes in this changelog will
+only appear in the cover-letter changelog. This is useful to summarize
+changes made with Commit-changes, or to add additional context to
+changes.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Cover-changes: n
+- This line will only appear in the cover letter
+&lt;blank line&gt;
+</pre></div>
+</div>
+</dd>
+<dt>Patch-cc: Their Name &lt;email&gt;</dt><dd><p>This copies a single patch to another email address. Note that the
+Cc: used by git send-email is ignored by patman, but will be
+interpreted by git send-email if you use it.</p>
+</dd>
+<dt>Series-process-log: sort, uniq</dt><dd><p>This tells patman to sort and/or uniq the change logs. Changes may be
+multiple lines long, as long as each subsequent line of a change begins
+with a whitespace character. For example,</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- This change
+  continues onto the next line
+- But this change is separate
+</pre></div>
+</div>
+<p>Use ‘sort’ to sort the entries, and ‘uniq’ to include only
+unique entries. If omitted, no change log processing is done.
+Separate each tag with a comma.</p>
+</dd>
+<dt>Change-Id:</dt><dd><p>This tag is stripped out but is used to generate the Message-Id
+of the emails that will be sent. When you keep the Change-Id the
+same you are asserting that this is a slightly different version
+(but logically the same patch) as other patches that have been
+sent out with the same Change-Id.</p>
+</dd>
+</dl>
+<p>Various other tags are silently removed, like these Chrome OS and
+Gerrit tags:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>BUG=...
+TEST=...
+Review URL:
+Reviewed-on:
+Commit-xxxx: (except Commit-notes)
+</pre></div>
+</div>
+<p>Exercise for the reader: Try adding some tags to one of your current
+patch series and see how the patches turn out.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Where Patches Are Sent"></a><div class="section" id="where-patches-are-sent">
+<h2>Where Patches Are Sent<a class="headerlink" href="#where-patches-are-sent" title="Permalink to this headline">¶</a></h2>
+<p>Once the patches are created, patman sends them using git send-email. The
+whole series is sent to the recipients in Series-to: and Series-cc.
+You can Cc individual patches to other people with the Patch-cc: tag. Tags
+in the subject are also picked up to Cc patches. For example, a commit like
+this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>commit 10212537b85ff9b6e09c82045127522c0f0db981
+Author: Mike Frysinger &lt;vapier@gentoo.org&gt;
+Date:    Mon Nov 7 23:18:44 2011 -0500
+
+x86: arm: add a git mailrc file for maintainers
+
+This should make sending out e-mails to the right people easier.
+
+Patch-cc: sandbox, mikef, ag
+Patch-cc: afleming
+</pre></div>
+</div>
+<p>will create a patch which is copied to x86, arm, sandbox, mikef, ag and
+afleming.</p>
+<p>If you have a cover letter it will get sent to the union of the Patch-cc
+lists of all of the other patches. If you want to sent it to additional
+people you can add a tag:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Cover-letter-cc: &lt;list of addresses&gt;
+</pre></div>
+</div>
+<p>These people will get the cover letter even if they are not on the To/Cc
+list for any of the patches.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Patchwork Integration"></a><div class="section" id="patchwork-integration">
+<h2>Patchwork Integration<a class="headerlink" href="#patchwork-integration" title="Permalink to this headline">¶</a></h2>
+<p>Patman has a very basic integration with Patchwork. If you point patman to
+your series on patchwork it can show you what new reviews have appeared since
+you sent your series.</p>
+<p>To set this up, add a Series-link tag to one of the commits in your series
+(see above).</p>
+<p>Then you can type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>status
+</pre></div>
+</div>
+<p>and patman will show you each patch and what review tags have been collected,
+for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>...
+ 21 x86: mtrr: Update the command to use the new mtrr
+    Reviewed-by: Wolfgang Wallner &lt;wolfgang.wallner@br-automation.com&gt;
+  + Reviewed-by: Bin Meng &lt;bmeng.cn@gmail.com&gt;
+ 22 x86: mtrr: Restructure so command execution is in
+    Reviewed-by: Wolfgang Wallner &lt;wolfgang.wallner@br-automation.com&gt;
+  + Reviewed-by: Bin Meng &lt;bmeng.cn@gmail.com&gt;
+...
+</pre></div>
+</div>
+<p>This shows that patch 21 and 22 were sent out with one review but have since
+attracted another review each. If the series needs changes, you can update
+these commits with the new review tag before sending the next version of the
+series.</p>
+<p>To automatically pull into these tags into a new branch, use the -d option:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>status<span class="w"> </span>-d<span class="w"> </span>mtrr4
+</pre></div>
+</div>
+<p>This will create a new ‘mtrr4’ branch which is the same as your current branch
+but has the new review tags in it. The tags are added in alphabetic order and
+are placed immediately after any existing ack/review/test/fixes tags, or at the
+end. You can check that this worked with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>-b<span class="w"> </span>mtrr4<span class="w"> </span>status
+</pre></div>
+</div>
+<p>which should show that there are no new responses compared to this new branch.</p>
+<p>There is also a -C option to list the comments received for each patch.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example Work Flow"></a><div class="section" id="example-work-flow">
+<h2>Example Work Flow<a class="headerlink" href="#example-work-flow" title="Permalink to this headline">¶</a></h2>
+<p>The basic workflow is to create your commits, add some tags to the top
+commit, and type ‘patman’ to check and send them.</p>
+<p>Here is an example workflow for a series of 4 patches. Let’s say you have
+these rather contrived patches in the following order in branch us-cmd in
+your tree where ‘us’ means your upstreaming activity (newest to oldest as
+output by git log –oneline):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>7c7909c wip
+89234f5 Don't include standard parser if hush is used
+8d640a7 mmc: sparc: Stop using builtin_run_command()
+0c859a9 Rename run_command2() to run_command()
+a74443f sandbox: Rename run_command() to builtin_run_command()
+</pre></div>
+</div>
+<p>The first patch is some test things that enable your code to be compiled,
+but that you don’t want to submit because there is an existing patch for it
+on the list. So you can tell patman to create and check some patches
+(skipping the first patch) with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>-s1<span class="w"> </span>send<span class="w"> </span>-n
+</pre></div>
+</div>
+<p>If you want to do all of them including the work-in-progress one, then
+(if you are tracking an upstream branch):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>send<span class="w"> </span>-n
+</pre></div>
+</div>
+<p>Let’s say that patman reports an error in the second patch. Then:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>-i<span class="w"> </span>HEAD~6
+<span class="c1"># change 'pick' to 'edit' in 89234f5</span>
+<span class="c1"># use editor to make code changes</span>
+git<span class="w"> </span>add<span class="w"> </span>-u
+git<span class="w"> </span>rebase<span class="w"> </span>--continue
+</pre></div>
+</div>
+<p>Now you have an updated patch series. To check it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>-s1<span class="w"> </span>send<span class="w"> </span>-n
+</pre></div>
+</div>
+<p>Let’s say it is now clean and you want to send it. Now you need to set up
+the destination. So amend the top commit with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend
+</pre></div>
+</div>
+<p>Use your editor to add some tags, so that the whole commit message is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The current run_command() is really only one of the options, with
+hush providing the other. It really shouldn't be called directly
+in case the hush parser is bring used, so rename this function to
+better explain its purpose::
+
+Series-to: u-boot
+Series-cc: bfin, marex
+Series-prefix: RFC
+Cover-letter:
+Unified command execution in one place
+
+At present two parsers have similar code to execute commands. Also
+cmd_usage() is called all over the place. This series adds a single
+function which processes commands called cmd_process().
+END
+
+Change-Id: Ica71a14c1f0ecb5650f771a32fecb8d2eb9d8a17
+</pre></div>
+</div>
+<p>You want this to be an RFC and Cc the whole series to the bfin alias and
+to Marek. Two of the patches have tags (those are the bits at the front of
+the subject that say mmc: sparc: and sandbox:), so 8d640a7 will be Cc’d to
+mmc and sparc, and the last one to sandbox.</p>
+<p>Now to send the patches, take off the -n flag:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>-s1<span class="w"> </span>send
+</pre></div>
+</div>
+<p>The patches will be created, shown in your editor, and then sent along with
+the cover letter. Note that patman’s tags are automatically removed so that
+people on the list don’t see your secret info.</p>
+<p>Of course patches often attract comments and you need to make some updates.
+Let’s say one person sent comments and you get an Acked-by: on one patch.
+Also, the patch on the list that you were waiting for has been merged,
+so you can drop your wip commit.</p>
+<p>Take a look on patchwork and find out the URL of the series. This will be
+something like <cite>http://patchwork.ozlabs.org/project/uboot/list/?series=187331</cite>
+Add this to a tag in your top commit:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-links: 187331
+</pre></div>
+</div>
+<p>You can use then patman to collect the Acked-by tag to the correct commit,
+creating a new ‘version 2’ branch for us-cmd:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>status<span class="w"> </span>-d<span class="w"> </span>us-cmd2
+git<span class="w"> </span>checkout<span class="w"> </span>us-cmd2
+</pre></div>
+</div>
+<p>You can look at the comments in Patchwork or with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman<span class="w"> </span>status<span class="w"> </span>-C
+</pre></div>
+</div>
+<p>Then you can resync with upstream:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>origin<span class="w">        </span><span class="c1"># or whatever upstream is called</span>
+git<span class="w"> </span>rebase<span class="w"> </span>origin/master
+</pre></div>
+</div>
+<p>and use git rebase -i to edit the commits, dropping the wip one.</p>
+<p>Then update the <cite>Series-cc:</cite> in the top commit to add the person who reviewed
+the v1 series:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-cc: bfin, marex, Heiko Schocher &lt;hs@denx.de&gt;
+</pre></div>
+</div>
+<p>and remove the Series-prefix: tag since it it isn’t an RFC any more. The
+series is now version two, so the series info in the top commit looks like
+this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-to: u-boot
+Series-cc: bfin, marex, Heiko Schocher &lt;hs@denx.de&gt;
+Series-version: 2
+Cover-letter:
+...
+</pre></div>
+</div>
+<p>Finally, you need to add a change log to the two commits you changed. You
+add change logs to each individual commit where the changes happened, like
+this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-changes: 2
+- Updated the command decoder to reduce code size
+- Wound the torque propounder up a little more
+</pre></div>
+</div>
+<p>(note the blank line at the end of the list)</p>
+<p>When you run patman it will collect all the change logs from the different
+commits and combine them into the cover letter, if you have one. So finally
+you have a new series of commits:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>faeb973 Don't include standard parser if hush is used
+1b2f2fe mmc: sparc: Stop using builtin_run_command()
+cfbe330 Rename run_command2() to run_command()
+0682677 sandbox: Rename run_command() to builtin_run_command()
+</pre></div>
+</div>
+<p>so to send them:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>patman
+</pre></div>
+</div>
+<p>and it will create and send the version 2 series.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/General points"></a><div class="section" id="general-points">
+<h2>General points<a class="headerlink" href="#general-points" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>When you change back to the us-cmd branch days or weeks later all your
+information is still there, safely stored in the commits. You don’t need
+to remember what version you are up to, who you sent the last lot of patches
+to, or anything about the change logs.</p></li>
+<li><p>If you put tags in the subject, patman will Cc the maintainers
+automatically in many cases.</p></li>
+<li><p>If you want to keep the commits from each series you sent so that you can
+compare change and see what you did, you can either create a new branch for
+each version, or just tag the branch before you start changing it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>sent/us-cmd-rfc
+<span class="c1"># ...later...</span>
+git<span class="w"> </span>tag<span class="w"> </span>sent/us-cmd-v2
+</pre></div>
+</div>
+</li>
+<li><p>If you want to modify the patches a little before sending, you can do
+this in your editor, but be careful!</p></li>
+<li><p>If you want to run git send-email yourself, use the -n flag which will
+print out the command line patman would have used.</p></li>
+<li><p>It is a good idea to add the change log info as you change the commit,
+not later when you can’t remember which patch you changed. You can always
+go back and change or remove logs from commits.</p></li>
+<li><p>Some mailing lists have size limits and when we add binary contents to
+our patches it’s easy to exceed the size limits. Use “–no-binary” to
+generate patches without any binary contents. You are supposed to include
+a link to a git repository in your “Commit-notes”, “Series-notes” or
+“Cover-letter” for maintainers to fetch the original commit.</p></li>
+<li><p>Patches will have no changelog entries for revisions where they did not
+change. For clarity, if there are no changes for this patch in the most
+recent revision of the series, a note will be added. For example, a patch
+with the following tags in the commit:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Series-version: 5
+Series-changes: 2
+- Some change
+
+Series-changes: 4
+- Another change
+</pre></div>
+</div>
+<p>would have a changelog of::</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(no changes since v4)
+
+Changes in v4:
+- Another change
+
+Changes in v2:
+- Some change
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Other thoughts"></a><div class="section" id="other-thoughts">
+<h2>Other thoughts<a class="headerlink" href="#other-thoughts" title="Permalink to this headline">¶</a></h2>
+<p>This script has been split into sensible files but still needs work.
+Most of these are indicated by a TODO in the code.</p>
+<p>It would be nice if this could handle the In-reply-to side of things.</p>
+<p>The tests are incomplete, as is customary. Use the ‘test’ subcommand to run
+them:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tools/patman/patman<span class="w"> </span><span class="nb">test</span>
+</pre></div>
+</div>
+<p>Note that since the test suite depends on data files only available in
+the git checkout, the <cite>test</cite> command is hidden unless <cite>patman</cite> is
+invoked from the U-Boot git repository.</p>
+<p>Alternatively, you can run the test suite via Pytest:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>tools/patman<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pytest
+</pre></div>
+</div>
+<p>Error handling doesn’t always produce friendly error messages - e.g.
+putting an incorrect tag in a commit may provide a confusing message.</p>
+<p>There might be a few other features not mentioned in this README. They
+might be bugs. In particular, tags are case sensitive which is probably
+a bad thing.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="docstyle.html" rel="prev" title="Documentation Style"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="process.html" rel="next" title="U-Boot Development Process">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

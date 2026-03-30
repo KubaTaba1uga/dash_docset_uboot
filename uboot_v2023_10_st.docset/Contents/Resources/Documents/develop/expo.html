@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Expo menu — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="event.html" rel="next" title="Events"/>
+<link href="environment.html" rel="prev" title="Environment implementation"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Expo menu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#motivation">Motivation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concepts">Concepts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-an-expo">Creating an expo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#layout">Layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rendering">Rendering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input">Input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event-loop">Event loop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#themes">Themes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pop-up-mode">Pop-up mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expo-format">Expo Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-documentation">API documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#future-ideas">Future ideas</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Expo menu</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/expo.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Expo menu"></a><div class="section" id="expo-menu">
+<h1>Expo menu<a class="headerlink" href="#expo-menu" title="Permalink to this headline">¶</a></h1>
+<p>U-Boot provides a menu implementation for use with selecting bootflows and
+changing U-Boot settings. This is in early stages of development.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Motivation"></a><div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot already has a text-based menu system accessed via the
+<a class="reference internal" href="../usage/cmd/bootmenu.html"><span class="doc">bootmenu command</span></a>. This works using environment variables, or via
+some EFI-specific hacks.</p>
+<p>The command makes use of a lower-level <cite>menu</cite> implementation, which is quite
+flexible and can be used to make menu hierarchies.</p>
+<p>However this system is not flexible enough for use with standard boot. It does
+not support a graphical user interface and cannot currently support anything
+more than a very simple list of items. While it does support multiple menus in
+hierarchies, these are implemented by the caller. See for example <cite>eficonfig.c</cite>.</p>
+<p>Another challenge with the current menu implementation is that it controls
+the event loop, such that bootmenu_loop() does not return until a key is
+pressed. This makes it difficult to implement dynamic displays or to do other
+things while the menu is running, such as searching for more bootflows.</p>
+<p>For these reasons an attempt has been made to develop a more flexible system
+which can handle menus as well as other elements. This is called ‘expo’, short
+for exposition, in an attempt to avoid common words like display, screen, menu
+and the like. The primary goal is to support Verified Boot for Embedded (VBE),
+although it is available to any boot method, using the ‘bootflow menu’ command.</p>
+<p>Efforts have been made to use common code with the existing menu, including
+key processing in particular.</p>
+<p>Previous work looked at integrating Nuklear into U-Boot. This works fine and
+could provide a way to provide a more flexible UI, perhaps with expo dealing
+with the interface to Nuklear. But this is quite a big step and it may be years
+before this becomes desirable, if at all. For now, U-Boot only needs a fairly
+simple set of menus and options, so rendering them directly is fairly
+straightforward.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Concepts"></a><div class="section" id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h2>
+<p>The creator of the expo is here called a <cite>controller</cite> and it controls most
+aspects of the expo. This is the code that you must write to use expo.</p>
+<p>An <cite>expo</cite> is a set of scenes which can be presented to the user one at a time,
+to show information and obtain input from the user.</p>
+<p>A <cite>scene</cite> is a collection of objects which are displayed together on the screen.
+Only one scene is visible at a time and scenes do not share objects.</p>
+<p>A <cite>scene object</cite> is something that appears in the scene, such as some text, an
+image or a menu. Objects can be positioned and hidden.</p>
+<p>A <cite>menu object</cite> contains a title, a set of <cite>menu items</cite> and a pointer to the
+current item. Menu items consist of a keypress (indicating what to press to
+select the item), label and description. All three are shown in a single line
+within the menu. Items can also have a preview image, which is shown when the
+item is highlighted.</p>
+<p>All components have a name. This is purely for debugging, so it is easy to see
+what object is referred to. Of course the ID numbers can help as well, but they
+are less easy to distinguish.</p>
+<p>While the expo implementation provides support for handling keypresses and
+rendering on the display or serial port, it does not actually deal with reading
+input from the user, nor what should be done when a particular menu item is
+selected. This is deliberate since having the event loop outside the expo is
+more flexible, particularly in a single-threaded environment like U-Boot.</p>
+<p>Everything within an expo has a unique ID number. This is done so that it is
+easy to refer to things after the expo has been created. The expectation is that
+the controller declares an enum containing all of the elements in the expo,
+passing the ID of each object as it is created. When a menu item is selected,
+its ID is returned. When a object’s font or position needs to change, the ID is
+passed to expo functions to indicate which object it is. It is possible for expo
+to auto-allocate IDs, but this is not recommended. The use of IDs is a
+convenience, removing the need for the controller to store pointers to objects,
+or even the IDs of objects. Programmatic creation of many items in a loop can be
+handled by allocating space in the enum for a maximum number of items, then
+adding the loop count to the enum values to obtain unique IDs.</p>
+<p>Where dynamic IDs are need, use expo_set_dynamic_start() to set the start value,
+so that they are allocated above the starting (enum) IDs.</p>
+<p>All text strings are stored in a structure attached to the expo, referenced by
+a text ID. This makes it easier at some point to implement multiple languages or
+to support Unicode strings.</p>
+<p>Menu objects do not have their own text and image objects. Instead they simply
+refer to objects which have been created. So a menu item is just a collection
+of IDs of text and image objects. When adding a menu item you must create these
+objects first, then create the menu item, passing in the relevant IDs.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Creating an expo"></a><div class="section" id="creating-an-expo">
+<h2>Creating an expo<a class="headerlink" href="#creating-an-expo" title="Permalink to this headline">¶</a></h2>
+<p>To create an expo programmatically, use <cite>expo_new()</cite> followed by <cite>scene_new()</cite>
+to create a scene. Then add objects to the scene, using functions like
+<cite>scene_txt_str()</cite> and <cite>scene_menu()</cite>. For every menu item, add text and image
+objects, then create the menu item with <cite>scene_menuitem()</cite>, referring to those
+objects.</p>
+<p>To create an expo using a description file, see <a class="reference internal" href="#expo-format"><span class="std std-ref">Expo Format</span></a> below.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Layout"></a><div class="section" id="layout">
+<h2>Layout<a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h2>
+<p>Individual objects can be positioned using <cite>scene_obj_set_pos()</cite>. Menu items
+cannot be positioned manually: this is done by <cite>scene_arrange()</cite> which is called
+automatically when something changes. The menu itself determines the position of
+its items.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Rendering"></a><div class="section" id="rendering">
+<h2>Rendering<a class="headerlink" href="#rendering" title="Permalink to this headline">¶</a></h2>
+<p>Rendering is performed by calling <cite>expo_render()</cite>. This uses either the
+vidconsole, if present, or the serial console in <cite>text mode</cite>. Expo handles
+presentation automatically in either case, without any change in how the expo is
+created.</p>
+<p>For the vidconsole, Truetype fonts can be used if enabled, to enhance the
+quality of the display. For text mode, each menu item is shown in a single line,
+allowing easy selection using arrow keys.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Input"></a><div class="section" id="input">
+<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
+<p>The controller is responsible for collecting keyboard input. A good way to do
+this is to use <cite>cli_ch_process()</cite>, since it handles conversion of escape
+sequences into keys. However, expo has some special menu-key codes for
+navigating the interface. These are defined in <cite>enum bootmenu_key</cite> and include
+<cite>BKEY_UP</cite> for moving up and <cite>BKEY_SELECT</cite> for selecting an item. You can use
+<cite>bootmenu_conv_key()</cite> to convert an ASCII key into one of these.</p>
+<p>Once a keypress is decoded, call <cite>expo_send_key()</cite> to send it to the expo. This
+may cause an update to the expo state and may produce an action.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Actions"></a><div class="section" id="actions">
+<h2>Actions<a class="headerlink" href="#actions" title="Permalink to this headline">¶</a></h2>
+<p>Call <cite>expo_action_get()</cite> in the event loop to check for any actions that the
+expo wants to report. These can include selecting a particular menu item, or
+quitting the menu. Processing of these is the responsibility of your controller.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Event loop"></a><div class="section" id="event-loop">
+<h2>Event loop<a class="headerlink" href="#event-loop" title="Permalink to this headline">¶</a></h2>
+<p>Expo is intended to be used in an event loop. For an example loop, see
+<cite>bootflow_menu_run()</cite>. It is possible to perform other work in your event loop,
+such as scanning devices for more bootflows.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Themes"></a><div class="section" id="themes">
+<h2>Themes<a class="headerlink" href="#themes" title="Permalink to this headline">¶</a></h2>
+<p>Expo supports simple themes, for setting the font size, for example. Use the
+expo_apply_theme() function to load a theme, passing a node with the required
+properties:</p>
+<dl class="simple">
+<dt>font-size</dt><dd><p>Font size to use for all text (type: u32)</p>
+</dd>
+<dt>menu-inset</dt><dd><p>Number of pixels to inset the menu on the sides and top (type: u32)</p>
+</dd>
+<dt>menuitem-gap-y</dt><dd><p>Number of pixels between menu items</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Pop-up mode"></a><div class="section" id="pop-up-mode">
+<h2>Pop-up mode<a class="headerlink" href="#pop-up-mode" title="Permalink to this headline">¶</a></h2>
+<p>Expos support two modes. The simple mode is used for selecting from a single
+menu, e.g. when choosing with OS to boot. In this mode the menu items are shown
+in a list (label, &gt; pointer, key and description) and can be chosen using arrow
+keys and enter:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>U-Boot Boot Menu
+
+UP and DOWN to choose, ENTER to select
+
+mmc1           &gt; 0  Fedora-Workstation-armhfp-31-1.9
+mmc3             1  Armbian
+</pre></div>
+</div>
+<p>The popup mode allows multiple menus to be present in a scene. Each is shown
+just as its title and label, as with the <cite>CPU Speed</cite> and <cite>AC Power</cite> menus here:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>           Test Configuration
+
+
+CPU Speed        &lt;2 GHz&gt;  (highlighted)
+
+AC Power         Always Off
+
+
+  UP and DOWN to choose, ENTER to select
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Expo Format"></a><a class="dashAnchor" name="//apple_ref/cpp/Section/Expo Format"></a><div class="section" id="expo-format">
+<span id="id1"></span><h2>Expo Format<a class="headerlink" href="#expo-format" title="Permalink to this headline">¶</a></h2>
+<p>It can be tedious to create a complex expo using code. Expo supports a
+data-driven approach, where the expo description is in a devicetree file. This
+makes it easier and faster to create and edit the description. An expo builder
+is provided to convert this format into an expo structure.</p>
+<p>Layout of the expo scenes is handled automatically, based on a set of simple
+rules. The <a class="reference internal" href="../usage/cmd/cedit.html"><span class="doc">cedit command</span></a> can be used to load a configuration
+and create an expo from it.</p>
+<div class="section" id="top-level-node">
+<h3>Top-level node<a class="headerlink" href="#top-level-node" title="Permalink to this headline">¶</a></h3>
+<p>The top-level node has the following properties:</p>
+<dl>
+<dt>dynamic-start</dt><dd><p>type: u32, optional</p>
+<p>Specifies the start of the dynamically allocated objects. This results in
+a call to expo_set_dynamic_start().</p>
+</dd>
+</dl>
+<p>The top-level node has the following subnodes:</p>
+<dl class="simple">
+<dt>scenes</dt><dd><p>Specifies the scenes in the expo, each one being a subnode</p>
+</dd>
+<dt>strings</dt><dd><p>Specifies the strings in the expo, each one being a subnode</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="scenes-node">
+<h3><cite>scenes</cite> node<a class="headerlink" href="#scenes-node" title="Permalink to this headline">¶</a></h3>
+<p>Contains a list of scene subnodes. The name of each subnode is passed as the
+name to <cite>scene_new()</cite>.</p>
+</div>
+<div class="section" id="strings-node">
+<h3><cite>strings</cite> node<a class="headerlink" href="#strings-node" title="Permalink to this headline">¶</a></h3>
+<p>Contains a list of string subnodes. The name of each subnode is ignored.</p>
+</div>
+<div class="section" id="strings-subnodes">
+<h3><cite>strings</cite> subnodes<a class="headerlink" href="#strings-subnodes" title="Permalink to this headline">¶</a></h3>
+<p>Each subnode defines a string which can be used by scenes and objects. Each
+string has an ID number which is used to refer to it.</p>
+<p>The <cite>strings</cite> subnodes have the following properties:</p>
+<dl>
+<dt>id</dt><dd><p>type: u32, required</p>
+<p>Specifies the ID number for the string.</p>
+</dd>
+<dt>value:</dt><dd><p>type: string, required</p>
+<p>Specifies the string text. For now only a single value is supported. Future
+work may add support for multiple languages by using a value for each
+language.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="scene-nodes-scenes-subnodes">
+<h3>Scene nodes (<cite>scenes</cite> subnodes)<a class="headerlink" href="#scene-nodes-scenes-subnodes" title="Permalink to this headline">¶</a></h3>
+<p>Each subnode of the <cite>scenes</cite> node contains a scene description.</p>
+<p>Most properties can use either a string or a string ID. For example, a <cite>title</cite>
+property can be used to provide the title for a menu; alternatively a <cite>title-id</cite>
+property can provide the string ID of the title. If both are present, the
+ID takes preference, except that if a string with that ID does not exist, it
+falls back to using the string from the property (<cite>title</cite> in this example). The
+description below shows these are alternative properties with the same
+description.</p>
+<p>The scene nodes have the following properties:</p>
+<dl>
+<dt>id</dt><dd><p>type: u32, required</p>
+<p>Specifies the ID number for the string.</p>
+</dd>
+<dt>title / title-id</dt><dd><p>type: string / u32, required</p>
+<p>Specifies the title of the scene. This is shown at the top of the scene.</p>
+</dd>
+<dt>prompt / prompt-id</dt><dd><p>type: string / u32, required</p>
+<p>Specifies a prompt for the scene. This is shown at the bottom of the scene.</p>
+</dd>
+</dl>
+<p>The scene nodes have a subnode for each object in the scene.</p>
+</div>
+<div class="section" id="object-nodes">
+<h3>Object nodes<a class="headerlink" href="#object-nodes" title="Permalink to this headline">¶</a></h3>
+<p>The object-node name is used as the name of the object, e.g. when calling
+<cite>scene_menu()</cite> to create a menu.</p>
+<p>Object nodes have the following common properties:</p>
+<dl>
+<dt>type</dt><dd><p>type: string, required</p>
+<p>Specifies the type of the object. Valid types are:</p>
+<dl class="simple">
+<dt>“menu”</dt><dd><p>Menu containing items which can be selected by the user</p>
+</dd>
+</dl>
+</dd>
+<dt>id</dt><dd><p>type: u32, required</p>
+<p>Specifies the ID of the object. This is used when referring to the object.</p>
+</dd>
+</dl>
+<p>Menu nodes have the following additional properties:</p>
+<dl>
+<dt>title / title-id</dt><dd><p>type: string / u32, required</p>
+<p>Specifies the title of the menu. This is shown to the left of the area for
+this menu.</p>
+</dd>
+<dt>item-id</dt><dd><p>type: u32 list, required</p>
+<p>Specifies the ID for each menu item. These are used for checking which item
+has been selected.</p>
+</dd>
+<dt>item-label / item-label-id</dt><dd><p>type: string list / u32 list, required</p>
+<p>Specifies the label for each item in the menu. These are shown to the user.
+In ‘popup’ mode these form the items in the menu.</p>
+</dd>
+<dt>key-label / key-label-id</dt><dd><p>type: string list / u32 list, optional</p>
+<p>Specifies the key for each item in the menu. These are currently only
+intended for use in simple mode.</p>
+</dd>
+<dt>desc-label / desc-label-id</dt><dd><p>type: string list / u32 list, optional</p>
+<p>Specifies the description for each item in the menu. These are currently
+only intended for use in simple mode.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="expo-layout">
+<h3>Expo layout<a class="headerlink" href="#expo-layout" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>expo_arrange()</cite> function can be called to arrange the expo objects in a
+suitable manner. For each scene it puts the title at the top, the prompt at the
+bottom and the objects in order from top to bottom.</p>
+</div>
+<div class="section" id="expo-format-example">
+<h3>Expo format example<a class="headerlink" href="#expo-format-example" title="Permalink to this headline">¶</a></h3>
+<p>This example shows an expo with a single scene consisting of two menus. The
+scene title is specified using a string from the strings table, but all other
+strings are provided inline in the nodes where they are used.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#define ID_PROMPT           1
+#define ID_SCENE1           2
+#define ID_SCENE1_TITLE     3
+
+#define ID_CPU_SPEED        4
+#define ID_CPU_SPEED_TITLE  5
+#define ID_CPU_SPEED_1      6
+#define ID_CPU_SPEED_2      7
+#define ID_CPU_SPEED_3      8
+
+#define ID_POWER_LOSS       9
+#define ID_AC_OFF           10
+#define ID_AC_ON            11
+#define ID_AC_MEMORY        12
+
+#define ID_DYNAMIC_START    13
+
+&amp;cedit {
+    dynamic-start = &lt;ID_DYNAMIC_START&gt;;
+
+    scenes {
+        main {
+            id = &lt;ID_SCENE1&gt;;
+
+            /* value refers to the matching id in /strings */
+            title-id = &lt;ID_SCENE1_TITLE&gt;;
+
+            /* simple string is used as it is */
+            prompt = "UP and DOWN to choose, ENTER to select";
+
+            /* defines a menu within the scene */
+            cpu-speed {
+                type = "menu";
+                id = &lt;ID_CPU_SPEED&gt;;
+
+                /*
+                 * has both string and ID. The string is ignored
+                 * if the ID is present and points to a string
+                 */
+                title = "CPU speed";
+                title-id = &lt;ID_CPU_SPEED_TITLE&gt;;
+
+                /* menu items as simple strings */
+                item-label = "2 GHz", "2.5 GHz", "3 GHz";
+
+                /* IDs for the menu items */
+                item-id = &lt;ID_CPU_SPEED_1 ID_CPU_SPEED_2
+                    ID_CPU_SPEED_3&gt;;
+            };
+
+            power-loss {
+                type = "menu";
+                id = &lt;ID_POWER_LOSS&gt;;
+
+                title = "AC Power";
+                item-label = "Always Off", "Always On",
+                    "Memory";
+
+                item-id = &lt;ID_AC_OFF ID_AC_ON ID_AC_MEMORY&gt;;
+            };
+        };
+    };
+
+    strings {
+        title {
+            id = &lt;ID_SCENE1_TITLE&gt;;
+            value = "Test Configuration";
+            value-es = "configuración de prueba";
+        };
+    };
+};
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/API documentation"></a><div class="section" id="api-documentation">
+<h2>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="c enum">
+<dt id="c.expoact_type">
+<em class="property">enum </em><code class="sig-name descname">expoact_type</code><a class="headerlink" href="#c.expoact_type" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>types of actions reported by the expo</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">EXPOACT_NONE</span></code></dt><dd><p>no action</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPOACT_POINT_OBJ</span></code></dt><dd><p>object was highlighted (<strong>id</strong> indicates which)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPOACT_POINT_ITEM</span></code></dt><dd><p>menu item was highlighted (<strong>id</strong> indicates which)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPOACT_SELECT</span></code></dt><dd><p>menu item was selected (<strong>id</strong> indicates which)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPOACT_OPEN</span></code></dt><dd><p>menu was opened, so an item can be selected (<strong>id</strong> indicates
+which menu object)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPOACT_CLOSE</span></code></dt><dd><p>menu was closed (<strong>id</strong> indicates which menu object)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPOACT_QUIT</span></code></dt><dd><p>request to exit the menu</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.expo_action">
+<em class="property">struct </em><code class="sig-name descname">expo_action</code><a class="headerlink" href="#c.expo_action" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>an action report by the expo</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct expo_action {
+  enum expoact_type type;
+  union {
+    struct {
+      int id;
+    } select;
+  };
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>Action type (EXPOACT_NONE if there is no action)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">{unnamed_union}</span></code></dt><dd><p>anonymous</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">select</span></code></dt><dd><p>Used for EXPOACT_POINT_ITEM and EXPOACT_SELECT</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.expo_theme">
+<em class="property">struct </em><code class="sig-name descname">expo_theme</code><a class="headerlink" href="#c.expo_theme" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>theme for the expo</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct expo_theme {
+  u32 font_size;
+  u32 menu_inset;
+  u32 menuitem_gap_y;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">font_size</span></code></dt><dd><p>Default font size for all text</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">menu_inset</span></code></dt><dd><p>Inset width (on each side and top/bottom) for menu items</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">menuitem_gap_y</span></code></dt><dd><p>Gap between menu items in pixels</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.expo">
+<em class="property">struct </em><code class="sig-name descname">expo</code><a class="headerlink" href="#c.expo" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>information about an expo</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct expo {
+  char *name;
+  struct udevice *display;
+  struct udevice *cons;
+  uint scene_id;
+  uint next_id;
+  struct expo_action action;
+  bool text_mode;
+  bool popup;
+  void *priv;
+  struct expo_theme theme;
+  struct list_head scene_head;
+  struct list_head str_head;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Name of the expo (allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">display</span></code></dt><dd><p>Display to use (<cite>UCLASS_VIDEO</cite>), or NULL to use text mode</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cons</span></code></dt><dd><p>Console to use (<cite>UCLASS_VIDEO_CONSOLE</cite>), or NULL to use text mode</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">scene_id</span></code></dt><dd><p>Current scene ID (0 if none)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">next_id</span></code></dt><dd><p>Next ID number to use, for automatic allocation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">action</span></code></dt><dd><p>Action selected by user. At present only one is supported, with the
+type set to EXPOACT_NONE if there is no action</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">text_mode</span></code></dt><dd><p>true to use text mode for the menu (no vidconsole)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">popup</span></code></dt><dd><p>true to use popup menus, instead of showing all items</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">priv</span></code></dt><dd><p>Private data for the controller</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">theme</span></code></dt><dd><p>Information about fonts styles, etc.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">scene_head</span></code></dt><dd><p>List of scenes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">str_head</span></code></dt><dd><p>list of strings</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>A group of scenes which can be presented to the user, typically to obtain
+input or to make a selection.</p>
+<dl class="c struct">
+<dt id="c.expo_string">
+<em class="property">struct </em><code class="sig-name descname">expo_string</code><a class="headerlink" href="#c.expo_string" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>a string that can be used in an expo</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct expo_string {
+  uint id;
+  const char *str;
+  struct list_head sibling;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">id</span></code></dt><dd><p>ID number of the string</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">str</span></code></dt><dd><p>String</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">sibling</span></code></dt><dd><p>Node to link this object to its siblings</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.scene">
+<em class="property">struct </em><code class="sig-name descname">scene</code><a class="headerlink" href="#c.scene" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>information about a scene in an expo</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct scene {
+  struct expo *expo;
+  char *name;
+  uint id;
+  uint title_id;
+  uint highlight_id;
+  struct list_head sibling;
+  struct list_head obj_head;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">expo</span></code></dt><dd><p>Expo this scene is part of</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Name of the scene (allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">id</span></code></dt><dd><p>ID number of the scene</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">title_id</span></code></dt><dd><p>String ID of title of the scene (allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">highlight_id</span></code></dt><dd><p>ID of highlighted object, if any</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">sibling</span></code></dt><dd><p>Node to link this scene to its siblings</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">obj_head</span></code></dt><dd><p>List of objects in the scene</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>A collection of text/image/menu items in an expo</p>
+<dl class="c enum">
+<dt id="c.scene_obj_t">
+<em class="property">enum </em><code class="sig-name descname">scene_obj_t</code><a class="headerlink" href="#c.scene_obj_t" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>type of a scene object</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SCENEOBJT_NONE</span></code></dt><dd><p>Used to indicate that the type does not matter</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SCENEOBJT_IMAGE</span></code></dt><dd><p>Image data to render</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SCENEOBJT_TEXT</span></code></dt><dd><p>Text line to render</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SCENEOBJT_MENU</span></code></dt><dd><p>Menu containing items the user can select</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.scene_dim">
+<em class="property">struct </em><code class="sig-name descname">scene_dim</code><a class="headerlink" href="#c.scene_dim" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Dimensions of an object</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct scene_dim {
+  int x;
+  int y;
+  int w;
+  int h;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">x</span></code></dt><dd><p>x position, in pixels from left side</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">y</span></code></dt><dd><p>y position, in pixels from top</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">w</span></code></dt><dd><p>width, in pixels</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">h</span></code></dt><dd><p>height, in pixels</p>
+</dd>
+</dl>
+<dl class="c enum">
+<dt id="c.scene_obj_flags_t">
+<em class="property">enum </em><code class="sig-name descname">scene_obj_flags_t</code><a class="headerlink" href="#c.scene_obj_flags_t" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>flags for objects</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SCENEOF_HIDE</span></code></dt><dd><p>object should be hidden</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SCENEOF_POINT</span></code></dt><dd><p>object should be highlighted</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SCENEOF_OPEN</span></code></dt><dd><p>object should be opened (e.g. menu is opened so that an option
+can be selected)</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.scene_obj">
+<em class="property">struct </em><code class="sig-name descname">scene_obj</code><a class="headerlink" href="#c.scene_obj" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>information about an object in a scene</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct scene_obj {
+  struct scene *scene;
+  char *name;
+  uint id;
+  enum scene_obj_t type;
+  struct scene_dim dim;
+  int flags;
+  struct list_head sibling;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">scene</span></code></dt><dd><p>Scene that this object relates to</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Name of the object (allocated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">id</span></code></dt><dd><p>ID number of the object</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>Type of this object</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dim</span></code></dt><dd><p>Dimensions for this object</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Flags for this object</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">sibling</span></code></dt><dd><p>Node to link this object to its siblings</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.scene_obj_img">
+<em class="property">struct </em><code class="sig-name descname">scene_obj_img</code><a class="headerlink" href="#c.scene_obj_img" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>information about an image object in a scene</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct scene_obj_img {
+  struct scene_obj obj;
+  char *data;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">obj</span></code></dt><dd><p>Basic object information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">data</span></code></dt><dd><p>Image data in BMP format</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This is a rectangular image which is blitted onto the display</p>
+<dl class="c struct">
+<dt id="c.scene_obj_txt">
+<em class="property">struct </em><code class="sig-name descname">scene_obj_txt</code><a class="headerlink" href="#c.scene_obj_txt" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>information about a text object in a scene</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct scene_obj_txt {
+  struct scene_obj obj;
+  uint str_id;
+  const char *font_name;
+  uint font_size;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">obj</span></code></dt><dd><p>Basic object information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">str_id</span></code></dt><dd><p>ID of the text string to display</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">font_name</span></code></dt><dd><p>Name of font (allocated by caller)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">font_size</span></code></dt><dd><p>Nominal size of font in pixels</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This is a single-line text object</p>
+<dl class="c struct">
+<dt id="c.scene_obj_menu">
+<em class="property">struct </em><code class="sig-name descname">scene_obj_menu</code><a class="headerlink" href="#c.scene_obj_menu" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>information about a menu object in a scene</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct scene_obj_menu {
+  struct scene_obj obj;
+  uint title_id;
+  uint cur_item_id;
+  uint pointer_id;
+  struct list_head item_head;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">obj</span></code></dt><dd><p>Basic object information</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">title_id</span></code></dt><dd><p>ID of the title text, or 0 if none</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cur_item_id</span></code></dt><dd><p>ID of the current menu item, or 0 if none</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pointer_id</span></code></dt><dd><p>ID of the object pointing to the current selection</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">item_head</span></code></dt><dd><p>List of items in the menu</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>A menu has a number of items which can be selected by the user</p>
+<p>It also has:</p>
+<ul class="simple">
+<li><p>a text/image object (<strong>pointer_id</strong>) which points to the current item
+(<strong>cur_item_id</strong>)</p></li>
+<li><p>a preview object which shows an image related to the current item</p></li>
+</ul>
+<dl class="c enum">
+<dt id="c.scene_menuitem_flags_t">
+<em class="property">enum </em><code class="sig-name descname">scene_menuitem_flags_t</code><a class="headerlink" href="#c.scene_menuitem_flags_t" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>flags for menu items</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SCENEMIF_GAP_BEFORE</span></code></dt><dd><p>Add a gap before this item</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.scene_menitem">
+<em class="property">struct </em><code class="sig-name descname">scene_menitem</code><a class="headerlink" href="#c.scene_menitem" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>a menu item in a menu</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct scene_menitem {
+  char *name;
+  uint id;
+  uint key_id;
+  uint label_id;
+  uint desc_id;
+  uint preview_id;
+  uint flags;
+  struct list_head sibling;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Name of the item (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">id</span></code></dt><dd><p>ID number of the object</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">key_id</span></code></dt><dd><p>ID of text object to use as the keypress to show</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">label_id</span></code></dt><dd><p>ID of text object to use as the label text</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">desc_id</span></code></dt><dd><p>ID of text object to use as the description text</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">preview_id</span></code></dt><dd><p>ID of the preview object, or 0 if none</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Flags for this item</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">sibling</span></code></dt><dd><p>Node to link this item to its siblings</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>A menu item has:</p>
+<ul class="simple">
+<li><p>text object holding the name (short) and description (can be longer)</p></li>
+<li><p>a text object holding the keypress</p></li>
+</ul>
+<dl class="c function">
+<dt id="c.expo_new">
+int <code class="sig-name descname">expo_new</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, void *<em>priv</em>, <em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> **<em>expp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_new"></a><a class="headerlink" href="#c.expo_new" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>create a new expo</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name of expo (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*priv</span></code></dt><dd><p>Private data for the controller</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">**expp</span></code></dt><dd><p>Returns a pointer to the new expo on success</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Allocates a new expo</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOMEM if out of memory</p>
+<dl class="c function">
+<dt id="c.expo_destroy">
+void <code class="sig-name descname">expo_destroy</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_destroy"></a><a class="headerlink" href="#c.expo_destroy" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Destroy an expo and free all its memory</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to destroy</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.expo_set_dynamic_start">
+void <code class="sig-name descname">expo_set_dynamic_start</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, uint <em>dyn_start</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_set_dynamic_start"></a><a class="headerlink" href="#c.expo_set_dynamic_start" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the start of the ‘dynamic’ IDs</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">dyn_start</span></code></dt><dd><p>Start ID that expo should use for dynamic allocation</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>It is common for a set of ‘static’ IDs to be used to refer to objects in the
+expo. These typically use an enum so that they are defined in sequential
+order.</p>
+<p>Dynamic IDs (for objects not in the enum) are intended to be used for
+objects to which the code does not need to refer. These are ideally located
+above the static IDs.</p>
+<p>Use this function to set the start of the dynamic range, making sure that the
+value is higher than all the statically allocated IDs.</p>
+<dl class="c function">
+<dt id="c.expo_str">
+int <code class="sig-name descname">expo_str</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, <em class="property">const</em> char *<em>name</em>, uint <em>id</em>, <em class="property">const</em> char *<em>str</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_str"></a><a class="headerlink" href="#c.expo_str" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>add a new string to an expo</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to use (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID to use for the new object (0 to allocate one)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*str</span></code></dt><dd><p>Pointer to text to display (allocated by caller)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>ID number for the object (typically <strong>id</strong>), or -ve on error</p>
+<dl class="c function">
+<dt id="c.expo_get_str">
+<em class="property">const</em> char *<code class="sig-name descname">expo_get_str</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, uint <em>id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_get_str"></a><a class="headerlink" href="#c.expo_get_str" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get a string by ID</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>String ID to look up
+<strong>returns</strong> string, or NULL if not found</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.expo_set_display">
+int <code class="sig-name descname">expo_set_display</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, <em class="property">struct</em> <a class="reference internal" href="../api/dm.html#c.udevice" title="udevice">udevice</a> *<em>dev</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_set_display"></a><a class="headerlink" href="#c.expo_set_display" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>set the display to use for a expo</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">udevice</span> <span class="pre">*dev</span></code></dt><dd><p>Display to use (<cite>UCLASS_VIDEO</cite>), NULL to use text mode</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 (always)</p>
+<dl class="c function">
+<dt id="c.expo_calc_dims">
+int <code class="sig-name descname">expo_calc_dims</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_calc_dims"></a><a class="headerlink" href="#c.expo_calc_dims" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Calculate the dimensions of the objects</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update
+Returns 0 if OK, -ENOTSUPP if there is no graphical console</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Updates the width and height of all objects based on their contents</p>
+<dl class="c function">
+<dt id="c.expo_set_scene_id">
+int <code class="sig-name descname">expo_set_scene_id</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, uint <em>scene_id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_set_scene_id"></a><a class="headerlink" href="#c.expo_set_scene_id" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the current scene ID</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">scene_id</span></code></dt><dd><p>New scene ID to use (0 to select no scene)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if there is no scene with that ID</p>
+<dl class="c function">
+<dt id="c.expo_first_scene_id">
+int <code class="sig-name descname">expo_first_scene_id</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_first_scene_id"></a><a class="headerlink" href="#c.expo_first_scene_id" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get the ID of the first scene</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to check</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>Scene ID of first scene, or -ENOENT if there are no scenes</p>
+<dl class="c function">
+<dt id="c.expo_render">
+int <code class="sig-name descname">expo_render</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_render"></a><a class="headerlink" href="#c.expo_render" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>render the expo on the display / console</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to render</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ECHILD if there is no current scene, -ENOENT if the
+current scene is not found, other error if something else goes wrong</p>
+<dl class="c function">
+<dt id="c.expo_set_text_mode">
+void <code class="sig-name descname">expo_set_text_mode</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, bool <em>text_mode</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_set_text_mode"></a><a class="headerlink" href="#c.expo_set_text_mode" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Controls whether the expo renders in text mode</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">text_mode</span></code></dt><dd><p>true to use text mode, false to use the console</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.scene_new">
+int <code class="sig-name descname">scene_new</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, <em class="property">const</em> char *<em>name</em>, uint <em>id</em>, <em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> **<em>scnp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_new"></a><a class="headerlink" href="#c.scene_new" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>create a new scene in a expo</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to use (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID to use for the new scene (0 to allocate one)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">**scnp</span></code></dt><dd><p>Returns a pointer to the new scene on success</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The scene is given the ID <strong>id</strong> which must be unique across all scenes, objects
+and items. The expo’s <strong>next_id</strong> is updated to at least <strong>id</strong> + 1</p>
+<p><strong>Return</strong></p>
+<p>ID number for the scene (typically <strong>id</strong>), or -ve on error</p>
+<dl class="c function">
+<dt id="c.expo_lookup_scene_id">
+<em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<code class="sig-name descname">expo_lookup_scene_id</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, uint <em>scene_id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_lookup_scene_id"></a><a class="headerlink" href="#c.expo_lookup_scene_id" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Look up a scene by ID</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to check</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">scene_id</span></code></dt><dd><p>Scene ID to look up
+<strong>returns</strong> pointer to scene if found, else NULL</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.scene_highlight_first">
+void <code class="sig-name descname">scene_highlight_first</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_highlight_first"></a><a class="headerlink" href="#c.scene_highlight_first" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Highlight the first item in a scene</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This highlights the first item, so that the user can see that it is pointed
+to</p>
+<dl class="c function">
+<dt id="c.scene_set_highlight_id">
+void <code class="sig-name descname">scene_set_highlight_id</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_set_highlight_id"></a><a class="headerlink" href="#c.scene_set_highlight_id" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the object which is highlighted</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of object to highlight</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Sets a new object to highlight in the scene</p>
+<dl class="c function">
+<dt id="c.scene_set_open">
+int <code class="sig-name descname">scene_set_open</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em>, bool <em>open</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_set_open"></a><a class="headerlink" href="#c.scene_set_open" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set whether an item is open or not</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of object to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">open</span></code></dt><dd><p>true to open the object, false to close it</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if <strong>id</strong> is invalid</p>
+<dl class="c function">
+<dt id="c.scene_title_set">
+int <code class="sig-name descname">scene_title_set</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>title_id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_title_set"></a><a class="headerlink" href="#c.scene_title_set" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>set the scene title</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">title_id</span></code></dt><dd><p>Title ID to set</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK</p>
+<dl class="c function">
+<dt id="c.scene_obj_count">
+int <code class="sig-name descname">scene_obj_count</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_obj_count"></a><a class="headerlink" href="#c.scene_obj_count" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Count the number of objects in a scene</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to check</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of objects in the scene, 0 if none</p>
+<dl class="c function">
+<dt id="c.scene_img">
+int <code class="sig-name descname">scene_img</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, <em class="property">const</em> char *<em>name</em>, uint <em>id</em>, char *<em>data</em>, <em class="property">struct</em> <a class="reference internal" href="#c.scene_obj_img" title="scene_obj_img">scene_obj_img</a> **<em>imgp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_img"></a><a class="headerlink" href="#c.scene_img" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>add a new image to a scene</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to use (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID to use for the new object (0 to allocate one)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*data</span></code></dt><dd><p>Pointer to image data</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene_obj_img</span> <span class="pre">**imgp</span></code></dt><dd><p>If non-NULL, returns the new object</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>ID number for the object (typically <strong>id</strong>), or -ve on error</p>
+<dl class="c function">
+<dt id="c.scene_txt">
+int <code class="sig-name descname">scene_txt</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, <em class="property">const</em> char *<em>name</em>, uint <em>id</em>, uint <em>str_id</em>, <em class="property">struct</em> <a class="reference internal" href="#c.scene_obj_txt" title="scene_obj_txt">scene_obj_txt</a> **<em>txtp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_txt"></a><a class="headerlink" href="#c.scene_txt" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>add a new text object to a scene</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to use (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID to use for the new object (0 to allocate one)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">str_id</span></code></dt><dd><p>ID of the string to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene_obj_txt</span> <span class="pre">**txtp</span></code></dt><dd><p>If non-NULL, returns the new object</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>ID number for the object (typically <strong>id</strong>), or -ve on error</p>
+<dl class="c function">
+<dt id="c.scene_txt_str">
+int <code class="sig-name descname">scene_txt_str</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, <em class="property">const</em> char *<em>name</em>, uint <em>id</em>, uint <em>str_id</em>, <em class="property">const</em> char *<em>str</em>, <em class="property">struct</em> <a class="reference internal" href="#c.scene_obj_txt" title="scene_obj_txt">scene_obj_txt</a> **<em>txtp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_txt_str"></a><a class="headerlink" href="#c.scene_txt_str" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>add a new string to expr and text object to a scene</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to use (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID to use for the new object (0 to allocate one)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">str_id</span></code></dt><dd><p>ID of the string to use</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*str</span></code></dt><dd><p>Pointer to text to display (allocated by caller)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene_obj_txt</span> <span class="pre">**txtp</span></code></dt><dd><p>If non-NULL, returns the new object</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>ID number for the object (typically <strong>id</strong>), or -ve on error</p>
+<dl class="c function">
+<dt id="c.scene_menu">
+int <code class="sig-name descname">scene_menu</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, <em class="property">const</em> char *<em>name</em>, uint <em>id</em>, <em class="property">struct</em> <a class="reference internal" href="#c.scene_obj_menu" title="scene_obj_menu">scene_obj_menu</a> **<em>menup</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_menu"></a><a class="headerlink" href="#c.scene_menu" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>create a menu</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to use (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID to use for the new object (0 to allocate one)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene_obj_menu</span> <span class="pre">**menup</span></code></dt><dd><p>If non-NULL, returns the new object</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>ID number for the object (typically <strong>id</strong>), or -ve on error</p>
+<dl class="c function">
+<dt id="c.scene_txt_set_font">
+int <code class="sig-name descname">scene_txt_set_font</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em>, <em class="property">const</em> char *<em>font_name</em>, uint <em>font_size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_txt_set_font"></a><a class="headerlink" href="#c.scene_txt_set_font" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the font for an object</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of object to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*font_name</span></code></dt><dd><p>Font name to use (allocated by caller)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">font_size</span></code></dt><dd><p>Font size to use (nominal height in pixels)</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.scene_obj_set_pos">
+int <code class="sig-name descname">scene_obj_set_pos</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em>, int <em>x</em>, int <em>y</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_obj_set_pos"></a><a class="headerlink" href="#c.scene_obj_set_pos" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the postion of an object</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of object to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">x</span></code></dt><dd><p>x position, in pixels from left side</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">y</span></code></dt><dd><p>y position, in pixels from top</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if <strong>id</strong> is invalid</p>
+<dl class="c function">
+<dt id="c.scene_obj_set_size">
+int <code class="sig-name descname">scene_obj_set_size</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em>, int <em>w</em>, int <em>h</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_obj_set_size"></a><a class="headerlink" href="#c.scene_obj_set_size" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the size of an object</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of object to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">w</span></code></dt><dd><p>width in pixels</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">h</span></code></dt><dd><p>height in pixels</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if <strong>id</strong> is invalid</p>
+<dl class="c function">
+<dt id="c.scene_obj_set_hide">
+int <code class="sig-name descname">scene_obj_set_hide</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em>, bool <em>hide</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_obj_set_hide"></a><a class="headerlink" href="#c.scene_obj_set_hide" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set whether an object is hidden</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of object to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">hide</span></code></dt><dd><p>true to hide the object, false to show it</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The update happens when the expo is next rendered.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if <strong>id</strong> is invalid</p>
+<dl class="c function">
+<dt id="c.scene_menu_set_title">
+int <code class="sig-name descname">scene_menu_set_title</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em>, uint <em>title_id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_menu_set_title"></a><a class="headerlink" href="#c.scene_menu_set_title" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the title of a menu</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of menu object to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">title_id</span></code></dt><dd><p>ID of text object to use as the title</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if <strong>id</strong> is invalid, -EINVAL if <strong>title_id</strong> is invalid</p>
+<dl class="c function">
+<dt id="c.scene_menu_set_pointer">
+int <code class="sig-name descname">scene_menu_set_pointer</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em>, uint <em>cur_item_id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_menu_set_pointer"></a><a class="headerlink" href="#c.scene_menu_set_pointer" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set the item pointer for a menu</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of menu object to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">cur_item_id</span></code></dt><dd><p>ID of text or image object to use as a pointer to the current
+item</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This is a visual indicator of the current item, typically a “&gt;” character
+which sits next to the current item and moves when the user presses the
+up/down arrow keys</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOENT if <strong>id</strong> is invalid, -EINVAL if <strong>cur_item_id</strong> is invalid</p>
+<dl class="c function">
+<dt id="c.scene_obj_get_hw">
+int <code class="sig-name descname">scene_obj_get_hw</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>id</em>, int *<em>widthp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_obj_get_hw"></a><a class="headerlink" href="#c.scene_obj_get_hw" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Get width and height of an object in a scene</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to check</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID of menu object to check</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">*widthp</span></code></dt><dd><p>If non-NULL, returns width of object in pixels</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>Height of object in pixels</p>
+<dl class="c function">
+<dt id="c.scene_menuitem">
+int <code class="sig-name descname">scene_menuitem</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em>, uint <em>menu_id</em>, <em class="property">const</em> char *<em>name</em>, uint <em>id</em>, uint <em>key_id</em>, uint <em>label_id</em>, uint <em>desc_id</em>, uint <em>preview_id</em>, uint <em>flags</em>, <em class="property">struct</em> <a class="reference internal" href="#c.scene_menitem" title="scene_menitem">scene_menitem</a> **<em>itemp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_menuitem"></a><a class="headerlink" href="#c.scene_menuitem" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Add an item to a menu</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">menu_id</span></code></dt><dd><p>ID of menu object to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>Name to use (this is allocated by this call)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">id</span></code></dt><dd><p>ID to use for the new object (0 to allocate one)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">key_id</span></code></dt><dd><p>ID of text object to use as the keypress to show</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">label_id</span></code></dt><dd><p>ID of text object to use as the label text</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">desc_id</span></code></dt><dd><p>ID of text object to use as the description text</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">preview_id</span></code></dt><dd><p>ID of object to use as the preview (text or image)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">flags</span></code></dt><dd><p>Flags for this item (enum scene_menuitem_flags_t)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene_menitem</span> <span class="pre">**itemp</span></code></dt><dd><p>If non-NULL, returns the new object</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>ID number for the item (typically <strong>id</strong>), or -ve on error</p>
+<dl class="c function">
+<dt id="c.scene_arrange">
+int <code class="sig-name descname">scene_arrange</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.scene" title="scene">scene</a> *<em>scn</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/scene_arrange"></a><a class="headerlink" href="#c.scene_arrange" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Arrange the scene to deal with object sizes</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">scene</span> <span class="pre">*scn</span></code></dt><dd><p>Scene to arrange</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Updates any menus in the scene so that their objects are in the right place.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.expo_send_key">
+int <code class="sig-name descname">expo_send_key</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, int <em>key</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_send_key"></a><a class="headerlink" href="#c.expo_send_key" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>set a keypress to the expo</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to receive the key</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">key</span></code></dt><dd><p>Key to send (ASCII or enum bootmenu_key)</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ECHILD if there is no current scene</p>
+<dl class="c function">
+<dt id="c.expo_action_get">
+int <code class="sig-name descname">expo_action_get</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, <em class="property">struct</em> <a class="reference internal" href="#c.expo_action" title="expo_action">expo_action</a> *<em>act</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_action_get"></a><a class="headerlink" href="#c.expo_action_get" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>read user input from the expo</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to check</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo_action</span> <span class="pre">*act</span></code></dt><dd><p>Returns action</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -EAGAIN if there was no action to return</p>
+<dl class="c function">
+<dt id="c.expo_apply_theme">
+int <code class="sig-name descname">expo_apply_theme</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, ofnode <em>node</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_apply_theme"></a><a class="headerlink" href="#c.expo_apply_theme" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Apply a theme to an expo</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ofnode</span> <span class="pre">node</span></code></dt><dd><p>Node containing the theme</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.expo_build">
+int <code class="sig-name descname">expo_build</code><span class="sig-paren">(</span>ofnode <em>root</em>, <em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> **<em>expp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/expo_build"></a><a class="headerlink" href="#c.expo_build" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Build an expo from an FDT description</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ofnode</span> <span class="pre">root</span></code></dt><dd><p>Root node for expo description</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">**expp</span></code></dt><dd><p>Returns the new expo</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Build a complete expo from a description in the provided devicetree.</p>
+<p>See doc/develop/expo.rst for a description of the format</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ENOMEM if out of memory, -EINVAL if there is a format
+error, -ENOENT if there is a references to a non-existent string</p>
+<dl class="c function">
+<dt id="c.cedit_arange">
+int <code class="sig-name descname">cedit_arange</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em>, <em class="property">struct</em> video_priv *<em>vid_priv</em>, uint <em>scene_id</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/cedit_arange"></a><a class="headerlink" href="#c.cedit_arange" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Arrange objects in a configuration-editor scene</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to update</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">video_priv</span> <span class="pre">*vid_priv</span></code></dt><dd><p>Private info of the video device</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">uint</span> <span class="pre">scene_id</span></code></dt><dd><p>scene ID to arrange</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+<dl class="c function">
+<dt id="c.cedit_run">
+int <code class="sig-name descname">cedit_run</code><span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#c.expo" title="expo">expo</a> *<em>exp</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/cedit_run"></a><a class="headerlink" href="#c.cedit_run" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Run a configuration editor</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">expo</span> <span class="pre">*exp</span></code></dt><dd><p>Expo to use</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This accepts input until the user quits with Escape</p>
+<p><strong>Return</strong></p>
+<p>0 if OK, -ve on error</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Future ideas"></a><div class="section" id="future-ideas">
+<h2>Future ideas<a class="headerlink" href="#future-ideas" title="Permalink to this headline">¶</a></h2>
+<p>Some ideas for future work:</p>
+<ul class="simple">
+<li><p>Default menu item and a timeout</p></li>
+<li><p>Image formats other than BMP</p></li>
+<li><p>Use of ANSI sequences to control a serial terminal</p></li>
+<li><p>Colour selection</p></li>
+<li><p>Support for more widgets, e.g. text, numeric, radio/option</p></li>
+<li><p>Mouse support</p></li>
+<li><p>Integrate Nuklear, NxWidgets or some other library for a richer UI</p></li>
+<li><p>Optimise rendering by only updating the display with changes since last render</p></li>
+<li><p>Use expo to replace the existing menu implementation</p></li>
+<li><p>Add a Kconfig option to drop the names to save code / data space</p></li>
+<li><p>Add a Kconfig option to disable vidconsole support to save code / data space</p></li>
+<li><p>Support both graphical and text menus at the same time on different devices</p></li>
+<li><p>Support unicode</p></li>
+<li><p>Support curses for proper serial-terminal menus</p></li>
+<li><p>Add support for large menus which need to scroll</p></li>
+<li><p>Add support for reading and writing configuration settings with cedit</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="environment.html" rel="prev" title="Environment implementation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="event.html" rel="next" title="Events">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

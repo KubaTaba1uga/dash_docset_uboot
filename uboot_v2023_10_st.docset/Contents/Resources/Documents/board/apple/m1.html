@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>U-Boot for Apple Silicon Macs — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../armltd/index.html" rel="next" title="Arm Ltd"/>
+<link href="index.html" rel="prev" title="Apple"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Apple</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">U-Boot for Apple Silicon Macs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building-u-boot">Building U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#image-creation">Image creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#image-installation">Image installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-uart">Debug UART</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Apple</a> »</li>
+<li>U-Boot for Apple Silicon Macs</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/apple/m1.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot for Apple Silicon Macs"></a><div class="section" id="u-boot-for-apple-silicon-macs">
+<h1>U-Boot for Apple Silicon Macs<a class="headerlink" href="#u-boot-for-apple-silicon-macs" title="Permalink to this headline">¶</a></h1>
+<p>Allows Apple Silicon Macs to boot U-Boot via the m1n1 bootloader
+developed by the Asahi Linux project.  At this point the machines with
+the following SoCs work:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Apple M1 SoC (t8103)</p></li>
+<li><p>Apple M1 Pro SoC (t6000)</p></li>
+<li><p>Apple M1 Max SoC (t6001)</p></li>
+<li><p>Apple M1 Ultra SoC (t6002)</p></li>
+</ul>
+</div></blockquote>
+<p>On these SoCs the following hardware is supported:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>S5L serial port</p></li>
+<li><p>SPI keyboard (on laptops)</p></li>
+<li><p>Framebuffer</p></li>
+<li><p>NVMe storage</p></li>
+<li><p>USB 3.1 Type-C ports</p></li>
+</ul>
+</div></blockquote>
+<p>Device trees are currently provided for the M1 Mac mini (2020, J274),
+M1 MacBook Pro 13” (2020, J293), M1 MacBook Air (2020, J313) and M1
+iMac (2021, J456/J457).</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building U-Boot"></a><div class="section" id="building-u-boot">
+<h2>Building U-Boot<a class="headerlink" href="#building-u-boot" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-none-elf-
+$<span class="w"> </span>make<span class="w"> </span>apple_m1_defconfig
+$<span class="w"> </span>make
+</pre></div>
+</div>
+<p>This will build <code class="docutils literal notranslate"><span class="pre">u-boot-nodtb.bin</span></code> as well as devices trees for some
+of the supported machines.  These device trees can be found in the
+<code class="docutils literal notranslate"><span class="pre">arch/arm/dts</span></code> subdirectory of your build.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Image creation"></a><div class="section" id="image-creation">
+<h2>Image creation<a class="headerlink" href="#image-creation" title="Permalink to this headline">¶</a></h2>
+<p>In order to run U-Boot on an Apple Silicon Mac, U-Boot has to be used
+as a payload for the m1n1 bootloader.  Instructions for building m1n1
+can be found here:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/AsahiLinux/docs/wiki/SW%3Am1n1">https://github.com/AsahiLinux/docs/wiki/SW%3Am1n1</a></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cat<span class="w"> </span>m1n1.macho<span class="w"> </span>t8103-j274.dtb<span class="w"> </span>u-boot-nodtb.bin<span class="w"> </span>&gt;<span class="w"> </span>u-boot.macho
+</pre></div>
+</div>
+<p>This uses <code class="docutils literal notranslate"><span class="pre">u-boot-nodtb.bin</span></code> as the device tree is passed to U-Boot
+by m1n1 after making some adjustments.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Image installation"></a><div class="section" id="image-installation">
+<h2>Image installation<a class="headerlink" href="#image-installation" title="Permalink to this headline">¶</a></h2>
+<p>Instructions on how to install U-Boot on your Mac can be found at:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/AsahiLinux/docs/wiki/Developer-Quickstart">https://github.com/AsahiLinux/docs/wiki/Developer-Quickstart</a></p>
+</div></blockquote>
+<p>Just replace <code class="docutils literal notranslate"><span class="pre">m1n1.macho</span></code> with <code class="docutils literal notranslate"><span class="pre">u-boot.macho</span></code> in the instructions.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debug UART"></a><div class="section" id="debug-uart">
+<h2>Debug UART<a class="headerlink" href="#debug-uart" title="Permalink to this headline">¶</a></h2>
+<p>Since the base address of the UART is SoC-dependent, the debug UART is
+not enabled by default.  To enable the debug UART the base address
+needs to be adjusted and the CONFIG_DEBUG_UART option needs to be
+enabled.  The table below gives the correct base address for the
+supported SoCs.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 67%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>SoC</p></th>
+<th class="head"><p>Base Address</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>M1 (t8103)</p></td>
+<td><p>0x235200000</p></td>
+</tr>
+<tr class="row-odd"><td><p>M1 Pro/Max/Ultra (t6000/t6001/t6002)</p></td>
+<td><p>0x39b200000</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Apple"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../armltd/index.html" rel="next" title="Arm Ltd">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

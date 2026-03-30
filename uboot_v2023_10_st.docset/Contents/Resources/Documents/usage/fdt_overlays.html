@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Device Tree Overlays — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="fit/index.html" rel="next" title="Flat Image Tree (FIT)"/>
+<link href="environment.html" rel="prev" title="Environment Variables"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html">Environment Variables</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Device Tree Overlays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overlay-syntax">Overlay Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-overlays">Building Overlays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ways-to-utilize-overlays-in-u-boot">Ways to Utilize Overlays in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manually-loading-and-applying-overlays">Manually Loading and Applying Overlays</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fit/index.html">Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Use U-Boot</a> »</li>
+<li>Device Tree Overlays</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/usage/fdt_overlays.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Device Tree Overlays"></a><div class="section" id="device-tree-overlays">
+<h1>Device Tree Overlays<a class="headerlink" href="#device-tree-overlays" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overlay Syntax"></a><div class="section" id="overlay-syntax">
+<h2>Overlay Syntax<a class="headerlink" href="#overlay-syntax" title="Permalink to this headline">¶</a></h2>
+<p>Device-tree overlays require a slightly different syntax compared to traditional
+device-trees. Please refer to dt-object-internal.txt in the device-tree compiler
+sources for information regarding the internal format of overlays:
+<a class="reference external" href="https://git.kernel.org/pub/scm/utils/dtc/dtc.git/tree/Documentation/dt-object-internal.txt">https://git.kernel.org/pub/scm/utils/dtc/dtc.git/tree/Documentation/dt-object-internal.txt</a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building Overlays"></a><div class="section" id="building-overlays">
+<h2>Building Overlays<a class="headerlink" href="#building-overlays" title="Permalink to this headline">¶</a></h2>
+<p>In a nutshell overlays provides a means to manipulate a symbol a previous
+device-tree or device-tree overlay has defined. It requires both the base
+device-tree and all the overlays to be compiled with the <em>-@</em> command line
+switch of the device-tree compiler so that symbol information is included.</p>
+<dl class="simple">
+<dt>Note</dt><dd><p>Support for <em>-@</em> option can only be found in dtc version 1.4.4 or newer.
+Only version 4.14 or higher of the Linux kernel includes a built in version
+of dtc that meets this requirement.</p>
+</dd>
+</dl>
+<p>Building a binary device-tree overlay follows the same process as building a
+traditional binary device-tree. For example:</p>
+<p><strong>base.dts</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dts-v1/;
+/ {
+        foo: foonode {
+                foo-property;
+        };
+};
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dtc<span class="w"> </span>-@<span class="w"> </span>-I<span class="w"> </span>dts<span class="w"> </span>-O<span class="w"> </span>dtb<span class="w"> </span>-o<span class="w"> </span>base.dtb<span class="w"> </span>base.dts
+</pre></div>
+</div>
+<p><strong>overlay.dts</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dts-v1/;
+/plugin/;
+/ {
+        fragment@1 {
+                target = &lt;&amp;foo&gt;;
+                __overlay__ {
+                        overlay-1-property;
+                        bar: barnode {
+                                bar-property;
+                        };
+                };
+        };
+};
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dtc<span class="w"> </span>-@<span class="w"> </span>-I<span class="w"> </span>dts<span class="w"> </span>-O<span class="w"> </span>dtb<span class="w"> </span>-o<span class="w"> </span>overlay.dtbo<span class="w"> </span>overlay.dts
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Ways to Utilize Overlays in U-Boot"></a><div class="section" id="ways-to-utilize-overlays-in-u-boot">
+<h2>Ways to Utilize Overlays in U-Boot<a class="headerlink" href="#ways-to-utilize-overlays-in-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to apply overlays in U-Boot.</p>
+<ul class="simple">
+<li><p>Include and define overlays within a FIT image and have overlays
+automatically applied.</p></li>
+<li><p>Manually load and apply overlays</p></li>
+</ul>
+<p>The remainder of this document will discuss using overlays via the manual
+approach. For information on using overlays as part of a FIT image please see:
+doc/uImage.FIT/overlay-fdt-boot.txt</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Manually Loading and Applying Overlays"></a><div class="section" id="manually-loading-and-applying-overlays">
+<h2>Manually Loading and Applying Overlays<a class="headerlink" href="#manually-loading-and-applying-overlays" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Figure out where to place both the base device tree blob and the
+overlay. Make sure you have enough space to grow the base tree without
+overlapping anything.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; setenv fdtaddr 0x87f00000
+=&gt; setenv fdtovaddr 0x87fc0000
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Load the base binary device-tree and the binary device-tree overlay.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; load ${devtype} ${bootpart} ${fdtaddr} ${bootdir}/base.dtb
+=&gt; load ${devtype} ${bootpart} ${fdtovaddr} ${bootdir}/overlay.dtbo
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Set the base binary device-tree as the working fdt tree.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; fdt addr $fdtaddr
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Grow it enough so it can encompass all applied overlays</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; fdt resize 8192
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>You are now ready to apply the overlay.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; fdt apply $fdtovaddr
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Boot system like you would do with a traditional dtb.</p></li>
+</ol>
+<p>For bootm:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; bootm ${kerneladdr} - ${fdtaddr}
+</pre></div>
+</div>
+<p>For bootz:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; bootz ${kerneladdr} - ${fdtaddr}
+</pre></div>
+</div>
+<p>Please note that in case of an error, both the base and overlays are going
+to be invalidated, so keep copies to avoid reloading.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="environment.html" rel="prev" title="Environment Variables"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="fit/index.html" rel="next" title="Flat Image Tree (FIT)">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

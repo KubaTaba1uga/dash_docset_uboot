@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SuperH — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="x86.html" rel="next" title="x86"/>
+<link href="sandbox/block_impl.html" rel="prev" title="Sandbox block devices (implementation)"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Architecture-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="arc.html">ARC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.html">ARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arm64.ffa.html">Arm FF-A Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m68k.html">M68K / ColdFire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mips.html">MIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nios2.html">Nios II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv.html">RISC-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox/index.html">Sandbox</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SuperH</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-s-this">What’s this?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-cpus">Supported CPUs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#renesas-sh7750-sh7750r">Renesas SH7750/SH7750R</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#renesas-sh7722">Renesas SH7722</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-boards">Supported Boards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hitachi-ul-ms7750se01-ms7750rse01">Hitachi UL MS7750SE01/MS7750RSE01</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hitachi-ul-ms7722se01">Hitachi UL MS7722SE01</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hitachi-ul-ms7720erp01">Hitachi UL MS7720ERP01</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#compiler">Compiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#future">Future</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cpus">CPUs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boards">Boards</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="x86.html">x86</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xtensa.html">Xtensa</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Architecture-specific doc</a> »</li>
+<li>SuperH</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/arch/sh.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/SuperH"></a><div class="section" id="superh">
+<h1>SuperH<a class="headerlink" href="#superh" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/What’s this?"></a><div class="section" id="what-s-this">
+<h2>What’s this?<a class="headerlink" href="#what-s-this" title="Permalink to this headline">¶</a></h2>
+<p>This file contains status information for the port of U-Boot to the
+Renesas SuperH series of CPUs.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Overview"></a><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>SuperH has an original boot loader. However, source code is dirty, and
+maintenance is not done. To improve sharing and the maintenance of the code,
+Nobuhiro Iwamatsu started the porting to U-Boot in 2007.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Supported CPUs"></a><div class="section" id="supported-cpus">
+<h2>Supported CPUs<a class="headerlink" href="#supported-cpus" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="renesas-sh7750-sh7750r">
+<h3>Renesas SH7750/SH7750R<a class="headerlink" href="#renesas-sh7750-sh7750r" title="Permalink to this headline">¶</a></h3>
+<p>This CPU has the SH4 core.</p>
+</div>
+<div class="section" id="renesas-sh7722">
+<h3>Renesas SH7722<a class="headerlink" href="#renesas-sh7722" title="Permalink to this headline">¶</a></h3>
+<p>This CPU has the SH4AL-DSP core.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Supported Boards"></a><div class="section" id="supported-boards">
+<h2>Supported Boards<a class="headerlink" href="#supported-boards" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hitachi-ul-ms7750se01-ms7750rse01">
+<h3>Hitachi UL MS7750SE01/MS7750RSE01<a class="headerlink" href="#hitachi-ul-ms7750se01-ms7750rse01" title="Permalink to this headline">¶</a></h3>
+<p>Board specific code is in board/ms7750se
+To use this board, type “make ms7750se_config”.
+Support devices are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>SCIF</p></li>
+<li><p>SDRAM</p></li>
+<li><p>NOR Flash</p></li>
+<li><p>Marubun PCMCIA</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="hitachi-ul-ms7722se01">
+<h3>Hitachi UL MS7722SE01<a class="headerlink" href="#hitachi-ul-ms7722se01" title="Permalink to this headline">¶</a></h3>
+<p>Board specific code is in board/ms7722se
+To use this board, type “make ms7722se_config”.
+Support devices are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>SCIF</p></li>
+<li><p>SDRAM</p></li>
+<li><p>NOR Flash</p></li>
+<li><p>Marubun PCMCIA</p></li>
+<li><p>SMC91x ethernet</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="hitachi-ul-ms7720erp01">
+<h3>Hitachi UL MS7720ERP01<a class="headerlink" href="#hitachi-ul-ms7720erp01" title="Permalink to this headline">¶</a></h3>
+<p>Board specific code is in board/ms7720se
+To use this board, type “make ms7720se_config”.
+Support devices are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>SCIF</p></li>
+<li><p>SDRAM</p></li>
+<li><p>NOR Flash</p></li>
+<li><p>Marubun PCMCIA</p></li>
+</ul>
+</div></blockquote>
+<p>In SuperH, S-record and binary of made u-boot work on the memory.
+When u-boot is written in the flash, it is necessary to change the
+address by using ‘objcopy’:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ex) shX-linux-objcopy -Ibinary -Osrec u-boot.bin u-boot.flash.srec
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Compiler"></a><div class="section" id="compiler">
+<h2>Compiler<a class="headerlink" href="#compiler" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>You can use the following of u-boot to compile.</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="http://www.superh-linux.org/">SuperH Linux Open site</a></p></li>
+<li><p><a class="reference external" href="http://www.kpitgnutools.com/">KPIT GNU tools</a></p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Future"></a><div class="section" id="future">
+<h2>Future<a class="headerlink" href="#future" title="Permalink to this headline">¶</a></h2>
+<p>I plan to support the following CPUs and boards.</p>
+<div class="section" id="cpus">
+<h3>CPUs<a class="headerlink" href="#cpus" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>SH7751R(SH4)</p></li>
+</ul>
+</div>
+<div class="section" id="boards">
+<h3>Boards<a class="headerlink" href="#boards" title="Permalink to this headline">¶</a></h3>
+<p>Many boards ;-)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="sandbox/block_impl.html" rel="prev" title="Sandbox block devices (implementation)"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="x86.html" rel="next" title="x86">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

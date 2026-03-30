@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Events — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="getopt.html" rel="next" title="Option Parsing"/>
+<link href="efi.html" rel="prev" title="UEFI subsystem"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfu.html">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Events</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/event.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Events"></a><div class="section" id="events">
+<h1>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h1>
+<p>The concept of events is decribed <a class="reference internal" href="../develop/event.html"><span class="doc">here</span></a>.</p>
+<dl class="c enum">
+<dt id="c.event_t">
+<em class="property">enum </em><code class="sig-name descname">event_t</code><a class="headerlink" href="#c.event_t" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Types of events supported by U-Boot</p>
+</dd></dl>
+<p><strong>Constants</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_NONE</span></code></dt><dd><p>This zero value is not used for events.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_TEST</span></code></dt><dd><p>This event is used in unit tests.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_DM_POST_INIT_F</span></code></dt><dd><p>This event is triggered after pre-relocation initialization of the
+driver model. Its parameter is NULL.
+A non-zero return code from the event handler let’s the boot process
+fail.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_DM_POST_INIT_R</span></code></dt><dd><p>This event is triggered after post-relocation initialization of the
+driver model. Its parameter is NULL.
+A non-zero return code from the event handler let’s the boot process
+fail.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_DM_PRE_PROBE</span></code></dt><dd><p>This event is triggered before probing a device. Its parameter is the
+device to be probed.
+A non-zero return code from the event handler lets the device not
+being probed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_DM_POST_PROBE</span></code></dt><dd><p>This event is triggered after probing a device. Its parameter is the
+device that was probed.
+A non-zero return code from the event handler leaves the device in
+the unprobed state and therefore not usable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_DM_PRE_REMOVE</span></code></dt><dd><p>This event is triggered after removing a device. Its parameter is
+the device to be removed.
+A non-zero return code from the event handler stops the removal of
+the device before any changes.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_DM_POST_REMOVE</span></code></dt><dd><p>This event is triggered before removing a device. Its parameter is
+the device that was removed.
+A non-zero return code stops from the event handler the removal of
+the device after all removal changes. The previous state is not
+restored. All children will be gone and the device may not be
+functional.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_MISC_INIT_F</span></code></dt><dd><p>This event is triggered during the initialization sequence before
+relocation. Its parameter is NULL.
+A non-zero return code from the event handler let’s the boot process
+fail.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_FPGA_LOAD</span></code></dt><dd><p>The FPGA load hook is called after loading an FPGA with a new binary.
+Its parameter is of type struct event_fpga_load and contains
+information about the loaded image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_FT_FIXUP</span></code></dt><dd><p>This event is triggered during device-tree fix up after all
+other device-tree fixups have been executed.
+Its parameter is of type struct event_ft_fixup which contains
+the address of the device-tree to fix up and the list of images to be
+booted.
+A non-zero return code from the event handler let’s booting the
+images fail.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_MAIN_LOOP</span></code></dt><dd><p>This event is triggered immediately before calling main_loop() which
+is the entry point of the command line. Its parameter is NULL.
+A non-zero return value causes the boot to fail.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EVT_COUNT</span></code></dt><dd><p>This constants holds the maximum event number + 1 and is used when
+looping over all event classes.</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.event">
+<em class="property">struct </em><code class="sig-name descname">event</code><a class="headerlink" href="#c.event" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>an event that can be sent and received</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct event {
+  enum event_t type;
+  union event_data data;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>Event type</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">data</span></code></dt><dd><p>Data for this particular event</p>
+</dd>
+</dl>
+<dl class="c struct">
+<dt id="c.evspy_info">
+<em class="property">struct </em><code class="sig-name descname">evspy_info</code><a class="headerlink" href="#c.evspy_info" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>information about an event spy</p>
+</dd></dl>
+<p><strong>Definition</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>struct evspy_info {
+  event_handler_t func;
+  enum event_t type;
+#if CONFIG_IS_ENABLED(EVENT_DEBUG);
+  const char *id;
+#endif;
+};
+</pre></div>
+</div>
+<p><strong>Members</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">func</span></code></dt><dd><p>Function to call when the event is activated (must be first)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>Event type</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">id</span></code></dt><dd><p>Event id string</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.event_register">
+int <code class="sig-name descname">event_register</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>id</em>, <em class="property">enum</em> <a class="reference internal" href="#c.event_t" title="event_t">event_t</a> <em>type</em>, event_handler_t <em>func</em>, void *<em>ctx</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/event_register"></a><a class="headerlink" href="#c.event_register" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>register a new spy</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*id</span></code></dt><dd><p>Spy ID</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">event_t</span> <span class="pre">type</span></code></dt><dd><p>Event type to subscribe to</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">event_handler_t</span> <span class="pre">func</span></code></dt><dd><p>Function to call when the event is sent</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*ctx</span></code></dt><dd><p>Context to pass to the function
+<strong>return</strong> 0 if OK, -ve on error</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.event_manual_reloc">
+int <code class="sig-name descname">event_manual_reloc</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/event_manual_reloc"></a><a class="headerlink" href="#c.event_manual_reloc" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Relocate event handler pointers</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Relocate event handler pointers for all static event spies. It is called
+during the generic board init sequence, after relocation.</p>
+<p><strong>Return</strong></p>
+<p>0 if OK</p>
+<dl class="c function">
+<dt id="c.event_notify">
+int <code class="sig-name descname">event_notify</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.event_t" title="event_t">event_t</a> <em>type</em>, void *<em>data</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/event_notify"></a><a class="headerlink" href="#c.event_notify" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>notify spies about an event</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">event_t</span> <span class="pre">type</span></code></dt><dd><p>Event type</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*data</span></code></dt><dd><p>Event data to be sent (e.g. union_event_data)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>Size of data in bytes
+<strong>return</strong> 0 if OK, -ve on error</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>It is possible to pass in union event_data here but that may not be
+convenient if the data is elsewhere, or is one of the members of the union.
+So this uses a void * for <strong>data</strong>, with a separate <strong>size</strong>.</p>
+<dl class="c function">
+<dt id="c.event_notify_null">
+int <code class="sig-name descname">event_notify_null</code><span class="sig-paren">(</span><em class="property">enum</em> <a class="reference internal" href="#c.event_t" title="event_t">event_t</a> <em>type</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/event_notify_null"></a><a class="headerlink" href="#c.event_notify_null" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>notify spies about an event</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">event_t</span> <span class="pre">type</span></code></dt><dd><p>Event type
+<strong>return</strong> 0 if OK, -ve on error</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Data is NULL and the size is 0</p>
+<dl class="c function">
+<dt id="c.event_uninit">
+int <code class="sig-name descname">event_uninit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/event_uninit"></a><a class="headerlink" href="#c.event_uninit" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Clean up dynamic events</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This removes all dynamic event handlers</p>
+<dl class="c function">
+<dt id="c.event_init">
+int <code class="sig-name descname">event_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/event_init"></a><a class="headerlink" href="#c.event_init" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>Set up dynamic events</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Init a list of dynamic event handlers, so that these can be added as
+needed</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="efi.html" rel="prev" title="UEFI subsystem"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="getopt.html" rel="next" title="Option Parsing">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

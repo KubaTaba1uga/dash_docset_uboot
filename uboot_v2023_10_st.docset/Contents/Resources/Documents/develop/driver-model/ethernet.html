@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ethernet Driver Guide — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="fdt-fixup.html" rel="next" title="Pre-relocation device tree manipulation"/>
+<link href="design.html" rel="prev" title="Design Details"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Driver Model</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="bind.html">Binding/unbinding a driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="debugging.html">Debugging driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Ethernet Driver Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fdt-fixup.html">Pre-relocation device tree manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fs_firmware_loader.html">File System Firmware Loader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="i2c-howto.html">How to port an I2C driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="livetree.html">Live Device Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="migration.html">Migration Schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvme.html">NVMe Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nvmxip.html">NVM XIP Block Storage Emulation Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="of-plat.html">Compiled-in Device Tree / Platform Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pci-info.html">PCI with Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmic-framework.html">PMIC framework based on Driver Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="remoteproc-framework.html">Remote Processor Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="serial-howto.html">How to port a serial driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="soc-framework.html">SOC ID Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spi-howto.html">How to port a SPI driver to driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb-info.html">How USB works with driver model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtio.html">VirtIO Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Driver Model</a> »</li>
+<li>Ethernet Driver Guide</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/driver-model/ethernet.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Ethernet Driver Guide"></a><div class="section" id="ethernet-driver-guide">
+<h1>Ethernet Driver Guide<a class="headerlink" href="#ethernet-driver-guide" title="Permalink to this headline">¶</a></h1>
+<p>The networking stack in Das U-Boot is designed for multiple network devices
+to be easily added and controlled at runtime.  This guide is meant for people
+who wish to review the net driver stack with an eye towards implementing your
+own ethernet device driver.  Here we will describe a new pseudo ‘APE’ driver.</p>
+<p>Most existing drivers do already - and new network driver MUST - use the
+U-Boot core driver model. Generic information about this can be found in
+doc/driver-model/design.rst, this document will thus focus on the network
+specific code parts.
+Some drivers are still using the old Ethernet interface, differences between
+the two and hints about porting will be handled at the end.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Driver framework"></a><div class="section" id="driver-framework">
+<h2>Driver framework<a class="headerlink" href="#driver-framework" title="Permalink to this headline">¶</a></h2>
+<p>A network driver following the driver model must declare itself using
+the UCLASS_ETH .id field in the U-Boot driver struct:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">U_BOOT_DRIVER</span><span class="p">(</span><span class="n">eth_ape</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="s">"eth_ape"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="n">UCLASS_ETH</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_match</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="n">eth_ape_ids</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">of_to_plat</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">eth_ape_of_to_plat</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">probe</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="n">eth_ape_probe</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">ops</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">eth_ape_ops</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">priv_auto</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">eth_ape_priv</span><span class="p">),</span>
+<span class="w">        </span><span class="p">.</span><span class="n">plat_auto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">eth_ape_pdata</span><span class="p">),</span>
+<span class="w">        </span><span class="p">.</span><span class="n">flags</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="n">DM_FLAG_ALLOC_PRIV_DMA</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>struct eth_ape_priv contains runtime per-instance data, like buffers, pointers
+to current descriptors, current speed settings, pointers to PHY related data
+(like struct mii_dev) and so on. Declaring its size in .priv_auto
+will let the driver framework allocate it at the right time.
+It can be retrieved using a dev_get_priv(dev) call.</p>
+<p>struct eth_ape_pdata contains static platform data, like the MMIO base address,
+a hardware variant, the MAC address. <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">eth_pdata</span> <span class="pre">eth_pdata</span></code>
+as the first member of this struct helps to avoid duplicated code.
+If you don’t need any more platform data beside the standard member,
+just use sizeof(struct eth_pdata) for the plat_auto.</p>
+<p>PCI devices add a line pointing to supported vendor/device ID pairs:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">pci_device_id</span><span class="w"> </span><span class="n">supported</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="n">PCI_DEVICE</span><span class="p">(</span><span class="n">PCI_VENDOR_ID_APE</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4223</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{}</span>
+<span class="p">};</span>
+
+<span class="n">U_BOOT_PCI_DEVICE</span><span class="p">(</span><span class="n">eth_ape</span><span class="p">,</span><span class="w"> </span><span class="n">supported</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>It is also possible to declare support for a whole class of PCI devices:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{ PCI_DEVICE_CLASS(PCI_CLASS_SYSTEM_SDHCI &lt;&lt; 8, 0xffff00) },
+</pre></div>
+</div>
+<p>Device probing and instantiation will be handled by the driver model framework,
+so follow the guidelines there. The probe() function would initialise the
+platform specific parts of the hardware, like clocks, resets, GPIOs, the MDIO
+bus. Also it would take care of any special PHY setup (power rails, enable
+bits for internal PHYs, etc.).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Driver methods"></a><div class="section" id="driver-methods">
+<h2>Driver methods<a class="headerlink" href="#driver-methods" title="Permalink to this headline">¶</a></h2>
+<p>The real work will be done in the driver method functions the driver provides
+by defining the members of struct eth_ops:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">eth_ops</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">start</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">send</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">packet</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">recv</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="n">uchar</span><span class="w"> </span><span class="o">**</span><span class="n">packetp</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">free_pkt</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="n">uchar</span><span class="w"> </span><span class="o">*</span><span class="n">packet</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">stop</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">mcast</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">u8</span><span class="w"> </span><span class="o">*</span><span class="n">enetaddr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">join</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">write_hwaddr</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">read_rom_hwaddr</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">udevice</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>An up-to-date version of this struct together with more information can be
+found in include/net.h.</p>
+<p>Only start, stop, send and recv are required, the rest are optional and are
+handled by generic code or ignored if not provided.</p>
+<p>The <strong>start</strong> function initialises the hardware and gets it ready for send/recv
+operations.  You often do things here such as resetting the MAC
+and/or PHY, and waiting for the link to autonegotiate.  You should also take
+the opportunity to program the device’s MAC address with the enetaddr member
+of the generic struct eth_pdata (which would be the first member of your
+own plat struct). This allows the rest of U-Boot to dynamically change
+the MAC address and have the new settings be respected.</p>
+<p>The <strong>send</strong> function does what you think – transmit the specified packet
+whose size is specified by length (in bytes). The packet buffer can (and
+will!) be reused for subsequent calls to send(), so it must be no longer
+used when the send() function returns. The easiest way to achieve this is
+to wait until the transmission is complete. Alternatively, if supported by
+the hardware, just waiting for the buffer to be consumed (by some DMA engine)
+might be an option as well.
+Another way of consuming the buffer could be to copy the data to be send,
+then just queue the copied packet (for instance handing it over to a DMA
+engine), and return immediately afterwards.
+In any case you should leave the state such that the send function can be
+called multiple times in a row.</p>
+<p>The <strong>recv</strong> function polls for availability of a new packet. If none is
+available, it must return with -EAGAIN.
+If a packet has been received, make sure it is accessible to the CPU
+(invalidate caches if needed), then write its address to the packetp pointer,
+and return the length. If there is an error (receive error, too short or too
+long packet), return 0 if you require the packet to be cleaned up normally,
+or a negative error code otherwise (cleanup not necessary or already done).
+The U-Boot network stack will then process the packet.</p>
+<p>If <strong>free_pkt</strong> is defined, U-Boot will call it after a received packet has
+been processed, so the packet buffer can be freed or recycled. Typically you
+would hand it back to the hardware to acquire another packet. free_pkt() will
+be called after recv(), for the same packet, so you don’t necessarily need
+to infer the buffer to free from the <code class="docutils literal notranslate"><span class="pre">packet</span></code> pointer, but can rely on that
+being the last packet that recv() handled.
+The common code sets up packet buffers for you already in the .bss
+(net_rx_packets), so there should be no need to allocate your own. This doesn’t
+mean you must use the net_rx_packets array however; you’re free to use any
+buffer you wish.</p>
+<p>The <strong>stop</strong> function should turn off / disable the hardware and place it back
+in its reset state.  It can be called at any time (before any call to the
+related start() function), so make sure it can handle this sort of thing.</p>
+<p>The (optional) <strong>write_hwaddr</strong> function should program the MAC address stored
+in pdata-&gt;enetaddr into the Ethernet controller.</p>
+<p>So the call graph at this stage would look something like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">some</span><span class="w"> </span><span class="n">net</span><span class="w"> </span><span class="n">operation</span><span class="w"> </span><span class="p">(</span><span class="n">ping</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">tftp</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">whatever</span><span class="p">...))</span>
+<span class="n">eth_init</span><span class="p">()</span>
+<span class="w">        </span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">()</span>
+<span class="n">eth_send</span><span class="p">()</span>
+<span class="w">        </span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">send</span><span class="p">()</span>
+<span class="n">eth_rx</span><span class="p">()</span>
+<span class="w">        </span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">recv</span><span class="p">()</span>
+<span class="w">        </span><span class="p">(</span><span class="n">process</span><span class="w"> </span><span class="n">packet</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">free_pkt</span><span class="p">)</span>
+<span class="w">                </span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">free_pkt</span><span class="p">()</span>
+<span class="n">eth_halt</span><span class="p">()</span>
+<span class="w">        </span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/CONFIG_PHYLIB / CONFIG_CMD_MII"></a><div class="section" id="config-phylib-config-cmd-mii">
+<h2>CONFIG_PHYLIB / CONFIG_CMD_MII<a class="headerlink" href="#config-phylib-config-cmd-mii" title="Permalink to this headline">¶</a></h2>
+<p>If your device supports banging arbitrary values on the MII bus (pretty much
+every device does), you should add support for the mii command.  Doing so is
+fairly trivial and makes debugging mii issues a lot easier at runtime.</p>
+<p>In your driver’s <code class="docutils literal notranslate"><span class="pre">probe()</span></code> function, add a call to mdio_alloc() and
+mdio_register() like so:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mdio_alloc</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">bus</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">bus</span><span class="o">-&gt;</span><span class="n">read</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_mii_read</span><span class="p">;</span>
+<span class="n">bus</span><span class="o">-&gt;</span><span class="n">write</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_mii_write</span><span class="p">;</span>
+<span class="n">mdio_register</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And then define the mii_read and mii_write functions if you haven’t already.
+Their syntax is straightforward:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>int mii_read(struct mii_dev *bus, int addr, int devad, int reg);
+int mii_write(struct mii_dev *bus, int addr, int devad, int reg,
+              u16 val);
+</pre></div>
+</div>
+<p>The read function should read the register ‘reg’ from the phy at address ‘addr’
+and return the result to its caller.  The implementation for the write function
+should logically follow.</p>
+</div>
+<hr class="docutils"/>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Legacy network drivers"></a><div class="section" id="legacy-network-drivers">
+<h2>Legacy network drivers<a class="headerlink" href="#legacy-network-drivers" title="Permalink to this headline">¶</a></h2>
+<p>!!! WARNING !!!</p>
+<p>This section below describes the old way of doing things. No new Ethernet
+drivers should be implemented this way. All new drivers should be written
+against the U-Boot core driver model, as described above.</p>
+<p>The actual callback functions are fairly similar, the differences are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">start()</span></code> is called <code class="docutils literal notranslate"><span class="pre">init()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stop()</span></code> is called <code class="docutils literal notranslate"><span class="pre">halt()</span></code></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">recv()</span></code> function must loop until all packets have been received, for
+each packet it must call the net_process_received_packet() function,
+handing it over the pointer and the length. Afterwards it should free
+the packet, before checking for new data.</p></li>
+</ul>
+<p>For porting an old driver to the new driver model, split the existing recv()
+function into the actual new recv() function, just fetching <strong>one</strong> packet,
+remove the call to net_process_received_packet(), then move the packet
+cleanup into the <code class="docutils literal notranslate"><span class="pre">free_pkt()</span></code> function.</p>
+<p>Registering the driver and probing a device is handled very differently,
+follow the recommendations in the driver model design documentation for
+instructions on how to port this over. For the records, the old way of
+initialising a network driver is as follows:</p>
+<div class="section" id="old-network-driver-registration">
+<h3>Old network driver registration<a class="headerlink" href="#old-network-driver-registration" title="Permalink to this headline">¶</a></h3>
+<p>When U-Boot initializes, it will call the common function eth_initialize().
+This will in turn call the board-specific board_eth_init() (or if that fails,
+the cpu-specific cpu_eth_init()).  These board-specific functions can do random
+system handling, but ultimately they will call the driver-specific register
+function which in turn takes care of initializing that particular instance.</p>
+<p>Keep in mind that you should code the driver to avoid storing state in global
+data as someone might want to hook up two of the same devices to one board.
+Any such information that is specific to an interface should be stored in a
+private, driver-defined data structure and pointed to by eth-&gt;priv (see below).</p>
+<p>So the call graph at this stage would look something like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">board_init</span><span class="p">()</span>
+<span class="w">        </span><span class="n">eth_initialize</span><span class="p">()</span>
+<span class="w">                </span><span class="n">board_eth_init</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">cpu_eth_init</span><span class="p">()</span>
+<span class="w">                        </span><span class="n">driver_register</span><span class="p">()</span>
+<span class="w">                                </span><span class="n">initialize</span><span class="w"> </span><span class="n">eth_device</span>
+<span class="w">                                </span><span class="n">eth_register</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>At this point in time, the only thing you need to worry about is the driver’s
+register function.  The pseudo code would look something like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">ape_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">bd_info</span><span class="w"> </span><span class="o">*</span><span class="n">bis</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">iobase</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">ape_priv</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="p">;</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">eth_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">mii_dev</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">priv</span><span class="p">));</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">priv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">dev</span><span class="p">));</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dev</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">free</span><span class="p">(</span><span class="n">priv</span><span class="p">);</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="cm">/* setup whatever private state you need */</span>
+
+<span class="w">        </span><span class="n">memset</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">dev</span><span class="p">));</span>
+<span class="w">        </span><span class="n">sprintf</span><span class="p">(</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">"APE"</span><span class="p">);</span>
+
+<span class="w">        </span><span class="cm">/*</span>
+<span class="cm">         * if your device has dedicated hardware storage for the</span>
+<span class="cm">         * MAC, read it and initialize dev-&gt;enetaddr with it</span>
+<span class="cm">         */</span>
+<span class="w">        </span><span class="n">ape_mac_read</span><span class="p">(</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">enetaddr</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">iobase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iobase</span><span class="p">;</span>
+<span class="w">        </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">priv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">priv</span><span class="p">;</span>
+<span class="w">        </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_init</span><span class="p">;</span>
+<span class="w">        </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">halt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_halt</span><span class="p">;</span>
+<span class="w">        </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">send</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_send</span><span class="p">;</span>
+<span class="w">        </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">recv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_recv</span><span class="p">;</span>
+<span class="w">        </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">write_hwaddr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_write_hwaddr</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">eth_register</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="cp">#ifdef CONFIG_PHYLIB</span>
+<span class="w">        </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mdio_alloc</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">bus</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">free</span><span class="p">(</span><span class="n">priv</span><span class="p">);</span>
+<span class="w">                </span><span class="n">free</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">read</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_mii_read</span><span class="p">;</span>
+<span class="w">        </span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">write</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ape_mii_write</span><span class="p">;</span>
+<span class="w">        </span><span class="n">mdio_register</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The exact arguments needed to initialize your device are up to you.  If you
+need to pass more/less arguments, that’s fine.  You should also add the
+prototype for your new register function to include/netdev.h.</p>
+<p>The return value for this function should be as follows:
+&lt; 0 - failure (hardware failure, not probe failure)
+&gt;=0 - number of interfaces detected</p>
+<p>You might notice that many drivers seem to use xxx_initialize() rather than
+xxx_register().  This is the old naming convention and should be avoided as it
+causes confusion with the driver-specific init function.</p>
+<p>Other than locating the MAC address in dedicated hardware storage, you should
+not touch the hardware in anyway.  That step is handled in the driver-specific
+init function.  Remember that we are only registering the device here, we are
+not checking its state or doing random probing.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="design.html" rel="prev" title="Design Details"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="fdt-fixup.html" rel="next" title="Pre-relocation device tree manipulation">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

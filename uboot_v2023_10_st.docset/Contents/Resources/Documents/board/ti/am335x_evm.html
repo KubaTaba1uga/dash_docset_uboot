@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AM335x Generation — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="am43xx_evm.html" rel="next" title="AM43xx Generation"/>
+<link href="index.html" rel="prev" title="Texas Instruments"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Texas Instruments</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">AM335x Generation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hardware">Hardware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#customization">Customization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#secure-boot">Secure Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nand">NAND</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#falcon-mode">Falcon Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#falcon-mode-emmc">Falcon Mode: eMMC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#falcon-mode-fat-sd-cards">Falcon Mode: FAT SD cards</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#falcon-mode-nand">Falcon Mode: NAND</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#usb-device">USB device</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="am43xx_evm.html">AM43xx Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dra7xx_evm.html">DRA7xx Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ks2_evm.html">Keystone II EVM Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="k3.html">K3 Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Texas Instruments</a> »</li>
+<li>AM335x Generation</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/ti/am335x_evm.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/AM335x Generation"></a><div class="section" id="am335x-generation">
+<h1>AM335x Generation<a class="headerlink" href="#am335x-generation" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Summary"></a><div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>This document covers various features of the <cite>am335x_evm</cite> default
+configuration, some of the related defconfigs, and how to enable hardware
+features not present by default in the defconfigs.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Hardware"></a><div class="section" id="hardware">
+<h2>Hardware<a class="headerlink" href="#hardware" title="Permalink to this headline">¶</a></h2>
+<p>The binary produced by this board supports, based on parsing of the EEPROM
+documented in TI’s reference designs:
+* AM335x GP EVM
+* AM335x EVM SK
+* The Beaglebone family of designs</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Customization"></a><div class="section" id="customization">
+<h2>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h2>
+<p>Given that all of the above boards are reference platforms (and the
+Beaglebone platforms are OSHA), it is likely that this platform code and
+configuration will be used as the basis of a custom platform.  It is
+worth noting that aside from things such as NAND or MMC only being
+required if a custom platform makes use of these blocks, the following
+are required, depending on design:</p>
+<ul class="simple">
+<li><p>GPIO is only required if DDR3 power is controlled in a way similar to EVM SK</p></li>
+<li><p>SPI is only required for SPI flash, or exposing the SPI bus.</p></li>
+</ul>
+<p>The following blocks are required:</p>
+<ul class="simple">
+<li><p>I2C, to talk with the PMIC and ensure that we do not run afoul of
+errata 1.0.24.</p></li>
+</ul>
+<p>When removing options as part of customization, note that you will likely need
+to look at both <cite>include/configs/am335x_evm.h</cite>,
+<cite>include/configs/ti_am335x_common.h</cite> and <cite>include/configs/am335x_evm.h</cite> as the
+migration to Kconfig is not yet complete.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Secure Boot"></a><div class="section" id="secure-boot">
+<h2>Secure Boot<a class="headerlink" href="#secure-boot" title="Permalink to this headline">¶</a></h2>
+<p>Secure TI devices require a boot image that is authenticated by ROM
+code to function. Without this, even JTAG remains locked and the
+device is essentially useless. In order to create a valid boot image for
+a secure device from TI, the initial public software image must be signed
+and combined with various headers, certificates, and other binary images.</p>
+<p>Information on the details on the complete boot image format can be obtained
+from Texas Instruments. The tools used to generate boot images for secure
+devices are part of a secure development package (SECDEV) that can be
+downloaded from:</p>
+<blockquote>
+<div><p><a class="reference external" href="http://www.ti.com/mysecuresoftware">http://www.ti.com/mysecuresoftware</a> (login required)</p>
+</div></blockquote>
+<p>The secure development package is access controlled due to NDA and export
+control restrictions. Access must be requested and granted by TI before the
+package is viewable and downloadable. Contact TI, either online or by way
+of a local TI representative, to request access.</p>
+<div class="section" id="booting-of-u-boot-spl">
+<h3>1. Booting of U-Boot SPL<a class="headerlink" href="#booting-of-u-boot-spl" title="Permalink to this headline">¶</a></h3>
+<p>When CONFIG_TI_SECURE_DEVICE is set, the U-Boot SPL build process
+requires the presence and use of these tools in order to create a
+viable boot image. The build process will look for the environment
+variable TI_SECURE_DEV_PKG, which should be the path of the installed
+SECDEV package. If the TI_SECURE_DEV_PKG variable is not defined or
+if it is defined but doesn’t point to a valid SECDEV package, a
+warning is issued during the build to indicate that a final secure
+bootable image was not created.</p>
+<p>Within the SECDEV package exists an image creation script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><style type="text/css">
+span.prompt1:before {
+  content: "$ ";
+}
+</style><span class="prompt1"><span class="si">${</span><span class="nv">TI_SECURE_DEV_PKG</span><span class="si">}</span>/scripts/create-boot-image.sh</span>
+</pre></div></div><p>This is called as part of the SPL/u-boot build process. As the secure
+boot image formats and requirements differ between secure SOC from TI,
+the purpose of this script is to abstract these details as much as
+possible.</p>
+<p>The script is basically the only required interface to the TI SECDEV
+package for creating a bootable SPL image for secure TI devices.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">create-boot-image.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">             </span>&lt;IMAGE_FLAG&gt;<span class="w"> </span>&lt;INPUT_FILE&gt;<span class="w"> </span>&lt;OUTPUT_FILE&gt;<span class="w"> </span>&lt;SPL_LOAD_ADDR&gt;</span>
+</pre></div></div><p>&lt;IMAGE_FLAG&gt; is a value that specifies the type of the image to
+generate OR the action the image generation tool will take. Valid
+values are:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>PI_X-LOADER</p></td>
+<td><p>Generates an image for SPI flash (byte swapped)</p></td>
+</tr>
+<tr class="row-even"><td><p>X-LOADER</p></td>
+<td><p>Generates an image for non-XIP flash</p></td>
+</tr>
+<tr class="row-odd"><td><p>MLO</p></td>
+<td><p>Generates an image for SD/MMC/eMMC media</p></td>
+</tr>
+<tr class="row-even"><td><p>2ND</p></td>
+<td><p>Generates an image for USB, UART and Ethernet</p></td>
+</tr>
+<tr class="row-odd"><td><p>XIP_X-LOADER</p></td>
+<td><p>Generates a single stage u-boot for NOR/QSPI XiP</p></td>
+</tr>
+</tbody>
+</table>
+<p>&lt;INPUT_FILE&gt; is the full path and filename of the public world boot
+loaderbinary file (depending on the boot media, this is usually
+either u-boot-spl.bin or u-boot.bin).</p>
+<p>&lt;OUTPUT_FILE&gt; is the full path and filename of the final secure
+image. The output binary images should be used in place of the standard
+non-secure binary images (see the platform-specific user’s guides and
+releases notes for how the non-secure images are typically used)</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>u-boot-spl_HS_SPI_X-LOADER</p></td>
+<td><p>byte swapped boot image for SPI flash</p></td>
+</tr>
+<tr class="row-even"><td><p>u-boot-spl_HS_X-LOADER</p></td>
+<td><p>boot image for NAND or SD/MMC/eMMC rawmode</p></td>
+</tr>
+<tr class="row-odd"><td><p>u-boot-spl_HS_MLO</p></td>
+<td><p>boot image for SD/MMC/eMMC media</p></td>
+</tr>
+<tr class="row-even"><td><p>u-boot-spl_HS_2ND</p></td>
+<td><p>boot image for USB, UART and Ethernet</p></td>
+</tr>
+<tr class="row-odd"><td><p>u-boot_HS_XIP_X-LOADER</p></td>
+<td><p>boot image for NOR or QSPI Xip flash</p></td>
+</tr>
+</tbody>
+</table>
+<p>&lt;SPL_LOAD_ADDR&gt; is the address at which SOC ROM should load the
+&lt;INPUT_FILE&gt;</p>
+</div>
+<div class="section" id="booting-of-primary-u-boot-u-boot-img">
+<h3>2. Booting of Primary U-Boot (u-boot.img)<a class="headerlink" href="#booting-of-primary-u-boot-u-boot-img" title="Permalink to this headline">¶</a></h3>
+<p>The SPL image is responsible for loading the next stage boot loader,
+which is the main u-boot image. For secure TI devices, the SPL will
+be authenticated, as described above, as part of the particular
+device’s ROM boot process. In order to continue the secure boot
+process, the authenticated SPL must authenticate the main u-boot
+image that it loads.</p>
+<p>The configurations for secure TI platforms are written to make the boot
+process use the FIT image format for the u-boot.img (CONFIG_SPL_FRAMEWORK
+and CONFIG_SPL_LOAD_FIT). With these configurations the binary
+components that the SPL loads include a specific DTB image and u-boot
+image. These DTB image may be one of many available to the boot
+process. In order to secure these components so that they can be
+authenticated by the SPL as they are loaded from the FIT image, the
+build procedure for secure TI devices will secure these images before
+they are integrated into the FIT image. When those images are extracted
+from the FIT image at boot time, they are post-processed to verify that
+they are still secure. The outlined security-related SPL post-processing
+is enabled through the CONFIG_SPL_FIT_IMAGE_POST_PROCESS option which
+must be enabled for the secure boot scheme to work. In order to allow
+verifying proper operation of the secure boot chain in case of successful
+authentication messages like “Authentication passed” are output by the
+SPL to the console for each blob that got extracted from the FIT image.</p>
+<p>The exact details of the how the images are secured is handled by the
+SECDEV package. Within the SECDEV package exists a script to process
+an input binary image:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="si">${</span><span class="nv">TI_SECURE_DEV_PKG</span><span class="si">}</span>/scripts/secure-binary-image.sh</span>
+</pre></div></div><p>This is called as part of the u-boot build process. As the secure
+image formats and requirements can differ between the various secure
+SOCs from TI, this script in the SECDEV package abstracts these
+details. This script is essentially the only required interface to the
+TI SECDEV package for creating a u-boot.img image for secure TI
+devices.</p>
+<p>The SPL/u-boot code contains calls to dedicated secure ROM functions
+to perform the validation on the secured images. The details of the
+interface to those functions is shown in the code. The summary
+is that they are accessed by invoking an ARM secure monitor call to
+the device’s secure ROM (fixed read-only-memory that is secure and
+only accessible when the ARM core is operating in the secure mode).</p>
+</div>
+<div class="section" id="invoking-the-secure-binary-image-script-for-secure-devices">
+<h3>Invoking the secure-binary-image script for Secure Devices<a class="headerlink" href="#invoking-the-secure-binary-image-script-for-secure-devices" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">secure-binary-image.sh<span class="w"> </span>&lt;INPUT_FILE&gt;<span class="w"> </span>&lt;OUTPUT_FILE&gt;</span>
+</pre></div></div><p>&lt;INPUT_FILE&gt; is the full path and filename of the input binary image</p>
+<p>&lt;OUTPUT_FILE&gt; is the full path and filename of the output secure image.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/NAND"></a><div class="section" id="nand">
+<h2>NAND<a class="headerlink" href="#nand" title="Permalink to this headline">¶</a></h2>
+<p>The AM335x GP EVM ships with a 256MiB NAND available in most profiles.  In
+this example to program the NAND we assume that an SD card has been
+inserted with the files to write in the first SD slot and that mtdparts
+have been configured correctly for the board. All images are first loaded
+into memory, then written to NAND.</p>
+<ol class="arabic simple">
+<li><p>Building u-boot for NAND boot</p></li>
+</ol>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-text">CONFIGxx options for NAND device</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Config</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CONFIG_SYS_NAND_PAGE_SIZE</p></td>
+<td><p>number of main bytes in NAND page</p></td>
+</tr>
+<tr class="row-odd"><td><p>CONFIG_SYS_NAND_OOBSIZE</p></td>
+<td><p>number of OOB bytes in NAND page</p></td>
+</tr>
+<tr class="row-even"><td><p>CONFIG_SYS_NAND_BLOCK_SIZE</p></td>
+<td><p>number of bytes in NAND erase-block</p></td>
+</tr>
+<tr class="row-odd"><td><p>CFG_SYS_NAND_ECCPOS</p></td>
+<td><p>ECC map for NAND page</p></td>
+</tr>
+<tr class="row-even"><td><p>CONFIG_NAND_OMAP_ECCSCHEME</p></td>
+<td><p>(refer doc/README.nand)</p></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="2">
+<li><p>Flashing NAND via MMC/SD</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><style type="text/css">
+span.prompt2:before {
+  content: "=> ";
+}
+</style><span class="prompt2"><span class="c1"># select BOOTSEL to MMC/SD boot and boot from MMC/SD card</span></span>
+<span class="prompt2">mmc<span class="w"> </span>rescan</span>
+<span class="prompt2"><span class="c1"># erase flash</span></span>
+<span class="prompt2">nand<span class="w"> </span>erase.chip</span>
+<span class="prompt2">env<span class="w"> </span>default<span class="w"> </span>-f<span class="w"> </span>-a</span>
+<span class="prompt2">saveenv</span>
+<span class="prompt2"><span class="c1"># flash MLO. Redundant copies of MLO are kept for failsafe</span></span>
+<span class="prompt2">load<span class="w"> </span>mmc<span class="w"> </span><span class="m">0</span><span class="w"> </span>0x82000000<span class="w"> </span>MLO</span>
+<span class="prompt2">nand<span class="w"> </span>write<span class="w"> </span>0x82000000<span class="w"> </span>0x00000<span class="w"> </span>0x20000</span>
+<span class="prompt2">nand<span class="w"> </span>write<span class="w"> </span>0x82000000<span class="w"> </span>0x20000<span class="w"> </span>0x20000</span>
+<span class="prompt2">nand<span class="w"> </span>write<span class="w"> </span>0x82000000<span class="w"> </span>0x40000<span class="w"> </span>0x20000</span>
+<span class="prompt2">nand<span class="w"> </span>write<span class="w"> </span>0x82000000<span class="w"> </span>0x60000<span class="w"> </span>0x20000</span>
+<span class="prompt2"><span class="c1"># flash u-boot.img</span></span>
+<span class="prompt2">load<span class="w"> </span>mmc<span class="w"> </span><span class="m">0</span><span class="w"> </span>0x82000000<span class="w"> </span>u-boot.img</span>
+<span class="prompt2">nand<span class="w"> </span>write<span class="w"> </span>0x82000000<span class="w"> </span>0x80000<span class="w"> </span>0x60000</span>
+<span class="prompt2"><span class="c1"># flash kernel image</span></span>
+<span class="prompt2">load<span class="w"> </span>mmc<span class="w"> </span><span class="m">0</span><span class="w"> </span>0x82000000<span class="w"> </span>uImage</span>
+<span class="prompt2">nand<span class="w"> </span>write<span class="w"> </span>0x82000000<span class="w"> </span><span class="si">${</span><span class="nv">nandsrcaddr</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">nandimgsize</span><span class="si">}</span></span>
+<span class="prompt2"><span class="c1"># flash filesystem image</span></span>
+<span class="prompt2">load<span class="w"> </span>mmc<span class="w"> </span><span class="m">0</span><span class="w"> </span>0x82000000<span class="w"> </span>filesystem.img</span>
+<span class="prompt2">nand<span class="w"> </span>write<span class="w"> </span>0x82000000<span class="w"> </span><span class="si">${</span><span class="nv">loadaddress</span><span class="si">}</span><span class="w"> </span>0x300000</span>
+</pre></div></div><ol class="arabic simple" start="3">
+<li><dl class="simple">
+<dt>Set BOOTSEL pin to select NAND boot, and POR the device.</dt><dd><p>The device should boot from images flashed on NAND device.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Falcon Mode"></a><div class="section" id="falcon-mode">
+<h2>Falcon Mode<a class="headerlink" href="#falcon-mode" title="Permalink to this headline">¶</a></h2>
+<p>The default build includes “Falcon Mode” (see doc/README.falcon) via NAND,
+eMMC (or raw SD cards) and FAT SD cards.  Our default behavior currently is
+to read a ‘c’ on the console while in SPL at any point prior to loading the
+OS payload (so as soon as possible) to opt to booting full U-Boot.  Also
+note that while one can program Falcon Mode “in place” great care needs to
+be taken by the user to not ‘brick’ their setup.  As these are all eval
+boards with multiple boot methods, recovery should not be an issue in this
+worst-case however.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Falcon Mode: eMMC"></a><div class="section" id="falcon-mode-emmc">
+<h2>Falcon Mode: eMMC<a class="headerlink" href="#falcon-mode-emmc" title="Permalink to this headline">¶</a></h2>
+<p>The recommended layout in this case is:</p>
+<table class="colwidths-given docutils align-default" id="id2">
+<caption><span class="caption-text">eMMC Recommended Layout</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>MMC Blocks</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Location in bytes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0x0000 - 0x007F</p></td>
+<td><p>MBR or GPT table</p></td>
+<td><p>0x000000 - 0x020000</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x0080 - 0x00FF</p></td>
+<td><p>ARGS or FDT file</p></td>
+<td><p>0x010000 - 0x020000</p></td>
+</tr>
+<tr class="row-even"><td><p>0x0100 - 0x01FF</p></td>
+<td><p>SPL.backup1 (first copy used)</p></td>
+<td><p>0x020000 - 0x040000</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x0200 - 0x02FF</p></td>
+<td><p>SPL.backup2 (second copy used)</p></td>
+<td><p>0x040000 - 0x060000</p></td>
+</tr>
+<tr class="row-even"><td><p>0x0300 - 0x06FF</p></td>
+<td><p>U-Boot</p></td>
+<td><p>0x060000 - 0x0e0000</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x0700 - 0x08FF</p></td>
+<td><p>U-Boot Env + Redundant</p></td>
+<td><p>0x0e0000 - 0x120000</p></td>
+</tr>
+<tr class="row-even"><td><p>0x0900 - 0x28FF</p></td>
+<td><p>Kernel</p></td>
+<td><p>0x120000 - 0x520000</p></td>
+</tr>
+</tbody>
+</table>
+<p>Note that when we run ‘spl export’ it will prepare to boot the kernel.
+This includes relocation of the uImage from where we loaded it to the entry
+point defined in the header.  As these locations overlap by default, it
+would leave us with an image that if written to MMC will not boot, so
+instead of using the loadaddr variable we use 0x81000000 in the following
+example.  In this example we are loading from the network, for simplicity,
+and assume a valid partition table already exists and ‘mmc dev’ has already
+been run to select the correct device.  Also note that if you previously
+had a FAT partition (such as on a Beaglebone Black) it is not enough to
+write garbage into the area, you must delete it from the partition table
+first.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2"><span class="c1"># Ensure we are able to talk with this mmc device</span></span>
+<span class="prompt2">mmc<span class="w"> </span>rescan</span>
+<span class="prompt2">tftp<span class="w"> </span><span class="m">81000000</span><span class="w"> </span>am335x/MLO</span>
+<span class="prompt2"><span class="c1"># Write to two of the backup locations ROM uses</span></span>
+<span class="prompt2">mmc<span class="w"> </span>write<span class="w"> </span><span class="m">81000000</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">100</span></span>
+<span class="prompt2">mmc<span class="w"> </span>write<span class="w"> </span><span class="m">81000000</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="m">100</span></span>
+<span class="prompt2"><span class="c1"># Write U-Boot to the location set in the config</span></span>
+<span class="prompt2">tftp<span class="w"> </span><span class="m">81000000</span><span class="w"> </span>am335x/u-boot.img</span>
+<span class="prompt2">mmc<span class="w"> </span>write<span class="w"> </span><span class="m">81000000</span><span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="m">400</span></span>
+<span class="prompt2"><span class="c1"># Load kernel and device tree into memory, perform export</span></span>
+<span class="prompt2">tftp<span class="w"> </span><span class="m">81000000</span><span class="w"> </span>am335x/uImage</span>
+<span class="prompt2">run<span class="w"> </span>findfdt</span>
+<span class="prompt2">tftp<span class="w"> </span><span class="si">${</span><span class="nv">fdtaddr</span><span class="si">}</span><span class="w"> </span>am335x/<span class="si">${</span><span class="nv">fdtfile</span><span class="si">}</span></span>
+<span class="prompt2">run<span class="w"> </span>mmcargs</span>
+<span class="prompt2">spl<span class="w"> </span><span class="nb">export</span><span class="w"> </span>fdt<span class="w"> </span><span class="m">81000000</span><span class="w"> </span>-<span class="w"> </span><span class="si">${</span><span class="nv">fdtaddr</span><span class="si">}</span></span>
+<span class="prompt2"><span class="c1"># Write the updated device tree to MMC</span></span>
+<span class="prompt2">mmc<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">fdtaddr</span><span class="si">}</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">80</span></span>
+<span class="prompt2"><span class="c1"># Write the uImage to MMC</span></span>
+<span class="prompt2">mmc<span class="w"> </span>write<span class="w"> </span><span class="m">81000000</span><span class="w"> </span><span class="m">900</span><span class="w"> </span><span class="m">2000</span></span>
+</pre></div></div></div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Falcon Mode: FAT SD cards"></a><div class="section" id="falcon-mode-fat-sd-cards">
+<h2>Falcon Mode: FAT SD cards<a class="headerlink" href="#falcon-mode-fat-sd-cards" title="Permalink to this headline">¶</a></h2>
+<p>In this case the additional file is written to the filesystem.  In this
+example we assume that the uImage and device tree to be used are already on
+the FAT filesystem (only the uImage MUST be for this to function
+afterwards) along with a Falcon Mode aware MLO and the FAT partition has
+already been created and marked bootable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">mmc<span class="w"> </span>rescan</span>
+<span class="prompt2"><span class="c1"># Load kernel and device tree into memory, perform export</span></span>
+<span class="prompt2">load<span class="w"> </span>mmc<span class="w"> </span><span class="m">0</span>:1<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>uImage</span>
+<span class="prompt2">run<span class="w"> </span>findfdt</span>
+<span class="prompt2">load<span class="w"> </span>mmc<span class="w"> </span><span class="m">0</span>:1<span class="w"> </span><span class="si">${</span><span class="nv">fdtaddr</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">fdtfile</span><span class="si">}</span></span>
+<span class="prompt2">run<span class="w"> </span>mmcargs</span>
+<span class="prompt2">spl<span class="w"> </span><span class="nb">export</span><span class="w"> </span>fdt<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>-<span class="w"> </span><span class="si">${</span><span class="nv">fdtaddr</span><span class="si">}</span></span>
+</pre></div></div><p>This will print a number of lines and then end with something like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Using<span class="w"> </span>Device<span class="w"> </span>Tree<span class="w"> </span><span class="k">in</span><span class="w"> </span>place<span class="w"> </span>at<span class="w"> </span>80f80000,<span class="w"> </span>end<span class="w"> </span>80f85928
+Using<span class="w"> </span>Device<span class="w"> </span>Tree<span class="w"> </span><span class="k">in</span><span class="w"> </span>place<span class="w"> </span>at<span class="w"> </span>80f80000,<span class="w"> </span>end<span class="w"> </span>80f88928
+</pre></div>
+</div>
+<p>So then you:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">fatwrite<span class="w"> </span>mmc<span class="w"> </span><span class="m">0</span>:1<span class="w"> </span>0x80f80000<span class="w"> </span>args<span class="w"> </span><span class="m">8928</span></span>
+</pre></div></div></div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Falcon Mode: NAND"></a><div class="section" id="falcon-mode-nand">
+<h2>Falcon Mode: NAND<a class="headerlink" href="#falcon-mode-nand" title="Permalink to this headline">¶</a></h2>
+<p>In this case the additional data is written to another partition of the
+NAND.  In this example we assume that the uImage and device tree to be are
+already located on the NAND somewhere (such as filesystem or mtd partition)
+along with a Falcon Mode aware MLO written to the correct locations for
+booting and mtdparts have been configured correctly for the board:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">nand<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>kernel</span>
+<span class="prompt2">load<span class="w"> </span>nand<span class="w"> </span>rootfs<span class="w"> </span><span class="si">${</span><span class="nv">fdtaddr</span><span class="si">}</span><span class="w"> </span>/boot/am335x-evm.dtb</span>
+<span class="prompt2">run<span class="w"> </span>nandargs</span>
+<span class="prompt2">spl<span class="w"> </span><span class="nb">export</span><span class="w"> </span>fdt<span class="w"> </span><span class="si">${</span><span class="nv">loadaddr</span><span class="si">}</span><span class="w"> </span>-<span class="w"> </span><span class="si">${</span><span class="nv">fdtaddr</span><span class="si">}</span></span>
+<span class="prompt2">nand<span class="w"> </span>erase.part<span class="w"> </span>u-boot-spl-os</span>
+<span class="prompt2">nand<span class="w"> </span>write<span class="w"> </span><span class="si">${</span><span class="nv">fdtaddr</span><span class="si">}</span><span class="w"> </span>u-boot-spl-os</span>
+</pre></div></div></div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/USB device"></a><div class="section" id="usb-device">
+<h2>USB device<a class="headerlink" href="#usb-device" title="Permalink to this headline">¶</a></h2>
+<p>The platform code for am33xx based designs is legacy in the sense that
+it is not fully compliant with the driver model in its management of the
+various resources. This is particularly true for the USB Ethernet gadget
+which will automatically be bound to the first USB Device Controller
+(UDC). This make the USB Ethernet gadget work out of the box on common
+boards like the Beagle Bone Blacks and by default will prevents other
+gadgets to be used.</p>
+<p>The output of the ‘dm tree’ command shows which driver is bound to which
+device, so the user can easily configure their platform differently from
+the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">dm<span class="w"> </span>tree</span>
+</pre></div></div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span> Class     Index  Probed  Driver                Name
+-----------------------------------------------------------
+[...]
+misc          0  [ + ]   ti-musb-wrapper       |   |-- usb@47400000
+usb           0  [ + ]   ti-musb-peripheral    |   |   |-- usb@47401000
+ethernet      1  [ + ]   usb_ether             |   |   |   `-- usb_ether
+bootdev       3  [   ]   eth_bootdev           |   |   |       `-- usb_ether.bootdev
+usb           0  [   ]   ti-musb-host          |   |   `-- usb@47401800
+</pre></div>
+</div>
+<p>Typically here any network command performed using the usb_ether
+interface would work, while using other gadgets would fail:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">fastboot<span class="w"> </span>usb<span class="w"> </span><span class="m">0</span></span>
+</pre></div></div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>All UDC in use (1 available), use the unbind command
+g_dnl_register: failed!, error: -19
+exit not allowed from main input shell.
+</pre></div>
+</div>
+<p>As hinted by the primary error message, the only controller available
+(<a class="reference external" href="mailto:usb%4047401000">usb<span>@</span>47401000</a>) is currently bound to the usb_ether driver, which makes
+it impossible for the fastboot command to bind with this device (at
+least from a bootloader point of view). The solution here would be to
+use the unbind command specifying the class and index parameters (as
+shown above in the ‘dm tree’ output) to target the driver to unbind:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">unbind<span class="w"> </span>ethernet<span class="w"> </span><span class="m">1</span></span>
+</pre></div></div><p>The output of the ‘dm tree’ command now shows the availability of the
+first USB device controller, the fastboot gadget will now be able to
+bind with it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt2">dm<span class="w"> </span>tree</span>
+</pre></div></div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Class     Index  Probed  Driver                Name
+-----------------------------------------------------------
+[...]
+misc          0  [ + ]   ti-musb-wrapper       |   |-- usb@47400000
+usb           0  [   ]   ti-musb-peripheral    |   |   |-- usb@47401000
+usb           0  [   ]   ti-musb-host          |   |   `-- usb@47401800
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Texas Instruments"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="am43xx_evm.html" rel="next" title="AM43xx Generation">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

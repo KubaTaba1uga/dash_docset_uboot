@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Introduction — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="entries.html" rel="next" title="Binman Entry Documentation"/>
+<link href="index.html" rel="prev" title="Package U-Boot"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#packaging">Packaging</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Package U-Boot</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-binman">Using binman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#image-description-format">Image description format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#templates">Templates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-an-elf-file">Updating an ELF file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#entry-documentation">Entry Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#managing-images">Managing images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bintools">Bintools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bintool-documentation">Bintool Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#binman-commands-and-arguments">Binman commands and arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#technical-details">Technical details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Package U-Boot</a> »</li>
+<li>Introduction</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/package/binman.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Firmware often consists of several components which must be packaged together.
+For example, we may have SPL, U-Boot, a device tree and an environment area
+grouped together and placed in MMC flash. When the system starts, it must be
+able to find these pieces.</p>
+<p>Building firmware should be separate from packaging it. Many of the complexities
+of modern firmware build systems come from trying to do both at once. With
+binman, you build all the pieces that are needed, using whatever assortment of
+projects and build systems are needed, then use binman to stitch everything
+together.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/What it does"></a><div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p>Binman reads your board’s device tree and finds a node which describes the
+required image layout. It uses this to work out what to place where.</p>
+<p>Binman provides a mechanism for building images, from simple SPL + U-Boot
+combinations, to more complex arrangements with many parts. It also allows
+users to inspect images, extract and replace binaries within them, repacking if
+needed.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Features"></a><div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<p>Apart from basic padding, alignment and positioning features, Binman supports
+hierarchical images, compression, hashing and dealing with the binary blobs
+which are a sad trend in open-source firmware at present.</p>
+<p>Executable binaries can access the location of other binaries in an image by
+using special linker symbols (zero-overhead but somewhat limited) or by reading
+the devicetree description of the image.</p>
+<p>Binman is designed primarily for use with U-Boot and associated binaries such
+as ARM Trusted Firmware, but it is suitable for use with other projects, such
+as Zephyr. Binman also provides facilities useful in Chromium OS, such as CBFS,
+vblocks and the like.</p>
+<p>Binman provides a way to process binaries before they are included, by adding a
+Python plug-in.</p>
+<p>Binman is intended for use with U-Boot but is designed to be general enough
+to be useful in other image-packaging situations.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Motivation"></a><div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned above, packaging of firmware is quite a different task from
+building the various parts. In many cases the various binaries which go into
+the image come from separate build systems. For example, ARM Trusted Firmware
+is used on ARMv8 devices but is not built in the U-Boot tree. If a Linux kernel
+is included in the firmware image, it is built elsewhere.</p>
+<p>It is of course possible to add more and more build rules to the U-Boot
+build system to cover these cases. It can shell out to other Makefiles and
+build scripts. But it seems better to create a clear divide between building
+software and packaging it.</p>
+<p>At present this is handled by manual instructions, different for each board,
+on how to create images that will boot. By turning these instructions into a
+standard format, we can support making valid images for any board without
+manual effort, lots of READMEs, etc.</p>
+<p>Benefits:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Each binary can have its own build system and tool chain without creating
+any dependencies between them</p></li>
+<li><p>Avoids the need for a single-shot build: individual parts can be updated
+and brought in as needed</p></li>
+<li><p>Provides for a standard image description available in the build and at
+run-time</p></li>
+<li><p>SoC-specific image-signing tools can be accommodated</p></li>
+<li><p>Avoids cluttering the U-Boot build system with image-building code</p></li>
+<li><p>The image description is automatically available at run-time in U-Boot,
+SPL. It can be made available to other software also</p></li>
+<li><p>The image description is easily readable (it’s a text file in device-tree
+format) and permits flexible packing of binaries</p></li>
+</ul>
+</div></blockquote>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Terminology"></a><div class="section" id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h2>
+<p>Binman uses the following terms:</p>
+<ul class="simple">
+<li><p>image - an output file containing a firmware image</p></li>
+<li><p>binary - an input binary that goes into the image</p></li>
+</ul>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installation"></a><div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>You can install binman using:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install binary-manager
+</pre></div>
+</div>
+<p>The name is chosen since binman conflicts with an existing package.</p>
+<p>If you are using binman within the U-Boot tree, it may be easiest to add a
+symlink from your local <cite>~/.bin</cite> directory to <cite>/path/to/tools/binman/binman</cite>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Relationship to FIT"></a><div class="section" id="relationship-to-fit">
+<h2>Relationship to FIT<a class="headerlink" href="#relationship-to-fit" title="Permalink to this headline">¶</a></h2>
+<p>FIT is U-Boot’s official image format. It supports multiple binaries with
+load / execution addresses, compression. It also supports verification
+through hashing and RSA signatures.</p>
+<p>FIT was originally designed to support booting a Linux kernel (with an
+optional ramdisk) and device tree chosen from various options in the FIT.
+Now that U-Boot supports configuration via device tree, it is possible to
+load U-Boot from a FIT, with the device tree chosen by SPL.</p>
+<p>Binman considers FIT to be one of the binaries it can place in the image.</p>
+<p>Where possible it is best to put as much as possible in the FIT, with binman
+used to deal with cases not covered by FIT. Examples include initial
+execution (since FIT itself does not have an executable header) and dealing
+with device boundaries, such as the read-only/read-write separation in SPI
+flash.</p>
+<p>For U-Boot, binman should not be used to create ad-hoc images in place of
+FIT.</p>
+<p>Note that binman can itself create a FIT. This helps to move mkimage
+invocations out of the Makefile and into binman image descriptions. It also
+helps by removing the need for ad-hoc tools like <cite>make_fit_atf.py</cite>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Relationship to mkimage"></a><div class="section" id="relationship-to-mkimage">
+<h2>Relationship to mkimage<a class="headerlink" href="#relationship-to-mkimage" title="Permalink to this headline">¶</a></h2>
+<p>The mkimage tool provides a means to create a FIT. Traditionally it has
+needed an image description file: a device tree, like binman, but in a
+different format. More recently it has started to support a ‘-f auto’ mode
+which can generate that automatically.</p>
+<p>More relevant to binman, mkimage also permits creation of many SoC-specific
+image types. These can be listed by running ‘mkimage -T list’. Examples
+include ‘rksd’, the Rockchip SD/MMC boot format. The mkimage tool is often
+called from the U-Boot build system for this reason.</p>
+<p>Binman considers the output files created by mkimage to be binary blobs
+which it can place in an image. Binman does not replace the mkimage tool or
+this purpose. It would be possible in some situations to create a new entry
+type for the images in mkimage, but this would not add functionality. It
+seems better to use the mkimage tool to generate binaries and avoid blurring
+the boundaries between building input files (mkimage) and packaging then
+into a final image (binman).</p>
+<p>Note that binman can itself invoke mkimage. This helps to move mkimage
+invocations out of the Makefile and into binman image descriptions.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Using binman"></a><div class="section" id="using-binman">
+<h1>Using binman<a class="headerlink" href="#using-binman" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example use of binman in U-Boot"></a><div class="section" id="example-use-of-binman-in-u-boot">
+<h2>Example use of binman in U-Boot<a class="headerlink" href="#example-use-of-binman-in-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>Binman aims to replace some of the ad-hoc image creation in the U-Boot
+build system.</p>
+<p>Consider sunxi. It has the following steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>It uses a custom mksunxiboot tool to build an SPL image called
+sunxi-spl.bin. This should probably move into mkimage.</p></li>
+<li><p>It uses mkimage to package U-Boot into a legacy image file (so that it can
+hold the load and execution address) called u-boot.img.</p></li>
+<li><p>It builds a final output image called u-boot-sunxi-with-spl.bin which
+consists of sunxi-spl.bin, some padding and u-boot.img.</p></li>
+</ol>
+</div></blockquote>
+<p>Binman is intended to replace the last step. The U-Boot build system builds
+u-boot.bin and sunxi-spl.bin. Binman can then take over creation of
+sunxi-spl.bin by calling mksunxiboot or mkimage. In any case, it would then
+create the image from the component parts.</p>
+<p>This simplifies the U-Boot Makefile somewhat, since various pieces of logic
+can be replaced by a call to binman.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Invoking binman within U-Boot"></a><div class="section" id="invoking-binman-within-u-boot">
+<h2>Invoking binman within U-Boot<a class="headerlink" href="#invoking-binman-within-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>Within U-Boot, binman is invoked by the build system, i.e. when you type ‘make’
+or use buildman to build U-Boot. There is no need to run binman independently
+during development. Everything happens automatically and is set up for your
+SoC or board so that binman produced the right things.</p>
+<p>The general policy is that the Makefile builds all the binaries in INPUTS-y
+(the ‘inputs’ rule), then binman is run to produce the final images (the ‘all’
+rule).</p>
+<p>There should be only one invocation of binman in Makefile, the very last step
+that pulls everything together. At present there are some arch-specific
+invocations as well, but these should be dropped when those architectures are
+converted to use binman properly.</p>
+<p>As above, the term ‘binary’ is used for something in INPUTS-y and ‘image’ is
+used for the things that binman creates. So the binaries are inputs to the
+image(s) and it is the image that is actually loaded on the board.</p>
+<p>Again, at present, there are a number of things created in Makefile which should
+be done by binman (when we get around to it), like <cite>u-boot-ivt.img</cite>,
+<cite>lpc32xx-spl.img</cite>, <cite>u-boot-with-nand-spl.imx</cite>, <cite>u-boot-spl-padx4.sfp</cite> and
+<cite>u-boot-mtk.bin</cite>, just to pick on a few. When completed this will remove about
+400 lines from <cite>Makefile</cite>.</p>
+<p>Since binman is invoked only once, it must of course create all the images that
+are needed, in that one invocation. It does this by working through the image
+descriptions one by one, collecting the input binaries, processing them as
+needed and producing the final images.</p>
+<p>The same binaries may be used by multiple images. For example binman may be used
+to produce an SD-card image and a SPI-flash image. In this case the binaries
+going into the process are the same, but binman produces slightly different
+images in each case.</p>
+<p>For some SoCs, U-Boot is not the only project that produces the necessary
+binaries. For example, ARM Trusted Firmware (ATF) is a project that produces
+binaries which must be incorporate, such as <cite>bl31.elf</cite> or <cite>bl31.bin</cite>. For this
+to work you must have built ATF before you build U-Boot and you must tell U-Boot
+where to find the bl31 image, using the BL31 environment variable.</p>
+<p>How do you know how to incorporate ATF? It is handled by the atf-bl31 entry type
+(etype). An etype is an implementation of reading a binary into binman, in this
+case the <cite>bl31.bin</cite> file. When you build U-Boot but do not set the BL31
+environment variable, binman provides a help message, which comes from
+<cite>missing-blob-help</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>See the documentation for your board. You may need to build ARM Trusted
+Firmware and build with BL31=/path/to/bl31.bin
+</pre></div>
+</div>
+<p>The mechanism by which binman is advised of this is also in the Makefile. See
+the <cite>-a atf-bl31-path=${BL31}</cite> piece in <cite>cmd_binman</cite>. This tells binman to
+set the EntryArg <cite>atf-bl31-path</cite> to the value of the <cite>BL31</cite> environment
+variable. Within binman, this EntryArg is picked up by the <cite>Entry_atf_bl31</cite>
+etype. An EntryArg is simply an argument to the entry. The <cite>atf-bl31-path</cite>
+name is documented in <a class="reference internal" href="entries.html#etype-atf-bl31"><span class="std std-ref">Entry: atf-bl31: ARM Trusted Firmware (ATF) BL31 blob</span></a>.</p>
+<p>Taking this a little further, when binman is used to create a FIT, it supports
+using an ELF file, e.g. <cite>bl31.elf</cite> and splitting it into separate pieces (with
+<cite>fit,operation = “split-elf”</cite>), each with its own load address.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Invoking binman outside U-Boot"></a><div class="section" id="invoking-binman-outside-u-boot">
+<h2>Invoking binman outside U-Boot<a class="headerlink" href="#invoking-binman-outside-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>While binman is invoked from within the U-Boot build system, it is also possible
+to invoke it separately. This is typically used in a production build system,
+where signing is completed (with real keys) and any missing binaries are
+provided.</p>
+<p>For example, for build testing there is no need to provide a real signature,
+nor is there any need to provide a real ATF BL31 binary (for example). These can
+be added later by invoking binman again, providing all the required inputs
+from the first time, plus any that were missing or placeholders.</p>
+<p>So in practice binman is often used twice:</p>
+<ul class="simple">
+<li><p>once within the U-Boot build system, for development and testing</p></li>
+<li><p>again outside U-Boot to assembly and final production images</p></li>
+</ul>
+<p>While the same input binaries are used in each case, you will of course you will
+need to create your own binman command line, similar to that in <cite>cmd_binman</cite> in
+the Makefile. You may find the -I and –toolpath options useful. The
+device tree file is provided to binman in binary form, so there is no need to
+have access to the original <cite>.dts</cite> sources.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Assembling the image description"></a><div class="section" id="assembling-the-image-description">
+<h2>Assembling the image description<a class="headerlink" href="#assembling-the-image-description" title="Permalink to this headline">¶</a></h2>
+<p>Since binman uses the device tree for its image description, you can use the
+same files that describe your board’s hardware to describe how the image is
+assembled. Typically the images description is in a common file used by all
+boards with a particular SoC (e.g. <cite>imx8mp-u-boot.dtsi</cite>).</p>
+<p>Where a particular boards needs to make changes, it can override properties in
+the SoC file, just as it would for any other device tree property. It can also
+add a image that is specific to the board.</p>
+<p>Another way to control the image description to make use of CONFIG options in
+the description. For example, if the start offset of a particular entry varies
+by board, you can add a Kconfig for that and reference it in the description:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>u-boot-spl {
+};
+
+fit {
+    offset = &lt;CONFIG_SPL_PAD_TO&gt;;
+    ...
+};
+</pre></div>
+</div>
+<p>The SoC can provide a default value but boards can override that as needed and
+binman will take care of it.</p>
+<p>It is even possible to control which entries appear in the image, by using the
+C preprocessor:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#ifdef CONFIG_HAVE_MRC
+    intel-mrc {
+            offset = &lt;CFG_X86_MRC_ADDR&gt;;
+    };
+#endif
+</pre></div>
+</div>
+<p>Only boards which enable <cite>HAVE_MRC</cite> will include this entry.</p>
+<p>Obviously a similar approach can be used to control which images are produced,
+with a Kconfig option to enable a SPI image, for example. However there is
+generally no harm in producing an image that is not used. If a board uses MMC
+but not SPI, but the SoC supports booting from both, then both images can be
+produced, with only on or other being used by particular boards. This can help
+reduce the need for having multiple defconfig targets for a board where the
+only difference is the boot media, enabling / disabling secure boot, etc.</p>
+<p>Of course you can use the device tree itself to pass any board-specific
+information that is needed by U-Boot at runtime (see <a class="reference internal" href="#binman-syms">binman_syms</a> for how to
+make binman insert these values directly into executables like SPL).</p>
+<p>There is one more way this can be done: with individual .dtsi files for each
+image supported by the SoC. Then the board <cite>.dts</cite> file can include the ones it
+wants. This is not recommended, since it is likely to be difficult to maintain
+and harder to understand the relationship between the different boards.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Producing images for multiple boards"></a><div class="section" id="producing-images-for-multiple-boards">
+<h2>Producing images for multiple boards<a class="headerlink" href="#producing-images-for-multiple-boards" title="Permalink to this headline">¶</a></h2>
+<p>When invoked within U-Boot, binman only builds a single set of images, for
+the chosen board. This is set by the <cite>CONFIG_DEFAULT_DEVICE_TREE</cite> option.</p>
+<p>However, U-Boot generally builds all the device tree files associated with an
+SoC. These are written to the (e.g. for ARM) <cite>arch/arm/dts</cite> directory. Each of
+these contains the full binman description for that board. Often the best
+approach is to build a single image that includes all these device tree binaries
+and allow SPL to select the correct one on boot.</p>
+<p>However, it is also possible to build separate images for each board, simply by
+invoking binman multiple times, once for each device tree file, using a
+different output directory. This will produce one set of images for each board.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example use of binman for x86"></a><div class="section" id="example-use-of-binman-for-x86">
+<h2>Example use of binman for x86<a class="headerlink" href="#example-use-of-binman-for-x86" title="Permalink to this headline">¶</a></h2>
+<p>In most cases x86 images have a lot of binary blobs, ‘black-box’ code
+provided by Intel which must be run for the platform to work. Typically
+these blobs are not relocatable and must be placed at fixed areas in the
+firmware image.</p>
+<p>Currently this is handled by ifdtool, which places microcode, FSP, MRC, VGA
+BIOS, reference code and Intel ME binaries into a u-boot.rom file.</p>
+<p>Binman is intended to replace all of this, with ifdtool left to handle only
+the configuration of the Intel-format descriptor.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installing binman"></a><div class="section" id="installing-binman">
+<h2>Installing binman<a class="headerlink" href="#installing-binman" title="Permalink to this headline">¶</a></h2>
+<p>First install prerequisites, e.g:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python-pyelftools<span class="w"> </span>python3-pyelftools<span class="w"> </span>lzma-alone<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>liblz4-tool
+</pre></div>
+</div>
+<p>You can run binman directly if you put it on your PATH. But if you want to
+install into your <cite>~/.local</cite> Python directory, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>tools/patman<span class="w"> </span>tools/dtoc<span class="w"> </span>tools/binman
+</pre></div>
+</div>
+<p>Note that binman makes use of libraries from patman and dtoc, which is why these
+need to be installed. Also you need <cite>libfdt</cite> and <cite>pylibfdt</cite> which can be
+installed like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git://git.kernel.org/pub/scm/utils/dtc/dtc.git
+<span class="nb">cd</span><span class="w"> </span>dtc
+pip<span class="w"> </span>install<span class="w"> </span>.
+make<span class="w"> </span><span class="nv">NO_PYTHON</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>install
+</pre></div>
+</div>
+<p>This installs the <cite>libfdt.so</cite> library into <cite>~/lib</cite> so you can use
+<cite>LD_LIBRARY_PATH=~/lib</cite> when running binman. If you want to install it in the
+system-library directory, replace the last line with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">NO_PYTHON</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">PREFIX</span><span class="o">=</span>/<span class="w"> </span>install
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running binman"></a><div class="section" id="running-binman">
+<h2>Running binman<a class="headerlink" href="#running-binman" title="Permalink to this headline">¶</a></h2>
+<p>Type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">NO_PYTHON</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">PREFIX</span><span class="o">=</span>/<span class="w"> </span>install
+<span class="w"> </span>binman<span class="w"> </span>build<span class="w"> </span>-b<span class="w"> </span>&lt;board_name&gt;
+</pre></div>
+</div>
+<p>to build an image for a board. The board name is the same name used when
+configuring U-Boot (e.g. for sandbox_defconfig the board name is ‘sandbox’).
+Binman assumes that the input files for the build are in ../b/&lt;board_name&gt;.</p>
+<p>Or you can specify this explicitly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nv">NO_PYTHON</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">PREFIX</span><span class="o">=</span>/<span class="w"> </span>install
+<span class="w"> </span>binman<span class="w"> </span>build<span class="w"> </span>-I<span class="w"> </span>&lt;build_path&gt;
+</pre></div>
+</div>
+<p>where &lt;build_path&gt; is the build directory containing the output of the U-Boot
+build.</p>
+<p>(Future work will make this more configurable)</p>
+<p>In either case, binman picks up the device tree file (u-boot.dtb) and looks
+for its instructions in the ‘binman’ node.</p>
+<p>Binman has a few other options which you can see by running ‘binman -h’.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enabling binman for a board"></a><div class="section" id="enabling-binman-for-a-board">
+<h2>Enabling binman for a board<a class="headerlink" href="#enabling-binman-for-a-board" title="Permalink to this headline">¶</a></h2>
+<p>At present binman is invoked from a rule in the main Makefile. You should be
+able to enable CONFIG_BINMAN to enable this rule.</p>
+<p>The output file is typically named image.bin and is located in the output
+directory. If input files are needed to you add these to INPUTS-y either in the
+main Makefile or in a config.mk file in your arch subdirectory.</p>
+<p>Once binman is executed it will pick up its instructions from a device-tree
+file, typically &lt;soc&gt;-u-boot.dtsi, where &lt;soc&gt; is your CONFIG_SYS_SOC value.
+You can use other, more specific CONFIG options - see ‘Automatic .dtsi
+inclusion’ below.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Access to binman entry offsets at run time (symbols)"></a><div class="section" id="access-to-binman-entry-offsets-at-run-time-symbols">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Access to binman entry offsets at run time (symbols)"></a><span id="binman-syms"></span><h2>Access to binman entry offsets at run time (symbols)<a class="headerlink" href="#access-to-binman-entry-offsets-at-run-time-symbols" title="Permalink to this headline">¶</a></h2>
+<p>Binman assembles images and determines where each entry is placed in the image.
+This information may be useful to U-Boot at run time. For example, in SPL it
+is useful to be able to find the location of U-Boot so that it can be executed
+when SPL is finished.</p>
+<p>Binman allows you to declare symbols in the SPL image which are filled in
+with their correct values during the build. For example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">binman_sym_declare</span><span class="p">(</span><span class="n">ulong</span><span class="p">,</span><span class="w"> </span><span class="n">u_boot_any</span><span class="p">,</span><span class="w"> </span><span class="n">image_pos</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>declares a ulong value which will be assigned to the image-pos of any U-Boot
+image (u-boot.bin, u-boot.img, u-boot-nodtb.bin) that is present in the image.
+You can access this value with something like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">ulong</span><span class="w"> </span><span class="n">u_boot_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binman_sym</span><span class="p">(</span><span class="n">ulong</span><span class="p">,</span><span class="w"> </span><span class="n">u_boot_any</span><span class="p">,</span><span class="w"> </span><span class="n">image_pos</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Thus u_boot_offset will be set to the image-pos of U-Boot in memory, assuming
+that the whole image has been loaded, or is available in flash. You can then
+jump to that address to start U-Boot.</p>
+<p>At present this feature is only supported in SPL and TPL. In principle it is
+possible to fill in such symbols in U-Boot proper, as well, but a future C
+library is planned for this instead, to read from the device tree.</p>
+<p>As well as image-pos, it is possible to read the size of an entry and its
+offset (which is the start position of the entry within its parent).</p>
+<p>A small technical note: Binman automatically adds the base address of the image
+(i.e. __image_copy_start) to the value of the image-pos symbol, so that when the
+image is loaded to its linked address, the value will be correct and actually
+point into the image.</p>
+<p>For example, say SPL is at the start of the image and linked to start at address
+80108000. If U-Boot’s image-pos is 0x8000 then binman will write an image-pos
+for U-Boot of 80110000 into the SPL binary, since it assumes the image is loaded
+to 80108000, with SPL at 80108000 and U-Boot at 80110000.</p>
+<p>For x86 devices (with the end-at-4gb property) this base address is not added
+since it is assumed that images are XIP and the offsets already include the
+address.</p>
+<p>While U-Boot’s symbol updating is handled automatically by the u-boot-spl
+entry type (and others), it is possible to use this feature with any blob. To
+do this, add a <cite>write-symbols</cite> (boolean) property to the node, set the ELF
+filename using <cite>elf-filename</cite> and set ‘elf-base-sym’ to the base symbol for the
+start of the binary image (this defaults to <cite>__image_copy_start</cite> which is what
+U-Boot uses). See <cite>testBlobSymbol()</cite> for an example.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Access to binman entry offsets at run time (fdt)"></a><div class="section" id="access-to-binman-entry-offsets-at-run-time-fdt">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Access to binman entry offsets at run time (fdt)"></a><span id="binman-fdt"></span><h2>Access to binman entry offsets at run time (fdt)<a class="headerlink" href="#access-to-binman-entry-offsets-at-run-time-fdt" title="Permalink to this headline">¶</a></h2>
+<p>Binman can update the U-Boot FDT to include the final position and size of
+each entry in the images it processes. The option to enable this is -u and it
+causes binman to make sure that the ‘offset’, ‘image-pos’ and ‘size’ properties
+are set correctly for every entry. Since it is not necessary to specify these in
+the image definition, binman calculates the final values and writes these to
+the device tree. These can be used by U-Boot at run-time to find the location
+of each entry.</p>
+<p>Alternatively, an FDT map entry can be used to add a special FDT containing
+just the information about the image. This is preceded by a magic string so can
+be located anywhere in the image. An image header (typically at the start or end
+of the image) can be used to point to the FDT map. See fdtmap and image-header
+entries for more information.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Map files"></a><div class="section" id="map-files">
+<h2>Map files<a class="headerlink" href="#map-files" title="Permalink to this headline">¶</a></h2>
+<p>The -m option causes binman to output a .map file for each image that it
+generates. This shows the offset and size of each entry. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Offset      Size  Name
+00000000  00000028  main-section
+ 00000000  00000010  section@0
+  00000000  00000004  u-boot
+ 00000010  00000010  section@1
+  00000000  00000004  u-boot
+</pre></div>
+</div>
+<p>This shows a hierarchical image with two sections, each with a single entry. The
+offsets of the sections are absolute hex byte offsets within the image. The
+offsets of the entries are relative to their respective sections. The size of
+each entry is also shown, in bytes (hex). The indentation shows the entries
+nested inside their sections.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Passing command-line arguments to entries"></a><div class="section" id="passing-command-line-arguments-to-entries">
+<h2>Passing command-line arguments to entries<a class="headerlink" href="#passing-command-line-arguments-to-entries" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it is useful to pass binman the value of an entry property from the
+command line. For example some entries need access to files and it is not
+always convenient to put these filenames in the image definition (device tree).</p>
+<p>The -a option supports this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-a &lt;prop&gt;=&lt;value&gt;
+</pre></div>
+</div>
+<p>where:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;prop&gt; is the property to set
+&lt;value&gt; is the value to set it to
+</pre></div>
+</div>
+<p>Not all properties can be provided this way. Only some entries support it,
+typically for filenames.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Image description format"></a><div class="section" id="image-description-format">
+<h1>Image description format<a class="headerlink" href="#image-description-format" title="Permalink to this headline">¶</a></h1>
+<p>The binman node is called ‘binman’. An example image description is shown
+below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman {
+    filename = "u-boot-sunxi-with-spl.bin";
+    pad-byte = &lt;0xff&gt;;
+    blob {
+        filename = "spl/sunxi-spl.bin";
+    };
+    u-boot {
+        offset = &lt;CONFIG_SPL_PAD_TO&gt;;
+    };
+};
+</pre></div>
+</div>
+<p>This requests binman to create an image file called u-boot-sunxi-with-spl.bin
+consisting of a specially formatted SPL (spl/sunxi-spl.bin, built by the
+normal U-Boot Makefile), some 0xff padding, and a U-Boot legacy image. The
+padding comes from the fact that the second binary is placed at
+CONFIG_SPL_PAD_TO. If that line were omitted then the U-Boot binary would
+immediately follow the SPL binary.</p>
+<p>The binman node describes an image. The sub-nodes describe entries in the
+image. Each entry represents a region within the overall image. The name of
+the entry (blob, u-boot) tells binman what to put there. For ‘blob’ we must
+provide a filename. For ‘u-boot’, binman knows that this means ‘u-boot.bin’.</p>
+<p>Entries are normally placed into the image sequentially, one after the other.
+The image size is the total size of all entries. As you can see, you can
+specify the start offset of an entry using the ‘offset’ property.</p>
+<p>Note that due to a device tree requirement, all entries must have a unique
+name. If you want to put the same binary in the image multiple times, you can
+use any unique name, with the ‘type’ property providing the type.</p>
+<p>The attributes supported for entries are described below.</p>
+<dl class="simple">
+<dt>offset:</dt><dd><p>This sets the offset of an entry within the image or section containing
+it. The first byte of the image is normally at offset 0. If ‘offset’ is
+not provided, binman sets it to the end of the previous region, or the
+start of the image’s entry area (normally 0) if there is no previous
+region.</p>
+</dd>
+<dt>align:</dt><dd><p>This sets the alignment of the entry. The entry offset is adjusted
+so that the entry starts on an aligned boundary within the containing
+section or image. For example ‘align = &lt;16&gt;’ means that the entry will
+start on a 16-byte boundary. This may mean that padding is added before
+the entry. The padding is part of the containing section but is not
+included in the entry, meaning that an empty space may be created before
+the entry starts. Alignment should be a power of 2. If ‘align’ is not
+provided, no alignment is performed.</p>
+</dd>
+<dt>size:</dt><dd><p>This sets the size of the entry. The contents will be padded out to
+this size. If this is not provided, it will be set to the size of the
+contents.</p>
+</dd>
+<dt>min-size:</dt><dd><p>Sets the minimum size of the entry. This size includes explicit padding
+(‘pad-before’ and ‘pad-after’), but not padding added to meet alignment
+requirements. While this does not affect the contents of the entry within
+binman itself (the padding is performed only when its parent section is
+assembled), the end result will be that the entry ends with the padding
+bytes, so may grow. Defaults to 0.</p>
+</dd>
+<dt>pad-before:</dt><dd><p>Padding before the contents of the entry. Normally this is 0, meaning
+that the contents start at the beginning of the entry. This can be used
+to offset the entry contents a little. While this does not affect the
+contents of the entry within binman itself (the padding is performed
+only when its parent section is assembled), the end result will be that
+the entry starts with the padding bytes, so may grow. Defaults to 0.</p>
+</dd>
+<dt>pad-after:</dt><dd><p>Padding after the contents of the entry. Normally this is 0, meaning
+that the entry ends at the last byte of content (unless adjusted by
+other properties). This allows room to be created in the image for
+this entry to expand later. While this does not affect the contents of
+the entry within binman itself (the padding is performed only when its
+parent section is assembled), the end result will be that the entry ends
+with the padding bytes, so may grow. Defaults to 0.</p>
+</dd>
+<dt>align-size:</dt><dd><p>This sets the alignment of the entry size. For example, to ensure
+that the size of an entry is a multiple of 64 bytes, set this to 64.
+While this does not affect the contents of the entry within binman
+itself (the padding is performed only when its parent section is
+assembled), the end result is that the entry ends with the padding
+bytes, so may grow. If ‘align-size’ is not provided, no alignment is
+performed.</p>
+</dd>
+<dt>align-end:</dt><dd><p>This sets the alignment of the end of an entry with respect to the
+containing section. Some entries require that they end on an alignment
+boundary, regardless of where they start. This does not move the start
+of the entry, so the contents of the entry will still start at the
+beginning. But there may be padding at the end. While this does not
+affect the contents of the entry within binman itself (the padding is
+performed only when its parent section is assembled), the end result
+is that the entry ends with the padding bytes, so may grow.
+If ‘align-end’ is not provided, no alignment is performed.</p>
+</dd>
+<dt>filename:</dt><dd><p>For ‘blob’ types this provides the filename containing the binary to
+put into the entry. If binman knows about the entry type (like
+u-boot-bin), then there is no need to specify this.</p>
+</dd>
+<dt>type:</dt><dd><p>Sets the type of an entry. This defaults to the entry name, but it is
+possible to use any name, and then add (for example) ‘type = “u-boot”’
+to specify the type.</p>
+</dd>
+<dt>offset-unset:</dt><dd><p>Indicates that the offset of this entry should not be set by placing
+it immediately after the entry before. Instead, is set by another
+entry which knows where this entry should go. When this boolean
+property is present, binman will give an error if another entry does
+not set the offset (with the GetOffsets() method).</p>
+</dd>
+<dt>image-pos:</dt><dd><p>This cannot be set on entry (or at least it is ignored if it is), but
+with the -u option, binman will set it to the absolute image position
+for each entry. This makes it easy to find out exactly where the entry
+ended up in the image, regardless of parent sections, etc.</p>
+</dd>
+<dt>extend-size:</dt><dd><p>Extend the size of this entry to fit available space. This space is only
+limited by the size of the image/section and the position of the next
+entry.</p>
+</dd>
+<dt>compress:</dt><dd><p>Sets the compression algortihm to use (for blobs only). See the entry
+documentation for details.</p>
+</dd>
+<dt>missing-msg:</dt><dd><p>Sets the tag of the message to show if this entry is missing. This is
+used for external blobs. When they are missing it is helpful to show
+information about what needs to be fixed. See missing-blob-help for the
+message for each tag.</p>
+</dd>
+<dt>no-expanded:</dt><dd><p>By default binman substitutes entries with expanded versions if available,
+so that a <cite>u-boot</cite> entry type turns into <cite>u-boot-expanded</cite>, for example. The
+<cite>–no-expanded</cite> command-line option disables this globally. The
+<cite>no-expanded</cite> property disables this just for a single entry. Put the
+<cite>no-expanded</cite> boolean property in the node to select this behaviour.</p>
+</dd>
+<dt>optional:</dt><dd><p>External blobs are normally required to be present for the image to be
+built (but see <a class="reference internal" href="#external-blobs">External blobs</a>). This properly allows an entry to be
+optional, so that when it is cannot be found, this problem is ignored and
+an empty file is used for this blob. This should be used only when the blob
+is entirely optional and is not needed for correct operation of the image.
+Note that missing, optional blobs do not produce a non-zero exit code from
+binman, although it does show a warning about the missing external blob.</p>
+</dd>
+<dt>insert-template:</dt><dd><p>This is not strictly speaking an entry property, since it is processed early
+in Binman before the entries are read. It is a list of phandles of nodes to
+include in the current (target) node. For each node, its subnodes and their
+properties are brought into the target node. See <a class="reference internal" href="#templates">Templates</a> below for
+more information.</p>
+</dd>
+</dl>
+<p>The attributes supported for images and sections are described below. Several
+are similar to those for entries.</p>
+<dl>
+<dt>size:</dt><dd><p>Sets the image size in bytes, for example ‘size = &lt;0x100000&gt;’ for a
+1MB image.</p>
+</dd>
+<dt>offset:</dt><dd><p>This is similar to ‘offset’ in entries, setting the offset of a section
+within the image or section containing it. The first byte of the section
+is normally at offset 0. If ‘offset’ is not provided, binman sets it to
+the end of the previous region, or the start of the image’s entry area
+(normally 0) if there is no previous region.</p>
+</dd>
+<dt>align-size:</dt><dd><p>This sets the alignment of the image size. For example, to ensure
+that the image ends on a 512-byte boundary, use ‘align-size = &lt;512&gt;’.
+If ‘align-size’ is not provided, no alignment is performed.</p>
+</dd>
+<dt>pad-before:</dt><dd><p>This sets the padding before the image entries. The first entry will
+be positioned after the padding. This defaults to 0.</p>
+</dd>
+<dt>pad-after:</dt><dd><p>This sets the padding after the image entries. The padding will be
+placed after the last entry. This defaults to 0.</p>
+</dd>
+<dt>pad-byte:</dt><dd><p>This specifies the pad byte to use when padding in the image. It
+defaults to 0. To use 0xff, you would add ‘pad-byte = &lt;0xff&gt;’.</p>
+</dd>
+<dt>filename:</dt><dd><p>This specifies the image filename. It defaults to ‘image.bin’.</p>
+</dd>
+<dt>sort-by-offset:</dt><dd><p>This causes binman to reorder the entries as needed to make sure they
+are in increasing positional order. This can be used when your entry
+order may not match the positional order. A common situation is where
+the ‘offset’ properties are set by CONFIG options, so their ordering is
+not known a priori.</p>
+<p>This is a boolean property so needs no value. To enable it, add a
+line ‘sort-by-offset;’ to your description.</p>
+</dd>
+<dt>multiple-images:</dt><dd><p>Normally only a single image is generated. To create more than one
+image, put this property in the binman node. For example, this will
+create image1.bin containing u-boot.bin, and image2.bin containing
+both spl/u-boot-spl.bin and u-boot.bin:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman {
+    multiple-images;
+    image1 {
+        u-boot {
+        };
+    };
+
+    image2 {
+        spl {
+        };
+        u-boot {
+        };
+    };
+};
+</pre></div>
+</div>
+</dd>
+<dt>end-at-4gb:</dt><dd><p>For x86 machines the ROM offsets start just before 4GB and extend
+up so that the image finished at the 4GB boundary. This boolean
+option can be enabled to support this. The image size must be
+provided so that binman knows when the image should start. For an
+8MB ROM, the offset of the first entry would be 0xfff80000 with
+this option, instead of 0 without this option.</p>
+</dd>
+<dt>skip-at-start:</dt><dd><p>This property specifies the entry offset of the first entry.</p>
+<p>For PowerPC mpc85xx based CPU, CONFIG_TEXT_BASE is the entry
+offset of the first entry. It can be 0xeff40000 or 0xfff40000 for
+nor flash boot, 0x201000 for sd boot etc.</p>
+<p>‘end-at-4gb’ property is not applicable where CONFIG_TEXT_BASE +
+Image size != 4gb.</p>
+</dd>
+<dt>align-default:</dt><dd><p>Specifies the default alignment for entries in this section, if they do
+not specify an alignment. Note that this only applies to top-level entries
+in the section (direct subentries), not any subentries of those entries.
+This means that each section must specify its own default alignment, if
+required.</p>
+</dd>
+<dt>symlink:</dt><dd><p>Adds a symlink to the image with string given in the symlink property.</p>
+</dd>
+<dt>overlap:</dt><dd><p>Indicates that this entry overlaps with others in the same section. These
+entries should appear at the end of the section. Overlapping entries are not
+packed with other entries, but their contents are written over other entries
+in the section. Overlapping entries must have an explicit offset and size.</p>
+</dd>
+<dt>write-symbols:</dt><dd><p>Indicates that the blob should be updated with symbol values calculated by
+binman. This is automatic for certain entry types, e.g. <cite>u-boot-spl</cite>. See
+<a class="reference internal" href="#binman-syms">binman_syms</a> for more information.</p>
+</dd>
+<dt>no-write-symbols:</dt><dd><p>Disables symbol writing for this entry. This can be used in entry types
+where symbol writing is automatic. For example, if <cite>u-boot-spl</cite> refers to
+the <cite>u_boot_any_image_pos</cite> symbol but U-Boot is not available in the image
+containing SPL, this can be used to disable the writing. Quite likely this
+indicates a bug in your setup.</p>
+</dd>
+<dt>elf-filename:</dt><dd><p>Sets the file name of a blob’s associated ELF file. For example, if the
+blob is <cite>zephyr.bin</cite> then the ELF file may be <cite>zephyr.elf</cite>. This allows
+binman to locate symbols and understand the structure of the blob. See
+<a class="reference internal" href="#binman-syms">binman_syms</a> for more information.</p>
+</dd>
+<dt>elf-base-sym:</dt><dd><p>Sets the name of the ELF symbol that points to the start of a blob. For
+U-Boot this is <cite>__image_copy_start</cite> and that is the default used by binman
+if this property is missing. For other projects, a difference symbol may be
+needed. Add this symbol to the properties for the blob so that symbols can
+be read correctly. See <a class="reference internal" href="#binman-syms">binman_syms</a> for more information.</p>
+</dd>
+<dt>offset-from-elf:</dt><dd><p>Sets the offset of an entry based on a symbol value in an another entry.
+The format is &lt;&amp;phandle&gt;, “sym_name”, &lt;offset&gt; where phandle is the entry
+containing the blob (with associated ELF file providing symbols), &lt;sym_name&gt;
+is the symbol to lookup (relative to elf-base-sym) and &lt;offset&gt; is an offset
+to add to that value.</p>
+</dd>
+<dt>preserve:</dt><dd><p>Indicates that this entry should be preserved by any firmware updates. This
+flag should be checked by the updater when it is deciding which entries to
+update. This flag is normally attached to sections but can be attached to
+a single entry in a section if the updater supports it. Not that binman
+itself has no control over the updater’s behaviour, so this is just a
+signal. It is not enforced by binman.</p>
+</dd>
+</dl>
+<p>Examples of the above options can be found in the tests. See the
+tools/binman/test directory.</p>
+<p>It is possible to have the same binary appear multiple times in the image,
+either by using a unit number suffix (u-boot@0, u-boot@1) or by using a
+different name for each and specifying the type with the ‘type’ attribute.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Sections and hierachical images"></a><div class="section" id="sections-and-hierachical-images">
+<h2>Sections and hierachical images<a class="headerlink" href="#sections-and-hierachical-images" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it is convenient to split an image into several pieces, each of which
+contains its own set of binaries. An example is a flash device where part of
+the image is read-only and part is read-write. We can set up sections for each
+of these, and place binaries in them independently. The image is still produced
+as a single output file.</p>
+<p>This feature provides a way of creating hierarchical images. For example here
+is an example image with two copies of U-Boot. One is read-only (ro), intended
+to be written only in the factory. Another is read-write (rw), so that it can be
+upgraded in the field. The sizes are fixed so that the ro/rw boundary is known
+and can be programmed:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman {
+    section@0 {
+        read-only;
+        name-prefix = "ro-";
+        size = &lt;0x100000&gt;;
+        u-boot {
+        };
+    };
+    section@1 {
+        name-prefix = "rw-";
+        size = &lt;0x100000&gt;;
+        u-boot {
+        };
+    };
+};
+</pre></div>
+</div>
+<p>This image could be placed into a SPI flash chip, with the protection boundary
+set at 1MB.</p>
+<p>A few special properties are provided for sections:</p>
+<dl class="simple">
+<dt>read-only:</dt><dd><p>Indicates that this section is read-only. This has no impact on binman’s
+operation, but his property can be read at run time.</p>
+</dd>
+<dt>name-prefix:</dt><dd><p>This string is prepended to all the names of the binaries in the
+section. In the example above, the ‘u-boot’ binaries which actually be
+renamed to ‘ro-u-boot’ and ‘rw-u-boot’. This can be useful to
+distinguish binaries with otherwise identical names.</p>
+</dd>
+<dt>filename:</dt><dd><p>This allows the contents of the section to be written to a file in the
+output directory. This can sometimes be useful to use the data in one
+section in different image, since there is currently no way to share data
+beteen images other than through files.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Image Properties"></a><div class="section" id="image-properties">
+<h2>Image Properties<a class="headerlink" href="#image-properties" title="Permalink to this headline">¶</a></h2>
+<p>Image nodes act like sections but also have a few extra properties:</p>
+<dl>
+<dt>filename:</dt><dd><p>Output filename for the image. This defaults to image.bin (or in the
+case of multiple images &lt;nodename&gt;.bin where &lt;nodename&gt; is the name of
+the image node.</p>
+</dd>
+<dt>allow-repack:</dt><dd><p>Create an image that can be repacked. With this option it is possible
+to change anything in the image after it is created, including updating
+the position and size of image components. By default this is not
+permitted since it is not possibly to know whether this might violate a
+constraint in the image description. For example, if a section has to
+increase in size to hold a larger binary, that might cause the section
+to fall out of its allow region (e.g. read-only portion of flash).</p>
+<p>Adding this property causes the original offset and size values in the
+image description to be stored in the FDT and fdtmap.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Image dependencies"></a><div class="section" id="image-dependencies">
+<h2>Image dependencies<a class="headerlink" href="#image-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Binman does not currently support images that depend on each other. For example,
+if one image creates <cite>fred.bin</cite> and then the next uses this <cite>fred.bin</cite> to
+produce a final <cite>image.bin</cite>, then the behaviour is undefined. It may work, or it
+may produce an error about <cite>fred.bin</cite> being missing, or it may use a version of
+<cite>fred.bin</cite> from a previous run.</p>
+<p>Often this can be handled by incorporating the dependency into the second
+image. For example, instead of:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman {
+    multiple-images;
+
+    fred {
+        u-boot {
+        };
+        fill {
+            size = &lt;0x100&gt;;
+        };
+    };
+
+    image {
+        blob {
+            filename = "fred.bin";
+        };
+        u-boot-spl {
+        };
+    };
+</pre></div>
+</div>
+<p>you can do this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman {
+    image {
+        fred {
+            type = "section";
+            u-boot {
+            };
+            fill {
+                size = &lt;0x100&gt;;
+            };
+        };
+        u-boot-spl {
+        };
+    };
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Hashing Entries"></a><div class="section" id="hashing-entries">
+<h2>Hashing Entries<a class="headerlink" href="#hashing-entries" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to ask binman to hash the contents of an entry and write that
+value back to the device-tree node. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman {
+    u-boot {
+        hash {
+            algo = "sha256";
+        };
+    };
+};
+</pre></div>
+</div>
+<p>Here, a new ‘value’ property will be written to the ‘hash’ node containing
+the hash of the ‘u-boot’ entry. Only SHA256 is supported at present. Whole
+sections can be hased if desired, by adding the ‘hash’ node to the section.</p>
+<p>The has value can be chcked at runtime by hashing the data actually read and
+comparing this has to the value in the device tree.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Expanded entries"></a><div class="section" id="expanded-entries">
+<h2>Expanded entries<a class="headerlink" href="#expanded-entries" title="Permalink to this headline">¶</a></h2>
+<p>Binman automatically replaces ‘u-boot’ with an expanded version of that, i.e.
+‘u-boot-expanded’. This means that when you write:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>u-boot {
+};
+</pre></div>
+</div>
+<p>you actually get:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>u-boot {
+    type = "u-boot-expanded';
+};
+</pre></div>
+</div>
+<p>which in turn expands to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>u-boot {
+    type = "section";
+
+    u-boot-nodtb {
+    };
+
+    u-boot-dtb {
+    };
+};
+</pre></div>
+</div>
+<p>U-Boot’s various phase binaries actually comprise two or three pieces.
+For example, u-boot.bin has the executable followed by a devicetree.</p>
+<p>With binman we want to be able to update that devicetree with full image
+information so that it is accessible to the executable. This is tricky
+if it is not clear where the devicetree starts.</p>
+<p>The above feature ensures that the devicetree is clearly separated from the
+U-Boot executable and can be updated separately by binman as needed. It can be
+disabled with the –no-expanded flag if required.</p>
+<p>The same applies for u-boot-spl and u-boot-tpl. In those cases, the expansion
+includes the BSS padding, so for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spl {
+    type = "u-boot-spl"
+};
+</pre></div>
+</div>
+<p>you actually get:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spl {
+    type = "u-boot-expanded';
+};
+</pre></div>
+</div>
+<p>which in turn expands to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>spl {
+    type = "section";
+
+    u-boot-spl-nodtb {
+    };
+
+    u-boot-spl-bss-pad {
+    };
+
+    u-boot-spl-dtb {
+    };
+};
+</pre></div>
+</div>
+<p>Of course we should not expand SPL if it has no devicetree. Also if the BSS
+padding is not needed (because BSS is in RAM as with CONFIG_SPL_SEPARATE_BSS),
+the ‘u-boot-spl-bss-pad’ subnode should not be created. The use of the expaned
+entry type is controlled by the UseExpanded() method. In the SPL case it checks
+the ‘spl-dtb’ entry arg, which is ‘y’ or ‘1’ if SPL has a devicetree.</p>
+<p>For the BSS case, a ‘spl-bss-pad’ entry arg controls whether it is present. All
+entry args are provided by the U-Boot Makefile.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Optional entries"></a><div class="section" id="optional-entries">
+<h2>Optional entries<a class="headerlink" href="#optional-entries" title="Permalink to this headline">¶</a></h2>
+<p>Some entries need to exist only if certain conditions are met. For example, an
+entry may want to appear in the image only if a file has a particular format.
+Obviously the entry must exist in the image description for it to be processed
+at all, so a way needs to be found to have the entry remove itself.</p>
+<p>To handle this, when entry.ObtainContents() is called, the entry can call
+entry.mark_absent() to mark itself as absent, passing a suitable message as the
+reason.</p>
+<p>Any absent entries are dropped immediately after ObtainContents() has been
+called on all entries.</p>
+<p>It is not possible for an entry to mark itself absent at any other point in the
+processing. It must happen in the ObtainContents() method.</p>
+<p>The effect is as if the entry had never been present at all, since the image
+is packed without it and it disappears from the list of entries.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Compression"></a><div class="section" id="compression">
+<h2>Compression<a class="headerlink" href="#compression" title="Permalink to this headline">¶</a></h2>
+<p>Binman support compression for ‘blob’ entries (those of type ‘blob’ and
+derivatives). To enable this for an entry, add a ‘compress’ property:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>blob {
+    filename = "datafile";
+    compress = "lz4";
+};
+</pre></div>
+</div>
+<p>The entry will then contain the compressed data, using the ‘lz4’ compression
+algorithm. Currently this is the only one that is supported. The uncompressed
+size is written to the node in an ‘uncomp-size’ property, if -u is used.</p>
+<p>Compression is also supported for sections. In that case the entire section is
+compressed in one block, including all its contents. This means that accessing
+an entry from the section required decompressing the entire section. Also, the
+size of a section indicates the space that it consumes in its parent section
+(and typically the image). With compression, the section may contain more data,
+and the uncomp-size property indicates that, as above. The contents of the
+section is compressed first, before any padding is added. This ensures that the
+padding itself is not compressed, which would be a waste of time.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Automatic .dtsi inclusion"></a><div class="section" id="automatic-dtsi-inclusion">
+<h2>Automatic .dtsi inclusion<a class="headerlink" href="#automatic-dtsi-inclusion" title="Permalink to this headline">¶</a></h2>
+<p>It is sometimes inconvenient to add a ‘binman’ node to the .dts file for each
+board. This can be done by using #include to bring in a common file. Another
+approach supported by the U-Boot build system is to automatically include
+a common header. You can then put the binman node (and anything else that is
+specific to U-Boot, such as bootph-all properies) in that header file.</p>
+<p>Binman will search for the following files in arch/&lt;arch&gt;/dts:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;dts&gt;-u-boot.dtsi where &lt;dts&gt; is the base name of the .dts file
+&lt;CONFIG_SYS_SOC&gt;-u-boot.dtsi
+&lt;CONFIG_SYS_CPU&gt;-u-boot.dtsi
+&lt;CONFIG_SYS_VENDOR&gt;-u-boot.dtsi
+u-boot.dtsi
+</pre></div>
+</div>
+<p>U-Boot will only use the first one that it finds. If you need to include a
+more general file you can do that from the more specific file using #include.
+If you are having trouble figuring out what is going on, you can use
+<cite>DEVICE_TREE_DEBUG=1</cite> with your build:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make DEVICE_TREE_DEBUG=1
+scripts/Makefile.lib:334: Automatic .dtsi inclusion: options:
+  arch/arm/dts/juno-r2-u-boot.dtsi arch/arm/dts/-u-boot.dtsi
+  arch/arm/dts/armv8-u-boot.dtsi arch/arm/dts/armltd-u-boot.dtsi
+  arch/arm/dts/u-boot.dtsi ... found: "arch/arm/dts/juno-r2-u-boot.dtsi"
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Templates"></a><div class="section" id="templates">
+<h1>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h1>
+<p>Sometimes multiple images need to be created which have all have a common
+part. For example, a board may generate SPI and eMMC images which both include
+a FIT. Since the FIT includes many entries, it is tedious to repeat them twice
+in the image description.</p>
+<p>Templates provide a simple way to handle this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman {
+    multiple-images;
+    common_part: template-1 {
+        some-property;
+        fit {
+            ... lots of entries in here
+        };
+
+        text {
+            text = "base image";
+        };
+    };
+
+    spi-image {
+        filename = "image-spi.bin";
+        insert-template = &lt;&amp;fit&gt;;
+
+        /* things specific to SPI follow */
+        footer {
+        ];
+
+        text {
+            text = "SPI image";
+        };
+    };
+
+    mmc-image {
+        filename = "image-mmc.bin";
+        insert-template = &lt;&amp;fit&gt;;
+
+        /* things specific to MMC follow */
+        footer {
+        ];
+
+        text {
+            text = "MMC image";
+        };
+    };
+};
+</pre></div>
+</div>
+<p>The template node name must start with ‘template’, so it is not considered to be
+an image itself.</p>
+<p>The mechanism is very simple. For each phandle in the ‘insert-templates’
+property, the source node is looked up. Then the subnodes of that source node
+are copied into the target node, i.e. the one containing the <cite>insert-template</cite>
+property.</p>
+<p>If the target node has a node with the same name as a template, its properties
+override corresponding properties in the template. This allows the template to
+be uses as a base, with the node providing updates to the properties as needed.
+The overriding happens recursively.</p>
+<p>Template nodes appear first in each node that they are inserted into and
+ordering of template nodes is preserved. Other nodes come afterwards. If a
+template node also appears in the target node, then the template node sets the
+order. Thus the template can be used to set the ordering, even if the target
+node provides all the properties. In the above example, <cite>fit</cite> and <cite>text</cite> appear
+first in the <cite>spi-image</cite> and <cite>mmc-image</cite> images, followed by <cite>footer</cite>.</p>
+<p>Where there are multiple template nodes, they are inserted in that order. so
+the first template node appears first, then the second.</p>
+<p>Properties in the template node are inserted into the destination node if they
+do not exist there. In the example above, <cite>some-property</cite> is added to each of
+<cite>spi-image</cite> and <cite>mmc-image</cite>.</p>
+<p>Note that template nodes are removed from the binman description after
+processing and before binman builds the image descriptions.</p>
+<p>The initial devicetree produced by the templating process is written to the
+<cite>u-boot.dtb.tmpl1</cite> file. This can be useful to see what is going on if there is
+a failure before the final <cite>u-boot.dtb.out</cite> file is written. A second
+<cite>u-boot.dtb.tmpl2</cite> file is written when the templates themselves are removed.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Dealing with phandles"></a><div class="section" id="dealing-with-phandles">
+<h2>Dealing with phandles<a class="headerlink" href="#dealing-with-phandles" title="Permalink to this headline">¶</a></h2>
+<p>Templates can contain phandles and these are copied to the destination node.
+However this should be used with care, since if a template is instantiated twice
+then the phandle will be copied twice, resulting in a devicetree with duplicate
+phandles, i.e. the same phandle used by two different nodes. Binman detects this
+situation and produces an error, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Duplicate phandle 1 in nodes /binman/image/fit/images/atf/atf-bl31 and
+/binman/image-2/fit/images/atf/atf-bl31
+</pre></div>
+</div>
+<p>In this case an atf-bl31 node containing a phandle has been copied into two
+different target nodes, resulting in the same phandle for each. See
+testTemplatePhandleDup() for the test case.</p>
+<p>The solution is typically to put the phandles in the corresponding target nodes
+(one for each) and remove the phandle from the template.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Updating an ELF file"></a><div class="section" id="updating-an-elf-file">
+<h1>Updating an ELF file<a class="headerlink" href="#updating-an-elf-file" title="Permalink to this headline">¶</a></h1>
+<p>For the EFI app, where U-Boot is loaded from UEFI and runs as an app, there is
+no way to update the devicetree after U-Boot is built. Normally this works by
+creating a new u-boot.dtb.out with he updated devicetree, which is automatically
+built into the output image. With ELF this is not possible since the ELF is
+not part of an image, just a stand-along file. We must create an updated ELF
+file with the new devicetree.</p>
+<p>This is handled by the –update-fdt-in-elf option. It takes four arguments,
+separated by comma:</p>
+<blockquote>
+<div><p>infile     - filename of input ELF file, e.g. ‘u-boot’s
+outfile    - filename of output ELF file, e.g. ‘u-boot.out’
+begin_sym - symbol at the start of the embedded devicetree, e.g.
+‘__dtb_dt_begin’
+end_sym   - symbol at the start of the embedded devicetree, e.g.
+‘__dtb_dt_end’</p>
+</div></blockquote>
+<p>When this flag is used, U-Boot does all the normal packaging, but as an
+additional step, it creates a new ELF file with the new devicetree embedded in
+it.</p>
+<p>If logging is enabled you will see a message like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Updating file 'u-boot' with data length 0x400a (16394) between symbols
+'__dtb_dt_begin' and '__dtb_dt_end'
+</pre></div>
+</div>
+<p>There must be enough space for the updated devicetree. If not, an error like
+the following is produced:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ValueError: Not enough space in 'u-boot' for data length 0x400a (16394);
+size is 0x1744 (5956)
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Entry Documentation"></a><div class="section" id="entry-documentation">
+<h1>Entry Documentation<a class="headerlink" href="#entry-documentation" title="Permalink to this headline">¶</a></h1>
+<p>For details on the various entry types supported by binman and how to use them,
+see entries.rst which is generated from the source code using:</p>
+<blockquote>
+<div><p>binman entry-docs &gt;tools/binman/entries.rst</p>
+</div></blockquote>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="entries.html">Binman Entry Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-atf-bl31-arm-trusted-firmware-atf-bl31-blob">Entry: atf-bl31: ARM Trusted Firmware (ATF) BL31 blob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-atf-fip-arm-trusted-firmware-s-firmware-image-package-fip">Entry: atf-fip: ARM Trusted Firmware’s Firmware Image Package (FIP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-blob-arbitrary-binary-blob">Entry: blob: Arbitrary binary blob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-blob-dtb-a-blob-that-holds-a-device-tree">Entry: blob-dtb: A blob that holds a device tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-blob-ext-externally-built-binary-blob">Entry: blob-ext: Externally built binary blob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-blob-ext-list-list-of-externally-built-binary-blobs">Entry: blob-ext-list: List of externally built binary blobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-blob-named-by-arg-a-blob-entry-which-gets-its-filename-property-from-its-subclass">Entry: blob-named-by-arg: A blob entry which gets its filename property from its subclass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-blob-phase-section-that-holds-a-phase-binary">Entry: blob-phase: Section that holds a phase binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-cbfs-coreboot-filesystem-cbfs">Entry: cbfs: Coreboot Filesystem (CBFS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-collection-an-entry-which-contains-a-collection-of-other-entries">Entry: collection: An entry which contains a collection of other entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-cros-ec-rw-a-blob-entry-which-contains-a-chromium-os-read-write-ec-image">Entry: cros-ec-rw: A blob entry which contains a Chromium OS read-write EC image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-encrypted-externally-built-encrypted-binary-blob">Entry: encrypted: Externally built encrypted binary blob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-fdtmap-an-entry-which-contains-an-fdt-map">Entry: fdtmap: An entry which contains an FDT map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-files-a-set-of-files-arranged-in-a-section">Entry: files: A set of files arranged in a section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-fill-an-entry-which-is-filled-to-a-particular-byte-value">Entry: fill: An entry which is filled to a particular byte value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-fit-flat-image-tree-fit">Entry: fit: Flat Image Tree (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-fmap-an-entry-which-contains-an-fmap-section">Entry: fmap: An entry which contains an Fmap section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-gbb-an-entry-which-contains-a-chromium-os-google-binary-block">Entry: gbb: An entry which contains a Chromium OS Google Binary Block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-image-header-an-entry-which-contains-a-pointer-to-the-fdt-map">Entry: image-header: An entry which contains a pointer to the FDT map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-cmc-intel-chipset-micro-code-cmc-file">Entry: intel-cmc: Intel Chipset Micro Code (CMC) file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-descriptor-intel-flash-descriptor-block-4kb">Entry: intel-descriptor: Intel flash descriptor block (4KB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-fit-intel-firmware-image-table-fit">Entry: intel-fit: Intel Firmware Image Table (FIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-fit-ptr-intel-firmware-image-table-fit-pointer">Entry: intel-fit-ptr: Intel Firmware Image Table (FIT) pointer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-fsp-intel-firmware-support-package-fsp-file">Entry: intel-fsp: Intel Firmware Support Package (FSP) file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-fsp-m-intel-firmware-support-package-fsp-memory-init">Entry: intel-fsp-m: Intel Firmware Support Package (FSP) memory init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-fsp-s-intel-firmware-support-package-fsp-silicon-init">Entry: intel-fsp-s: Intel Firmware Support Package (FSP) silicon init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-fsp-t-intel-firmware-support-package-fsp-temp-ram-init">Entry: intel-fsp-t: Intel Firmware Support Package (FSP) temp ram init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-ifwi-intel-integrated-firmware-image-ifwi-file">Entry: intel-ifwi: Intel Integrated Firmware Image (IFWI) file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-me-intel-management-engine-me-file">Entry: intel-me: Intel Management Engine (ME) file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-mrc-intel-memory-reference-code-mrc-file">Entry: intel-mrc: Intel Memory Reference Code (MRC) file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-refcode-intel-reference-code-file">Entry: intel-refcode: Intel Reference Code file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-vbt-intel-video-bios-table-vbt-file">Entry: intel-vbt: Intel Video BIOS Table (VBT) file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-intel-vga-intel-video-graphics-adaptor-vga-file">Entry: intel-vga: Intel Video Graphics Adaptor (VGA) file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-mkimage-binary-produced-by-mkimage">Entry: mkimage: Binary produced by mkimage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-null-an-entry-which-has-no-contents-of-its-own">Entry: null: An entry which has no contents of its own</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-opensbi-risc-v-opensbi-fw-dynamic-blob">Entry: opensbi: RISC-V OpenSBI fw_dynamic blob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-powerpc-mpc85xx-bootpg-resetvec-powerpc-mpc85xx-bootpg-resetvec-code-for-u-boot">Entry: powerpc-mpc85xx-bootpg-resetvec: PowerPC mpc85xx bootpg + resetvec code for U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-pre-load-pre-load-image-header">Entry: pre-load: Pre load image header</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-rockchip-tpl-rockchip-tpl-binary">Entry: rockchip-tpl: Rockchip TPL binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-scp-system-control-processor-scp-firmware-blob">Entry: scp: System Control Processor (SCP) firmware blob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-section-entry-that-contains-other-entries">Entry: section: Entry that contains other entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-tee-os-entry-containing-an-op-tee-trusted-os-tee-blob">Entry: tee-os: Entry containing an OP-TEE Trusted OS (TEE) blob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-text-an-entry-which-contains-text">Entry: text: An entry which contains text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-ti-board-config-an-entry-containing-a-ti-schema-validated-board-config-binary">Entry: ti-board-config: An entry containing a TI schema validated board config binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-ti-secure-entry-containing-a-ti-x509-certificate-binary">Entry: ti-secure: Entry containing a TI x509 certificate binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-ti-secure-rom-entry-containing-a-ti-x509-certificate-binary-for-images-booted-by-rom">Entry: ti-secure-rom: Entry containing a TI x509 certificate binary for images booted by ROM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-u-boot-flat-binary">Entry: u-boot: U-Boot flat binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-dtb-u-boot-device-tree">Entry: u-boot-dtb: U-Boot device tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-dtb-with-ucode-a-u-boot-device-tree-file-with-the-microcode-removed">Entry: u-boot-dtb-with-ucode: A U-Boot device tree file, with the microcode removed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-elf-u-boot-elf-image">Entry: u-boot-elf: U-Boot ELF image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-env-an-entry-which-contains-a-u-boot-environment">Entry: u-boot-env: An entry which contains a U-Boot environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-expanded-u-boot-flat-binary-broken-out-into-its-component-parts">Entry: u-boot-expanded: U-Boot flat binary broken out into its component parts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-img-u-boot-legacy-image">Entry: u-boot-img: U-Boot legacy image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-nodtb-u-boot-flat-binary-without-device-tree-appended">Entry: u-boot-nodtb: U-Boot flat binary without device tree appended</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-spl-u-boot-spl-binary">Entry: u-boot-spl: U-Boot SPL binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-spl-bss-pad-u-boot-spl-binary-padded-with-a-bss-region">Entry: u-boot-spl-bss-pad: U-Boot SPL binary padded with a BSS region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-spl-dtb-u-boot-spl-device-tree">Entry: u-boot-spl-dtb: U-Boot SPL device tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-spl-elf-u-boot-spl-elf-image">Entry: u-boot-spl-elf: U-Boot SPL ELF image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-spl-expanded-u-boot-spl-flat-binary-broken-out-into-its-component-parts">Entry: u-boot-spl-expanded: U-Boot SPL flat binary broken out into its component parts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-spl-nodtb-spl-binary-without-device-tree-appended">Entry: u-boot-spl-nodtb: SPL binary without device tree appended</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-spl-pubkey-dtb-u-boot-spl-device-tree-including-public-key">Entry: u-boot-spl-pubkey-dtb: U-Boot SPL device tree including public key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-spl-with-ucode-ptr-u-boot-spl-with-embedded-microcode-pointer">Entry: u-boot-spl-with-ucode-ptr: U-Boot SPL with embedded microcode pointer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-tpl-u-boot-tpl-binary">Entry: u-boot-tpl: U-Boot TPL binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-tpl-bss-pad-u-boot-tpl-binary-padded-with-a-bss-region">Entry: u-boot-tpl-bss-pad: U-Boot TPL binary padded with a BSS region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-tpl-dtb-u-boot-tpl-device-tree">Entry: u-boot-tpl-dtb: U-Boot TPL device tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-tpl-dtb-with-ucode-u-boot-tpl-with-embedded-microcode-pointer">Entry: u-boot-tpl-dtb-with-ucode: U-Boot TPL with embedded microcode pointer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-tpl-elf-u-boot-tpl-elf-image">Entry: u-boot-tpl-elf: U-Boot TPL ELF image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-tpl-expanded-u-boot-tpl-flat-binary-broken-out-into-its-component-parts">Entry: u-boot-tpl-expanded: U-Boot TPL flat binary broken out into its component parts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-tpl-nodtb-tpl-binary-without-device-tree-appended">Entry: u-boot-tpl-nodtb: TPL binary without device tree appended</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-tpl-with-ucode-ptr-u-boot-tpl-with-embedded-microcode-pointer">Entry: u-boot-tpl-with-ucode-ptr: U-Boot TPL with embedded microcode pointer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-ucode-u-boot-microcode-block">Entry: u-boot-ucode: U-Boot microcode block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-vpl-u-boot-vpl-binary">Entry: u-boot-vpl: U-Boot VPL binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-vpl-bss-pad-u-boot-vpl-binary-padded-with-a-bss-region">Entry: u-boot-vpl-bss-pad: U-Boot VPL binary padded with a BSS region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-vpl-dtb-u-boot-vpl-device-tree">Entry: u-boot-vpl-dtb: U-Boot VPL device tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-vpl-elf-u-boot-vpl-elf-image">Entry: u-boot-vpl-elf: U-Boot VPL ELF image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-vpl-expanded-u-boot-vpl-flat-binary-broken-out-into-its-component-parts">Entry: u-boot-vpl-expanded: U-Boot VPL flat binary broken out into its component parts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-vpl-nodtb-vpl-binary-without-device-tree-appended">Entry: u-boot-vpl-nodtb: VPL binary without device tree appended</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-u-boot-with-ucode-ptr-u-boot-with-embedded-microcode-pointer">Entry: u-boot-with-ucode-ptr: U-Boot with embedded microcode pointer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-vblock-an-entry-which-contains-a-chromium-os-verified-boot-block">Entry: vblock: An entry which contains a Chromium OS verified boot block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-x509-cert-an-entry-which-contains-an-x509-certificate">Entry: x509-cert: An entry which contains an X509 certificate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-x86-reset16-x86-16-bit-reset-code-for-u-boot">Entry: x86-reset16: x86 16-bit reset code for U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-x86-reset16-spl-x86-16-bit-reset-code-for-u-boot">Entry: x86-reset16-spl: x86 16-bit reset code for U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-x86-reset16-tpl-x86-16-bit-reset-code-for-u-boot">Entry: x86-reset16-tpl: x86 16-bit reset code for U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-x86-start16-x86-16-bit-start-up-code-for-u-boot">Entry: x86-start16: x86 16-bit start-up code for U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-x86-start16-spl-x86-16-bit-start-up-code-for-spl">Entry: x86-start16-spl: x86 16-bit start-up code for SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-x86-start16-tpl-x86-16-bit-start-up-code-for-tpl">Entry: x86-start16-tpl: x86 16-bit start-up code for TPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html#entry-xilinx-bootgen-signed-spl-boot-image-for-xilinx-zynqmp-devices">Entry: xilinx-bootgen: Signed SPL boot image for Xilinx ZynqMP devices</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Managing images"></a><div class="section" id="managing-images">
+<h1>Managing images<a class="headerlink" href="#managing-images" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Listing images"></a><div class="section" id="listing-images">
+<h2>Listing images<a class="headerlink" href="#listing-images" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to list the entries in an existing firmware image created by
+binman, provided that there is an ‘fdtmap’ entry in the image. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman ls -i image.bin
+Name              Image-pos  Size  Entry-type    Offset  Uncomp-size
+----------------------------------------------------------------------
+main-section                  c00  section            0
+  u-boot                  0     4  u-boot             0
+  section                     5fc  section            4
+    cbfs                100   400  cbfs               0
+      u-boot            138     4  u-boot            38
+      u-boot-dtb        180   108  u-boot-dtb        80          3b5
+    u-boot-dtb          500   1ff  u-boot-dtb       400          3b5
+  fdtmap                6fc   381  fdtmap           6fc
+  image-header          bf8     8  image-header     bf8
+</pre></div>
+</div>
+<p>This shows the hierarchy of the image, the position, size and type of each
+entry, the offset of each entry within its parent and the uncompressed size if
+the entry is compressed.</p>
+<p>It is also possible to list just some files in an image, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman ls -i image.bin section/cbfs
+Name              Image-pos  Size  Entry-type  Offset  Uncomp-size
+--------------------------------------------------------------------
+    cbfs                100   400  cbfs             0
+      u-boot            138     4  u-boot          38
+      u-boot-dtb        180   108  u-boot-dtb      80          3b5
+</pre></div>
+</div>
+<p>or with wildcards:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman ls -i image.bin "*cb*" "*head*"
+Name              Image-pos  Size  Entry-type    Offset  Uncomp-size
+----------------------------------------------------------------------
+    cbfs                100   400  cbfs               0
+      u-boot            138     4  u-boot            38
+      u-boot-dtb        180   108  u-boot-dtb        80          3b5
+  image-header          bf8     8  image-header     bf8
+</pre></div>
+</div>
+<p>If an older version of binman is used to list images created by a newer one, it
+is possible that it will contain entry types that are not supported. These still
+show with the correct type, but binman just sees them as blobs (plain binary
+data). Any special features of that etype are not supported by the old binman.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Extracting files from images"></a><div class="section" id="extracting-files-from-images">
+<h2>Extracting files from images<a class="headerlink" href="#extracting-files-from-images" title="Permalink to this headline">¶</a></h2>
+<p>You can extract files from an existing firmware image created by binman,
+provided that there is an ‘fdtmap’ entry in the image. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman extract -i image.bin section/cbfs/u-boot
+</pre></div>
+</div>
+<p>which will write the uncompressed contents of that entry to the file ‘u-boot’ in
+the current directory. You can also extract to a particular file, in this case
+u-boot.bin:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman extract -i image.bin section/cbfs/u-boot -f u-boot.bin
+</pre></div>
+</div>
+<p>It is possible to extract all files into a destination directory, which will
+put files in subdirectories matching the entry hierarchy:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman extract -i image.bin -O outdir
+</pre></div>
+</div>
+<p>or just a selection:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman extract -i image.bin "*u-boot*" -O outdir
+</pre></div>
+</div>
+<p>Some entry types have alternative formats, for example fdtmap which allows
+extracted just the devicetree binary without the fdtmap header:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman extract -i /tmp/b/odroid-c4/image.bin -f out.dtb -F fdt fdtmap
+$ fdtdump out.dtb
+/dts-v1/;
+// magic:               0xd00dfeed
+// totalsize:           0x8ab (2219)
+// off_dt_struct:       0x38
+// off_dt_strings:      0x82c
+// off_mem_rsvmap:      0x28
+// version:             17
+// last_comp_version:   2
+// boot_cpuid_phys:     0x0
+// size_dt_strings:     0x7f
+// size_dt_struct:      0x7f4
+
+/ {
+    image-node = "binman";
+    image-pos = &lt;0x00000000&gt;;
+    size = &lt;0x0011162b&gt;;
+    ...
+</pre></div>
+</div>
+<p>Use <cite>-F list</cite> to see what alternative formats are available:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman extract -i /tmp/b/odroid-c4/image.bin -F list
+Flag (-F)   Entry type            Description
+fdt         fdtmap                Extract the devicetree blob from the fdtmap
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Replacing files in an image"></a><div class="section" id="replacing-files-in-an-image">
+<h2>Replacing files in an image<a class="headerlink" href="#replacing-files-in-an-image" title="Permalink to this headline">¶</a></h2>
+<p>You can replace files in an existing firmware image created by binman, provided
+that there is an ‘fdtmap’ entry in the image. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman replace -i image.bin section/cbfs/u-boot
+</pre></div>
+</div>
+<p>which will write the contents of the file ‘u-boot’ from the current directory
+to the that entry, compressing if necessary. If the entry size changes, you must
+add the ‘allow-repack’ property to the original image before generating it (see
+above), otherwise you will get an error.</p>
+<p>You can also use a particular file, in this case u-boot.bin:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman replace -i image.bin section/cbfs/u-boot -f u-boot.bin
+</pre></div>
+</div>
+<p>It is possible to replace all files from a source directory which uses the same
+hierarchy as the entries:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman replace -i image.bin -I indir
+</pre></div>
+</div>
+<p>Files that are missing will generate a warning.</p>
+<p>You can also replace just a selection of entries:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman replace -i image.bin "*u-boot*" -I indir
+</pre></div>
+</div>
+<p>It is possible to replace whole sections as well, but in that case any
+information about entries within the section may become outdated. This is
+because Binman cannot know whether things have moved around or resized within
+the section, once you have updated its data.</p>
+<p>Technical note: With ‘allow-repack’, Binman writes information about the
+original offset and size properties of each entry, if any were specified, in
+the ‘orig-offset’ and ‘orig-size’ properties. This allows Binman to distinguish
+between an entry which ended up being packed at an offset (or assigned a size)
+and an entry which had a particular offset / size requested in the Binman
+configuration. Where are particular offset / size was requested, this is treated
+as set in stone, so Binman will ensure it doesn’t change. Without this feature,
+repacking an entry might cause it to disobey the original constraints provided
+when it was created.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Signing FIT container with private key in an image"></a><div class="section" id="signing-fit-container-with-private-key-in-an-image">
+<h2>Signing FIT container with private key in an image<a class="headerlink" href="#signing-fit-container-with-private-key-in-an-image" title="Permalink to this headline">¶</a></h2>
+<p>You can sign FIT container with private key in your image.
+For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman sign -i image.bin -k privatekey -a sha256,rsa4096 fit
+</pre></div>
+</div>
+<p>binman will extract FIT container, sign and replace it immediately.</p>
+<p>If you want to sign and replace FIT container in place:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ binman sign -i image.bin -k privatekey -a sha256,rsa4096 -f fit.fit fit
+</pre></div>
+</div>
+<p>which will sign FIT container with private key and replace it immediately
+inside your image.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logging"></a><div class="section" id="logging">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Logging"></a><span id="binmanlogging"></span><h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
+<p>Binman normally operates silently unless there is an error, in which case it
+just displays the error. The -D/–debug option can be used to create a full
+backtrace when errors occur. You can use BINMAN_DEBUG=1 when building to select
+this.</p>
+<p>Internally binman logs some output while it is running. This can be displayed
+by increasing the -v/–verbosity from the default of 1:</p>
+<blockquote>
+<div><p>0: silent
+1: warnings only
+2: notices (important messages)
+3: info about major operations
+4: detailed information about each operation
+5: debug (all output)</p>
+</div></blockquote>
+<p>You can use BINMAN_VERBOSE=5 (for example) when building to select this.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintools"></a><div class="section" id="bintools">
+<h1>Bintools<a class="headerlink" href="#bintools" title="Permalink to this headline">¶</a></h1>
+<p><cite>Bintool</cite> is the name binman gives to a binary tool which it uses to create and
+manipulate binaries that binman cannot handle itself. Bintools are often
+necessary since Binman only supports a subset of the available file formats
+natively.</p>
+<p>Many SoC vendors invent ways to load code into their SoC using new file formats,
+sometimes changing the format with successive SoC generations. Sometimes the
+tool is available as Open Source. Sometimes it is a pre-compiled binary that
+must be downloaded from the vendor’s website. Sometimes it is available in
+source form but difficult or slow to build.</p>
+<p>Even for images that use bintools, binman still assembles the image from its
+image description. It may handle parts of the image natively and part with
+various bintools.</p>
+<p>Binman relies on these tools so provides various features to manage them:</p>
+<ul class="simple">
+<li><p>Determining whether the tool is currently installed</p></li>
+<li><p>Downloading or building the tool</p></li>
+<li><p>Determining the version of the tool that is installed</p></li>
+<li><p>Deciding which tools are needed to build an image</p></li>
+</ul>
+<p>The Bintool class is an interface to the tool, a thin level of abstration, using
+Python functions to run the tool for each purpose (e.g. creating a new
+structure, adding a file to an existing structure) rather than just lists of
+string arguments.</p>
+<p>As with external blobs, bintools (which are like ‘external’ tools) can be
+missing. When building an image requires a bintool and it is not installed,
+binman detects this and reports the problem, but continues to build an image.
+This is useful in CI systems which want to check that everything is correct but
+don’t have access to the bintools.</p>
+<p>To make this work, all calls to bintools (e.g. with Bintool.run_cmd()) must cope
+with the tool being missing, i.e. when None is returned, by:</p>
+<ul class="simple">
+<li><p>Calling self.record_missing_bintool()</p></li>
+<li><p>Setting up some fake contents so binman can continue</p></li>
+</ul>
+<p>Of course the image will not work, but binman reports which bintools are needed
+and also provide a way to fetch them.</p>
+<p>To see the available bintools, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman tool --list
+</pre></div>
+</div>
+<p>To fetch tools which are missing, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman tool --fetch missing
+</pre></div>
+</div>
+<p>You can also use <cite>–fetch all</cite> to fetch all tools or <cite>–fetch &lt;tool&gt;</cite> to fetch
+a particular tool. Some tools are built from source code, in which case you will
+need to have at least the <cite>build-essential</cite> and <cite>git</cite> packages installed.</p>
+<p>Tools are fetched into the <cite>~/.binman-tools</cite> directory. This directory is
+automatically added to the toolpath so there is no need to use <cite>–toolpath</cite> to
+specify it. If you want to use these tools outside binman, you may want to
+add this directory to your <cite>PATH</cite>. For example, if you use bash, add this to
+the end of <cite>.bashrc</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PATH="$HOME/.binman-tools:$PATH"
+</pre></div>
+</div>
+<p>To select a custom directory, use the <cite>–tooldir</cite> option.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Bintool Documentation"></a><div class="section" id="bintool-documentation">
+<h1>Bintool Documentation<a class="headerlink" href="#bintool-documentation" title="Permalink to this headline">¶</a></h1>
+<p>To provide details on the various bintools supported by binman, bintools.rst is
+generated from the source code using:</p>
+<blockquote>
+<div><p>binman bintool-docs &gt;tools/binman/bintools.rst</p>
+</div></blockquote>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bintools.html">Binman bintool Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-bzip2-compression-decompression-using-the-bzip2-algorithm">Bintool: bzip2: Compression/decompression using the bzip2 algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-cbfstool-coreboot-filesystem-cbfs-tool">Bintool: cbfstool: Coreboot filesystem (CBFS) tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-fiptool-image-generation-for-arm-trusted-firmware">Bintool: fiptool: Image generation for ARM Trusted Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-futility-handles-the-futility-tool">Bintool: futility: Handles the ‘futility’ tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-gzip-compression-decompression-using-the-gzip-algorithm">Bintool: gzip: Compression/decompression using the gzip algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-ifwitool-handles-the-ifwitool-tool">Bintool: ifwitool: Handles the ‘ifwitool’ tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-lz4-compression-decompression-using-the-lz4-algorithm">Bintool: lz4: Compression/decompression using the LZ4 algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-lzma-alone-compression-decompression-using-the-lzma-algorithm">Bintool: lzma_alone: Compression/decompression using the LZMA algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-lzop-compression-decompression-using-the-lzop-algorithm">Bintool: lzop: Compression/decompression using the lzop algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-mkimage-image-generation-for-u-boot">Bintool: mkimage: Image generation for U-Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-openssl-openssl-tool">Bintool: openssl: openssl tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-xz-compression-decompression-using-the-xz-algorithm">Bintool: xz: Compression/decompression using the xz algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-zstd-compression-decompression-using-the-zstd-algorithm">Bintool: zstd: Compression/decompression using the zstd algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-fdt-add-pubkey-add-public-key-to-device-tree">Bintool: fdt_add_pubkey: Add public key to device tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bintools.html#bintool-bootgen-sign-zynqmp-fsbl-image">Bintool: bootgen: Sign ZynqMP FSBL image</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Binman commands and arguments"></a><div class="section" id="binman-commands-and-arguments">
+<h1>Binman commands and arguments<a class="headerlink" href="#binman-commands-and-arguments" title="Permalink to this headline">¶</a></h1>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman [-h] [-B BUILD_DIR] [-D] [--tooldir TOOLDIR] [-H]
+    [--toolpath TOOLPATH] [-T THREADS] [--test-section-timeout]
+    [-v VERBOSITY] [-V]
+    {build,bintool-docs,entry-docs,ls,extract,replace,test,tool} ...
+</pre></div>
+</div>
+<p>Binman provides the following commands:</p>
+<ul class="simple">
+<li><p><strong>build</strong> - build images</p></li>
+<li><p><strong>bintools-docs</strong> - generate documentation about bintools</p></li>
+<li><p><strong>entry-docs</strong> - generate documentation about entry types</p></li>
+<li><p><strong>ls</strong> - list an image</p></li>
+<li><p><strong>extract</strong> - extract files from an image</p></li>
+<li><p><strong>replace</strong> - replace one or more entries in an image</p></li>
+<li><p><strong>test</strong> - run tests</p></li>
+<li><p><strong>tool</strong> - manage bintools</p></li>
+</ul>
+<p>Options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>Show help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-B <var>BUILD_DIR</var></span>, <span class="option">--build-dir <var>BUILD_DIR</var></span></kbd></dt>
+<dd><p>Directory containing the build output</p>
+</dd>
+<dt><kbd><span class="option">-D</span>, <span class="option">--debug</span></kbd></dt>
+<dd><p>Enabling debugging (provides a full traceback on error)</p>
+</dd>
+<dt><kbd><span class="option">--tooldir <var>TOOLDIR</var></span></kbd></dt>
+<dd><p>Set the directory to store tools</p>
+</dd>
+<dt><kbd><span class="option">-H</span>, <span class="option">--full-help</span></kbd></dt>
+<dd><p>Display the README file</p>
+</dd>
+<dt><kbd><span class="option">--toolpath <var>TOOLPATH</var></span></kbd></dt>
+<dd><p>Add a path to the list of directories containing tools</p>
+</dd>
+<dt><kbd><span class="option">-T <var>THREADS</var></span>, <span class="option">--threads <var>THREADS</var></span></kbd></dt>
+<dd><p>Number of threads to use (0=single-thread). Note that -T0 is useful for
+debugging since everything runs in one thread.</p>
+</dd>
+<dt><kbd><span class="option">-v <var>VERBOSITY</var></span>, <span class="option">--verbosity <var>VERBOSITY</var></span></kbd></dt>
+<dd><p>Control verbosity: 0=silent, 1=warnings, 2=notices, 3=info, 4=detail,
+5=debug</p>
+</dd>
+<dt><kbd><span class="option">-V</span>, <span class="option">--version</span></kbd></dt>
+<dd><p>Show the binman version</p>
+</dd>
+</dl>
+<p>Test options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">--test-section-timeout</span></kbd></dt>
+<dd><p>Use a zero timeout for section multi-threading (for testing)</p>
+</dd>
+</dl>
+<p>Commands are described below.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman build"></a><div class="section" id="binman-build">
+<h2>binman build<a class="headerlink" href="#binman-build" title="Permalink to this headline">¶</a></h2>
+<p>This builds one or more images using the provided image description.</p>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman build [-h] [-a ENTRY_ARG] [-b BOARD] [-d DT] [--fake-dtb]
+    [--fake-ext-blobs] [--force-missing-bintools FORCE_MISSING_BINTOOLS]
+    [-i IMAGE] [-I INDIR] [-m] [-M] [-n] [-O OUTDIR] [-p] [-u]
+    [--update-fdt-in-elf UPDATE_FDT_IN_ELF] [-W]
+</pre></div>
+</div>
+<p>Options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>Show help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-a <var>ENTRY_ARG</var></span>, <span class="option">--entry-arg <var>ENTRY_ARG</var></span></kbd></dt>
+<dd><p>Set argument value <cite>arg=value</cite>. See
+<a class="reference internal" href="#passing-command-line-arguments-to-entries">Passing command-line arguments to entries</a>.</p>
+</dd>
+<dt><kbd><span class="option">-b <var>BOARD</var></span>, <span class="option">--board <var>BOARD</var></span></kbd></dt>
+<dd><p>Board name to build. This can be used instead of <cite>-d</cite>, in which case the
+file <cite>u-boot.dtb</cite> is used, within the build directory’s board subdirectory.</p>
+</dd>
+<dt><kbd><span class="option">-d <var>DT</var></span>, <span class="option">--dt <var>DT</var></span></kbd></dt>
+<dd><p>Configuration file (.dtb) to use. This must have a top-level node called
+<cite>binman</cite>. See <a class="reference internal" href="#image-description-format">Image description format</a>.</p>
+</dd>
+<dt><kbd><span class="option">-i <var>IMAGE</var></span>, <span class="option">--image <var>IMAGE</var></span></kbd></dt>
+<dd><p>Image filename to build (if not specified, build all)</p>
+</dd>
+<dt><kbd><span class="option">-I <var>INDIR</var></span>, <span class="option">--indir <var>INDIR</var></span></kbd></dt>
+<dd><p>Add a path to the list of directories to use for input files. This can be
+specified multiple times to add more than one path.</p>
+</dd>
+<dt><kbd><span class="option">-m</span>, <span class="option">--map</span></kbd></dt>
+<dd><p>Output a map file for each image. See <a class="reference internal" href="#map-files">Map files</a>.</p>
+</dd>
+<dt><kbd><span class="option">-M</span>, <span class="option">--allow-missing</span></kbd></dt>
+<dd><p>Allow external blobs and bintools to be missing. See <a class="reference internal" href="#external-blobs">External blobs</a>.</p>
+</dd>
+<dt><kbd><span class="option">-n</span>, <span class="option">--no-expanded</span></kbd></dt>
+<dd><p>Don’t use ‘expanded’ versions of entries where available; normally ‘u-boot’
+becomes ‘u-boot-expanded’, for example. See <a class="reference internal" href="#expanded-entries">Expanded entries</a>.</p>
+</dd>
+<dt><kbd><span class="option">-O <var>OUTDIR</var></span>, <span class="option">--outdir <var>OUTDIR</var></span></kbd></dt>
+<dd><p>Path to directory to use for intermediate and output files</p>
+</dd>
+<dt><kbd><span class="option">-p</span>, <span class="option">--preserve</span></kbd></dt>
+<dd><p>Preserve temporary output directory even if option -O is not given</p>
+</dd>
+<dt><kbd><span class="option">-u</span>, <span class="option">--update-fdt</span></kbd></dt>
+<dd><p>Update the binman node with offset/size info. See
+<a class="reference internal" href="#access-to-binman-entry-offsets-at-run-time-fdt">Access to binman entry offsets at run time (fdt)</a>.</p>
+</dd>
+<dt><kbd><span class="option">--update-fdt-in-elf <var>UPDATE_FDT_IN_ELF</var></span></kbd></dt>
+<dd><p>Update an ELF file with the output dtb. The argument is a string consisting
+of four parts, separated by commas. See <a class="reference internal" href="#updating-an-elf-file">Updating an ELF file</a>.</p>
+</dd>
+<dt><kbd><span class="option">-W</span>, <span class="option">--ignore-missing</span></kbd></dt>
+<dd><p>Return success even if there are missing blobs/bintools (requires -M)</p>
+</dd>
+</dl>
+<p>Options used only for testing:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">--fake-dtb</span></kbd></dt>
+<dd><p>Use fake device tree contents</p>
+</dd>
+<dt><kbd><span class="option">--fake-ext-blobs</span></kbd></dt>
+<dd><p>Create fake ext blobs with dummy content</p>
+</dd>
+<dt><kbd><span class="option">--force-missing-bintools <var>FORCE_MISSING_BINTOOLS</var></span></kbd></dt>
+<dd><p>Comma-separated list of bintools to consider missing</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman bintool-docs"></a><div class="section" id="binman-bintool-docs">
+<h2>binman bintool-docs<a class="headerlink" href="#binman-bintool-docs" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman bintool-docs [-h]
+</pre></div>
+</div>
+<p>This outputs documentation for the bintools in rST format. See
+<a class="reference internal" href="#bintool-documentation">Bintool Documentation</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman entry-docs"></a><div class="section" id="binman-entry-docs">
+<h2>binman entry-docs<a class="headerlink" href="#binman-entry-docs" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman entry-docs [-h]
+</pre></div>
+</div>
+<p>This outputs documentation for the entry types in rST format. See
+<a class="reference internal" href="#entry-documentation">Entry Documentation</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman ls"></a><div class="section" id="binman-ls">
+<h2>binman ls<a class="headerlink" href="#binman-ls" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman ls [-h] -i IMAGE [paths ...]
+</pre></div>
+</div>
+<p>Positional arguments:</p>
+<dl class="simple">
+<dt>paths</dt><dd><p>Paths within file to list (wildcard)</p>
+</dd>
+</dl>
+<p>Pptions:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>show help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-i <var>IMAGE</var></span>, <span class="option">--image <var>IMAGE</var></span></kbd></dt>
+<dd><p>Image filename to list</p>
+</dd>
+</dl>
+<p>This lists an image, showing its contents. See <a class="reference internal" href="#listing-images">Listing images</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman extract"></a><div class="section" id="binman-extract">
+<h2>binman extract<a class="headerlink" href="#binman-extract" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman extract [-h] [-F FORMAT] -i IMAGE [-f FILENAME] [-O OUTDIR] [-U]
+    [paths ...]
+</pre></div>
+</div>
+<p>Positional arguments:</p>
+<dl class="simple">
+<dt>Paths</dt><dd><p>Paths within file to extract (wildcard)</p>
+</dd>
+</dl>
+<p>Options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>show help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-F <var>FORMAT</var></span>, <span class="option">--format <var>FORMAT</var></span></kbd></dt>
+<dd><p>Select an alternative format for extracted data</p>
+</dd>
+<dt><kbd><span class="option">-i <var>IMAGE</var></span>, <span class="option">--image <var>IMAGE</var></span></kbd></dt>
+<dd><p>Image filename to extract</p>
+</dd>
+<dt><kbd><span class="option">-f <var>FILENAME</var></span>, <span class="option">--filename <var>FILENAME</var></span></kbd></dt>
+<dd><p>Output filename to write to</p>
+</dd>
+<dt><kbd><span class="option">-O <var>OUTDIR</var></span>, <span class="option">--outdir <var>OUTDIR</var></span></kbd></dt>
+<dd><p>Path to directory to use for output files</p>
+</dd>
+<dt><kbd><span class="option">-U</span>, <span class="option">--uncompressed</span></kbd></dt>
+<dd><p>Output raw uncompressed data for compressed entries</p>
+</dd>
+</dl>
+<p>This extracts the contents of entries from an image. See
+<a class="reference internal" href="#extracting-files-from-images">Extracting files from images</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman replace"></a><div class="section" id="binman-replace">
+<h2>binman replace<a class="headerlink" href="#binman-replace" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman replace [-h] [-C] -i IMAGE [-f FILENAME] [-F] [-I INDIR] [-m]
+    [paths ...]
+</pre></div>
+</div>
+<p>Positional arguments:</p>
+<dl class="simple">
+<dt>paths</dt><dd><p>Paths within file to replace (wildcard)</p>
+</dd>
+</dl>
+<p>Options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>show help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-C</span>, <span class="option">--compressed</span></kbd></dt>
+<dd><p>Input data is already compressed if needed for the entry</p>
+</dd>
+<dt><kbd><span class="option">-i <var>IMAGE</var></span>, <span class="option">--image <var>IMAGE</var></span></kbd></dt>
+<dd><p>Image filename to update</p>
+</dd>
+<dt><kbd><span class="option">-f <var>FILENAME</var></span>, <span class="option">--filename <var>FILENAME</var></span></kbd></dt>
+<dd><p>Input filename to read from</p>
+</dd>
+<dt><kbd><span class="option">-F</span>, <span class="option">--fix-size</span></kbd></dt>
+<dd><p>Don’t allow entries to be resized</p>
+</dd>
+<dt><kbd><span class="option">-I <var>INDIR</var></span>, <span class="option">--indir <var>INDIR</var></span></kbd></dt>
+<dd><p>Path to directory to use for input files</p>
+</dd>
+<dt><kbd><span class="option">-m</span>, <span class="option">--map</span></kbd></dt>
+<dd><p>Output a map file for the updated image</p>
+</dd>
+<dt><kbd><span class="option">-O <var>OUTDIR</var></span>, <span class="option">--outdir <var>OUTDIR</var></span></kbd></dt>
+<dd><p>Path to directory to use for intermediate and output files</p>
+</dd>
+<dt><kbd><span class="option">-p</span>, <span class="option">--preserve</span></kbd></dt>
+<dd><p>Preserve temporary output directory even if option -O is not given</p>
+</dd>
+</dl>
+<p>This replaces one or more entries in an existing image. See
+<a class="reference internal" href="#replacing-files-in-an-image">Replacing files in an image</a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman test"></a><div class="section" id="binman-test">
+<h2>binman test<a class="headerlink" href="#binman-test" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman test [-h] [-P PROCESSES] [-T] [-X] [tests ...]
+</pre></div>
+</div>
+<p>Positional arguments:</p>
+<dl class="simple">
+<dt>tests</dt><dd><p>Test names to run (omit for all)</p>
+</dd>
+</dl>
+<p>Options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>show help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-P <var>PROCESSES</var></span>, <span class="option">--processes <var>PROCESSES</var></span></kbd></dt>
+<dd><p>set number of processes to use for running tests. This defaults to the
+number of CPUs on the machine</p>
+</dd>
+<dt><kbd><span class="option">-T</span>, <span class="option">--test-coverage</span></kbd></dt>
+<dd><p>run tests and check for 100% coverage</p>
+</dd>
+<dt><kbd><span class="option">-X</span>, <span class="option">--test-preserve-dirs</span></kbd></dt>
+<dd><p>Preserve and display test-created input directories; also preserve the
+output directory if a single test is run (pass test name at the end of the
+command line</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman sign"></a><div class="section" id="binman-sign">
+<h2>binman sign<a class="headerlink" href="#binman-sign" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman sign [-h] -a ALGO [-f FILE] -i IMAGE -k KEY [paths ...]
+</pre></div>
+</div>
+<p>positional arguments:</p>
+<dl class="simple">
+<dt>paths</dt><dd><p>Paths within file to sign (wildcard)</p>
+</dd>
+</dl>
+<p>options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>show this help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-a <var>ALGO</var></span>, <span class="option">--algo <var>ALGO</var></span></kbd></dt>
+<dd><p>Hash algorithm e.g. sha256,rsa4096</p>
+</dd>
+<dt><kbd><span class="option">-f <var>FILE</var></span>, <span class="option">--file <var>FILE</var></span></kbd></dt>
+<dd><p>Input filename to sign</p>
+</dd>
+<dt><kbd><span class="option">-i <var>IMAGE</var></span>, <span class="option">--image <var>IMAGE</var></span></kbd></dt>
+<dd><p>Image filename to update</p>
+</dd>
+<dt><kbd><span class="option">-k <var>KEY</var></span>, <span class="option">--key <var>KEY</var></span></kbd></dt>
+<dd><p>Private key file for signing</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/binman tool"></a><div class="section" id="binman-tool">
+<h2>binman tool<a class="headerlink" href="#binman-tool" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman tool [-h] [-l] [-f] [bintools ...]
+</pre></div>
+</div>
+<p>Positional arguments:</p>
+<dl class="simple">
+<dt>bintools</dt><dd><p>Bintools to process</p>
+</dd>
+</dl>
+<p>Options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>show help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-l</span>, <span class="option">--list</span></kbd></dt>
+<dd><p>List all known bintools</p>
+</dd>
+<dt><kbd><span class="option">-f</span>, <span class="option">--fetch</span></kbd></dt>
+<dd><p>Fetch a bintool from a known location. Use <cite>all</cite> to fetch all and <cite>missing</cite>
+to fetch any missing tools.</p>
+</dd>
+</dl>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Technical details"></a><div class="section" id="technical-details">
+<h1>Technical details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Order of image creation"></a><div class="section" id="order-of-image-creation">
+<h2>Order of image creation<a class="headerlink" href="#order-of-image-creation" title="Permalink to this headline">¶</a></h2>
+<p>Image creation proceeds in the following order, for each entry in the image.</p>
+<p>1. AddMissingProperties() - binman can add calculated values to the device
+tree as part of its processing, for example the offset and size of each
+entry. This method adds any properties associated with this, expanding the
+device tree as needed. These properties can have placeholder values which are
+set later by SetCalculatedProperties(). By that stage the size of sections
+cannot be changed (since it would cause the images to need to be repacked),
+but the correct values can be inserted.</p>
+<p>2. ProcessFdt() - process the device tree information as required by the
+particular entry. This may involve adding or deleting properties. If the
+processing is complete, this method should return True. If the processing
+cannot complete because it needs the ProcessFdt() method of another entry to
+run first, this method should return False, in which case it will be called
+again later.</p>
+<p>3. GetEntryContents() - the contents of each entry are obtained, normally by
+reading from a file. This calls the Entry.ObtainContents() to read the
+contents. The default version of Entry.ObtainContents() calls
+Entry.GetDefaultFilename() and then reads that file. So a common mechanism
+to select a file to read is to override that function in the subclass. The
+functions must return True when they have read the contents. Binman will
+retry calling the functions a few times if False is returned, allowing
+dependencies between the contents of different entries.</p>
+<p>4. GetEntryOffsets() - calls Entry.GetOffsets() for each entry. This can
+return a dict containing entries that need updating. The key should be the
+entry name and the value is a tuple (offset, size). This allows an entry to
+provide the offset and size for other entries. The default implementation
+of GetEntryOffsets() returns {}.</p>
+<p>5. PackEntries() - calls Entry.Pack() which figures out the offset and
+size of an entry. The ‘current’ image offset is passed in, and the function
+returns the offset immediately after the entry being packed. The default
+implementation of Pack() is usually sufficient.</p>
+<p>Note: for sections, this also checks that the entries do not overlap, nor extend
+outside the section. If the section does not have a defined size, the size is
+set large enough to hold all the entries. For entries that are explicitly marked
+as overlapping, this check is skipped.</p>
+<p>6. SetImagePos() - sets the image position of every entry. This is the absolute
+position ‘image-pos’, as opposed to ‘offset’ which is relative to the containing
+section. This must be done after all offsets are known, which is why it is quite
+late in the ordering.</p>
+<p>7. SetCalculatedProperties() - update any calculated properties in the device
+tree. This sets the correct ‘offset’ and ‘size’ vaues, for example.</p>
+<p>8. ProcessEntryContents() - this calls Entry.ProcessContents() on each entry.
+The default implementatoin does nothing. This can be overriden to adjust the
+contents of an entry in some way. For example, it would be possible to create
+an entry containing a hash of the contents of some other entries. At this
+stage the offset and size of entries should not be adjusted unless absolutely
+necessary, since it requires a repack (going back to PackEntries()).</p>
+<p>9. ResetForPack() - if the ProcessEntryContents() step failed, in that an entry
+has changed its size, then there is no alternative but to go back to step 5 and
+try again, repacking the entries with the updated size. ResetForPack() removes
+the fixed offset/size values added by binman, so that the packing can start from
+scratch.</p>
+<p>10. WriteSymbols() - write the value of symbols into the U-Boot SPL binary.
+See ‘Access to binman entry offsets at run time’ below for a description of
+what happens in this stage.</p>
+<ol class="arabic simple" start="11">
+<li><p>BuildImage() - builds the image and writes it to a file</p></li>
+</ol>
+<p>12. WriteMap() - writes a text file containing a map of the image. This is the
+final step.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/External tools"></a><a class="dashAnchor" name="//apple_ref/cpp/Section/External tools"></a><div class="section" id="external-tools">
+<span id="id1"></span><h2>External tools<a class="headerlink" href="#external-tools" title="Permalink to this headline">¶</a></h2>
+<p>Binman can make use of external command-line tools to handle processing of
+entry contents or to generate entry contents. These tools are executed using
+the ‘tools’ module’s Run() method. The tools generally must exist on the PATH,
+but the –toolpath option can be used to specify additional search paths to
+use. This option can be specified multiple times to add more than one path.</p>
+<p>For some compile tools binman will use the versions specified by commonly-used
+environment variables like CC and HOSTCC for the C compiler, based on whether
+the tool’s output will be used for the target or for the host machine. If those
+aren’t given, it will also try to derive target-specific versions from the
+CROSS_COMPILE environment variable during a cross-compilation.</p>
+<p>If the tool is not available in the path you can use BINMAN_TOOLPATHS to specify
+a space-separated list of paths to search, e.g.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>BINMAN_TOOLPATHS="/tools/g12a /tools/tegra" binman ...
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/External blobs"></a><a class="dashAnchor" name="//apple_ref/cpp/Section/External blobs"></a><div class="section" id="external-blobs">
+<span id="id2"></span><h2>External blobs<a class="headerlink" href="#external-blobs" title="Permalink to this headline">¶</a></h2>
+<p>Binary blobs, even if the source code is available, complicate building
+firmware. The instructions can involve multiple steps and the binaries may be
+hard to build or obtain. Binman at least provides a unified description of how
+to build the final image, no matter what steps are needed to get there.</p>
+<p>Binman also provides a <cite>blob-ext</cite> entry type that pulls in a binary blob from an
+external file. If the file is missing, binman can optionally complete the build
+and just report a warning. Use the <cite>-M/–allow-missing</cite> option to enble this.
+This is useful in CI systems which want to check that everything is correct but
+don’t have access to the blobs.</p>
+<p>If the blobs are in a different directory, you can specify this with the <cite>-I</cite>
+option.</p>
+<p>For U-Boot, you can use set the BINMAN_INDIRS environment variable to provide a
+space-separated list of directories to search for binary blobs:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>BINMAN_INDIRS="odroid-c4/fip/g12a \
+    odroid-c4/build/board/hardkernel/odroidc4/firmware \
+    odroid-c4/build/scp_task" binman ...
+</pre></div>
+</div>
+<p>Note that binman fails with exit code 103 when there are missing blobs. If you
+wish binman to continue anyway, you can pass <cite>-W</cite> to binman.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Code coverage"></a><div class="section" id="code-coverage">
+<h2>Code coverage<a class="headerlink" href="#code-coverage" title="Permalink to this headline">¶</a></h2>
+<p>Binman is a critical tool and is designed to be very testable. Entry
+implementations target 100% test coverage. Run ‘binman test -T’ to check this.</p>
+<p>To enable Python test coverage on Debian-type distributions (e.g. Ubuntu):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python-coverage python3-coverage python-pytest
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Exit status"></a><div class="section" id="exit-status">
+<h2>Exit status<a class="headerlink" href="#exit-status" title="Permalink to this headline">¶</a></h2>
+<p>Binman produces the following exit codes:</p>
+<dl class="simple">
+<dt>0</dt><dd><p>Success</p>
+</dd>
+<dt>1</dt><dd><p>Any sort of failure - see output for more details</p>
+</dd>
+<dt>103</dt><dd><p>There are missing external blobs or bintools. This is only returned if
+-M is passed to binman, otherwise missing blobs return an exit status of 1.
+Note, if -W is passed as well as -M, then this is converted into a warning
+and will return an exit status of 0 instead.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot environment variables for binman"></a><div class="section" id="u-boot-environment-variables-for-binman">
+<h2>U-Boot environment variables for binman<a class="headerlink" href="#u-boot-environment-variables-for-binman" title="Permalink to this headline">¶</a></h2>
+<p>The U-Boot Makefile supports various environment variables to control binman.
+All of these are set within the Makefile and result in passing various
+environment variables (or make flags) to binman:</p>
+<dl class="simple">
+<dt>BINMAN_DEBUG</dt><dd><p>Enables backtrace debugging by adding a <cite>-D</cite> argument. See
+<a class="reference internal" href="#binmanlogging"><span class="std std-ref">Logging</span></a>.</p>
+</dd>
+<dt>BINMAN_INDIRS</dt><dd><p>Sets the search path for input files used by binman by adding one or more
+<cite>-I</cite> arguments. See <a class="reference internal" href="#external-blobs"><span class="std std-ref">External blobs</span></a>.</p>
+</dd>
+<dt>BINMAN_TOOLPATHS</dt><dd><p>Sets the search path for external tool used by binman by adding one or more
+<cite>–toolpath</cite> arguments. See <a class="reference internal" href="#external-tools"><span class="std std-ref">External tools</span></a>.</p>
+</dd>
+<dt>BINMAN_VERBOSE</dt><dd><p>Sets the logging verbosity of binman by adding a <cite>-v</cite> argument. See
+<a class="reference internal" href="#binmanlogging"><span class="std std-ref">Logging</span></a>.</p>
+</dd>
+</dl>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Error messages"></a><div class="section" id="error-messages">
+<h2>Error messages<a class="headerlink" href="#error-messages" title="Permalink to this headline">¶</a></h2>
+<p>This section provides some guidance for some of the less obvious error messages
+produced by binman.</p>
+<div class="section" id="expected-bss-size-symbol">
+<h3>Expected __bss_size symbol<a class="headerlink" href="#expected-bss-size-symbol" title="Permalink to this headline">¶</a></h3>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>binman: Node '/binman/u-boot-spl-ddr/u-boot-spl/u-boot-spl-bss-pad':
+   Expected __bss_size symbol in spl/u-boot-spl
+</pre></div>
+</div>
+<p>This indicates that binman needs the <cite>__bss_size</cite> symbol to be defined in the
+SPL binary, where <cite>spl/u-boot-spl</cite> is the ELF file containing the symbols. The
+symbol tells binman the size of the BSS region, in bytes. It needs this to be
+able to pad the image so that the following entries do not overlap the BSS,
+which would cause them to be overwritte by variable access in SPL.</p>
+<p>This symbols is normally defined in the linker script, immediately after
+_bss_start and __bss_end are defined, like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>__bss_size = __bss_end - __bss_start;
+</pre></div>
+</div>
+<p>You may need to add it to your linker script if you get this error.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Concurrent tests"></a><div class="section" id="concurrent-tests">
+<h2>Concurrent tests<a class="headerlink" href="#concurrent-tests" title="Permalink to this headline">¶</a></h2>
+<p>Binman tries to run tests concurrently. This means that the tests make use of
+all available CPUs to run.</p>
+<blockquote>
+<div><p>To enable this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python-subunit python3-subunit
+</pre></div>
+</div>
+</div></blockquote>
+<p>Use ‘-P 1’ to disable this. It is automatically disabled when code coverage is
+being used (-T) since they are incompatible.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debugging tests"></a><div class="section" id="debugging-tests">
+<h2>Debugging tests<a class="headerlink" href="#debugging-tests" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes when debugging tests it is useful to keep the input and output
+directories so they can be examined later. Use -X or –test-preserve-dirs for
+this.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Running tests on non-x86 architectures"></a><div class="section" id="running-tests-on-non-x86-architectures">
+<h2>Running tests on non-x86 architectures<a class="headerlink" href="#running-tests-on-non-x86-architectures" title="Permalink to this headline">¶</a></h2>
+<p>Binman’s tests have been written under the assumption that they’ll be run on a
+x86-like host and there hasn’t been an attempt to make them portable yet.
+However, it’s possible to run the tests by cross-compiling to x86.</p>
+<p>To install an x86 cross-compiler on Debian-type distributions (e.g. Ubuntu):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install gcc-x86-64-linux-gnu
+</pre></div>
+</div>
+<p>Then, you can run the tests under cross-compilation:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ CROSS_COMPILE=x86_64-linux-gnu- binman test -T
+</pre></div>
+</div>
+<p>You can also use gcc-i686-linux-gnu similar to the above.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Writing new entries and debugging"></a><div class="section" id="writing-new-entries-and-debugging">
+<h2>Writing new entries and debugging<a class="headerlink" href="#writing-new-entries-and-debugging" title="Permalink to this headline">¶</a></h2>
+<p>The behaviour of entries is defined by the Entry class. All other entries are
+a subclass of this. An important subclass is Entry_blob which takes binary
+data from a file and places it in the entry. In fact most entry types are
+subclasses of Entry_blob.</p>
+<p>Each entry type is a separate file in the tools/binman/etype directory. Each
+file contains a class called Entry_&lt;type&gt; where &lt;type&gt; is the entry type.
+New entry types can be supported by adding new files in that directory.
+These will automatically be detected by binman when needed.</p>
+<p>Entry properties are documented in entry.py. The entry subclasses are free
+to change the values of properties to support special behaviour. For example,
+when Entry_blob loads a file, it sets content_size to the size of the file.
+Entry classes can adjust other entries. For example, an entry that knows
+where other entries should be positioned can set up those entries’ offsets
+so they don’t need to be set in the binman decription. It can also adjust
+entry contents.</p>
+<p>Most of the time such essoteric behaviour is not needed, but it can be
+essential for complex images.</p>
+<p>If you need to specify a particular device-tree compiler to use, you can define
+the DTC environment variable. This can be useful when the system dtc is too
+old.</p>
+<p>To enable a full backtrace and other debugging features in binman, pass
+BINMAN_DEBUG=1 to your build:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make qemu-x86_defconfig
+make BINMAN_DEBUG=1
+</pre></div>
+</div>
+<p>To enable verbose logging from binman, base BINMAN_VERBOSE to your build, which
+adds a -v&lt;level&gt; option to the call to binman:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make qemu-x86_defconfig
+make BINMAN_VERBOSE=5
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building sections in parallel"></a><div class="section" id="building-sections-in-parallel">
+<h2>Building sections in parallel<a class="headerlink" href="#building-sections-in-parallel" title="Permalink to this headline">¶</a></h2>
+<p>By default binman uses multiprocessing to speed up compilation of large images.
+This works at a section level, with one thread for each entry in the section.
+This can speed things up if the entries are large and use compression.</p>
+<p>This feature can be disabled with the ‘-T’ flag, which defaults to a suitable
+value for your machine. This depends on the Python version, e.g on v3.8 it uses
+12 threads on an 8-core machine. See <a class="reference external" href="https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor">ConcurrentFutures</a> for more details.</p>
+<p>The special value -T0 selects single-threaded mode, useful for debugging during
+development, since dealing with exceptions and problems in threads is more
+difficult. This avoids any use of ThreadPoolExecutor.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Collecting data for an entry type"></a><div class="section" id="collecting-data-for-an-entry-type">
+<h2>Collecting data for an entry type<a class="headerlink" href="#collecting-data-for-an-entry-type" title="Permalink to this headline">¶</a></h2>
+<p>Some entry types deal with data obtained from others. For example,
+<cite>Entry_mkimage</cite> calls the <cite>mkimage</cite> tool with data from its subnodes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkimage {
+    args = "-n test -T script";
+
+    u-boot-spl {
+    };
+
+    u-boot {
+    };
+};
+</pre></div>
+</div>
+<p>This shows mkimage being passed a file consisting of SPL and U-Boot proper. It
+is created by calling <cite>Entry.collect_contents_to_file()</cite>. Note that in this
+case, the data is passed to mkimage for processing but does not appear
+separately in the image. It may not appear at all, depending on what mkimage
+does. The contents of the <cite>mkimage</cite> entry are entirely dependent on the
+processing done by the entry, with the provided subnodes (<cite>u-boot-spl</cite> and
+<cite>u-boot</cite>) simply providing the input data for that processing.</p>
+<p>Note that <cite>Entry.collect_contents_to_file()</cite> simply concatenates the data from
+the different entries together, with no control over alignment, etc. Another
+approach is to subclass <cite>Entry_section</cite> so that those features become available,
+such as <cite>size</cite> and <cite>pad-byte</cite>. Then the contents of the entry can be obtained by
+calling <cite>super().BuildSectionData()</cite> in the entry’s BuildSectionData()
+implementation to get the input data, then write it to a file and process it
+however is desired.</p>
+<p>There are other ways to obtain data also, depending on the situation. If the
+entry type is simply signing data which exists elsewhere in the image, then
+you can use <cite>Entry_collection</cite>  as a base class. It lets you use a property
+called <cite>content</cite> which lists the entries containing data to be processed. This
+is used by <cite>Entry_vblock</cite>, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>u_boot: u-boot {
+};
+
+vblock {
+    content = &lt;&amp;u_boot &amp;dtb&gt;;
+    keyblock = "firmware.keyblock";
+    signprivate = "firmware_data_key.vbprivk";
+    version = &lt;1&gt;;
+    kernelkey = "kernel_subkey.vbpubk";
+    preamble-flags = &lt;1&gt;;
+};
+
+dtb: u-boot-dtb {
+};
+</pre></div>
+</div>
+<p>which shows an image containing <cite>u-boot</cite> and <cite>u-boot-dtb</cite>, with the <cite>vblock</cite>
+image collecting their contents to produce input for its signing process,
+without affecting those entries, which still appear in the final image
+untouched.</p>
+<p>Another example is where an entry type needs several independent pieces of input
+to function. For example, <cite>Entry_fip</cite> allows a number of different binary blobs
+to be placed in their own individual places in a custom data structure in the
+output image. To make that work you can add subnodes for each of them and call
+<cite>Entry.Create()</cite> on each subnode, as <cite>Entry_fip</cite> does. Then the data for each
+blob can come from any suitable place, such as an <cite>Entry_u_boot</cite> or an
+<cite>Entry_blob</cite> or anything else:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>atf-fip {
+    fip-hdr-flags = /bits/ 64 &lt;0x123&gt;;
+    soc-fw {
+        fip-flags = /bits/ 64 &lt;0x123456789abcdef&gt;;
+        filename = "bl31.bin";
+    };
+
+    u-boot {
+        fip-uuid = [fc 65 13 92 4a 5b 11 ec
+                94 35 ff 2d 1c fc 79 9c];
+    };
+};
+</pre></div>
+</div>
+<p>The <cite>soc-fw</cite> node is a <cite>blob-ext</cite> (i.e. it reads in a named binary file) whereas
+<cite>u-boot</cite> is a normal entry type. This works because <cite>Entry_fip</cite> selects the
+<cite>blob-ext</cite> entry type if the node name (here <cite>soc-fw</cite>) is recognised as being
+a known blob type.</p>
+<p>When adding new entry types you are encouraged to use subnodes to provide the
+data for processing, unless the <cite>content</cite> approach is more suitable. Consider
+whether the input entries are contained within (or consumed by) the entry, vs
+just being ‘referenced’ by the entry. In the latter case, the <cite>content</cite> approach
+makes more sense. Ad-hoc properties and other methods of obtaining data are
+discouraged, since it adds to confusion for users.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/History / Credits"></a><div class="section" id="history-credits">
+<h2>History / Credits<a class="headerlink" href="#history-credits" title="Permalink to this headline">¶</a></h2>
+<p>Binman takes a lot of inspiration from a Chrome OS tool called
+‘cros_bundle_firmware’, which I wrote some years ago. That tool was based on
+a reasonably simple and sound design but has expanded greatly over the
+years. In particular its handling of x86 images is convoluted.</p>
+<p>Quite a few lessons have been learned which are hopefully applied here.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Design notes"></a><div class="section" id="design-notes">
+<h2>Design notes<a class="headerlink" href="#design-notes" title="Permalink to this headline">¶</a></h2>
+<p>On the face of it, a tool to create firmware images should be fairly simple:
+just find all the input binaries and place them at the right place in the
+image. The difficulty comes from the wide variety of input types (simple
+flat binaries containing code, packaged data with various headers), packing
+requirments (alignment, spacing, device boundaries) and other required
+features such as hierarchical images.</p>
+<p>The design challenge is to make it easy to create simple images, while
+allowing the more complex cases to be supported. For example, for most
+images we don’t much care exactly where each binary ends up, so we should
+not have to specify that unnecessarily.</p>
+<p>New entry types should aim to provide simple usage where possible. If new
+core features are needed, they can be added in the Entry base class.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/To do"></a><div class="section" id="to-do">
+<h2>To do<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h2>
+<p>Some ideas:</p>
+<ul class="simple">
+<li><p>Use of-platdata to make the information available to code that is unable
+to use device tree (such as a very small SPL image). For now, limited info is
+available via linker symbols</p></li>
+<li><p>Allow easy building of images by specifying just the board name</p></li>
+<li><p>Support building an image for a board (-b) more completely, with a
+configurable build directory</p></li>
+<li><p>Detect invalid properties in nodes</p></li>
+<li><p>Sort the fdtmap by offset</p></li>
+<li><p>Output temporary files to a different directory</p></li>
+<li><p>Rationalise the fdt, fdt_util and pylibfdt modules which currently have some
+overlapping and confusing functionality</p></li>
+<li><p>Update the fdt library to use a better format for Prop.value (the current one
+is useful for dtoc but not much else)</p></li>
+<li><p>Figure out how to make Fdt support changing the node order, so that
+Node.AddSubnode() can support adding a node before another, existing node.
+Perhaps it should completely regenerate the flat tree?</p></li>
+<li><p>Support images which depend on each other</p></li>
+</ul>
+<p>–
+Simon Glass &lt;<a class="reference external" href="mailto:sjg%40chromium.org">sjg<span>@</span>chromium<span>.</span>org</a>&gt;
+7/7/2016</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Package U-Boot"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="entries.html" rel="next" title="Binman Entry Documentation">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

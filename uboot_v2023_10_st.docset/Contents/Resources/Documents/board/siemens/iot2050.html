@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIMATIC IOT2050 BASIC and ADVANCED — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../sifive/index.html" rel="next" title="SiFive"/>
+<link href="index.html" rel="prev" title="Siemens"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Siemens</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SIMATIC IOT2050 BASIC and ADVANCED</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#building">Building</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashing">Flashing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#signing-optional">Signing (optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m-2-slot-configuration">M.2 slot configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Siemens</a> »</li>
+<li>SIMATIC IOT2050 BASIC and ADVANCED</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/siemens/iot2050.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/SIMATIC IOT2050 BASIC and ADVANCED"></a><div class="section" id="simatic-iot2050-basic-and-advanced">
+<h1>SIMATIC IOT2050 BASIC and ADVANCED<a class="headerlink" href="#simatic-iot2050-basic-and-advanced" title="Permalink to this headline">¶</a></h1>
+<p>The SIMATIC IOT2050 is an open industrial IoT gateway that is using the TI
+AM6528 GP (Basic variant) or the AM6548 HS (Advanced variant). The Advanced
+variant is prepared for secure boot. M.2 Variant also uses the AM6548 HS.
+Instead of a MiniPCI connector, it comes with two M.2 connectors and can
+support 5G/WIFI/BT applications or connect an SSD.</p>
+<p>The IOT2050 starts only from OSPI. It loads a Siemens-provided bootloader
+called SE-Boot for the MCU domain (R5F cores), then hands over to ATF and
+OP-TEE, before booting U-Boot on the A53 cores. This describes how to build all
+open artifacts into a flashable image for the OSPI flash. The flash image will
+work on both variants.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Dependencies"></a><div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>ATF:    Upstream release 2.4 or newer
+OP-TEE: Upstream release 3.10.0 or newer</p>
+<p>Binary dependencies can be found in
+<a class="reference external" href="https://github.com/siemens/meta-iot2050/tree/master/recipes-bsp/u-boot/files/prebuild">https://github.com/siemens/meta-iot2050/tree/master/recipes-bsp/u-boot/files/prebuild</a>.
+The following binaries from that source need to be present in the build folder:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>seboot_pg1.bin</p></li>
+<li><p>seboot_pg2.bin</p></li>
+</ul>
+</div></blockquote>
+<p>When using the watchdog, a related firmware for the R5 core(s) is needed, e.g.
+<a class="reference external" href="https://github.com/siemens/k3-rti-wdt">https://github.com/siemens/k3-rti-wdt</a>. The name and location of the image is
+configured via CONFIG_WDT_K3_RTI_FW_FILE.</p>
+<p>For building an image containing the OTP key provisioning data, below binary
+needs to be present in the build folder:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>otpcmd.bin</p></li>
+</ul>
+</div></blockquote>
+<p>Regarding how to generating this otpcmd.bin, please refer to:
+<a class="reference external" href="https://github.com/siemens/meta-iot2050/tree/master/recipes-bsp/secure-boot-otp-provisioning/files/make-otpcmd.sh">https://github.com/siemens/meta-iot2050/tree/master/recipes-bsp/secure-boot-otp-provisioning/files/make-otpcmd.sh</a></p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building"></a><div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>Make sure that CROSS_COMPILE is set appropriately:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ export CROSS_COMPILE=aarch64-linux-gnu-
+</pre></div>
+</div>
+<p>ATF:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ make PLAT=k3 SPD=opteed K3_USART=1
+</pre></div>
+</div>
+<p>OP-TEE:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ make PLATFORM=k3-am65x CFG_ARM64_core=y CFG_TEE_CORE_LOG_LEVEL=2 CFG_CONSOLE_UART=1 CFG_USER_TA_TARGETS="ta_arm64"
+</pre></div>
+</div>
+<p>U-Boot:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ export BL31=/path/to/bl31.bin
+$ export TEE=/path/to/tee-raw.bin
+$ make iot2050_defconfig
+
+$ make
+</pre></div>
+</div>
+<p>This will generate two different flash images: flash-p1.bin that targets the
+first generation of IOT2050 devices and flash-pg2.bin that runs on PG2
+including M.2 devices.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flashing"></a><div class="section" id="flashing">
+<h2>Flashing<a class="headerlink" href="#flashing" title="Permalink to this headline">¶</a></h2>
+<p>Via U-Boot:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>IOT2050&gt; sf probe
+IOT2050&gt; load mmc 0:1 $loadaddr /path/to/flash-pgX.bin
+IOT2050&gt; sf update $loadaddr 0x0 $filesize
+</pre></div>
+</div>
+<p>Via external programmer Dediprog SF100 or SF600:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ dpcmd --vcc 2 -v -u flash-pgX.bin
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Signing (optional)"></a><div class="section" id="signing-optional">
+<h2>Signing (optional)<a class="headerlink" href="#signing-optional" title="Permalink to this headline">¶</a></h2>
+<p>To enable verified boot for the firmware artifacts after the Siemens-managed
+first-stage loader (seboot_pgX.bin), the following steps need to be taken
+before and after the build:</p>
+<div class="section" id="generate-dtsi-holding-the-public-key">
+<h3>Generate dtsi holding the public key<a class="headerlink" href="#generate-dtsi-holding-the-public-key" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>tools/key2dtsi.py -c -s key.pem public-key.dtsi
+</pre></div>
+</div>
+<p>This will be used to embed the public key into U-Boot SPL and main so that each
+step can validate signatures of the succeeding one.</p>
+</div>
+<div class="section" id="adjust-u-boot-configuration">
+<h3>Adjust U-Boot configuration<a class="headerlink" href="#adjust-u-boot-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Enabled at least the following options in U-Boot:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CONFIG_SPL_FIT_SIGNATURE=y
+CONFIG_DEVICE_TREE_INCLUDES="/path/to/public-key.dtsi"
+CONFIG_RSA=y
+</pre></div>
+</div>
+<p>Note that there are more configuration changes needed in order to lock-down
+the command line and the boot process of U-Boot for secure scenarios. These are
+not in scope here.</p>
+</div>
+<div class="section" id="build-u-boot">
+<h3>Build U-Boot<a class="headerlink" href="#build-u-boot" title="Permalink to this headline">¶</a></h3>
+<p>See related section above.</p>
+</div>
+<div class="section" id="sign-flash-pgx-bin">
+<h3>Sign flash-pgX.bin<a class="headerlink" href="#sign-flash-pgx-bin" title="Permalink to this headline">¶</a></h3>
+<p>In the build folder still containing artifacts from step 3, invoke:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>tools/iot2050-sign-fw.sh /path/to/key.pem
+</pre></div>
+</div>
+</div>
+<div class="section" id="flash-signed-flash-pgx-bin">
+<h3>Flash signed flash-pgX.bin<a class="headerlink" href="#flash-signed-flash-pgx-bin" title="Permalink to this headline">¶</a></h3>
+<p>The signing has happen in-place in flash-pgX.bin, thus the flashing procedure
+described above.</p>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/M.2 slot configuration"></a><div class="section" id="m-2-slot-configuration">
+<h2>M.2 slot configuration<a class="headerlink" href="#m-2-slot-configuration" title="Permalink to this headline">¶</a></h2>
+<p>The M.2 variant of the IOT2050 comes with one B-keyed and one E-keyed slot.
+These are configured by U-Boot depending on the detected usage (auto
+configuration). The device tree loaded later on for the OS will be fixed up
+by U-Boot according to this configuration.</p>
+<p>For the case auto configuration does not work reliably, it is possible to set
+the U-Boot environment variable “m2_manual_config” to select the mode manually:</p>
+<dl class="simple">
+<dt>“0”  -  B-key: PCIe x2, USB 2.0</dt><dd><p>E-key: USB 2.0</p>
+</dd>
+<dt>“1”  -  B-key: PCIe, USB 2.0</dt><dd><p>E-key: PCIe, USB 2.0</p>
+</dd>
+<dt>“2”  -  B-key: USB 3.0,</dt><dd><p>E-key: PCIe, USB 2.0</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Siemens"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../sifive/index.html" rel="next" title="SiFive">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

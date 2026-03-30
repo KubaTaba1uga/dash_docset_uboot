@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TBS2910 Matrix ARM miniPC — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../thead/index.html" rel="next" title="T-HEAD"/>
+<link href="index.html" rel="prev" title="TBS"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">TBS</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TBS2910 Matrix ARM miniPC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building">Building</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uart">UART</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot-update-boot-switch">BOOT/UPDATE boot switch:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sw6-binary-dip-switch-array-on-the-pcb-revision-2-1">SW6 binary DIP switch array on the PCB revision 2.1:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sw6-binary-dip-switch-array-on-the-pcb-revision-2-3">SW6 binary DIP switch array on the PCB revision 2.3:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#loading-u-boot-from-usb">Loading u-boot from USB:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-u-boot-on-the-emmc">Install u-boot on the eMMC:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booting-a-distribution">Booting a distribution:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">TBS</a> »</li>
+<li>TBS2910 Matrix ARM miniPC</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/tbs/tbs2910.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/TBS2910 Matrix ARM miniPC"></a><div class="section" id="tbs2910-matrix-arm-minipc">
+<h1>TBS2910 Matrix ARM miniPC<a class="headerlink" href="#tbs2910-matrix-arm-minipc" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building"></a><div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>To build u-boot for the TBS2910 Matrix ARM miniPC, you can use the following
+procedure:</p>
+<p>First add the ARM toolchain to your PATH</p>
+<p>Then setup the ARCH and cross compilation environment variables.</p>
+<p>When this is done you can then build u-boot for the TBS2910 Matrix ARM miniPC
+with the following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make mrproper
+make tbs2910_defconfig
+make
+</pre></div>
+</div>
+<p>Once the build is complete, you can find the resulting image as u-boot.imx in
+the current directory.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/UART"></a><div class="section" id="uart">
+<h2>UART<a class="headerlink" href="#uart" title="Permalink to this headline">¶</a></h2>
+<p>The UART voltage is at 3.3V and its settings are 115200bps 8N1</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/BOOT/UPDATE boot switch:"></a><div class="section" id="boot-update-boot-switch">
+<h2>BOOT/UPDATE boot switch:<a class="headerlink" href="#boot-update-boot-switch" title="Permalink to this headline">¶</a></h2>
+<p>The BOOT/UPDATE switch (SW11) is connected to the BOOT_MODE0 and
+BOOT_MODE1 SoC pins. It has “BOOT” and “UPDATE” markings both on
+the PCB and on the plastic case.</p>
+<p>When set to the “UPDATE” position, the SoC will use the “Boot From Fuses”
+configuration, and since BT_FUSE_SEL is 0, this makes the SOC jump to serial
+downloader.</p>
+<p>When set in the “BOOT” position, the SoC will use the “Internal boot”
+configuration, and since BT_FUSE_SEL is 0, it will then use the GPIO pins
+for the boot configuration.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/SW6 binary DIP switch array on the PCB revision 2.1:"></a><div class="section" id="sw6-binary-dip-switch-array-on-the-pcb-revision-2-1">
+<h2>SW6 binary DIP switch array on the PCB revision 2.1:<a class="headerlink" href="#sw6-binary-dip-switch-array-on-the-pcb-revision-2-1" title="Permalink to this headline">¶</a></h2>
+<p>On that PCB revision, SW6 has 8 positions.</p>
+<p>Switching a position to ON sets the corresponding
+register to 1.</p>
+<p>See the following table for a correspondence between the switch positions and
+registers:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 56%"/>
+<col style="width: 44%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Switch position</p></th>
+<th class="head"><p>Register</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>BOOT_CFG2[3]</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>BOOT_CFG2[4]</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>BOOT_CFG2[5]</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>BOOT_CFG2[6]</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>BOOT_CFG1[4]</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>BOOT_CFG1[5]</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>BOOT_CFG1[6]</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>BOOT_CFG1[7]</p></td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>To boot from the eMMC: 1:ON , 2:ON, 3:ON, 4:OFF, 5:OFF, 6:ON, 7:ON, 8:OFF</p></li>
+<li><p>To boot from the microSD slot: 1: ON, 2: OFF, 3: OFF, 4: OFF, 5:OFF, 6:OFF,
+7:ON, 8:OFF</p></li>
+<li><p>To boot from the SD slot: 1: OFF, 2: ON, 3: OFF, 4: OFF, 5:OFF, 6:OFF, 7:ON,
+8:OFF</p></li>
+<li><p>To boot from SATA: 1: OFF, 2: OFF, 3: OFF, 4: OFF, 5:OFF, 6:ON, 7:OFF, 8:OFF</p></li>
+</ul>
+</div></blockquote>
+<p>You can refer to the BOOT_CFG registers in the I.MX6Q reference manual for
+additional details.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/SW6 binary DIP switch array on the PCB revision 2.3:"></a><div class="section" id="sw6-binary-dip-switch-array-on-the-pcb-revision-2-3">
+<h2>SW6 binary DIP switch array on the PCB revision 2.3:<a class="headerlink" href="#sw6-binary-dip-switch-array-on-the-pcb-revision-2-3" title="Permalink to this headline">¶</a></h2>
+<p>On that PCB revision, SW6 has only 4 positions.</p>
+<p>Switching a position to ON sets the corresponding
+register to 1.</p>
+<p>See the following table for a correspondence between the switch positions and
+registers:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 56%"/>
+<col style="width: 44%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Switch position</p></th>
+<th class="head"><p>Register</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>BOOT_CFG2[3]</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>BOOT_CFG2[4]</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>BOOT_CFG2[5]</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>BOOT_CFG1[5]</p></td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<ul class="simple">
+<li><p>To boot from the eMMC: 1:ON, 2:ON, 3:ON, 4:ON</p></li>
+<li><p>To boot from the microSD slot: 1:ON, 2:OFF, 3:OFF, 4:OFF</p></li>
+<li><p>To boot from the SD slot: 1:OFF, 2:ON, 3:OFF, 4:OFF</p></li>
+</ul>
+<p>You can refer to the BOOT_CFG registers in the I.MX6Q reference manual for
+additional details.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Loading u-boot from USB:"></a><div class="section" id="loading-u-boot-from-usb">
+<h2>Loading u-boot from USB:<a class="headerlink" href="#loading-u-boot-from-usb" title="Permalink to this headline">¶</a></h2>
+<p>If you need to load u-boot from USB, you can use the following instructions:</p>
+<p>First build imx_usb_loader, as we will need it to load u-boot from USB. This
+can be done with the following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git clone git://github.com/boundarydevices/imx_usb_loader.git
+cd imx_usb_loader
+make
+</pre></div>
+</div>
+<p>This will create the resulting imx_usb binary.</p>
+<p>When this is done, you can copy the u-boot.imx image that you built earlier
+in in the imx_usb_loader directory.</p>
+<p>You will then need to power off the TBS2910 Matrix ARM miniPC and make sure that
+the boot switch is set to “UPDATE”</p>
+<p>Once this is done you can connect an USB cable between the computer that will
+run imx_usb and the TBS2910 Matrix ARM miniPC.</p>
+<p>If you also need to access the u-boot console, you will also need to connect an
+UART cable between the computer running imx_usb and the TBS2910 Matrix ARM
+miniPC.</p>
+<p>Once everything is connected you can finally power on the TBS2910 Matrix ARM
+miniPC. The SoC will then jump to the serial download and wait for you.</p>
+<p>Finlay, you can load u-boot through USB with with the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo ./imx_usb -v u-boot.imx
+</pre></div>
+</div>
+<p>The u-boot boot messages will then appear in the serial console.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Install u-boot on the eMMC:"></a><div class="section" id="install-u-boot-on-the-emmc">
+<h2>Install u-boot on the eMMC:<a class="headerlink" href="#install-u-boot-on-the-emmc" title="Permalink to this headline">¶</a></h2>
+<p>To install u-boot on the eMMC, you first need to boot the TBS2910 Matrix ARM
+miniPC.</p>
+<p>Once booted, you can flash u-boot.imx to mmcblk0boot0 with the
+following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo echo 0 &gt;/sys/block/mmcblk0boot0/force_ro
+sudo dd if=u-boot.imx of=/dev/mmcblk0boot0 bs=1k seek=1; sync
+</pre></div>
+</div>
+<p>Note that the eMMC card node may vary, so adjust this as needed.</p>
+<p>Once the new u-boot version is installed, to boot on it you then need to power
+off the TBS2910 Matrix ARM miniPC.</p>
+<p>Once it is off, you need make sure that the boot switch is set to “BOOT” and
+that the SW6 switch is set to boot on the eMMC as described in the previous
+sections.</p>
+<p>If you also need to access the u-boot console, you will also need to connect an
+UART cable between the computer running imx_usb and the TBS2910 Matrix ARM
+miniPC.</p>
+<p>You can then power up the TBS2910 Matrix ARM miniPC and U-Boot messages will
+appear in the serial console.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Booting a distribution:"></a><div class="section" id="booting-a-distribution">
+<h2>Booting a distribution:<a class="headerlink" href="#booting-a-distribution" title="Permalink to this headline">¶</a></h2>
+<p>When booting on the TBS2910 Matrix ARM miniPC, by default U-Boot will first try
+to boot from hardcoded offsets from the start of the eMMC. This is for
+compatibility with the stock GNU/Linux distribution.</p>
+<p>If that fails it will then try to boot from several interfaces using
+‘distro_bootcmd’: It will first try to boot from the microSD slot, then the
+SD slot, then the internal eMMC, then the SATA interface and finally the USB
+interface. For more information on how to configure your distribution to boot,
+see ‘doc/develop/distro.rst’.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Links:"></a><div class="section" id="links">
+<h2>Links:<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://www.tbsdtv.com/download/document/tbs2910/TBS2910-Matrix-ARM-mini-PC-SCH_rev2.1.pdf">https://www.tbsdtv.com/download/document/tbs2910/TBS2910-Matrix-ARM-mini-PC-SCH_rev2.1.pdf</a>
+- The schematics for the revision 2.1 of the TBS2910 Matrix ARM miniPC.</p></li>
+<li><p><a class="reference external" href="https://cache.freescale.com/files/32bit/doc/ref_manual/IMX6DQRM.pdf">https://cache.freescale.com/files/32bit/doc/ref_manual/IMX6DQRM.pdf</a> - The
+SoC reference manual for additional details on the BOOT_CFG registers.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="TBS"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../thead/index.html" rel="next" title="T-HEAD">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Introduction — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../st/index.html" rel="next" title="STMicroelectronics"/>
+<link href="index.html" rel="prev" title="Socionext"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Socionext</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compile-from-source">Compile from source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-fwu-multi-bank-update">Enable FWU Multi Bank Update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configure-u-boot">Configure U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rebuild-scp-firmware">Rebuild SCP firmware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rebuild-optee-firmware">Rebuild OPTEE firmware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rebuild-tf-a-and-fip">Rebuild TF-A and FIP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uuids-for-the-fwu-multi-bank-update">UUIDs for the FWU Multi Bank Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-via-flash-writer">Install via flash writer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Socionext</a> »</li>
+<li>Introduction</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/socionext/developerbox.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>DeveloperBox is a certified 96boards Enterprise Edition board. The board/SoC has: -</p>
+<ul class="simple">
+<li><p>Socionext SC2A11 24-cores ARM Cortex-A53 on tbe Mini-ATX form factor motherboard</p></li>
+<li><p>4 DIMM slots (4GB DDR4-2400 UDIMM shipped by default)</p></li>
+<li><p>1 4xPCIe Gen2 slot and 2 1xPCIe Gen2 slots
+(1x slots are connected via PCIe bridge chip)</p></li>
+<li><p>4 USB-3.0 ports</p></li>
+<li><p>2 SATA ports</p></li>
+<li><p>1 GbE network port</p></li>
+<li><p>1 USB-UART serial port (micro USB)</p></li>
+<li><p>64MB SPI NOR Flash</p></li>
+<li><p>8GB eMMC Flash Storage</p></li>
+<li><p>96boards LS connector</p></li>
+</ul>
+<p>The DeveloperBox schematic can be found here: -
+<a class="reference external" href="https://www.96boards.org/documentation/enterprise/developerbox/hardware-docs/mzsc2am_v03_20180115_a.pdf">https://www.96boards.org/documentation/enterprise/developerbox/hardware-docs/mzsc2am_v03_20180115_a.pdf</a></p>
+<p>And the other documents can be found here: -
+<a class="reference external" href="https://www.96boards.org/documentation/enterprise/developerbox/">https://www.96boards.org/documentation/enterprise/developerbox/</a></p>
+<p>Currently, the U-Boot port supports: -</p>
+<ul class="simple">
+<li><p>USB</p></li>
+<li><p>eMMC</p></li>
+<li><p>SPI-NOR</p></li>
+<li><p>SATA</p></li>
+<li><p>GbE</p></li>
+</ul>
+<p>The DeveloperBox boots the TF-A and EDK2 as a main bootloader by default.
+The DeveloperBox U-Boot port will replace the EDK2 and boot from TF-A as
+BL33, but no need to combine with it.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Compile from source"></a><div class="section" id="compile-from-source">
+<h1>Compile from source<a class="headerlink" href="#compile-from-source" title="Permalink to this headline">¶</a></h1>
+<p>You can build U-Boot without any additinal source code.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd u-boot
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+make SynQuacer_defconfig
+make -j `noproc`
+</pre></div>
+</div>
+<p>Then, expand the binary to 1MB for preparing flash.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp u-boot.bin SPI_NOR_UBOOT.fd
+truncate -s 1M SPI_NOR_UBOOT.fd
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installation"></a><div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>You can install the SNI_NOR_UBOOT.fd via NOR flash writer.</p>
+<p>Flashing the U-Boot image on DeveloperBox requires a 96boards UART mezzanine
+or other mezzanine which can connect to the LS-UART0 port.
+Connect USB cable from host to the LS-UART0 and set DSW2-7 to ON, and turn the
+board on again. The flash writer program will be started automatically;
+don’t forget to turn the DSW2-7 off again after flashing.</p>
+<p><em>!!CAUTION!! If you write the U-Boot image on wrong address, the board can
+be bricked. See below page if you need to recover the bricked board. See
+the following page for more details</em></p>
+<p><a class="reference external" href="https://www.96boards.org/documentation/enterprise/developerbox/installation/board-recovery.md.html">https://www.96boards.org/documentation/enterprise/developerbox/installation/board-recovery.md.html</a></p>
+<p>When the serial flasher is running correctly it will show the following boot
+messages printed to the LS-UART0 console:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*------------------------------------------*/
+/*  SC2A11 "SynQuacer" series Flash writer  */
+/*                                          */
+/*  Version: cd254ac                        */
+/*  Build: 12/15/17 11:25:45                */
+/*------------------------------------------*/
+
+Command Input &gt;
+</pre></div>
+</div>
+<p>Once the flasher tool is running we are ready flash the UEFI image:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>flash rawwrite 200000 100000
+&gt;&gt; Send SPI_NOR_UBOOT.fd via XMODEM (Control-A S in minicom) &lt;&lt;
+</pre></div>
+</div>
+<p><em>!!NOTE!! The flasher command parameter is different from the command for
+board recovery. U-Boot uses the offset 200000 (2-five-0, 2M in hex) and the
+size 100000 (1-five-0, 1M in hex).</em></p>
+<p>After transferring the SPI_NOR_UBOOT.fd, turn off the DSW2-7 and
+reset the board.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Enable FWU Multi Bank Update"></a><div class="section" id="enable-fwu-multi-bank-update">
+<h1>Enable FWU Multi Bank Update<a class="headerlink" href="#enable-fwu-multi-bank-update" title="Permalink to this headline">¶</a></h1>
+<p>DeveloperBox supports the FWU Multi Bank Update. You <em>MUST</em> update both
+<em>SCP firmware</em> and <em>TF-A</em> for this feature. This will change the layout and
+the boot process but you can switch back to the normal one by changing
+the DSW 1-4 off.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configure U-Boot"></a><div class="section" id="configure-u-boot">
+<h2>Configure U-Boot<a class="headerlink" href="#configure-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>To enable the FWU Multi Bank Update on the DeveloperBox board the
+configs/synquacer_developerbox_defconfig enables default FWU configuration</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CONFIG_FWU_MULTI_BANK_UPDATE=y
+CONFIG_FWU_MDATA=y
+CONFIG_FWU_MDATA_MTD=y
+CONFIG_FWU_NUM_BANKS=2
+CONFIG_FWU_NUM_IMAGES_PER_BANK=1
+CONFIG_CMD_FWU_METADATA=y
+</pre></div>
+</div>
+<p>And build it:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd u-boot/
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+make synquacer_developerbox_defconfig
+make -j `noproc`
+cd ../
+</pre></div>
+</div>
+<p>By default, the CONFIG_FWU_NUM_BANKS and CONFIG_FWU_NUM_IMAGES_PER_BANKS are
+set to 2 and 1 respectively. This uses FIP (Firmware Image Package) type image
+which contains TF-A, U-Boot and OP-TEE (the OP-TEE is optional).
+You can use fiptool to compose the FIP image from those firmware images.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Rebuild SCP firmware"></a><div class="section" id="rebuild-scp-firmware">
+<h2>Rebuild SCP firmware<a class="headerlink" href="#rebuild-scp-firmware" title="Permalink to this headline">¶</a></h2>
+<p>Rebuild SCP firmware which supports FWU Multi Bank Update as below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd SCP-firmware/
+OUT=./build/product/synquacer
+ROMFW_FILE=$OUT/scp_romfw/$SCP_BUILD_MODE/bin/scp_romfw.bin
+RAMFW_FILE=$OUT/scp_ramfw/$SCP_BUILD_MODE/bin/scp_ramfw.bin
+ROMRAMFW_FILE=scp_romramfw_release.bin
+
+make CC=arm-none-eabi-gcc PRODUCT=synquacer MODE=release
+tr "\000" "\377" &lt; /dev/zero | dd of=${ROMRAMFW_FILE} bs=1 count=196608
+dd if=${ROMFW_FILE} of=${ROMRAMFW_FILE} bs=1 conv=notrunc seek=0
+dd if=${RAMFW_FILE} of=${ROMRAMFW_FILE} bs=1 seek=65536
+cd ../
+</pre></div>
+</div>
+<p>And you can get the <cite>scp_romramfw_release.bin</cite> file.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Rebuild OPTEE firmware"></a><div class="section" id="rebuild-optee-firmware">
+<h2>Rebuild OPTEE firmware<a class="headerlink" href="#rebuild-optee-firmware" title="Permalink to this headline">¶</a></h2>
+<p>Rebuild OPTEE to use in new-layout FIP as below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd optee_os/
+make -j`nproc` PLATFORM=synquacer ARCH=arm \
+  CROSS_COMPILE64=aarch64-linux-gnu- CFG_ARM64_core=y \
+  CFG_CRYPTO_WITH_CE=y CFG_CORE_HEAP_SIZE=524288 CFG_CORE_DYN_SHM=y \
+  CFG_CORE_ARM64_PA_BITS=48 CFG_TEE_CORE_LOG_LEVEL=1 CFG_TEE_TA_LOG_LEVEL=1
+cp out/arm-plat-synquacer/core/tee-pager_v2.bin ../arm-trusted-firmware/
+</pre></div>
+</div>
+<p>The produced <cite>tee-pager_v2.bin</cite> is to be used while building TF-A next.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Rebuild TF-A and FIP"></a><div class="section" id="rebuild-tf-a-and-fip">
+<h2>Rebuild TF-A and FIP<a class="headerlink" href="#rebuild-tf-a-and-fip" title="Permalink to this headline">¶</a></h2>
+<p>Rebuild TF-A which supports FWU Multi Bank Update as below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd arm-trusted-firmware/
+make CROSS_COMPILE=aarch64-linux-gnu- -j`nproc` PLAT=synquacer \
+   TRUSTED_BOARD_BOOT=1 SPD=opteed SQ_RESET_TO_BL2=1 GENERATE_COT=1 \
+   MBEDTLS_DIR=../mbedtls BL32=tee-pager_v2.bin \
+   BL33=../u-boot/u-boot.bin all fip fiptool
+</pre></div>
+</div>
+<p>And make a FIP image.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp build/synquacer/release/fip.bin SPI_NOR_NEWFIP.fd
+tools/fiptool/fiptool update --tb-fw build/synquacer/release/bl2.bin SPI_NOR_NEWFIP.fd
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/UUIDs for the FWU Multi Bank Update"></a><div class="section" id="uuids-for-the-fwu-multi-bank-update">
+<h2>UUIDs for the FWU Multi Bank Update<a class="headerlink" href="#uuids-for-the-fwu-multi-bank-update" title="Permalink to this headline">¶</a></h2>
+<p>FWU multi-bank update requires some UUIDs. The DeveloperBox platform uses
+following UUIDs.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Location UUID for the FIP image: 17e86d77-41f9-4fd7-87ec-a55df9842de5</p></li>
+<li><p>Image type UUID for the FIP image: 10c36d7d-ca52-b843-b7b9-f9d6c501d108</p></li>
+<li><p>Image UUID for Bank0 : 5a66a702-99fd-4fef-a392-c26e261a2828</p></li>
+<li><p>Image UUID for Bank1 : a8f868a1-6e5c-4757-878d-ce63375ef2c0</p></li>
+</ul>
+</div></blockquote>
+<p>These UUIDs are used for making a FWU metadata image.</p>
+<dl class="simple">
+<dt>u-boot$ ./tools/mkfwumdata -i 1 -b 2 </dt><dd><p>17e86d77-41f9-4fd7-87ec-a55df9842de5,10c36d7d-ca52-b843-b7b9-f9d6c501d108,5a66a702-99fd-4fef-a392-c26e261a2828,a8f868a1-6e5c-4757-878d-ce63375ef2c0 ../devbox-fwu-mdata.img</p>
+</dd>
+</dl>
+<p>Create Accept &amp; Revert capsules</p>
+<p>u-boot$ ./tools/mkeficapsule -A -g 7d6dc310-52ca-43b8-b7b9-f9d6c501d108 NEWFIP_accept.Cap
+u-boot$ ./tools/mkeficapsule -R NEWFIP_revert.Cap</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Install via flash writer"></a><div class="section" id="install-via-flash-writer">
+<h2>Install via flash writer<a class="headerlink" href="#install-via-flash-writer" title="Permalink to this headline">¶</a></h2>
+<p>As explained in above section, the new FIP image and the FWU metadata image
+can be installed via NOR flash writer.</p>
+<p>Once the flasher tool is running we are ready to flash the images.::
+Write the FIP image to the Bank-0 &amp; 1 at 6MB and 10MB offset.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>flash rawwrite 600000 180000
+flash rawwrite a00000 180000
+&gt;&gt; Send SPI_NOR_NEWFIP.fd via XMODEM (Control-A S in minicom) &lt;&lt;
+
+flash rawwrite 500000 1000
+flash rawwrite 530000 1000
+&gt;&gt; Send devbox-fwu-mdata.img via XMODEM (Control-A S in minicom) &lt;&lt;
+</pre></div>
+</div>
+<p>And write the new SCP firmware.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>flash write cm3
+&gt;&gt; Send scp_romramfw_release.bin via XMODEM (Control-A S in minicom) &lt;&lt;
+</pre></div>
+</div>
+<p>At last, turn on the DSW 3-4 on the board, and reboot.
+Note that if DSW 3-4 is turned off, the DeveloperBox will boot from
+the original EDK2 firmware (or non-FWU U-Boot if you already installed).</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Socionext"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../st/index.html" rel="next" title="STMicroelectronics">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

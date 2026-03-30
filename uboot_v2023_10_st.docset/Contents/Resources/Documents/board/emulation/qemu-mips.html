@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QEMU MIPS — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="qemu-ppce500.html" rel="next" title="QEMU PPC E500"/>
+<link href="qemu-arm.html" rel="prev" title="QEMU ARM"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../allwinner/index.html">Allwinner (sunxi) boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Emulation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="blkdev.html">Emulation of block devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/semihosting.html">Semihosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-arm.html">QEMU ARM</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">QEMU MIPS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#limitations-comments">Limitations &amp; comments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-usage">Example usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-debug-u-boot">How to debug U-Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-ppce500.html">QEMU PPC E500</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-riscv.html">QEMU RISC-V</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qemu-x86.html">QEMU x86</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Emulation</a> »</li>
+<li>QEMU MIPS</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/emulation/qemu-mips.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/QEMU MIPS"></a><div class="section" id="qemu-mips">
+<h1>QEMU MIPS<a class="headerlink" href="#qemu-mips" title="Permalink to this headline">¶</a></h1>
+<p>Qemu for MIPS is based on the MIPS Malta board. The built Malta U-Boot
+images can be used for Qemu and on physical hardware. The Malta board
+supports all combinations of Little and Big Endian as well as 32 bit
+and 64 bit.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Limitations &amp; comments"></a><div class="section" id="limitations-comments">
+<h2>Limitations &amp; comments<a class="headerlink" href="#limitations-comments" title="Permalink to this headline">¶</a></h2>
+<p>The memory size for Qemu is hard-coded to 256 MiB. For Malta Little Endian
+targets an extra endianness swapped image named <em>u-boot-swap.bin</em> is
+generated and required for Qemu.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Example usage"></a><div class="section" id="example-usage">
+<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<p>Build for 32 bit, big endian:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>malta_defconfig
+make
+<span class="nv">UBOOT_BIN</span><span class="o">=</span>u-boot.bin
+<span class="nv">QEMU_BIN</span><span class="o">=</span>qemu-system-mips
+<span class="nv">QEMU_CPU</span><span class="o">=</span>24Kc
+</pre></div>
+</div>
+<p>Build for 32 bit, little endian:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>maltael_defconfig
+make
+<span class="nv">UBOOT_BIN</span><span class="o">=</span>u-boot-swap.bin
+<span class="nv">QEMU_BIN</span><span class="o">=</span>qemu-system-mipsel
+<span class="nv">QEMU_CPU</span><span class="o">=</span>24Kc
+</pre></div>
+</div>
+<p>Build for 64 bit, big endian:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>malta64_defconfig
+make
+<span class="nv">UBOOT_BIN</span><span class="o">=</span>u-boot.bin
+<span class="nv">QEMU_BIN</span><span class="o">=</span>qemu-system-mips64
+<span class="nv">QEMU_CPU</span><span class="o">=</span>MIPS64R2-generic
+</pre></div>
+</div>
+<p>Build for 64 bit, little endian:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>malta64el_defconfig
+make
+<span class="nv">UBOOT_BIN</span><span class="o">=</span>u-boot-swap.bin
+<span class="nv">QEMU_BIN</span><span class="o">=</span>qemu-system-mips64el
+<span class="nv">QEMU_CPU</span><span class="o">=</span>MIPS64R2-generic
+</pre></div>
+</div>
+<p>Generate NOR flash image with U-Boot binary:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/zero<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M<span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">'\000'</span><span class="w"> </span><span class="s1">'\377'</span><span class="w"> </span>&gt;<span class="w"> </span>pflash.img
+dd<span class="w"> </span><span class="k">if</span><span class="o">=</span><span class="si">${</span><span class="nv">UBOOT_BIN</span><span class="si">}</span><span class="w"> </span><span class="nv">of</span><span class="o">=</span>pflash.img<span class="w"> </span><span class="nv">conv</span><span class="o">=</span>notrunc
+</pre></div>
+</div>
+<p>Start Qemu:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>tftproot
+<span class="si">${</span><span class="nv">QEMU_BIN</span><span class="si">}</span><span class="w"> </span>-nographic<span class="w"> </span>-cpu<span class="w"> </span><span class="si">${</span><span class="nv">QEMU_CPU</span><span class="si">}</span><span class="w"> </span>-m<span class="w"> </span><span class="m">256</span><span class="w"> </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>pflash,file<span class="o">=</span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/pflash.img"</span>,format<span class="o">=</span>raw<span class="w"> </span>-netdev<span class="w"> </span>user,id<span class="o">=</span>net0,tftp<span class="o">=</span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/tftproot"</span><span class="w"> </span>-device<span class="w"> </span>pcnet,netdev<span class="o">=</span>net0
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>U-Boot<span class="w"> </span><span class="m">2021</span>.04-00963-g60279a2b1d<span class="w"> </span><span class="o">(</span>Apr<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">2021</span><span class="w"> </span>-<span class="w"> </span><span class="m">19</span>:54:32<span class="w"> </span>+0200<span class="o">)</span>
+
+Board:<span class="w"> </span>MIPS<span class="w"> </span>Malta<span class="w"> </span>CoreLV
+DRAM:<span class="w">  </span><span class="m">256</span><span class="w"> </span>MiB
+Flash:<span class="w"> </span><span class="m">4</span><span class="w"> </span>MiB
+Loading<span class="w"> </span>Environment<span class="w"> </span>from<span class="w"> </span>Flash...<span class="w"> </span>***<span class="w"> </span>Warning<span class="w"> </span>-<span class="w"> </span>bad<span class="w"> </span>CRC,<span class="w"> </span>using<span class="w"> </span>default<span class="w"> </span>environment
+
+In:<span class="w">    </span>serial@3f8
+Out:<span class="w">   </span>serial@3f8
+Err:<span class="w">   </span>serial@3f8
+Net:<span class="w">   </span>pcnet#0
+IDE:<span class="w">   </span>Bus<span class="w"> </span><span class="m">0</span>:<span class="w"> </span>not<span class="w"> </span>available
+maltael<span class="w"> </span><span class="c1">#</span>
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to debug U-Boot"></a><div class="section" id="how-to-debug-u-boot">
+<h2>How to debug U-Boot<a class="headerlink" href="#how-to-debug-u-boot" title="Permalink to this headline">¶</a></h2>
+<p>In order to debug U-Boot you need to start qemu with gdb server support (-s)
+and waiting the connection to start the CPU (-S). Start Qemu in the first console:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>tftproot
+<span class="si">${</span><span class="nv">QEMU_BIN</span><span class="si">}</span><span class="w"> </span>-s<span class="w"> </span>-S<span class="w"> </span>-nographic<span class="w"> </span>-cpu<span class="w"> </span><span class="si">${</span><span class="nv">QEMU_CPU</span><span class="si">}</span><span class="w"> </span>-m<span class="w"> </span><span class="m">256</span><span class="w"> </span>-drive<span class="w"> </span><span class="k">if</span><span class="o">=</span>pflash,file<span class="o">=</span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/pflash.img"</span>,format<span class="o">=</span>raw<span class="w"> </span>-netdev<span class="w"> </span>user,id<span class="o">=</span>net0,tftp<span class="o">=</span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/tftproot"</span><span class="w"> </span>-device<span class="w"> </span>pcnet,netdev<span class="o">=</span>net0
+</pre></div>
+</div>
+<p>In the second console start gdb:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gdb-multiarch<span class="w"> </span>--eval-command<span class="w"> </span><span class="s2">"target remote :1234"</span><span class="w"> </span>u-boot
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GNU<span class="w"> </span>gdb<span class="w"> </span><span class="o">(</span>Ubuntu<span class="w"> </span><span class="m">9</span>.2-0ubuntu1~20.04<span class="o">)</span><span class="w"> </span><span class="m">9</span>.2
+Copyright<span class="w"> </span><span class="o">(</span>C<span class="o">)</span><span class="w"> </span><span class="m">2020</span><span class="w"> </span>Free<span class="w"> </span>Software<span class="w"> </span>Foundation,<span class="w"> </span>Inc.
+License<span class="w"> </span>GPLv3+:<span class="w"> </span>GNU<span class="w"> </span>GPL<span class="w"> </span>version<span class="w"> </span><span class="m">3</span><span class="w"> </span>or<span class="w"> </span>later<span class="w"> </span>&lt;http://gnu.org/licenses/gpl.html&gt;
+This<span class="w"> </span>is<span class="w"> </span>free<span class="w"> </span>software:<span class="w"> </span>you<span class="w"> </span>are<span class="w"> </span>free<span class="w"> </span>to<span class="w"> </span>change<span class="w"> </span>and<span class="w"> </span>redistribute<span class="w"> </span>it.
+There<span class="w"> </span>is<span class="w"> </span>NO<span class="w"> </span>WARRANTY,<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>extent<span class="w"> </span>permitted<span class="w"> </span>by<span class="w"> </span>law.
+Type<span class="w"> </span><span class="s2">"show copying"</span><span class="w"> </span>and<span class="w"> </span><span class="s2">"show warranty"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details.
+This<span class="w"> </span>GDB<span class="w"> </span>was<span class="w"> </span>configured<span class="w"> </span>as<span class="w"> </span><span class="s2">"x86_64-linux-gnu"</span>.
+Type<span class="w"> </span><span class="s2">"show configuration"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>configuration<span class="w"> </span>details.
+For<span class="w"> </span>bug<span class="w"> </span>reporting<span class="w"> </span>instructions,<span class="w"> </span>please<span class="w"> </span>see:
+&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
+Find<span class="w"> </span>the<span class="w"> </span>GDB<span class="w"> </span>manual<span class="w"> </span>and<span class="w"> </span>other<span class="w"> </span>documentation<span class="w"> </span>resources<span class="w"> </span>online<span class="w"> </span>at:
+<span class="w">    </span>&lt;http://www.gnu.org/software/gdb/documentation/&gt;.
+
+For<span class="w"> </span>help,<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="s2">"help"</span>.
+Type<span class="w"> </span><span class="s2">"apropos word"</span><span class="w"> </span>to<span class="w"> </span>search<span class="w"> </span><span class="k">for</span><span class="w"> </span>commands<span class="w"> </span>related<span class="w"> </span>to<span class="w"> </span><span class="s2">"word"</span>...
+Reading<span class="w"> </span>symbols<span class="w"> </span>from<span class="w"> </span>u-boot...
+Remote<span class="w"> </span>debugging<span class="w"> </span>using<span class="w"> </span>:1234
+0xbfc00000<span class="w"> </span><span class="k">in</span><span class="w"> </span>??<span class="w"> </span><span class="o">()</span>
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>c
+Continuing.
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="qemu-arm.html" rel="prev" title="QEMU ARM"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="qemu-ppce500.html" rel="next" title="QEMU PPC E500">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

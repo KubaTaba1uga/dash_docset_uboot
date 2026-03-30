@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Events — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="global_data.html" rel="next" title="Global data"/>
+<link href="expo.html" rel="prev" title="Expo menu"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expo.html">Expo menu</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#declaring-a-spy">Declaring a spy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debugging">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-events">Dynamic events</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uefi/index.html">Unified Extensible Firmware (UEFI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Develop U-Boot</a> »</li>
+<li>Events</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/develop/event.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Events"></a><div class="section" id="events">
+<h1>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h1>
+<p>U-Boot supports a way for various events to be handled by interested
+subsystems. This provide a generic way to handle ‘hooks’ like setting up the
+CPUs after driver model is active, or reading a partition table after a new
+block device is probed.</p>
+<p>Rather than using weak functions and direct calls across subsystemss, it is
+often easier to use an event.</p>
+<p>An event consists of a type (e.g. EVT_DM_POST_INIT_F) and some optional data,
+in <cite>union event_data</cite>. An event spy can be created to watch for events of a
+particular type. When the event is created, it is sent to each spy in turn.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Declaring a spy"></a><div class="section" id="declaring-a-spy">
+<h2>Declaring a spy<a class="headerlink" href="#declaring-a-spy" title="Permalink to this headline">¶</a></h2>
+<p>To declare a spy, use something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static int snow_setup_cpus(void *ctx, struct event *event)
+{
+    /* do something */
+    return 0;
+}
+EVENT_SPY(EVT_DM_POST_INIT_F, snow_setup_cpus);
+</pre></div>
+</div>
+<p>This function is called when EVT_DM_POST_INIT_F is emitted, i.e. after the
+driver model is initialized (in U-Boot proper before and after relocation).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Debugging"></a><div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>To assist with debugging events, enable <cite>CONFIG_EVENT_DEBUG</cite> and
+<cite>CONFIG_CMD_EVENT</cite>. The <a class="reference internal" href="../usage/cmd/event.html"><span class="doc">event command</span></a> command can then be used to
+provide a spy list.</p>
+<p>It is also possible to list spy information from the U-Boot executable,, using
+the <cite>event_dump.py</cite> script:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ scripts/event_dump.py /tmp/b/sandbox/u-boot
+Event type            Id                              Source location
+--------------------  ------------------------------  ------------------------------
+EVT_MISC_INIT_F       f:sandbox_misc_init_f           arch/sandbox/cpu/start.c:125
+</pre></div>
+</div>
+<p>This shows each event spy in U-Boot, along with the event type, function name
+(or ID) and source location.</p>
+<p>Note that if <cite>CONFIG_EVENT_DEBUG</cite> is not enabled, the event ID is missing, so
+the function is shown instead (with an <cite>f:</cite> prefix as above). Since the ID is
+generally the same as the function name, this does not matter much.</p>
+<p>The event type is decoded by the symbol used by U-Boot for the event linker
+list. Symbols have the form:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>_u_boot_list_2_evspy_info_2_EVT_MISC_INIT_F
+</pre></div>
+</div>
+<p>so the event type can be read from the end. To manually list spy information
+in an image, use $(CROSS_COMPILE)nm:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nm u-boot |grep evspy |grep list
+00000000002d6300 D _u_boot_list_2_evspy_info_2_EVT_MISC_INIT_F
+</pre></div>
+</div>
+<p>Logging is also available. Events use category <cite>LOGC_EVENT</cite>, so you can enable
+logging on that, or add <cite>#define LOG_DEBUG</cite> to the top of <cite>common/event.c</cite> to
+see events being sent.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Dynamic events"></a><div class="section" id="dynamic-events">
+<h2>Dynamic events<a class="headerlink" href="#dynamic-events" title="Permalink to this headline">¶</a></h2>
+<p>Static events provide a way of dealing with events known at build time. In some
+cases we want to attach an event handler at runtime. For example, we may wish
+to be notified when a particular device is probed or removed.</p>
+<p>This can be handled by enabling <cite>CONFIG_EVENT_DYNAMIC</cite>. It is then possible to
+call <cite>event_register()</cite> to register a new handler for a particular event.</p>
+<p>Dynamic event handlers are called after all the static event spy handlers have
+been processed. Of course, since dynamic event handlers are created at runtime
+it is not possible to use the <cite>event_dump.py</cite> to see them.</p>
+<p>At present there is no way to list dynamic event handlers from the command line,
+nor to deregister a dynamic event handler. These features can be added when
+needed.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="expo.html" rel="prev" title="Expo menu"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="global_data.html" rel="next" title="Global data">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

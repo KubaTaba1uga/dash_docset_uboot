@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Building with GCC — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="clang.html" rel="next" title="Building with Clang"/>
+<link href="source.html" rel="prev" title="Obtaining the source"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Build U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="source.html">Obtaining the source</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Building with GCC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#debian-based">Debian based</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#suse-based">SUSE based</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alpine-linux">Alpine Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building">Building</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-parameters">Build parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#devicetree-compiler">Devicetree compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#link-time-optimisation-lto">Link-time optimisation (LTO)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-build-targets">Other build targets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="clang.html">Building with Clang</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reproducible.html">Reproducible builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker.html">GitLab CI / U-Boot runner container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">Host tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildman.html">Buildman build tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html">Building documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Build U-Boot</a> »</li>
+<li>Building with GCC</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/build/gcc.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building with GCC"></a><div class="section" id="building-with-gcc">
+<h1>Building with GCC<a class="headerlink" href="#building-with-gcc" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Dependencies"></a><div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>For building U-Boot you need a GCC compiler for your host platform. If you
+are not building on the target platform you further need  a GCC cross compiler.</p>
+<div class="section" id="debian-based">
+<h3>Debian based<a class="headerlink" href="#debian-based" title="Permalink to this headline">¶</a></h3>
+<p>On Debian based systems the cross compiler packages are named
+gcc-&lt;architecture&gt;-linux-gnu.</p>
+<p>You could install GCC and the GCC cross compiler for the ARMv8 architecture with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>gcc<span class="w"> </span>gcc-aarch64-linux-gnu
+</pre></div>
+</div>
+<p>Depending on the build targets further packages maybe needed</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>bc<span class="w"> </span>bison<span class="w"> </span>build-essential<span class="w"> </span>coccinelle<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>device-tree-compiler<span class="w"> </span>dfu-util<span class="w"> </span>efitools<span class="w"> </span>flex<span class="w"> </span>gdisk<span class="w"> </span>graphviz<span class="w"> </span>imagemagick<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>liblz4-tool<span class="w"> </span>libgnutls28-dev<span class="w"> </span>libguestfs-tools<span class="w"> </span>libncurses-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>libpython3-dev<span class="w"> </span>libsdl2-dev<span class="w"> </span>libssl-dev<span class="w"> </span>lz4<span class="w"> </span>lzma<span class="w"> </span>lzma-alone<span class="w"> </span>openssl<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pkg-config<span class="w"> </span>python3<span class="w"> </span>python3-asteval<span class="w"> </span>python3-coverage<span class="w"> </span>python3-filelock<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python3-pkg-resources<span class="w"> </span>python3-pycryptodome<span class="w"> </span>python3-pyelftools<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python3-pytest<span class="w"> </span>python3-pytest-xdist<span class="w"> </span>python3-sphinxcontrib.apidoc<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python3-sphinx-rtd-theme<span class="w"> </span>python3-subunit<span class="w"> </span>python3-testtools<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python3-virtualenv<span class="w"> </span>swig<span class="w"> </span>uuid-dev
+</pre></div>
+</div>
+</div>
+<div class="section" id="suse-based">
+<h3>SUSE based<a class="headerlink" href="#suse-based" title="Permalink to this headline">¶</a></h3>
+<p>On suse based systems the cross compiler packages are named
+cross-&lt;architecture&gt;-gcc&lt;version&gt;.</p>
+<p>You could install GCC and the GCC 10 cross compiler for the ARMv8 architecture
+with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>zypper<span class="w"> </span>install<span class="w"> </span>gcc<span class="w"> </span>cross-aarch64-gcc10
+</pre></div>
+</div>
+<p>Depending on the build targets further packages maybe needed.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>zypper<span class="w"> </span>install<span class="w"> </span>bc<span class="w"> </span>bison<span class="w"> </span>flex<span class="w"> </span>gcc<span class="w"> </span>libopenssl-devel<span class="w"> </span>libSDL2-devel<span class="w"> </span>make<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>ncurses-devel<span class="w"> </span>python3-devel<span class="w"> </span>python3-pytest<span class="w"> </span>swig
+</pre></div>
+</div>
+</div>
+<div class="section" id="alpine-linux">
+<h3>Alpine Linux<a class="headerlink" href="#alpine-linux" title="Permalink to this headline">¶</a></h3>
+<p>For building U-Boot on Alpine Linux at least the following packages are needed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apk<span class="w"> </span>add<span class="w"> </span>alpine-sdk<span class="w"> </span>bc<span class="w"> </span>bison<span class="w"> </span>dtc<span class="w"> </span>flex<span class="w"> </span>linux-headers<span class="w"> </span>ncurses-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>openssl-dev<span class="w"> </span>perl<span class="w"> </span>python3<span class="w"> </span>py3-setuptools<span class="w"> </span>python3-dev<span class="w"> </span>sdl2-dev
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Prerequisites"></a><div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>For some boards you have to build prerequisite files before you can build
+U-Boot, e.g. for the some boards you will need to build the ARM Trusted Firmware
+beforehand. Please, refer to the board specific documentation
+<a class="reference internal" href="../board/index.html"><span class="doc">Board-specific doc</span></a>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration"></a><div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>Directory configs/ contains the template configuration files for the maintained
+boards following the naming scheme:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;board name&gt;_defconfig
+</pre></div>
+</div>
+<p>These files have been stripped of default settings. So you cannot use them
+directly. Instead their name serves as a make target to generate the actual
+configuration file .config. For instance the configuration template for the
+Odroid C2 board is called odroid-c2_defconfig. The corresponding .config file
+is generated by</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>odroid-c2_defconfig
+</pre></div>
+</div>
+<p>You can adjust the configuration using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>menuconfig
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building"></a><div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>When cross compiling you will have to specify the prefix of the cross-compiler.
+You can either specify the value of the CROSS_COMPILE variable on the make
+command line or export it beforehand.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>&lt;compiler-prefix&gt;<span class="w"> </span>make
+</pre></div>
+</div>
+<p>Assuming cross compiling on Debian for ARMv8 this would be</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span>make
+</pre></div>
+</div>
+<div class="section" id="build-parameters">
+<h3>Build parameters<a class="headerlink" href="#build-parameters" title="Permalink to this headline">¶</a></h3>
+<p>A list of available parameters for the make command can be obtained via</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nb">help</span>
+</pre></div>
+</div>
+<p>You can speed up compilation by parallelization using the -j parameter, e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span>make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
+</pre></div>
+</div>
+<p>Further important build parameters are</p>
+<ul class="simple">
+<li><p>O=&lt;dir&gt; - generate all output files in directory &lt;dir&gt;, including .config</p></li>
+<li><p>V=1 - verbose build</p></li>
+</ul>
+</div>
+<div class="section" id="devicetree-compiler">
+<h3>Devicetree compiler<a class="headerlink" href="#devicetree-compiler" title="Permalink to this headline">¶</a></h3>
+<p>Boards that use <cite>CONFIG_OF_CONTROL</cite> (i.e. almost all of them) need the
+devicetree compiler (dtc). Those with <cite>CONFIG_PYLIBFDT</cite> need pylibfdt, a Python
+library for accessing devicetree data. Suitable versions of these are included
+in the U-Boot tree in <cite>scripts/dtc</cite> and built automatically as needed.</p>
+<p>To use the system versions of these, use the DTC parameter, for example</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">DTC</span><span class="o">=</span>/usr/bin/dtc<span class="w"> </span>make
+</pre></div>
+</div>
+<p>In this case, dtc and pylibfdt are not built. The build checks that the version
+of dtc is new enough. It also makes sure that pylibfdt is present, if needed
+(see <cite>scripts_dtc</cite> in the Makefile).</p>
+<p>Note that the <a class="reference internal" href="tools.html"><span class="doc">Host tools</span></a> are always built with the included version of libfdt
+so it is not possible to build U-Boot tools with a system libfdt, at present.</p>
+</div>
+<div class="section" id="link-time-optimisation-lto">
+<h3>Link-time optimisation (LTO)<a class="headerlink" href="#link-time-optimisation-lto" title="Permalink to this headline">¶</a></h3>
+<p>U-Boot supports link-time optimisation which can reduce the size of the final
+U-Boot binaries, particularly with SPL.</p>
+<p>At present this can be enabled by ARM boards by adding <cite>CONFIG_LTO=y</cite> into the
+defconfig file. Other architectures are not supported. LTO is enabled by default
+for sandbox.</p>
+<p>This does incur a link-time penalty of several seconds. For faster incremental
+builds during development, you can disable it by setting <cite>NO_LTO</cite> to <cite>1</cite>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">NO_LTO</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>make
+</pre></div>
+</div>
+</div>
+<div class="section" id="other-build-targets">
+<h3>Other build targets<a class="headerlink" href="#other-build-targets" title="Permalink to this headline">¶</a></h3>
+<p>A list of all make targets can be obtained via</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span><span class="nb">help</span>
+</pre></div>
+</div>
+<p>Important ones are</p>
+<ul class="simple">
+<li><p>clean - remove most generated files but keep the configuration</p></li>
+<li><p>mrproper - remove all generated files + config + various backup files</p></li>
+</ul>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installation"></a><div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The process for installing U-Boot on the target device is device specific.
+Please, refer to the board specific documentation <a class="reference internal" href="../board/index.html"><span class="doc">Board-specific doc</span></a>.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="source.html" rel="prev" title="Obtaining the source"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="clang.html" rel="next" title="Building with Clang">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

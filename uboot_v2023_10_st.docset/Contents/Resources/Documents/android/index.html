@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Android-specific doc — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="ab.html" rel="next" title="Android A/B updates"/>
+<link href="../board/xilinx/zynqmp-r5.html" rel="prev" title="ZYNQMP-R5"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Android-specific doc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ab.html">Android A/B updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html">Android Verified Boot 2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html">Android Bootloader Control Block (BCB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html">Android Boot Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html">FastBoot Version 0.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html">Android Fastboot</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li>Android-specific doc</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/android/index.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Android-specific doc"></a><div class="section" id="android-specific-doc">
+<h1>Android-specific doc<a class="headerlink" href="#android-specific-doc" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ab.html">Android A/B updates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ab.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ab.html#a-b-enablement">A/B enablement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ab.html#command-usage">Command usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ab.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="avb2.html">Android Verified Boot 2.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html#avb-2-0-u-boot-shell-commands">AVB 2.0 U-Boot shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html#partitions-tampering-example">Partitions tampering (example)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html#enable-on-your-board">Enable on your board</a></li>
+<li class="toctree-l2"><a class="reference internal" href="avb2.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bcb.html">Android Bootloader Control Block (BCB)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html#bcb-shell-command-overview">‘bcb’. Shell command overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html#bcb-example-of-getting-reboot-reason">‘bcb’. Example of getting reboot reason</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bcb.html#enable-on-your-board">Enable on your board</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="boot-image.html">Android Boot Image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html#booting">Booting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html#dtb-and-dtbo-blobs">DTB and DTBO blobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html#c-api-for-working-with-android-boot-image-format">C API for working with Android Boot Image format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot-image.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastboot-protocol.html">FastBoot Version 0.4</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html#basic-requirements">Basic Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html#transport-and-framing">Transport and Framing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html#example-session">Example Session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html#command-reference">Command Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot-protocol.html#client-variables">Client Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastboot.html">Android Fastboot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html#client-installation">Client installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html#board-specific">Board specific</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html#fastboot-environment-variables">Fastboot environment variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html#partition-names">Partition Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html#writing-partition-table">Writing Partition Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html#in-action">In Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastboot.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../board/xilinx/zynqmp-r5.html" rel="prev" title="ZYNQMP-R5"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="ab.html" rel="next" title="Android A/B updates">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

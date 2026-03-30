@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Building documentation — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="../learn/index.html" rel="next" title="Learn about U-Boot"/>
+<link href="buildman.html" rel="prev" title="Buildman build tool"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Build U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="source.html">Obtaining the source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gcc.html">Building with GCC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clang.html">Building with Clang</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reproducible.html">Reproducible builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker.html">GitLab CI / U-Boot runner container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">Host tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildman.html">Buildman build tool</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Building documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#html-documentation">HTML documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#infodoc-documentation">Infodoc documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pdf-documentation">PDF documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#texinfo-documentation">Texinfo documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">Build U-Boot</a> »</li>
+<li>Building documentation</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/build/documentation.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building documentation"></a><div class="section" id="building-documentation">
+<h1>Building documentation<a class="headerlink" href="#building-documentation" title="Permalink to this headline">¶</a></h1>
+<p>The U-Boot documentation is based on the Sphinx documentation generator.</p>
+<p>In addition to the Python packages listed in <code class="docutils literal notranslate"><span class="pre">doc/sphinx/requirements.txt</span></code>,
+the following dependencies are needed to build the documentation:</p>
+<ul class="simple">
+<li><p>fontconfig</p></li>
+<li><p>graphviz</p></li>
+<li><p>imagemagick</p></li>
+<li><p>texinfo (if building the <a class="reference internal" href="#infodoc-documentation">Infodoc documentation</a>)</p></li>
+</ul>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/HTML documentation"></a><div class="section" id="html-documentation">
+<h2>HTML documentation<a class="headerlink" href="#html-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The <em>htmldocs</em> target is used to build the HTML documentation. It uses the
+<a class="reference external" href="https://sphinx-rtd-theme.readthedocs.io/en/stable/">Read the Docs Sphinx theme</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Python environment 'myenv'</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>myenv
+<span class="c1"># Activate the Python environment</span>
+.<span class="w"> </span>myenv/bin/activate
+<span class="c1"># Install build requirements</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>doc/sphinx/requirements.txt
+<span class="c1"># Build the documentation</span>
+make<span class="w"> </span>htmldocs
+<span class="c1"># Deactivate the Python environment</span>
+deactivate
+<span class="c1"># Display the documentation in a graphical web browser</span>
+x-www-browser<span class="w"> </span>doc/output/index.html
+</pre></div>
+</div>
+<p>The HTML documentation is published at <a class="reference external" href="https://u-boot.readthedocs.io">https://u-boot.readthedocs.io</a>. The build
+process for that site is controlled by the file <em>.readthedocs.yml</em>.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Infodoc documentation"></a><div class="section" id="infodoc-documentation">
+<h2>Infodoc documentation<a class="headerlink" href="#infodoc-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The <em>infodocs</em> target builds both a texinfo and an info file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Python environment 'myenv'</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>myenv
+<span class="c1"># Activate the Python environment</span>
+.<span class="w"> </span>myenv/bin/activate
+<span class="c1"># Install build requirements</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>doc/sphinx/requirements.txt
+<span class="c1"># Build the documentation</span>
+make<span class="w"> </span>infodocs
+<span class="c1"># Deactivate the Python environment</span>
+deactivate
+<span class="c1"># Display the documentation</span>
+info<span class="w"> </span>doc/output/texinfo/u-boot.info
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/PDF documentation"></a><div class="section" id="pdf-documentation">
+<h2>PDF documentation<a class="headerlink" href="#pdf-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The <em>pdfdocs</em> target is meant to be used to build PDF documenation.
+As v2023.01 it fails with ‘LaTeX Error: Too deeply nested’.</p>
+<p>We can use texi2pdf instead:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Python environment 'myenv'</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>myenv
+<span class="c1"># Activate the Python environment</span>
+.<span class="w"> </span>myenv/bin/activate
+<span class="c1"># Install build requirements</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>doc/sphinx/requirements.txt
+<span class="c1"># Build the documentation</span>
+make<span class="w"> </span>texinfodocs
+<span class="c1"># Deactivate the Python environment</span>
+deactivate
+<span class="c1"># Convert to PDF</span>
+texi2pdf<span class="w"> </span>doc/output/texinfo/u-boot.texi
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Texinfo documentation"></a><div class="section" id="texinfo-documentation">
+<h2>Texinfo documentation<a class="headerlink" href="#texinfo-documentation" title="Permalink to this headline">¶</a></h2>
+<p>To build only the texinfo documentation the <em>texinfodocs</em> target is used:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Python environment 'myenv'</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>myenv
+<span class="c1"># Activate the Python environment</span>
+.<span class="w"> </span>myenv/bin/activate
+<span class="c1"># Install build requirements</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>doc/sphinx/requirements.txt
+<span class="c1"># Build the documentation</span>
+make<span class="w"> </span>texinfodocs
+<span class="c1"># Deactivate the Python environment</span>
+deactivate
+</pre></div>
+</div>
+<p>The output is in file <em>doc/output/texinfo/u-boot.texi</em>.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="buildman.html" rel="prev" title="Buildman build tool"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../learn/index.html" rel="next" title="Learn about U-Boot">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

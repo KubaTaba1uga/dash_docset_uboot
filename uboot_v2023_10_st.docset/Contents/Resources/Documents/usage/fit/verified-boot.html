@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>U-Boot Verified Boot — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="beaglebone_vboot.html" rel="next" title="Verified Boot on the Beaglebone Black"/>
+<link href="signature.html" rel="prev" title="U-Boot FIT Signature Verification"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Use U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../spl_boot.html">Booting from TPL/SPL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blkmap.html">Block Maps (blkmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dfu.html">Device Firmware Upgrade (DFU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fdt_overlays.html">Device Tree Overlays</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Flat Image Tree (FIT)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="source_file_format.html">Flattened Image Tree (FIT) Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto.html">How to use images in the new image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="x86-fit-boot.html">Booting Linux on x86 with FIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="signature.html">U-Boot FIT Signature Verification</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">U-Boot Verified Boot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#signing">Signing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chaining-images">Chaining Images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flattened-image-tree-fit">Flattened Image Tree (FIT)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="beaglebone_vboot.html">Verified Boot on the Beaglebone Black</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlay-fdt-boot.html">U-Boot FDT Overlay FIT usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../netconsole.html">Network console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partitions.html">Partitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmdline.html">Command-line Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../semihosting.html">Semihosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#shell-commands">Shell commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#booting-os">Booting OS</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Use U-Boot</a> »</li>
+<li><a href="index.html">Flat Image Tree (FIT)</a> »</li>
+<li>U-Boot Verified Boot</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/usage/fit/verified-boot.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/U-Boot Verified Boot"></a><div class="section" id="u-boot-verified-boot">
+<h1>U-Boot Verified Boot<a class="headerlink" href="#u-boot-verified-boot" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Introduction"></a><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Verified boot here means the verification of all software loaded into a
+machine during the boot process to ensure that it is authorised and correct
+for that machine.</p>
+<p>Verified boot extends from the moment of system reset to as far as you wish
+into the boot process. An example might be loading U-Boot from read-only
+memory, then loading a signed kernel, then using the kernel’s dm-verity
+driver to mount a signed root filesystem.</p>
+<p>A key point is that it is possible to field-upgrade the software on machines
+which use verified boot. Since the machine will only run software that has
+been correctly signed, it is safe to read software from an updatable medium.
+It is also possible to add a secondary signed firmware image, in read-write
+memory, so that firmware can easily be upgraded in a secure manner.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Signing"></a><div class="section" id="signing">
+<h2>Signing<a class="headerlink" href="#signing" title="Permalink to this headline">¶</a></h2>
+<p>Verified boot uses cryptographic algorithms to ‘sign’ software images.
+Images are signed using a private key known only to the signer, but can
+be verified using a public key. As its name suggests the public key can be
+made available without risk to the verification process. The private and
+public keys are mathematically related. For more information on how this
+works look up “public key cryptography” and “RSA” (a particular algorithm).</p>
+<p>The signing and verification process looks something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    Signing                                      Verification
+    =======                                      ============
+
++--------------+                 *
+| RSA key pair |                 *             +---------------+
+| .key  .crt   |                 *             | Public key in |
++--------------+     +------&gt; public key -----&gt;| trusted place |
+      |              |           *             +---------------+
+      |              |           *                    |
+      v              |           *                    v
+ +---------+         |           *             +--------------+
+ |         |---------+           *             |              |
+ | signer  |                     *             |    U-Boot    |
+ |         |---------+           *             |  signature   |--&gt; yes/no
+ +---------+         |           *             | verification |
+      ^              |           *             |              |
+      |              |           *             +--------------+
+      |              |           *                    ^
+ +----------+        |           *                    |
+ | Software |        +----&gt; signed image -------------+
+ |  image   |                    *
+ +----------+                    *
+</pre></div>
+</div>
+<p>The signature algorithm relies only on the public key to do its work. Using
+this key it checks the signature that it finds in the image. If it verifies
+then we know that the image is OK.</p>
+<p>The public key from the signer allows us to verify and therefore trust
+software from updatable memory.</p>
+<p>It is critical that the public key be secure and cannot be tampered with.
+It can be stored in read-only memory, or perhaps protected by other on-chip
+crypto provided by some modern SOCs. If the public key can be changed, then
+the verification is worthless.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Chaining Images"></a><div class="section" id="chaining-images">
+<h2>Chaining Images<a class="headerlink" href="#chaining-images" title="Permalink to this headline">¶</a></h2>
+<p>The above method works for a signer providing images to a run-time U-Boot.
+It is also possible to extend this scheme to a second level, like this:</p>
+<ol class="arabic simple">
+<li><p>Master private key is used by the signer to sign a first-stage image.</p></li>
+<li><p>Master public key is placed in read-only memory.</p></li>
+<li><p>Secondary private key is created and used to sign second-stage images.</p></li>
+<li><p>Secondary public key is placed in first stage images</p></li>
+<li><p>We use the master public key to verify the first-stage image. We then
+use the secondary public key in the first-stage image to verify the second-
+state image.</p></li>
+<li><p>This chaining process can go on indefinitely. It is recommended to use a
+different key at each stage, so that a compromise in one place will not
+affect the whole change.</p></li>
+</ol>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Flattened Image Tree (FIT)"></a><div class="section" id="flattened-image-tree-fit">
+<h2>Flattened Image Tree (FIT)<a class="headerlink" href="#flattened-image-tree-fit" title="Permalink to this headline">¶</a></h2>
+<p>The FIT format is already widely used in U-Boot. It is a flattened device
+tree (FDT) in a particular format, with images contained within. FITs
+include hashes to verify images, so it is relatively straightforward to
+add signatures as well.</p>
+<p>The public key can be stored in U-Boot’s CONFIG_OF_CONTROL device tree in
+a standard place. Then when a FIT is loaded it can be verified using that
+public key. Multiple keys and multiple signatures are supported.</p>
+<p>See <a class="reference internal" href="signature.html"><span class="doc">U-Boot FIT Signature Verification</span></a> for more information.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="signature.html" rel="prev" title="U-Boot FIT Signature Verification"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="beaglebone_vboot.html" rel="next" title="Verified Boot on the Beaglebone Black">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Device firmware update — Das U-Boot  documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="dm.html" rel="next" title="Driver Model"/>
+<link href="clk.html" rel="prev" title="Clock API"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">U-Boot API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clk.html">Clock API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Device firmware update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dm.html">Driver Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="efi.html">UEFI subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getopt.html">Option Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker_lists.html">Linker-Generated Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmb.html">Logical memory blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nvmem.html">NVMEM API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part.html">Partition API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pinctrl.html">Pinctrl and Pinmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rng.html">Random number generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html">Sandbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="serial.html">Serial system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysreset.html">System reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timer.html">Timer Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode support</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">U-Boot API documentation</a> »</li>
+<li>Device firmware update</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/api/dfu.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Device firmware update"></a><div class="section" id="device-firmware-update">
+<h1>Device firmware update<a class="headerlink" href="#device-firmware-update" title="Permalink to this headline">¶</a></h1>
+<dl class="c function">
+<dt id="c.set_dfu_alt_info">
+void <code class="sig-name descname">set_dfu_alt_info</code><span class="sig-paren">(</span>char *<em>interface</em>, char *<em>devstr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/set_dfu_alt_info"></a><a class="headerlink" href="#c.set_dfu_alt_info" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>set dfu_alt_info environment variable</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*interface</span></code></dt><dd><p>dfu interface, e.g. “mmc” or “nand”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*devstr</span></code></dt><dd><p>device number as string</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>If CONFIG_SET_DFU_ALT_INFO=y, this board specific function is called to set
+environment variable dfu_alt_info.</p>
+<dl class="c function">
+<dt id="c.dfu_alt_init">
+int <code class="sig-name descname">dfu_alt_init</code><span class="sig-paren">(</span>int <em>num</em>, <em class="property">struct</em> dfu_entity **<em>dfu</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_alt_init"></a><a class="headerlink" href="#c.dfu_alt_init" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>initialize buffer for dfu entities</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">num</span></code></dt><dd><p>number of entities</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">**dfu</span></code></dt><dd><p>on return allocated buffer</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success</p>
+<dl class="c function">
+<dt id="c.dfu_alt_add">
+int <code class="sig-name descname">dfu_alt_add</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>dfu</em>, char *<em>interface</em>, char *<em>devstr</em>, char *<em>s</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_alt_add"></a><a class="headerlink" href="#c.dfu_alt_add" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>add alternate to dfu entity buffer</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*dfu</span></code></dt><dd><p>dfu entity</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*interface</span></code></dt><dd><p>dfu interface, e.g. “mmc” or “nand”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*devstr</span></code></dt><dd><p>device number as string</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*s</span></code></dt><dd><p>string description of alternate</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>0 on success</p>
+<dl class="c function">
+<dt id="c.dfu_config_entities">
+int <code class="sig-name descname">dfu_config_entities</code><span class="sig-paren">(</span>char *<em>s</em>, char *<em>interface</em>, char *<em>devstr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_config_entities"></a><a class="headerlink" href="#c.dfu_config_entities" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>initialize dfu entitities from envirionment</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*s</span></code></dt><dd><p>string with alternates</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*interface</span></code></dt><dd><p>interface, e.g. “mmc” or “nand”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*devstr</span></code></dt><dd><p>device number as string</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Initialize the list of dfu entities from environment variable dfu_alt_info.
+The list must be freed by calling dfu_free_entities(). This function bypasses
+set_dfu_alt_info(). So typically you should use dfu_init_env_entities()
+instead.</p>
+<p>See function <a class="reference internal" href="#c.dfu_free_entities" title="dfu_free_entities"><code class="xref c c-func docutils literal notranslate"><span class="pre">dfu_free_entities()</span></code></a>
+See function <a class="reference internal" href="#c.dfu_init_env_entities" title="dfu_init_env_entities"><code class="xref c c-func docutils literal notranslate"><span class="pre">dfu_init_env_entities()</span></code></a></p>
+<p><strong>Return</strong></p>
+<p>0 on success, a negative error code otherwise</p>
+<dl class="c function">
+<dt id="c.dfu_free_entities">
+void <code class="sig-name descname">dfu_free_entities</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_free_entities"></a><a class="headerlink" href="#c.dfu_free_entities" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>free the list of dfu entities</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Free the internal list of dfu entities.</p>
+<p>See function <a class="reference internal" href="#c.dfu_init_env_entities" title="dfu_init_env_entities"><code class="xref c c-func docutils literal notranslate"><span class="pre">dfu_init_env_entities()</span></code></a></p>
+<dl class="c function">
+<dt id="c.dfu_show_entities">
+void <code class="sig-name descname">dfu_show_entities</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_show_entities"></a><a class="headerlink" href="#c.dfu_show_entities" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>print DFU alt settings list</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.dfu_get_alt_number">
+int <code class="sig-name descname">dfu_get_alt_number</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_get_alt_number"></a><a class="headerlink" href="#c.dfu_get_alt_number" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get number of alternates</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>number of alternates in the dfu entities list</p>
+<dl class="c function">
+<dt id="c.dfu_get_dev_type">
+<em class="property">const</em> char *<code class="sig-name descname">dfu_get_dev_type</code><span class="sig-paren">(</span><em class="property">enum</em> dfu_device_type <em>type</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_get_dev_type"></a><a class="headerlink" href="#c.dfu_get_dev_type" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get string representation for dfu device type</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">dfu_device_type</span> <span class="pre">type</span></code></dt><dd><p>device type</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>string representation for device type</p>
+<dl class="c function">
+<dt id="c.dfu_get_layout">
+<em class="property">const</em> char *<code class="sig-name descname">dfu_get_layout</code><span class="sig-paren">(</span><em class="property">enum</em> dfu_layout <em>layout</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_get_layout"></a><a class="headerlink" href="#c.dfu_get_layout" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get string describing layout</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">dfu_layout</span> <span class="pre">layout</span></code></dt><dd><p>layout
+Result:      string representation for the layout</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Internally layouts are represented by enum dfu_device_type values. This
+function translates an enum value to a human readable string, e.g. DFU_FS_FAT
+is translated to “FAT”.</p>
+<dl class="c function">
+<dt id="c.dfu_get_entity">
+<em class="property">struct</em> dfu_entity *<code class="sig-name descname">dfu_get_entity</code><span class="sig-paren">(</span>int <em>alt</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_get_entity"></a><a class="headerlink" href="#c.dfu_get_entity" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get dfu entity for an alternate id</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">alt</span></code></dt><dd><p>alternate id</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>dfu entity</p>
+<dl class="c function">
+<dt id="c.dfu_get_alt">
+int <code class="sig-name descname">dfu_get_alt</code><span class="sig-paren">(</span>char *<em>name</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_get_alt"></a><a class="headerlink" href="#c.dfu_get_alt" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get alternate id for filename</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*name</span></code></dt><dd><p>filename</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Environment variable dfu_alt_info defines the write destinations (alternates)
+for different filenames. This function get the index of the alternate for
+a filename. If an absolute filename is provided (starting with ‘/’), the
+directory path is ignored.</p>
+<p><strong>Return</strong></p>
+<p>id of the alternate or negative error number (-ENODEV)</p>
+<dl class="c function">
+<dt id="c.dfu_init_env_entities">
+int <code class="sig-name descname">dfu_init_env_entities</code><span class="sig-paren">(</span>char *<em>interface</em>, char *<em>devstr</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_init_env_entities"></a><a class="headerlink" href="#c.dfu_init_env_entities" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>initialize dfu entitities from envirionment</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*interface</span></code></dt><dd><p>interface, e.g. “mmc” or “nand”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*devstr</span></code></dt><dd><p>device number as string</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Initialize the list of dfu entities from environment variable dfu_alt_info.
+The list must be freed by calling dfu_free_entities().
+<strong>interface</strong> and <strong>devstr</strong> are used to select the relevant set of alternates
+from environment variable dfu_alt_info.</p>
+<p>If environment variable dfu_alt_info specifies the interface and the device,
+use NULL for <strong>interface</strong> and <strong>devstr</strong>.</p>
+<p>See function <a class="reference internal" href="#c.dfu_free_entities" title="dfu_free_entities"><code class="xref c c-func docutils literal notranslate"><span class="pre">dfu_free_entities()</span></code></a></p>
+<p><strong>Return</strong></p>
+<p>0 on success, a negative error code otherwise</p>
+<dl class="c function">
+<dt id="c.dfu_read">
+int <code class="sig-name descname">dfu_read</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>de</em>, void *<em>buf</em>, int <em>size</em>, int <em>blk_seq_num</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_read"></a><a class="headerlink" href="#c.dfu_read" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>read from dfu entity</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*de</span></code></dt><dd><p>dfu entity</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>buffer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>size of buffer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">blk_seq_num</span></code></dt><dd><p>block sequence number</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>The block sequence number <strong>blk_seq_num</strong> is a 16 bit counter that must be
+incremented with each call for the same dfu entity <strong>de</strong>.</p>
+<p><strong>Return</strong></p>
+<p>0 for success, -1 for error</p>
+<dl class="c function">
+<dt id="c.dfu_write">
+int <code class="sig-name descname">dfu_write</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>de</em>, void *<em>buf</em>, int <em>size</em>, int <em>blk_seq_num</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_write"></a><a class="headerlink" href="#c.dfu_write" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write to dfu entity</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*de</span></code></dt><dd><p>dfu entity</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>buffer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>size of buffer</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">blk_seq_num</span></code></dt><dd><p>block sequence number</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>Write the contents of a buffer <strong>buf</strong> to the dfu entity <strong>de</strong>. After writing
+the last block call dfu_flush(). If a file is already loaded completely
+into memory it is preferable to use dfu_write_from_mem_addr() which takes
+care of blockwise transfer and flushing.</p>
+<p>The block sequence number <strong>blk_seq_num</strong> is a 16 bit counter that must be
+incremented with each call for the same dfu entity <strong>de</strong>.</p>
+<p>See function <a class="reference internal" href="#c.dfu_flush" title="dfu_flush"><code class="xref c c-func docutils literal notranslate"><span class="pre">dfu_flush()</span></code></a>
+See function <a class="reference internal" href="#c.dfu_write_from_mem_addr" title="dfu_write_from_mem_addr"><code class="xref c c-func docutils literal notranslate"><span class="pre">dfu_write_from_mem_addr()</span></code></a></p>
+<p><strong>Return</strong></p>
+<p>0 for success, -1 for error</p>
+<dl class="c function">
+<dt id="c.dfu_flush">
+int <code class="sig-name descname">dfu_flush</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>de</em>, void *<em>buf</em>, int <em>size</em>, int <em>blk_seq_num</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_flush"></a><a class="headerlink" href="#c.dfu_flush" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>flush to dfu entity</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*de</span></code></dt><dd><p>dfu entity</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>ignored</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>ignored</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">blk_seq_num</span></code></dt><dd><p>block sequence number of last write - ignored</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function has to be called after writing the last block to the dfu
+entity <strong>de</strong>.</p>
+<p>The block sequence number <strong>blk_seq_num</strong> is a 16 bit counter that must be
+incremented with each call for the same dfu entity <strong>de</strong>.</p>
+<p>See function <a class="reference internal" href="#c.dfu_write" title="dfu_write"><code class="xref c c-func docutils literal notranslate"><span class="pre">dfu_write()</span></code></a></p>
+<p><strong>Return</strong></p>
+<p>0 for success, -1 for error</p>
+<dl class="c function">
+<dt id="c.dfu_initiated_callback">
+void <code class="sig-name descname">dfu_initiated_callback</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>dfu</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_initiated_callback"></a><a class="headerlink" href="#c.dfu_initiated_callback" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>weak callback called on DFU transaction start</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*dfu</span></code></dt><dd><p>pointer to the dfu_entity, which should be initialized</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>It is a callback function called by DFU stack when a DFU transaction is
+initiated. This function allows to manage some board specific behavior on
+DFU targets.</p>
+<dl class="c function">
+<dt id="c.dfu_flush_callback">
+void <code class="sig-name descname">dfu_flush_callback</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>dfu</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_flush_callback"></a><a class="headerlink" href="#c.dfu_flush_callback" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>weak callback called at the end of the DFU write</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*dfu</span></code></dt><dd><p>pointer to the dfu_entity, which should be flushed</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>It is a callback function called by DFU stack after DFU manifestation.
+This function allows to manage some board specific behavior on DFU targets</p>
+<dl class="c function">
+<dt id="c.dfu_error_callback">
+void <code class="sig-name descname">dfu_error_callback</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>dfu</em>, <em class="property">const</em> char *<em>msg</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_error_callback"></a><a class="headerlink" href="#c.dfu_error_callback" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>weak callback called at the DFU write error</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*dfu</span></code></dt><dd><p>pointer to the dfu_entity which cause the error</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*msg</span></code></dt><dd><p>the message of the error</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>It is a callback function called by DFU stack after DFU write error.
+This function allows to manage some board specific behavior on DFU targets</p>
+<dl class="c function">
+<dt id="c.dfu_get_defer_flush">
+<em class="property">struct</em> dfu_entity *<code class="sig-name descname">dfu_get_defer_flush</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_get_defer_flush"></a><a class="headerlink" href="#c.dfu_get_defer_flush" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>get current value of dfu_defer_flush pointer</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">void</span></code></dt><dd><p>no arguments</p>
+</dd>
+</dl>
+<p><strong>Return</strong></p>
+<p>value of the dfu_defer_flush pointer</p>
+<dl class="c function">
+<dt id="c.dfu_set_defer_flush">
+void <code class="sig-name descname">dfu_set_defer_flush</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>dfu</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_set_defer_flush"></a><a class="headerlink" href="#c.dfu_set_defer_flush" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>set the dfu_defer_flush pointer</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*dfu</span></code></dt><dd><p>pointer to the dfu_entity, which should be written</p>
+</dd>
+</dl>
+<dl class="c function">
+<dt id="c.dfu_write_from_mem_addr">
+int <code class="sig-name descname">dfu_write_from_mem_addr</code><span class="sig-paren">(</span><em class="property">struct</em> dfu_entity *<em>dfu</em>, void *<em>buf</em>, int <em>size</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_write_from_mem_addr"></a><a class="headerlink" href="#c.dfu_write_from_mem_addr" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write data from memory to DFU managed medium</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">dfu_entity</span> <span class="pre">*dfu</span></code></dt><dd><p>dfu entity to which we want to store data</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*buf</span></code></dt><dd><p>fixed memory address from where data starts</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">size</span></code></dt><dd><p>number of bytes to write</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function adds support for writing data starting from fixed memory
+address (like $loadaddr) to dfu managed medium (e.g. NAND, MMC, file system)</p>
+<p><strong>Return</strong></p>
+<p>0 on success, other value on failure</p>
+<dl class="c function">
+<dt id="c.dfu_write_by_name">
+int <code class="sig-name descname">dfu_write_by_name</code><span class="sig-paren">(</span>char *<em>dfu_entity_name</em>, void *<em>addr</em>, unsigned int <em>len</em>, char *<em>interface</em>, char *<em>devstring</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_write_by_name"></a><a class="headerlink" href="#c.dfu_write_by_name" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write data to DFU medium</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*dfu_entity_name</span></code></dt><dd><p>Name of DFU entity to write</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*addr</span></code></dt><dd><p>Address of data buffer to write</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">len</span></code></dt><dd><p>Number of bytes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*interface</span></code></dt><dd><p>Destination DFU medium (e.g. “mmc”)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*devstring</span></code></dt><dd><p>Instance number of destination DFU medium (e.g. “1”)</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function is storing data received on DFU supported medium which
+is specified by <strong>dfu_entity_name</strong>.</p>
+<p><strong>Return</strong></p>
+<p>0 - on success, error code - otherwise</p>
+<dl class="c function">
+<dt id="c.dfu_write_by_alt">
+int <code class="sig-name descname">dfu_write_by_alt</code><span class="sig-paren">(</span>int <em>dfu_alt_num</em>, void *<em>addr</em>, unsigned int <em>len</em>, char *<em>interface</em>, char *<em>devstring</em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Function/dfu_write_by_alt"></a><a class="headerlink" href="#c.dfu_write_by_alt" title="Permalink to this definition">¶</a><br/></dt>
+<dd><p>write data to DFU medium</p>
+</dd></dl>
+<p><strong>Parameters</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">dfu_alt_num</span></code></dt><dd><p>DFU alt setting number</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*addr</span></code></dt><dd><p>Address of data buffer to write</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">len</span></code></dt><dd><p>Number of bytes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*interface</span></code></dt><dd><p>Destination DFU medium (e.g. “mmc”)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*devstring</span></code></dt><dd><p>Instance number of destination DFU medium (e.g. “1”)</p>
+</dd>
+</dl>
+<p><strong>Description</strong></p>
+<p>This function is storing data received on DFU supported medium which
+is specified by <strong>dfu_alt_name</strong>.</p>
+<p><strong>Return</strong></p>
+<p>0 - on success, error code - otherwise</p>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="clk.html" rel="prev" title="Clock API"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="dm.html" rel="next" title="Driver Model">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

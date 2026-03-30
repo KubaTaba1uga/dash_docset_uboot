@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Allwinner SoC based boards — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../amlogic/index.html" rel="next" title="Amlogic"/>
+<link href="index.html" rel="prev" title="Allwinner (sunxi) boards"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">Develop U-Boot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Board-specific doc</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../actions/index.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advantech/index.html">Advantech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../AndesTech/index.html">Andes Tech</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Allwinner (sunxi) boards</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Allwinner SoC based boards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building-arm-trusted-firmware-tf-a">Building Arm Trusted Firmware (TF-A)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#building-the-crust-management-processor-firmware">Building the Crust management processor firmware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#building-the-u-boot-image">Building the U-Boot image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-u-boot">Installing U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#booting-via-the-usb-otg-fel-mode">Booting via the USB(-OTG) FEL mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../amlogic/index.html">Amlogic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../anbernic/index.html">Anbernic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apple/index.html">Apple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../armltd/index.html">Arm Ltd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../asus/index.html">ASUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atmel/index.html">Atmel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beacon/index.html">Beacon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../broadcom/index.html">Broadcom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bsh/index.html">BSH Hausgeraete GmbH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloos/index.html">Cloos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../congatec/index.html">Congatec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coreboot/index.html">Coreboot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emulation/index.html">Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gateworks/index.html">Gateworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../google/index.html">Google</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highbank/index.html">Highbank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../htc/index.html">HTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intel/index.html">Intel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kontron/index.html">Kontron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lg/index.html">LG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mediatek/index.html">Mediatek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../microchip/index.html">Microchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nxp/index.html">NXP Semiconductors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openpiton/index.html">OpenPiton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phytec/index.html">PHYTEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../purism/index.html">Purism SPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qualcomm/index.html">Qualcomm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../renesas/index.html">Renesas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rockchip/index.html">Rockchip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samsung/index.html">Samsung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../siemens/index.html">Siemens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sifive/index.html">SiFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sipeed/index.html">Sipeed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../socionext/index.html">Socionext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../st/index.html">STMicroelectronics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starfive/index.html">StarFive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ste/index.html">ST-Ericsson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tbs/index.html">TBS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thead/index.html">T-HEAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ti/index.html">Texas Instruments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../toradex/index.html">Toradex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../variscite/index.html">Variscite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xen/index.html">XenGuestARM64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../xilinx/index.html">Xilinx</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Board-specific doc</a> »</li>
+<li><a href="index.html">Allwinner (sunxi) boards</a> »</li>
+<li>Allwinner SoC based boards</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/board/allwinner/sunxi.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Allwinner SoC based boards"></a><div class="section" id="allwinner-soc-based-boards">
+<h1>Allwinner SoC based boards<a class="headerlink" href="#allwinner-soc-based-boards" title="Permalink to this headline">¶</a></h1>
+<p>For boards using an Allwinner ARM based SoC (“sunxi”), the U-Boot build
+system generates a single integrated image file: <code class="docutils literal notranslate"><span class="pre">u-boot-sunxi-with-spl.bin.</span></code>
+This file can be used on SD cards, eMMC devices, SPI flash and for the
+USB-OTG based boot method (FEL). To build this file:</p>
+<ul>
+<li><p>For 64-bit SoCs, build Trusted Firmware (TF-A, formerly known as ATF) first,
+you will need its <code class="docutils literal notranslate"><span class="pre">bl31.bin</span></code>. See below for more details.</p></li>
+<li><p>Optionally on 64-bit SoCs, build the <a class="reference external" href="https://github.com/crust-firmware/crust">crust</a> management processor firmware,
+you will need its <code class="docutils literal notranslate"><span class="pre">scp.bin</span></code>. See below for more details.</p></li>
+<li><p>Build U-Boot:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ export BL31=/path/to/bl31.bin               # required for 64-bit SoCs
+$ export SCP=/path/to/scp.bin                 # optional for some 64-bit SoCs
+$ make &lt;yourboardname&gt;_defconfig
+$ make
+</pre></div>
+</div>
+</li>
+<li><p>Transfer to an (micro)SD card (see below for more details):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/sdX bs=8k seek=1
+</pre></div>
+</div>
+</li>
+<li><p>Boot and enjoy!</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The traditional SD card location the Allwinner BootROM loads from is 8KB
+(sector 16). This works fine with the old MBR partitioning scheme, which most
+SD cards come formatted with. However this is in the middle of a potential
+GPT partition table, which will become invalid in this step. Newer SoCs
+(starting with the H3 from late 2014) also support booting from 128KB, which
+is beyond even a GPT and thus a safer location.</p>
+</div>
+<p>For more details, and alternative boot locations or installations, see below.</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building Arm Trusted Firmware (TF-A)"></a><div class="section" id="building-arm-trusted-firmware-tf-a">
+<h2>Building Arm Trusted Firmware (TF-A)<a class="headerlink" href="#building-arm-trusted-firmware-tf-a" title="Permalink to this headline">¶</a></h2>
+<p>Boards using a 64-bit Soc (A64, H5, H6, H616, R329) require the BL31 stage of
+the <a class="reference external" href="https://www.trustedfirmware.org/projects/tf-a/">Arm Trusted Firmware-A</a> firmware. This provides the reference
+implementation of secure software for Armv8-A, offering PSCI and SMCCC
+services. Allwinner support is fully mainlined. To build bl31.bin:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git
+$ cd trusted-firmware-a
+$ make CROSS_COMPILE=aarch64-linux-gnu- PLAT=sun50i_a64 DEBUG=1
+$ export BL31=$(pwd)/build/sun50i_a64/debug/bl31.bin
+</pre></div>
+</div>
+<p>The target platform (<code class="docutils literal notranslate"><span class="pre">PLAT=</span></code>) for A64 and H5 SoCs is sun50i_a64, for the H6
+sun50i_h6, for the H616 sun50i_h616, and for the R329 sun50i_r329. Use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ find plat/allwinner -name platform.mk
+</pre></div>
+</div>
+<p>to find all supported platforms. TF-A’s <a class="reference external" href="https://trustedfirmware-a.readthedocs.io/en/latest/plat/allwinner.html">docs/plat/allwinner.rst</a> contains
+more information and lists some build options.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building the Crust management processor firmware"></a><div class="section" id="building-the-crust-management-processor-firmware">
+<h2>Building the Crust management processor firmware<a class="headerlink" href="#building-the-crust-management-processor-firmware" title="Permalink to this headline">¶</a></h2>
+<p>For some SoCs and boards, the integrated OpenRISC management controller can
+be used to provide power management services, foremost suspend to RAM.
+There is a community supported Open Source implementation called <a class="reference external" href="https://github.com/crust-firmware/crust">crust</a>,
+which runs on most SoCs featuring a management controller.</p>
+<p>This firmware part is optional, setting the SCP environment variable to
+/dev/null avoids the warning message when building without one.</p>
+<p>To build crust’s scp.bin, you need an OpenRISC (or1k) cross compiler, then:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/crust-firmware/crust.git
+$ cd crust
+$ make &lt;yourboard&gt;_defconfig
+$ make CROSS_COMPILE=or1k-none-elf- scp
+$ export SCP=$(pwd)/build/scp/scp.bin
+</pre></div>
+</div>
+<p>Find a list of supported board configurations in the <a class="reference external" href="https://github.com/crust-firmware/crust/tree/master/configs">configs/</a> directory.
+The <a class="reference external" href="https://github.com/crust-firmware/crust/blob/master/README.md#building-the-firmware">crust README</a> has more information about the building process, including
+information about where to get OpenRISC cross compilers.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Building the U-Boot image"></a><div class="section" id="building-the-u-boot-image">
+<h2>Building the U-Boot image<a class="headerlink" href="#building-the-u-boot-image" title="Permalink to this headline">¶</a></h2>
+<p>Find the U-Boot defconfig file for your board first. Those files live in
+the <code class="docutils literal notranslate"><span class="pre">configs/</span></code> directory; you can grep for the stub name of the devicetree
+file, if you know that, or for the SoC name to find the right version:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git grep -l MACH_SUN8I_H3 configs
+$ git grep -l sun50i-h6-orangepi-3 configs
+</pre></div>
+</div>
+<p>The <a class="reference external" href="https://linux-sunxi.org">linux-sunxi</a> wiki also lists the name of the defconfig file in the
+respective board page. Then use this defconfig file to create the .config
+file, and build the image:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make &lt;yourboard&gt;_defconfig
+$ make
+</pre></div>
+</div>
+<p>For 64-bit boards, this requires either the BL31 environment variable to be
+set (as shown above in the TF-A build example), or it to be supplied on the
+build command line:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make BL31=/src/tf-a.git/build/sun50i_h616/debug/bl31.bin
+</pre></div>
+</div>
+<p>The same applies to the (optional) SCP firmware.</p>
+<p>The file containing everything you need is called <code class="docutils literal notranslate"><span class="pre">u-boot-sunxi-with-spl.bin</span></code>,
+you will find it in the root folder of your U-Boot (build) tree. Except for
+raw NAND flash devices this very same file can be used for any boot source.
+It will contain the SPL image, fitted with the proper signature recognised by
+the BROM, and the required checksum. Also it will contain at least U-Boot
+proper, either wrapped in the legacy U-Boot image format, or in a FIT image.
+The board’s devicetree is also included, either appended to the U-Boot proper
+image, or contained in the FIT image. If required by the SoC, this FIT file will
+also include the other firmware images.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Installing U-Boot"></a><div class="section" id="installing-u-boot">
+<h2>Installing U-Boot<a class="headerlink" href="#installing-u-boot" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installing-on-a-micro-sd-card">
+<h3>Installing on a (micro-) SD card<a class="headerlink" href="#installing-on-a-micro-sd-card" title="Permalink to this headline">¶</a></h3>
+<p>All Allwinner SoCs will try to find a boot image at sector 16 (8KB) of
+an SD card, connected to the first MMC controller. To transfer the generated
+image to an SD card, from any Linux device (including the board itself) with
+an (micro-)SD card reader, type:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/sdX bs=1k seek=8
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">/dev/sdx</span></code> needs to be replaced with the block device name of the SD card
+reader. On some machines this could be <code class="docutils literal notranslate"><span class="pre">/dev/mmcblkX</span></code>.
+Newer SoCs (starting from the H3 from 2014, and including all ARM64 SoCs),
+also look at sector 256 (128KB) for the signature (after having checked the
+8KB location). Installing the firmware there has the advantage of not
+overlapping with a GPT partition table. Simply replace the “<code class="docutils literal notranslate"><span class="pre">seek=8</span></code>” above
+with “<code class="docutils literal notranslate"><span class="pre">seek=128</span></code>”.</p>
+<p>You can also use an existing (mainline) U-Boot to write to the SD card. Load
+the generated U-Boot image somewhere into DRAM (via <code class="docutils literal notranslate"><span class="pre">ext4load</span></code>, <code class="docutils literal notranslate"><span class="pre">fatload</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">tftpboot</span></code>), then write to MMC device 0:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; fatload mmc 0:1 $kernel_addr_r u-boot-sunxi-with-spl.bin
+=&gt; mmc dev 0
+=&gt; mmc write $kernel_addr_r 0x10 0x7f0
+</pre></div>
+</div>
+<p>To use the alternative boot location on newer SoCs:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; mmc write $kernel_addr_r 0x100 0x700
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-on-emmc-on-board-flash-memory">
+<h3>Installing on eMMC (on-board flash memory)<a class="headerlink" href="#installing-on-emmc-on-board-flash-memory" title="Permalink to this headline">¶</a></h3>
+<p>Some boards have a soldered eMMC chip, some other boards have an eMMC socket
+to receive an optional eMMC module. U-Boot can be installed to those chips,
+to boot without an SD card inserted. The Boot-ROM can boot either from the
+regular user data partition, or from one of the separate eMMC boot partitions.
+U-Boot can be installed either from a running Linux instance on the device,
+from a running (mainline) U-Boot, or via an adapter for the (removable)
+eMMC module.</p>
+<div class="section" id="installing-on-an-emmc-user-data-partition-from-linux">
+<h4>Installing on an eMMC user data partition from Linux<a class="headerlink" href="#installing-on-an-emmc-user-data-partition-from-linux" title="Permalink to this headline">¶</a></h4>
+<p>If you have a running Linux instance on the device, and have somehow copied
+over the image file to that device, you can write the image directly into the
+eMMC device from there.
+Find the name of the block device file first, it is one of the
+<code class="docutils literal notranslate"><span class="pre">/dev/mmcblk&lt;X&gt;</span></code> devices. eMMC devices typically also list a
+<code class="docutils literal notranslate"><span class="pre">/dev/mmcblk&lt;X&gt;boot0</span></code> partition (see below), this helps you to tell it apart
+from the SD card device.
+To install onto the user data partition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/dev/mmcblkX bs=1k seek=8
+</pre></div>
+</div>
+<p>Similar to SD cards, the BROM in newer SoCs (H3 and above) also checks
+sector 256 of an eMMC, so you can use “<code class="docutils literal notranslate"><span class="pre">seek=128</span></code>” as well. Having a GPT
+on an eMMC device is much more likely than on an SD card, so you should
+probably stick to the alternative location, or use one of the boot partitions.</p>
+</div>
+<div class="section" id="installing-on-an-emmc-boot-partition-from-linux">
+<h4>Installing on an eMMC boot partition from Linux<a class="headerlink" href="#installing-on-an-emmc-boot-partition-from-linux" title="Permalink to this headline">¶</a></h4>
+<p>In the following examples, <code class="docutils literal notranslate"><span class="pre">/dev/mmcblkX</span></code> needs to be replaced with the block
+device name of the eMMC device. The eMMC device can be recognised by also
+listing the boot partitions (<code class="docutils literal notranslate"><span class="pre">/dev/mmcblkXboot0</span></code>) in <code class="docutils literal notranslate"><span class="pre">/proc/partitions</span></code>.</p>
+<p>To allow booting from one of the eMMC boot partitions, this one needs to be
+enabled first. This only needs to be done once, as this setting is
+persistent, even though the boot partition can be disabled or changed again
+any time later:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># apt-get install mmc-utils
+# mmc bootbus set single_hs x1 x4 /dev/mmcblkX
+# mmc bootpart enable 1 1 /dev/mmcblkX
+</pre></div>
+</div>
+<p>The first “1” in the last command points to the boot partition number to be
+used, typically devices offer two boot partitions.</p>
+<p>By default Linux disables write access to the boot partitions, to prevent
+accidental overwrites. You need to disable the write protection (until the
+next reboot), then can write the U-Boot image to the <em>first</em> sector of the
+selected boot partition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># echo 0 &gt; /sys/block/mmcblkXboot0/force_ro
+# dd if=u-boot-sunxi-with-spl.bin of=/dev/mmcblkXboot0 bs=1k
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-on-an-emmc-user-data-partition-from-u-boot">
+<h4>Installing on an eMMC user data partition from U-Boot<a class="headerlink" href="#installing-on-an-emmc-user-data-partition-from-u-boot" title="Permalink to this headline">¶</a></h4>
+<p>You can also write the generated image file to an SD card, boot the device
+from there, and burn the very same image to the eMMC device from U-Boot.
+The following commands copy the image from the SD card to the eMMC device:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; mmc dev 0
+=&gt; mmc read $kernel_addr_r 0x10 0x7f0
+=&gt; mmc dev 1
+=&gt; mmc write $kernel_addr_r 0x10 0x7f0
+</pre></div>
+</div>
+<p>You can also copy an image from the 8K offset of an SD card to the 128K
+offset of the eMMC (or any combination), just change the “<code class="docutils literal notranslate"><span class="pre">0x10</span> <span class="pre">0x7f0</span></code>” above
+to “<code class="docutils literal notranslate"><span class="pre">0x100</span> <span class="pre">0x700</span></code>”, respectively. Of course the image file can be loaded via
+any other loading method, including <code class="docutils literal notranslate"><span class="pre">fatload</span></code>, <code class="docutils literal notranslate"><span class="pre">ext4load</span></code>, <code class="docutils literal notranslate"><span class="pre">tftpboot</span></code>.</p>
+</div>
+<div class="section" id="installing-on-an-emmc-boot-partition-from-u-boot">
+<h4>Installing on an eMMC boot partition from U-Boot<a class="headerlink" href="#installing-on-an-emmc-boot-partition-from-u-boot" title="Permalink to this headline">¶</a></h4>
+<p>The selected eMMC boot partition needs to be initially enabled first (same
+as in Linux above), you can do this from U-Boot with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; mmc dev 1
+=&gt; mmc bootbus 1 1 0 0
+=&gt; mmc partconf 1 1 1 1
+</pre></div>
+</div>
+<p>The first “1” in both commands denotes the MMC device number. The second “1”
+in the partconf command sets the required <code class="docutils literal notranslate"><span class="pre">BOOT_ACK</span></code> option, the last two “1”s
+selects the active boot partition and the target for the next data access,
+respectively. So for the next “<code class="docutils literal notranslate"><span class="pre">mmc</span> <span class="pre">write</span></code>” command to address one of the boot
+partitions, the last number must either be “1” or “2”, “0” would switch (back)
+to the normal user data partition.</p>
+<p>Then load the <code class="docutils literal notranslate"><span class="pre">u-boot-sunxi-with-spl.bin</span></code> image file into DRAM, either by
+reading directly from an SD card or eMMC user data partition, or from a
+file system or TFTP (see above), and transfer it to the boot partition:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; tftpboot $kernel_addr_r u-boot-sunxi-with-spl.bin
+=&gt; mmc write $kernel_addr_r 0 0x7f0
+</pre></div>
+</div>
+<p>After that the device should boot from the selected boot partition, which takes
+precedence over booting from the user data partition.</p>
+</div>
+</div>
+<div class="section" id="installing-on-spi-flash">
+<h3>Installing on SPI flash<a class="headerlink" href="#installing-on-spi-flash" title="Permalink to this headline">¶</a></h3>
+<p>Some devices have a SPI NOR flash chip soldered on the board. If it is
+connected to the SPI0 pins on PortC, the BROM can also boot from there.
+Typically the SPI flash has the lowest boot priority, so SD card and eMMC
+devices will be considered first.</p>
+<div class="section" id="installing-on-spi-flash-from-linux">
+<h4>Installing on SPI flash from Linux<a class="headerlink" href="#installing-on-spi-flash-from-linux" title="Permalink to this headline">¶</a></h4>
+<p>If the devicetree enables and describes the SPI flash device, you can access
+the SPI flash content from Linux, using the <a class="reference external" href="http://www.linux-mtd.infradead.org/">MTD utils</a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># apt-get install mtd-utils
+# mtdinfo
+# mtd_debug erase /dev/mtdX 0 0xf0000
+# mtd_debug write /dev/mtdX 0 0xf0000 u-boot-sunxi-with-spl.bin
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">/dev/mtdX</span></code> needs to be replaced with the respective device name, as listed
+in the output of <code class="docutils literal notranslate"><span class="pre">mtdinfo</span></code>.</p>
+</div>
+<div class="section" id="installing-on-spi-flash-from-u-boot">
+<h4>Installing on SPI flash from U-Boot<a class="headerlink" href="#installing-on-spi-flash-from-u-boot" title="Permalink to this headline">¶</a></h4>
+<p>If SPI flash driver and command support (<code class="docutils literal notranslate"><span class="pre">CONFIG_CMD_SF</span></code>) is enabled in the
+U-Boot configuration, the image file can be installed via U-Boot as well:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=&gt; tftpboot $kernel_addr_r u-boot-sunxi-with-spl.bin
+=&gt; sf probe
+=&gt; sf erase 0 +0xf0000
+=&gt; sf write $kernel_addr_r 0 $filesize
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-on-spi-flash-via-usb-in-fel-mode">
+<h4>Installing on SPI flash via USB in FEL mode<a class="headerlink" href="#installing-on-spi-flash-via-usb-in-fel-mode" title="Permalink to this headline">¶</a></h4>
+<p>If the device is in FEL mode (see below), the SPI flash can also be written to
+with the sunxi-fel utility, via an USB(-OTG) cable from any USB host machine:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sunxi-fel spiflash-write 0 u-boot-sunxi-with-spl.bin
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Booting via the USB(-OTG) FEL mode"></a><div class="section" id="booting-via-the-usb-otg-fel-mode">
+<h2>Booting via the USB(-OTG) FEL mode<a class="headerlink" href="#booting-via-the-usb-otg-fel-mode" title="Permalink to this headline">¶</a></h2>
+<p>If none of the boot locations checked by the BROM contains a medium or valid
+signature, the BROM will enter the so-called FEL mode, in which it will
+listen to commands from a host on the SoC’s USB-OTG interface. Those commands
+allow to read from and write to arbitrary memory locations, also to start
+execution at any address, which allows to bootstrap a board solely via an
+USB cable. Some boards feature a “FEL” or “U-Boot” button, which forces
+FEL mode despite a valid boot location being present. The same can be achieved
+via a <a class="reference external" href="https://github.com/linux-sunxi/sunxi-tools/raw/master/bin/fel-sdboot.sunxi">magic binary</a> on an SD card, which allows to enter FEL mode on any
+board.</p>
+<p>To use FEL booting, let the board enter FEL mode, via any of the mentioned
+methods (no boot media, FEL button, SD card with FEL binary), then connect
+a USB cable to the board’s USB OTG port. Some boards (Pine64, TV boxes) don’t
+have a separate OTG port. In this case mostly one of the USB-A ports is
+connected to USB0, and can be used via a non-standard USB-A to USB-A cable.</p>
+<p>Typically there is no on-board indication of FEL mode, other than a new USB
+device appearing on the connected host computer. The USB vendor/device ID
+is 1f3a:efe8. Mostly this will identify as “sunxi SoC OTG connector in
+FEL/flashing mode”, but older distributions might still report “Onda
+(unverified) V972 tablet in flashing mode”.</p>
+<p>The <a class="reference external" href="https://github.com/linux-sunxi/sunxi-tools">sunxi_fel</a> tool implements the proprietary BROM protocol, and allows to
+bootstrap U-Boot by just providing our venerable u-boot-sunxi-with-spl.bin:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install sunxi-tools
+$ sunxi-fel uboot u-boot-sunxi-with-spl.bin
+</pre></div>
+</div>
+<p>Additional binaries like a kernel, an initial ramdisk or a boot script, can
+also be uploaded via FEL, check the Wiki’s <a class="reference external" href="https://linux-sunxi.org/FEL/USBBoot">FEL page</a> for more details.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Allwinner (sunxi) boards"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../amlogic/index.html" rel="next" title="Amlogic">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

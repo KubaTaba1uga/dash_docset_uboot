@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>iSCSI booting with U-Boot and iPXE — Das U-Boot  documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css" rel="stylesheet" type="text/css"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="fwu_updates.html" rel="next" title="FWU Multi Bank Updates in U-Boot"/>
+<link href="u-boot_on_efi.html" rel="prev" title="U-Boot on EFI"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../../index.html"> Das U-Boot<img alt="Logo" class="logo" src="../../_static/u-boot_logo.svg"/>
+</a>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../build/index.html">Build U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn about U-Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Use U-Boot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Develop U-Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#general">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#implementation">Implementation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../directories.html">Directory hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bloblist.html">Blob Lists - bloblist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bootstd.html">U-Boot Standard Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci_testing.html">Continuous Integration testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html">Implementing shell commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config_binding.html">U-Boot configuration node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cyclic.html">Cyclic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../devicetree/index.html">Devicetree in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html">Generic Distro Configuration Concept</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#u-boot-implementation">U-Boot Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#user-configuration">User Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distro.html#interactively-booting-from-a-specific-device-at-the-u-boot-prompt">Interactively booting from a specific device at the u-boot prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../driver-model/index.html">Driver Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environment.html">Environment implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expo.html">Expo menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../event.html">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../global_data.html">Global data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging.html">Logging in U-Boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../makefiles.html">Makefiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../menus.html">Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../printf.html">Printf() format codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../smbios.html">SMBIOS tables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spl.html">Generic SPL framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../falcon.html">Falcon Mode</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Unified Extensible Firmware (UEFI)</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="uefi.html">UEFI on U-Boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="u-boot_on_efi.html">U-Boot on EFI</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">iSCSI booting with U-Boot and iPXE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fwu_updates.html">FWU Multi Bank Updates in U-Boot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vbe.html">Verified Boot for Embedded (VBE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../version.html">Version information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#code-quality">Code quality</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">U-Boot API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">Architecture-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../board/index.html">Board-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../android/index.html">Android-specific doc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chromium/index.html">Chromium OS-specific doc</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Das U-Boot</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Develop U-Boot</a> »</li>
+<li><a href="index.html">Unified Extensible Firmware (UEFI)</a> »</li>
+<li>iSCSI booting with U-Boot and iPXE</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/develop/uefi/iscsi.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/iSCSI booting with U-Boot and iPXE"></a><div class="section" id="iscsi-booting-with-u-boot-and-ipxe">
+<h1>iSCSI booting with U-Boot and iPXE<a class="headerlink" href="#iscsi-booting-with-u-boot-and-ipxe" title="Permalink to this headline">¶</a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Motivation"></a><div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot has only a reduced set of supported network protocols. The focus for
+network booting has been on UDP based protocols. A TCP stack and HTTP support
+are expected to be integrated in 2018 together with a wget command.</p>
+<p>For booting a diskless computer this leaves us with BOOTP or DHCP to get the
+address of a boot script. TFTP or NFS can be used to load the boot script, the
+operating system kernel and the initial file system (initrd).</p>
+<p>These protocols are insecure. The client cannot validate the authenticity
+of the contacted servers. And the server cannot verify the identity of the
+client.</p>
+<p>Furthermore the services providing the operating system loader or kernel are
+not the ones that the operating system typically will use. Especially in a SAN
+environment this makes updating the operating system a hassle. After installing
+a new kernel version the boot files have to be copied to the TFTP server
+directory.</p>
+<p>The HTTPS protocol provides certificate based validation of servers. Sensitive
+data like passwords can be securely transmitted.</p>
+<p>The iSCSI protocol is used for connecting storage attached networks. It
+provides mutual authentication using the CHAP protocol. It typically runs on
+a TCP transport.</p>
+<p>Thus a better solution than DHCP/TFTP/NFS boot would be to load a boot script
+via HTTPS and to download any other files needed for booting via iSCSI from the
+same target where the operating system is installed.</p>
+<p>An alternative to implementing these protocols in U-Boot is to use an existing
+software that can run on top of U-Boot. iPXE[1] is the “swiss army knife” of
+network booting. It supports both HTTPS and iSCSI. It has a scripting engine for
+fine grained control of the boot process and can provide a command shell.</p>
+<p>iPXE can be built as an EFI application (named snp.efi) which can be loaded and
+run by U-Boot.</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Boot sequence"></a><div class="section" id="boot-sequence">
+<h2>Boot sequence<a class="headerlink" href="#boot-sequence" title="Permalink to this headline">¶</a></h2>
+<p>U-Boot loads the EFI application iPXE snp.efi using the bootefi command. This
+application has network access via the simple network protocol offered by
+U-Boot.</p>
+<p>iPXE executes its internal script. This script may optionally chain load a
+secondary boot script via HTTPS or open a shell.</p>
+<p>For the further boot process iPXE connects to the iSCSI server. This includes
+the mutual authentication using the CHAP protocol. After the authentication iPXE
+has access to the iSCSI targets.</p>
+<p>For a selected iSCSI target iPXE sets up a handle with the block IO protocol. It
+uses the ConnectController boot service of U-Boot to request U-Boot to connect a
+file system driver. U-Boot reads from the iSCSI drive via the block IO protocol
+offered by iPXE. It creates the partition handles and installs the simple file
+protocol. Now iPXE can call the simple file protocol to load GRUB[2]. U-Boot
+uses the block IO protocol offered by iPXE to fulfill the request.</p>
+<p>Once GRUB is started it uses the same block IO protocol to load Linux. Via
+the EFI stub Linux is called as an EFI application:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>              +--------+         +--------+
+              |        | Runs    |        |
+              | U-Boot |========&gt;| iPXE   |
+              | EFI    |         | snp.efi|
++--------+    |        | DHCP    |        |
+|        |&lt;===|********|&lt;========|        |
+| DHCP   |    |        | Get IP  |        |
+| Server |    |        | Address |        |
+|        |===&gt;|********|========&gt;|        |
++--------+    |        | Response|        |
+              |        |         |        |
+              |        |         |        |
++--------+    |        | HTTPS   |        |
+|        |&lt;===|********|&lt;========|        |
+| HTTPS  |    |        | Load    |        |
+| Server |    |        | Script  |        |
+|        |===&gt;|********|========&gt;|        |
++--------+    |        |         |        |
+              |        |         |        |
+              |        |         |        |
++--------+    |        | iSCSI   |        |
+|        |&lt;===|********|&lt;========|        |
+| iSCSI  |    |        | Auth    |        |
+| Server |===&gt;|********|========&gt;|        |
+|        |    |        |         |        |
+|        |    |        | Loads   |        |
+|        |&lt;===|********|&lt;========|        |       +--------+
+|        |    |        | GRUB    |        | Runs  |        |
+|        |===&gt;|********|========&gt;|        |======&gt;| GRUB   |
+|        |    |        |         |        |       |        |
+|        |    |        |         |        |       |        |
+|        |    |        |         |        | Loads |        |
+|        |&lt;===|********|&lt;========|********|&lt;======|        |      +--------+
+|        |    |        |         |        | Linux |        | Runs |        |
+|        |===&gt;|********|========&gt;|********|======&gt;|        |=====&gt;| Linux  |
+|        |    |        |         |        |       |        |      |        |
++--------+    +--------+         +--------+       +--------+      |        |
+                                                                  |        |
+                                                                  |        |
+                                                                  | ~ ~ ~ ~|
+</pre></div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Security"></a><div class="section" id="security">
+<h2>Security<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h2>
+<p>The iSCSI protocol is not encrypted. The traffic could be secured using IPsec
+but neither U-Boot nor iPXE does support this. So we should at least separate
+the iSCSI traffic from all other network traffic. This can be achieved using a
+virtual local area network (VLAN).</p>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Configuration"></a><div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ipxe">
+<h3>iPXE<a class="headerlink" href="#ipxe" title="Permalink to this headline">¶</a></h3>
+<p>For running iPXE on arm64 the bin-arm64-efi/snp.efi build target is needed:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git clone http://git.ipxe.org/ipxe.git
+cd ipxe/src
+make bin-arm64-efi/snp.efi -j6 EMBED=myscript.ipxe
+</pre></div>
+</div>
+<p>The available commands for the boot script are documented at:</p>
+<p><a class="reference external" href="http://ipxe.org/cmd">http://ipxe.org/cmd</a></p>
+<p>Credentials are managed as environment variables. These are described here:</p>
+<p><a class="reference external" href="http://ipxe.org/cfg">http://ipxe.org/cfg</a></p>
+<p>iPXE by default will put the CPU to rest when waiting for input. U-Boot does
+not wake it up due to missing interrupt support. To avoid this behavior create
+file src/config/local/nap.h:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* nap.h */</span>
+<span class="cp">#undef NAP_EFIX86</span>
+<span class="cp">#undef NAP_EFIARM</span>
+<span class="cp">#define NAP_NULL</span>
+</pre></div>
+</div>
+<p>The supported commands in iPXE are controlled by an include, too. Putting the
+following into src/config/local/general.h is sufficient for most use cases:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* general.h */</span>
+<span class="cp">#define NSLOOKUP_CMD            </span><span class="cm">/* Name resolution command */</span>
+<span class="cp">#define PING_CMD                </span><span class="cm">/* Ping command */</span>
+<span class="cp">#define NTP_CMD                 </span><span class="cm">/* NTP commands */</span>
+<span class="cp">#define VLAN_CMD                </span><span class="cm">/* VLAN commands */</span>
+<span class="cp">#define IMAGE_EFI               </span><span class="cm">/* EFI image support */</span>
+<span class="cp">#define DOWNLOAD_PROTO_HTTPS    </span><span class="cm">/* Secure Hypertext Transfer Protocol */</span>
+<span class="cp">#define DOWNLOAD_PROTO_FTP      </span><span class="cm">/* File Transfer Protocol */</span>
+<span class="cp">#define DOWNLOAD_PROTO_NFS      </span><span class="cm">/* Network File System Protocol */</span>
+<span class="cp">#define DOWNLOAD_PROTO_FILE     </span><span class="cm">/* Local file system access */</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="open-iscsi">
+<h3>Open-iSCSI<a class="headerlink" href="#open-iscsi" title="Permalink to this headline">¶</a></h3>
+<p>When the root file system is on an iSCSI drive you should disable pings and set
+the replacement timer to a high value in the configuration file [3]:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node.conn[0].timeo.noop_out_interval = 0
+node.conn[0].timeo.noop_out_timeout = 0
+node.session.timeo.replacement_timeout = 86400
+</pre></div>
+</div>
+</div>
+</div>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Links"></a><div class="section" id="links">
+<h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>[1] <a class="reference external" href="https://ipxe.org">https://ipxe.org</a> - iPXE open source boot firmware</p></li>
+<li><p>[2] <a class="reference external" href="https://www.gnu.org/software/grub/">https://www.gnu.org/software/grub/</a> -
+GNU GRUB (Grand Unified Bootloader)</p></li>
+<li><p>[3] <a class="reference external" href="https://github.com/open-iscsi/open-iscsi/blob/master/README">https://github.com/open-iscsi/open-iscsi/blob/master/README</a> -
+Open-iSCSI README</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="u-boot_on_efi.html" rel="prev" title="U-Boot on EFI"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="fwu_updates.html" rel="next" title="FWU Multi Bank Updates in U-Boot">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright The U-Boot development community.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>
